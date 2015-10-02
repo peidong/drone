@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DDD373211BBF13FC00D41874"
+               BlueprintIdentifier = "DDD3735F1BBF249200D41874"
                BuildableName = "drone_onair_app.app"
                BlueprintName = "drone_onair_app"
                ReferencedContainer = "container:drone_onair_app.xcodeproj">
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DDD373371BBF13FC00D41874"
+               BlueprintIdentifier = "DDD3737B1BBF249200D41874"
                BuildableName = "drone_onair_appTests.xctest"
                BlueprintName = "drone_onair_appTests"
                ReferencedContainer = "container:drone_onair_app.xcodeproj">
@@ -42,7 +42,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DDD373421BBF13FC00D41874"
+               BlueprintIdentifier = "DDD373861BBF249200D41874"
                BuildableName = "drone_onair_appUITests.xctest"
                BlueprintName = "drone_onair_appUITests"
                ReferencedContainer = "container:drone_onair_app.xcodeproj">
@@ -52,7 +52,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DDD373211BBF13FC00D41874"
+            BlueprintIdentifier = "DDD3735F1BBF249200D41874"
             BuildableName = "drone_onair_app.app"
             BlueprintName = "drone_onair_app"
             ReferencedContainer = "container:drone_onair_app.xcodeproj">
@@ -75,7 +75,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DDD373211BBF13FC00D41874"
+            BlueprintIdentifier = "DDD3735F1BBF249200D41874"
             BuildableName = "drone_onair_app.app"
             BlueprintName = "drone_onair_app"
             ReferencedContainer = "container:drone_onair_app.xcodeproj">
@@ -94,7 +94,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DDD373211BBF13FC00D41874"
+            BlueprintIdentifier = "DDD3735F1BBF249200D41874"
             BuildableName = "drone_onair_app.app"
             BlueprintName = "drone_onair_app"
             ReferencedContainer = "container:drone_onair_app.xcodeproj">

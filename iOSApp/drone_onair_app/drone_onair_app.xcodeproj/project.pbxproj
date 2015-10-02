@@ -7,66 +7,71 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DDD373271BBF13FC00D41874 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD373261BBF13FC00D41874 /* AppDelegate.m */; };
-		DDD3732A1BBF13FC00D41874 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD373291BBF13FC00D41874 /* main.m */; };
-		DDD3732D1BBF13FC00D41874 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD3732C1BBF13FC00D41874 /* ViewController.m */; };
-		DDD3732F1BBF13FC00D41874 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDD3732E1BBF13FC00D41874 /* Assets.xcassets */; };
-		DDD373321BBF13FC00D41874 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDD373301BBF13FC00D41874 /* Main.storyboard */; };
-		DDD3733D1BBF13FC00D41874 /* drone_onair_appTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD3733C1BBF13FC00D41874 /* drone_onair_appTests.m */; };
-		DDD373481BBF13FC00D41874 /* drone_onair_appUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD373471BBF13FC00D41874 /* drone_onair_appUITests.m */; };
+		DDD373651BBF249200D41874 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD373641BBF249200D41874 /* main.m */; };
+		DDD373681BBF249200D41874 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD373671BBF249200D41874 /* AppDelegate.m */; };
+		DDD3736B1BBF249200D41874 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD3736A1BBF249200D41874 /* FirstViewController.m */; };
+		DDD3736E1BBF249200D41874 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD3736D1BBF249200D41874 /* SecondViewController.m */; };
+		DDD373711BBF249200D41874 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDD3736F1BBF249200D41874 /* Main.storyboard */; };
+		DDD373731BBF249200D41874 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDD373721BBF249200D41874 /* Assets.xcassets */; };
+		DDD373761BBF249200D41874 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDD373741BBF249200D41874 /* LaunchScreen.storyboard */; };
+		DDD373811BBF249200D41874 /* drone_onair_appTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD373801BBF249200D41874 /* drone_onair_appTests.m */; };
+		DDD3738C1BBF249200D41874 /* drone_onair_appUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD3738B1BBF249200D41874 /* drone_onair_appUITests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		DDD373391BBF13FC00D41874 /* PBXContainerItemProxy */ = {
+		DDD3737D1BBF249200D41874 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = DDD3731A1BBF13FC00D41874 /* Project object */;
+			containerPortal = DDD373581BBF249200D41874 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = DDD373211BBF13FC00D41874;
+			remoteGlobalIDString = DDD3735F1BBF249200D41874;
 			remoteInfo = drone_onair_app;
 		};
-		DDD373441BBF13FC00D41874 /* PBXContainerItemProxy */ = {
+		DDD373881BBF249200D41874 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = DDD3731A1BBF13FC00D41874 /* Project object */;
+			containerPortal = DDD373581BBF249200D41874 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = DDD373211BBF13FC00D41874;
+			remoteGlobalIDString = DDD3735F1BBF249200D41874;
 			remoteInfo = drone_onair_app;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		DDD373221BBF13FC00D41874 /* drone_onair_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = drone_onair_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		DDD373251BBF13FC00D41874 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		DDD373261BBF13FC00D41874 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		DDD373291BBF13FC00D41874 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		DDD3732B1BBF13FC00D41874 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		DDD3732C1BBF13FC00D41874 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		DDD3732E1BBF13FC00D41874 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		DDD373311BBF13FC00D41874 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		DDD373331BBF13FC00D41874 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DDD373381BBF13FC00D41874 /* drone_onair_appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = drone_onair_appTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DDD3733C1BBF13FC00D41874 /* drone_onair_appTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = drone_onair_appTests.m; sourceTree = "<group>"; };
-		DDD3733E1BBF13FC00D41874 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DDD373431BBF13FC00D41874 /* drone_onair_appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = drone_onair_appUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DDD373471BBF13FC00D41874 /* drone_onair_appUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = drone_onair_appUITests.m; sourceTree = "<group>"; };
-		DDD373491BBF13FC00D41874 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DDD373601BBF249200D41874 /* drone_onair_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = drone_onair_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDD373641BBF249200D41874 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DDD373661BBF249200D41874 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		DDD373671BBF249200D41874 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		DDD373691BBF249200D41874 /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
+		DDD3736A1BBF249200D41874 /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
+		DDD3736C1BBF249200D41874 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
+		DDD3736D1BBF249200D41874 /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		DDD373701BBF249200D41874 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DDD373721BBF249200D41874 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DDD373751BBF249200D41874 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		DDD373771BBF249200D41874 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DDD3737C1BBF249200D41874 /* drone_onair_appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = drone_onair_appTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDD373801BBF249200D41874 /* drone_onair_appTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = drone_onair_appTests.m; sourceTree = "<group>"; };
+		DDD373821BBF249200D41874 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DDD373871BBF249200D41874 /* drone_onair_appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = drone_onair_appUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDD3738B1BBF249200D41874 /* drone_onair_appUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = drone_onair_appUITests.m; sourceTree = "<group>"; };
+		DDD3738D1BBF249200D41874 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		DDD3731F1BBF13FC00D41874 /* Frameworks */ = {
+		DDD3735D1BBF249200D41874 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DDD373351BBF13FC00D41874 /* Frameworks */ = {
+		DDD373791BBF249200D41874 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DDD373401BBF13FC00D41874 /* Frameworks */ = {
+		DDD373841BBF249200D41874 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -76,63 +81,66 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		DDD373191BBF13FC00D41874 = {
+		DDD373571BBF249200D41874 = {
 			isa = PBXGroup;
 			children = (
-				DDD373241BBF13FC00D41874 /* drone_onair_app */,
-				DDD3733B1BBF13FC00D41874 /* drone_onair_appTests */,
-				DDD373461BBF13FC00D41874 /* drone_onair_appUITests */,
-				DDD373231BBF13FC00D41874 /* Products */,
+				DDD373621BBF249200D41874 /* drone_onair_app */,
+				DDD3737F1BBF249200D41874 /* drone_onair_appTests */,
+				DDD3738A1BBF249200D41874 /* drone_onair_appUITests */,
+				DDD373611BBF249200D41874 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		DDD373231BBF13FC00D41874 /* Products */ = {
+		DDD373611BBF249200D41874 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DDD373221BBF13FC00D41874 /* drone_onair_app.app */,
-				DDD373381BBF13FC00D41874 /* drone_onair_appTests.xctest */,
-				DDD373431BBF13FC00D41874 /* drone_onair_appUITests.xctest */,
+				DDD373601BBF249200D41874 /* drone_onair_app.app */,
+				DDD3737C1BBF249200D41874 /* drone_onair_appTests.xctest */,
+				DDD373871BBF249200D41874 /* drone_onair_appUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DDD373241BBF13FC00D41874 /* drone_onair_app */ = {
+		DDD373621BBF249200D41874 /* drone_onair_app */ = {
 			isa = PBXGroup;
 			children = (
-				DDD373251BBF13FC00D41874 /* AppDelegate.h */,
-				DDD373261BBF13FC00D41874 /* AppDelegate.m */,
-				DDD3732B1BBF13FC00D41874 /* ViewController.h */,
-				DDD3732C1BBF13FC00D41874 /* ViewController.m */,
-				DDD3732E1BBF13FC00D41874 /* Assets.xcassets */,
-				DDD373301BBF13FC00D41874 /* Main.storyboard */,
-				DDD373331BBF13FC00D41874 /* Info.plist */,
-				DDD373281BBF13FC00D41874 /* Supporting Files */,
+				DDD373661BBF249200D41874 /* AppDelegate.h */,
+				DDD373671BBF249200D41874 /* AppDelegate.m */,
+				DDD373691BBF249200D41874 /* FirstViewController.h */,
+				DDD3736A1BBF249200D41874 /* FirstViewController.m */,
+				DDD3736C1BBF249200D41874 /* SecondViewController.h */,
+				DDD3736D1BBF249200D41874 /* SecondViewController.m */,
+				DDD3736F1BBF249200D41874 /* Main.storyboard */,
+				DDD373721BBF249200D41874 /* Assets.xcassets */,
+				DDD373741BBF249200D41874 /* LaunchScreen.storyboard */,
+				DDD373771BBF249200D41874 /* Info.plist */,
+				DDD373631BBF249200D41874 /* Supporting Files */,
 			);
 			path = drone_onair_app;
 			sourceTree = "<group>";
 		};
-		DDD373281BBF13FC00D41874 /* Supporting Files */ = {
+		DDD373631BBF249200D41874 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				DDD373291BBF13FC00D41874 /* main.m */,
+				DDD373641BBF249200D41874 /* main.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		DDD3733B1BBF13FC00D41874 /* drone_onair_appTests */ = {
+		DDD3737F1BBF249200D41874 /* drone_onair_appTests */ = {
 			isa = PBXGroup;
 			children = (
-				DDD3733C1BBF13FC00D41874 /* drone_onair_appTests.m */,
-				DDD3733E1BBF13FC00D41874 /* Info.plist */,
+				DDD373801BBF249200D41874 /* drone_onair_appTests.m */,
+				DDD373821BBF249200D41874 /* Info.plist */,
 			);
 			path = drone_onair_appTests;
 			sourceTree = "<group>";
 		};
-		DDD373461BBF13FC00D41874 /* drone_onair_appUITests */ = {
+		DDD3738A1BBF249200D41874 /* drone_onair_appUITests */ = {
 			isa = PBXGroup;
 			children = (
-				DDD373471BBF13FC00D41874 /* drone_onair_appUITests.m */,
-				DDD373491BBF13FC00D41874 /* Info.plist */,
+				DDD3738B1BBF249200D41874 /* drone_onair_appUITests.m */,
+				DDD3738D1BBF249200D41874 /* Info.plist */,
 			);
 			path = drone_onair_appUITests;
 			sourceTree = "<group>";
@@ -140,13 +148,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DDD373211BBF13FC00D41874 /* drone_onair_app */ = {
+		DDD3735F1BBF249200D41874 /* drone_onair_app */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DDD3734C1BBF13FC00D41874 /* Build configuration list for PBXNativeTarget "drone_onair_app" */;
+			buildConfigurationList = DDD373901BBF249200D41874 /* Build configuration list for PBXNativeTarget "drone_onair_app" */;
 			buildPhases = (
-				DDD3731E1BBF13FC00D41874 /* Sources */,
-				DDD3731F1BBF13FC00D41874 /* Frameworks */,
-				DDD373201BBF13FC00D41874 /* Resources */,
+				DDD3735C1BBF249200D41874 /* Sources */,
+				DDD3735D1BBF249200D41874 /* Frameworks */,
+				DDD3735E1BBF249200D41874 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -154,68 +162,68 @@
 			);
 			name = drone_onair_app;
 			productName = drone_onair_app;
-			productReference = DDD373221BBF13FC00D41874 /* drone_onair_app.app */;
+			productReference = DDD373601BBF249200D41874 /* drone_onair_app.app */;
 			productType = "com.apple.product-type.application";
 		};
-		DDD373371BBF13FC00D41874 /* drone_onair_appTests */ = {
+		DDD3737B1BBF249200D41874 /* drone_onair_appTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DDD3734F1BBF13FC00D41874 /* Build configuration list for PBXNativeTarget "drone_onair_appTests" */;
+			buildConfigurationList = DDD373931BBF249200D41874 /* Build configuration list for PBXNativeTarget "drone_onair_appTests" */;
 			buildPhases = (
-				DDD373341BBF13FC00D41874 /* Sources */,
-				DDD373351BBF13FC00D41874 /* Frameworks */,
-				DDD373361BBF13FC00D41874 /* Resources */,
+				DDD373781BBF249200D41874 /* Sources */,
+				DDD373791BBF249200D41874 /* Frameworks */,
+				DDD3737A1BBF249200D41874 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				DDD3733A1BBF13FC00D41874 /* PBXTargetDependency */,
+				DDD3737E1BBF249200D41874 /* PBXTargetDependency */,
 			);
 			name = drone_onair_appTests;
 			productName = drone_onair_appTests;
-			productReference = DDD373381BBF13FC00D41874 /* drone_onair_appTests.xctest */;
+			productReference = DDD3737C1BBF249200D41874 /* drone_onair_appTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		DDD373421BBF13FC00D41874 /* drone_onair_appUITests */ = {
+		DDD373861BBF249200D41874 /* drone_onair_appUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DDD373521BBF13FC00D41874 /* Build configuration list for PBXNativeTarget "drone_onair_appUITests" */;
+			buildConfigurationList = DDD373961BBF249200D41874 /* Build configuration list for PBXNativeTarget "drone_onair_appUITests" */;
 			buildPhases = (
-				DDD3733F1BBF13FC00D41874 /* Sources */,
-				DDD373401BBF13FC00D41874 /* Frameworks */,
-				DDD373411BBF13FC00D41874 /* Resources */,
+				DDD373831BBF249200D41874 /* Sources */,
+				DDD373841BBF249200D41874 /* Frameworks */,
+				DDD373851BBF249200D41874 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				DDD373451BBF13FC00D41874 /* PBXTargetDependency */,
+				DDD373891BBF249200D41874 /* PBXTargetDependency */,
 			);
 			name = drone_onair_appUITests;
 			productName = drone_onair_appUITests;
-			productReference = DDD373431BBF13FC00D41874 /* drone_onair_appUITests.xctest */;
+			productReference = DDD373871BBF249200D41874 /* drone_onair_appUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		DDD3731A1BBF13FC00D41874 /* Project object */ = {
+		DDD373581BBF249200D41874 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = YANGYANG;
 				TargetAttributes = {
-					DDD373211BBF13FC00D41874 = {
+					DDD3735F1BBF249200D41874 = {
 						CreatedOnToolsVersion = 7.0.1;
 					};
-					DDD373371BBF13FC00D41874 = {
+					DDD3737B1BBF249200D41874 = {
 						CreatedOnToolsVersion = 7.0.1;
-						TestTargetID = DDD373211BBF13FC00D41874;
+						TestTargetID = DDD3735F1BBF249200D41874;
 					};
-					DDD373421BBF13FC00D41874 = {
+					DDD373861BBF249200D41874 = {
 						CreatedOnToolsVersion = 7.0.1;
-						TestTargetID = DDD373211BBF13FC00D41874;
+						TestTargetID = DDD3735F1BBF249200D41874;
 					};
 				};
 			};
-			buildConfigurationList = DDD3731D1BBF13FC00D41874 /* Build configuration list for PBXProject "drone_onair_app" */;
+			buildConfigurationList = DDD3735B1BBF249200D41874 /* Build configuration list for PBXProject "drone_onair_app" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -223,36 +231,37 @@
 				en,
 				Base,
 			);
-			mainGroup = DDD373191BBF13FC00D41874;
-			productRefGroup = DDD373231BBF13FC00D41874 /* Products */;
+			mainGroup = DDD373571BBF249200D41874;
+			productRefGroup = DDD373611BBF249200D41874 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DDD373211BBF13FC00D41874 /* drone_onair_app */,
-				DDD373371BBF13FC00D41874 /* drone_onair_appTests */,
-				DDD373421BBF13FC00D41874 /* drone_onair_appUITests */,
+				DDD3735F1BBF249200D41874 /* drone_onair_app */,
+				DDD3737B1BBF249200D41874 /* drone_onair_appTests */,
+				DDD373861BBF249200D41874 /* drone_onair_appUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		DDD373201BBF13FC00D41874 /* Resources */ = {
+		DDD3735E1BBF249200D41874 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDD3732F1BBF13FC00D41874 /* Assets.xcassets in Resources */,
-				DDD373321BBF13FC00D41874 /* Main.storyboard in Resources */,
+				DDD373761BBF249200D41874 /* LaunchScreen.storyboard in Resources */,
+				DDD373731BBF249200D41874 /* Assets.xcassets in Resources */,
+				DDD373711BBF249200D41874 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DDD373361BBF13FC00D41874 /* Resources */ = {
+		DDD3737A1BBF249200D41874 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DDD373411BBF13FC00D41874 /* Resources */ = {
+		DDD373851BBF249200D41874 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -262,60 +271,69 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		DDD3731E1BBF13FC00D41874 /* Sources */ = {
+		DDD3735C1BBF249200D41874 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDD3732D1BBF13FC00D41874 /* ViewController.m in Sources */,
-				DDD3732A1BBF13FC00D41874 /* main.m in Sources */,
-				DDD373271BBF13FC00D41874 /* AppDelegate.m in Sources */,
+				DDD3736E1BBF249200D41874 /* SecondViewController.m in Sources */,
+				DDD373681BBF249200D41874 /* AppDelegate.m in Sources */,
+				DDD3736B1BBF249200D41874 /* FirstViewController.m in Sources */,
+				DDD373651BBF249200D41874 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DDD373341BBF13FC00D41874 /* Sources */ = {
+		DDD373781BBF249200D41874 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDD3733D1BBF13FC00D41874 /* drone_onair_appTests.m in Sources */,
+				DDD373811BBF249200D41874 /* drone_onair_appTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DDD3733F1BBF13FC00D41874 /* Sources */ = {
+		DDD373831BBF249200D41874 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDD373481BBF13FC00D41874 /* drone_onair_appUITests.m in Sources */,
+				DDD3738C1BBF249200D41874 /* drone_onair_appUITests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		DDD3733A1BBF13FC00D41874 /* PBXTargetDependency */ = {
+		DDD3737E1BBF249200D41874 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DDD373211BBF13FC00D41874 /* drone_onair_app */;
-			targetProxy = DDD373391BBF13FC00D41874 /* PBXContainerItemProxy */;
+			target = DDD3735F1BBF249200D41874 /* drone_onair_app */;
+			targetProxy = DDD3737D1BBF249200D41874 /* PBXContainerItemProxy */;
 		};
-		DDD373451BBF13FC00D41874 /* PBXTargetDependency */ = {
+		DDD373891BBF249200D41874 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DDD373211BBF13FC00D41874 /* drone_onair_app */;
-			targetProxy = DDD373441BBF13FC00D41874 /* PBXContainerItemProxy */;
+			target = DDD3735F1BBF249200D41874 /* drone_onair_app */;
+			targetProxy = DDD373881BBF249200D41874 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		DDD373301BBF13FC00D41874 /* Main.storyboard */ = {
+		DDD3736F1BBF249200D41874 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				DDD373311BBF13FC00D41874 /* Base */,
+				DDD373701BBF249200D41874 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		DDD373741BBF249200D41874 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DDD373751BBF249200D41874 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		DDD3734A1BBF13FC00D41874 /* Debug */ = {
+		DDD3738E1BBF249200D41874 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -332,7 +350,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -351,14 +369,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		DDD3734B1BBF13FC00D41874 /* Release */ = {
+		DDD3738F1BBF249200D41874 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -375,7 +394,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -388,68 +407,65 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = macosx;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		DDD3734D1BBF13FC00D41874 /* Debug */ = {
+		DDD373911BBF249200D41874 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = drone_onair_app/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.drone-onair-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		DDD3734E1BBF13FC00D41874 /* Release */ = {
+		DDD373921BBF249200D41874 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = drone_onair_app/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.drone-onair-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
-		DDD373501BBF13FC00D41874 /* Debug */ = {
+		DDD373941BBF249200D41874 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = drone_onair_appTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.drone-onair-appTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/drone_onair_app.app/Contents/MacOS/drone_onair_app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/drone_onair_app.app/drone_onair_app";
 			};
 			name = Debug;
 		};
-		DDD373511BBF13FC00D41874 /* Release */ = {
+		DDD373951BBF249200D41874 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = drone_onair_appTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.drone-onair-appTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/drone_onair_app.app/Contents/MacOS/drone_onair_app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/drone_onair_app.app/drone_onair_app";
 			};
 			name = Release;
 		};
-		DDD373531BBF13FC00D41874 /* Debug */ = {
+		DDD373971BBF249200D41874 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = drone_onair_appUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.drone-onair-appUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_TARGET_NAME = drone_onair_app;
@@ -457,12 +473,11 @@
 			};
 			name = Debug;
 		};
-		DDD373541BBF13FC00D41874 /* Release */ = {
+		DDD373981BBF249200D41874 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = drone_onair_appUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.drone-onair-appUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_TARGET_NAME = drone_onair_app;
@@ -473,40 +488,40 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DDD3731D1BBF13FC00D41874 /* Build configuration list for PBXProject "drone_onair_app" */ = {
+		DDD3735B1BBF249200D41874 /* Build configuration list for PBXProject "drone_onair_app" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DDD3734A1BBF13FC00D41874 /* Debug */,
-				DDD3734B1BBF13FC00D41874 /* Release */,
+				DDD3738E1BBF249200D41874 /* Debug */,
+				DDD3738F1BBF249200D41874 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DDD3734C1BBF13FC00D41874 /* Build configuration list for PBXNativeTarget "drone_onair_app" */ = {
+		DDD373901BBF249200D41874 /* Build configuration list for PBXNativeTarget "drone_onair_app" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DDD3734D1BBF13FC00D41874 /* Debug */,
-				DDD3734E1BBF13FC00D41874 /* Release */,
+				DDD373911BBF249200D41874 /* Debug */,
+				DDD373921BBF249200D41874 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
-		DDD3734F1BBF13FC00D41874 /* Build configuration list for PBXNativeTarget "drone_onair_appTests" */ = {
+		DDD373931BBF249200D41874 /* Build configuration list for PBXNativeTarget "drone_onair_appTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DDD373501BBF13FC00D41874 /* Debug */,
-				DDD373511BBF13FC00D41874 /* Release */,
+				DDD373941BBF249200D41874 /* Debug */,
+				DDD373951BBF249200D41874 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
-		DDD373521BBF13FC00D41874 /* Build configuration list for PBXNativeTarget "drone_onair_appUITests" */ = {
+		DDD373961BBF249200D41874 /* Build configuration list for PBXNativeTarget "drone_onair_appUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DDD373531BBF13FC00D41874 /* Debug */,
-				DDD373541BBF13FC00D41874 /* Release */,
+				DDD373971BBF249200D41874 /* Debug */,
+				DDD373981BBF249200D41874 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = DDD3731A1BBF13FC00D41874 /* Project object */;
+	rootObject = DDD373581BBF249200D41874 /* Project object */;
 }
