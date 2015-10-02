@@ -1,0 +1,48 @@
+PODS:
+  - AFNetworking (2.5.0):
+    - AFNetworking/NSURLConnection (= 2.5.0)
+    - AFNetworking/NSURLSession (= 2.5.0)
+    - AFNetworking/Reachability (= 2.5.0)
+    - AFNetworking/Security (= 2.5.0)
+    - AFNetworking/Serialization (= 2.5.0)
+    - AFNetworking/UIKit (= 2.5.0)
+  - AFNetworking/NSURLConnection (2.5.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.5.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.5.0)
+  - AFNetworking/Security (2.5.0)
+  - AFNetworking/Serialization (2.5.0)
+  - AFNetworking/UIKit (2.5.0):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - BFDragGestureRecognizer (1.1.0)
+  - EstimoteIndoorSDK (1.0.0):
+    - EstimoteSDK (~> 2.1)
+  - EstimoteSDK (2.2.1)
+  - FCFileManager (1.0.6)
+  - JSONModel (1.0.1)
+  - SBJson (4.0.1)
+
+DEPENDENCIES:
+  - AFNetworking
+  - BFDragGestureRecognizer
+  - EstimoteIndoorSDK
+  - FCFileManager
+  - JSONModel
+  - SBJson
+
+SPEC CHECKSUMS:
+  AFNetworking: 0f54cb5d16ce38c1b76948faffb8d5fb705021c7
+  BFDragGestureRecognizer: af893641f1295f11b76d4766892eb0bd4914a76f
+  EstimoteIndoorSDK: 5ce35f4051f8efe3e7656bfe9d8d8dbbe787eac6
+  EstimoteSDK: 3ae789ad99ce7a830d4679b8e4b663449f90ada3
+  FCFileManager: 30f8a44f324e479fae09bb30ba0c639eacd9f229
+  JSONModel: 634100aaacbd89811bc8a03da209356e5989c569
+  SBJson: d71212c078abf4679d54b0d0565260c474e46235
+
+COCOAPODS: 0.35.0
