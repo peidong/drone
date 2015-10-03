@@ -133,22 +133,19 @@
             
             previousLocation = location;
             
-           /*
+            
+            // This is for reference from github
+           
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
            
             [dateFormatter setDateFormat:@"yyyy-MM-dd%20HH:mm:ss"]; // mysql format
-            NSString *timeStamp = [dateFormatter stringFromDate:location.timestamp];
             NSString *latitude = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
             NSString *longitude = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
-            NSString *speed = [NSString stringWithFormat:@"%d", (int)location.speed];
-            NSString *accuracy = [NSString stringWithFormat:@"%d", (int)location.horizontalAccuracy];
-            NSString *direction = [NSString stringWithFormat:@"%d", (int)location.course];
-            NSString *altitude = [NSString stringWithFormat:@"altitude: %dm", (int)location.altitude];
-            NSString *totalDistanceString = [NSString stringWithFormat:@"%d", (int)totalDistanceInMeters];
             
-             note that the guid is created in startTracking method above
-            [self updateWebsiteWithLatitde:latitude longitude:longitude speed:speed date:timeStamp distance:totalDistanceString sessionID:[guid UUIDString] accuracy:accuracy extraInfo:altitude direction:direction];
-            */
+            
+             //note that the guid is created in startTracking method above
+            [self updateWebsiteWithLatitde:latitude longitude:longitude];
+            
             
             
             lastWebsiteUpdateTime = [NSDate date]; // new timestamp
@@ -186,30 +183,28 @@
 
 
 //send data to json server
-/*
-- (void)updateWebsiteWithLatitde:(NSString *)latitude longitude:(NSString *)longitude speed:(NSString *)speed date:(NSString *)date distance:(NSString *)distance sessionID:(NSString *)sessionID accuracy:(NSString *)accuracy extraInfo:(NSString *)extraInfo direction:(NSString *)direction
+
+
+
+
+
+
+
+// this is for reference from github
+
+- (void)updateWebsiteWithLatitde:(NSString *)latitude longitude:(NSString *)longitude
 {
     // use the websmithing defaultUploadWebsite for testing, change the *phoneNumber* form variable to something you
     // know and then check your location with your browser here: https://www.websmithing.com/gpstracker/displaymap.php
     
-    NSString *defaultUploadWebsite = @"https://www.websmithing.com/gpstracker/updatelocation.php";
+    NSString *defaultUploadWebsite = @"http://example.com/resources.json";
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     
     NSDictionary *parameters = @{@"latitude": latitude,
                                  @"longitude": longitude,
-                                 @"speed": speed,
-                                 @"date": date,
-                                 @"locationmethod": @"n/a",
-                                 @"distance": distance,
-                                 @"username": @"iosUser1",
-                                 @"phonenumber": [[NSUserDefaults standardUserDefaults] stringForKey:@"appID"],
-                                 @"sessionid": sessionID,
-                                 @"extrainfo": extraInfo,
-                                 @"accuracy": accuracy,
-                                 @"eventtype": @"ios",
-                                 @"direction": direction};
+                                };
     
     [manager GET:defaultUploadWebsite parameters:parameters
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -220,7 +215,7 @@
              NSLog(@"AFHTTPRequestOperation Error: %@", [error description]);
          }];
 }
-*/
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
