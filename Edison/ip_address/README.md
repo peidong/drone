@@ -4,7 +4,7 @@ git clone the drone into your home folder
         cd ~
         git clone https://github.com/peidong/drone.git
 
-Then modify the system start server
+Then modify the system start service
 
         cd /lib/systemd/system
         touch update_ip_address.service
@@ -29,3 +29,5 @@ Save the file by typing :wq
 
         systemctl enable update_ip_address
         reboot
+
+###To check your Edison board ip address, please go to this link [http://fryer.ee.ucla.edu/rest/api/ip_address/get/](http://fryer.ee.ucla.edu/rest/api/ip_address/get/)
