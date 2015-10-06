@@ -1,8 +1,8 @@
 <?php
     header("Content-Type:application/json");
 
-    $ip_address = $_POST['ip_address'];
-    $network_name = $_POST['network_name'];
+    $ip_address = $_GET['ip_address'];
+    $network_name = $_GET['network_name'];
 
     $conn = mysql_connect('localhost', 'webmaster', '');
     mysql_select_db('edison', $conn);
