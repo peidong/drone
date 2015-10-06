@@ -1,34 +1,35 @@
 <?php
     header("Content-Type:application/json");
 
-    $ip_address = $_POST['ip_address'];
-    $network_name = $_POST['network_name'];
+    $led_status = $_POST['led_status'];
+    $led_on_ms = $_POST['led_on_ms'];
+    $led_off_ms = $_POST['led_off_ms'];
 
     $conn = mysql_connect('localhost', 'webmaster', '');
     mysql_select_db('edison', $conn);
     
-    $query = "UPDATE ip_address
-        SET ip_address = '$ip_address',network_name = '$network_name', update_time = now()
+    $query = "UPDATE led
+        SET led_status = '$led_status',led_on_ms = '$led_on_ms', led_off_ms = '$led_off_ms'
         WHERE id = '1'";
 
     $result = mysql_query($query);
 
-    $query = "SELECT id, ip_address, network_name, update_time
-        FROM ip_address
+    $query = "SELECT id, led_status, led_on_ms, led_off_ms
+        FROM led
         WHERE id = '1'";
 
     $result = mysql_query($query);
     $result_array = mysql_fetch_array($result);
 
-    $ip_address = $result_array[ip_address];
-    $network_name = $result_array[network_name];
-    $update_time = $result_array[update_time];
+    $led_status = $result_array[led_status];
+    $led_on_ms = $result_array[led_on_ms];
+    $led_off_ms = $result_array[led_off_ms];
 
-    $response['ip_address'] = $ip_address;
-    $response['network_name'] = $network_name;
-    $response['update_time'] = $update_time;
+    $response['led_status'] = $led_status;
+    $response['led_on_ms'] = $led_on_ms;
+    $response['led_off_ms'] = $led_off_ms;
 
-    deliver_response(200, "The ip_address has been updated", $response);
+    deliver_response(200, "The led_status has been updated", $response);
 
     function deliver_response($status,$status_message,$data){
         header("HTTP/1.1 $status $status_message");
