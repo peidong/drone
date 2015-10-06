@@ -144,7 +144,7 @@
             
             
              //note that the guid is created in startTracking method above
-            [self updateWebsiteWithLatitde:latitude longitude:longitude];
+            [self GetWebsiteData:latitude longitude:longitude];
             
             
             
@@ -183,20 +183,13 @@
 
 
 //send data to json server
-
-
-
-
-
-
-
 // this is for reference from github
 
-- (void)updateWebsiteWithLatitde:(NSString *)latitude longitude:(NSString *)longitude
+- (void)GetWebsiteData:(NSString *)latitude longitude:(NSString *)longitude
 {
     // use the websmithing defaultUploadWebsite for testing, change the *phoneNumber* form variable to something you
     // know and then check your location with your browser here: https://www.websmithing.com/gpstracker/displaymap.php
-    
+   /*
     NSString *defaultUploadWebsite = @"http://example.com/resources.json";
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -213,8 +206,51 @@
          }
          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              NSLog(@"AFHTTPRequestOperation Error: %@", [error description]);
-         }];
+         }];*/
+    
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager GET:@"http://fryer.ee.ucla.edu/rest/api/ip_address/get/" parameters:nil
+     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
 }
+
+/*
+- (void)updateWebsiteWithLatitde:(NSString *)latitude longitude:(NSString *)longitude
+{
+    // use the websmithing defaultUploadWebsite for testing, change the *phoneNumber* form variable to something you
+    // know and then check your location with your browser here: https://www.websmithing.com/gpstracker/displaymap.php
+    
+     NSString *defaultUploadWebsite = @"http://example.com/resources.json";
+     
+     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+     
+     NSDictionary *parameters = @{@"latitude": latitude,
+     @"longitude": longitude,
+     };
+     
+     [manager GET:defaultUploadWebsite parameters:parameters
+     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+     NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+     NSLog(@"Response: %@", response);
+     }
+     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+     NSLog(@"AFHTTPRequestOperation Error: %@", [error description]);
+     }];
+    
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager GET:@"http://fryer.ee.ucla.edu/rest/api/ip_address/get/" parameters:nil
+         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             NSLog(@"JSON: %@", responseObject);
+         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             NSLog(@"Error: %@", error);
+         }];
+}*/
 
 
 - (void)didReceiveMemoryWarning {
