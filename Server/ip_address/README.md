@@ -1,2 +1,3 @@
-#LED part
-http://fryer.ee.ucla.edu/rest/api/led/?led_status=1&led_on_ms=100&led_off_ms=240
+#ip address update part
+http://fryer.ee.ucla.edu/rest/api/ip_address/get/
+http://fryer.ee.ucla.edu/rest/api/ip_address/update/?ip_address=192.168.0.1
