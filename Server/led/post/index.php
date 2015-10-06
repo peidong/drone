@@ -1,9 +1,12 @@
 <?php
     header("Content-Type:application/json");
 
-    $led_status = $_POST['led_status'];
-    $led_on_ms = $_POST['led_on_ms'];
-    $led_off_ms = $_POST['led_off_ms'];
+    //$led_status = $_POST['led_status'];
+    //$led_on_ms = $_POST['led_on_ms'];
+    //$led_off_ms = $_POST['led_off_ms'];
+    $led_status = $_GET['led_status'];
+    $led_on_ms = $_GET['led_on_ms'];
+    $led_off_ms = $_GET['led_off_ms'];
 
     $conn = mysql_connect('localhost', 'webmaster', '');
     mysql_select_db('edison', $conn);
