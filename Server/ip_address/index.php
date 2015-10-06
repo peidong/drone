@@ -1,6 +1,5 @@
 <?php
     header("Content-Type:application/json");
-    include("process.php");
 
     $led_status = $_GET['led_status'];
     $led_on_ms = $_GET['led_on_ms'];

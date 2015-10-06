@@ -1,6 +1,5 @@
 <?php
     header("Content-Type:application/json");
-    include("process.php");
     if(!empty($_GET['latitude'])){
         $latitude = $_GET['latitude'];
         $latitude = process($latitude);
