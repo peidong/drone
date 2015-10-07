@@ -1,6 +1,15 @@
 <?php
     header("Content-Type:application/json");
 
+    // start the session
+    session_start();
+
+    // I can read/write to session
+    $_SESSION['latestRequestTime'] = time();
+
+    // close the session
+    session_write_close();
+
     $conn = mysql_connect('localhost', 'webmaster', '');
     mysql_select_db('edison', $conn);
     
