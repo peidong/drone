@@ -12,20 +12,22 @@ global led_status
 led_status = 0
 
 def http_request():
-    try:
-        while True:
-            #results_raw = requests.get("http://fryer.ee.ucla.edu/rest/api/led/get/")
-            #results_json = results_raw.text
-            #results = yaml.safe_load(results_json)
-            #led_status = int(results['data']['led_status'])
-            print 'thread %s is running...' % threading.current_thread().name
-    except KeyboardInterrupt:
-            print 'parent received ctrl-c'
+    while True:
+        #results_raw = requests.get("http://fryer.ee.ucla.edu/rest/api/led/get/")
+        #results_json = results_raw.text
+        #results = yaml.safe_load(results_json)
+        #led_status = int(results['data']['led_status'])
+        print 'thread %s is running...' % threading.current_thread().name
 
 
-http_request_thread = threading.Thread(target=http_request, name='httpRequestThread')
-http_request_thread.start()
-http_request_thread.join()
+#http_request_thread = threading.Thread(target=http_request, name='httpRequestThread')
+#http_request_thread.start()
+#http_request_thread.join()
 
 while True:
+    results_raw = requests.get("http://fryer.ee.ucla.edu/rest/api/led/get/")
+    results_json = results_raw.text
+    results = yaml.safe_load(results_json)
+    led_status = int(results['data']['led_status'])
     x.write(led_status)
+    time.sleep(0.1)
