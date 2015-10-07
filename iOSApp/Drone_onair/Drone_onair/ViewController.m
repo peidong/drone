@@ -145,7 +145,7 @@
             
              //note that the guid is created in startTracking method above
             [self GetWebsiteData:latitude longitude:longitude];
-            
+            [self PostToWebsite:latitude longitude:longitude];
             
             
             lastWebsiteUpdateTime = [NSDate date]; // new timestamp
@@ -182,33 +182,13 @@
 
 
 
-//send data to json server
-// this is for reference from github
+/*  send data to json server
+ *  Get Data ip_address from web to ensurance connecting
+ *  referencing afnetwork from github
+ */
 
 - (void)GetWebsiteData:(NSString *)latitude longitude:(NSString *)longitude
 {
-    // use the websmithing defaultUploadWebsite for testing, change the *phoneNumber* form variable to something you
-    // know and then check your location with your browser here: https://www.websmithing.com/gpstracker/displaymap.php
-   /*
-    NSString *defaultUploadWebsite = @"http://example.com/resources.json";
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    
-    NSDictionary *parameters = @{@"latitude": latitude,
-                                 @"longitude": longitude,
-                                };
-    
-    [manager GET:defaultUploadWebsite parameters:parameters
-         success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-             NSLog(@"Response: %@", response);
-         }
-         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-             NSLog(@"AFHTTPRequestOperation Error: %@", [error description]);
-         }];*/
-    
-    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager GET:@"http://fryer.ee.ucla.edu/rest/api/ip_address/get/" parameters:nil
      success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -218,6 +198,11 @@
     }];
 }
 
+
+/*  POST data to  server
+ *  send gps information to server
+ *  referencing afnetwork from github
+ */
 
 - (void)PostToWebsite:(NSString *)latitude longitude:(NSString *)longitude
 {
@@ -244,10 +229,10 @@
     */
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSDictionary *parameters = @{@"latitude":latitude, @"longitude":longitude};
-    [manager POST:@"http://example.com/resources.json" parameters:parameters
+    NSDictionary *parameters = @{@"ip_address":latitude, @"network_name":longitude};
+    [manager POST:@"http://fryer.ee.ucla.edu/rest/api/ip_address/post/" parameters:parameters
         success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+        NSLog(@"JSON_todata: %@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
     }];
