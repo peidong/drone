@@ -29,5 +29,6 @@ while True:
     results_json = results_raw.text
     results = yaml.safe_load(results_json)
     led_status = int(results['data']['led_status'])
+    print led_status
     x.write(led_status)
     time.sleep(0.1)
