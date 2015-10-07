@@ -1,0 +1,668 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DDFC9B231BC4E3D0001AE931 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B221BC4E3D0001AE931 /* main.m */; };
+		DDFC9B261BC4E3D0001AE931 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B251BC4E3D0001AE931 /* AppDelegate.m */; };
+		DDFC9B291BC4E3D0001AE931 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B281BC4E3D0001AE931 /* ViewController.m */; };
+		DDFC9B2C1BC4E3D0001AE931 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDFC9B2A1BC4E3D0001AE931 /* Main.storyboard */; };
+		DDFC9B2E1BC4E3D0001AE931 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDFC9B2D1BC4E3D0001AE931 /* Assets.xcassets */; };
+		DDFC9B311BC4E3D0001AE931 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDFC9B2F1BC4E3D0001AE931 /* LaunchScreen.storyboard */; };
+		DDFC9B3C1BC4E3D1001AE931 /* Drone_controlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B3B1BC4E3D1001AE931 /* Drone_controlTests.m */; };
+		DDFC9B471BC4E3D1001AE931 /* Drone_controlUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B461BC4E3D1001AE931 /* Drone_controlUITests.m */; };
+		DDFC9B551BC4EFDB001AE931 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFC9B541BC4EFDB001AE931 /* CoreLocation.framework */; };
+		DDFC9B7D1BC4F053001AE931 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B581BC4F053001AE931 /* AFHTTPRequestOperation.m */; settings = {ASSET_TAGS = (); }; };
+		DDFC9B7E1BC4F053001AE931 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B5A1BC4F053001AE931 /* AFHTTPRequestOperationManager.m */; settings = {ASSET_TAGS = (); }; };
+		DDFC9B7F1BC4F053001AE931 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B5C1BC4F053001AE931 /* AFHTTPSessionManager.m */; settings = {ASSET_TAGS = (); }; };
+		DDFC9B801BC4F053001AE931 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B5F1BC4F053001AE931 /* AFNetworkReachabilityManager.m */; settings = {ASSET_TAGS = (); }; };
+		DDFC9B811BC4F053001AE931 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B611BC4F053001AE931 /* AFSecurityPolicy.m */; settings = {ASSET_TAGS = (); }; };
+		DDFC9B821BC4F053001AE931 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B631BC4F053001AE931 /* AFURLConnectionOperation.m */; settings = {ASSET_TAGS = (); }; };
+		DDFC9B831BC4F053001AE931 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B651BC4F053001AE931 /* AFURLRequestSerialization.m */; settings = {ASSET_TAGS = (); }; };
+		DDFC9B841BC4F053001AE931 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B671BC4F053001AE931 /* AFURLResponseSerialization.m */; settings = {ASSET_TAGS = (); }; };
+		DDFC9B851BC4F053001AE931 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B691BC4F053001AE931 /* AFURLSessionManager.m */; settings = {ASSET_TAGS = (); }; };
+		DDFC9B861BC4F053001AE931 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B6C1BC4F053001AE931 /* AFNetworkActivityIndicatorManager.m */; settings = {ASSET_TAGS = (); }; };
+		DDFC9B871BC4F053001AE931 /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B6E1BC4F053001AE931 /* UIActivityIndicatorView+AFNetworking.m */; settings = {ASSET_TAGS = (); }; };
+		DDFC9B881BC4F053001AE931 /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B701BC4F053001AE931 /* UIAlertView+AFNetworking.m */; settings = {ASSET_TAGS = (); }; };
+		DDFC9B891BC4F053001AE931 /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B721BC4F053001AE931 /* UIButton+AFNetworking.m */; settings = {ASSET_TAGS = (); }; };
+		DDFC9B8A1BC4F053001AE931 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B751BC4F053001AE931 /* UIImageView+AFNetworking.m */; settings = {ASSET_TAGS = (); }; };
+		DDFC9B8B1BC4F053001AE931 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B781BC4F053001AE931 /* UIProgressView+AFNetworking.m */; settings = {ASSET_TAGS = (); }; };
+		DDFC9B8C1BC4F053001AE931 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B7A1BC4F053001AE931 /* UIRefreshControl+AFNetworking.m */; settings = {ASSET_TAGS = (); }; };
+		DDFC9B8D1BC4F053001AE931 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDFC9B7C1BC4F053001AE931 /* UIWebView+AFNetworking.m */; settings = {ASSET_TAGS = (); }; };
+		DDFC9B8F1BC502AB001AE931 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFC9B8E1BC502AB001AE931 /* CoreGraphics.framework */; };
+		DDFC9B911BC502B5001AE931 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFC9B901BC502B5001AE931 /* UIKit.framework */; };
+		DDFC9B931BC502BF001AE931 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFC9B921BC502BF001AE931 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DDFC9B381BC4E3D1001AE931 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDFC9B161BC4E3D0001AE931 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDFC9B1D1BC4E3D0001AE931;
+			remoteInfo = Drone_control;
+		};
+		DDFC9B431BC4E3D1001AE931 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DDFC9B161BC4E3D0001AE931 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DDFC9B1D1BC4E3D0001AE931;
+			remoteInfo = Drone_control;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DDFC9B1E1BC4E3D0001AE931 /* Drone_control.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Drone_control.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDFC9B221BC4E3D0001AE931 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DDFC9B241BC4E3D0001AE931 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		DDFC9B251BC4E3D0001AE931 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		DDFC9B271BC4E3D0001AE931 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		DDFC9B281BC4E3D0001AE931 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		DDFC9B2B1BC4E3D0001AE931 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DDFC9B2D1BC4E3D0001AE931 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DDFC9B301BC4E3D0001AE931 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		DDFC9B321BC4E3D0001AE931 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DDFC9B371BC4E3D1001AE931 /* Drone_controlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Drone_controlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDFC9B3B1BC4E3D1001AE931 /* Drone_controlTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Drone_controlTests.m; sourceTree = "<group>"; };
+		DDFC9B3D1BC4E3D1001AE931 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DDFC9B421BC4E3D1001AE931 /* Drone_controlUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Drone_controlUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDFC9B461BC4E3D1001AE931 /* Drone_controlUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Drone_controlUITests.m; sourceTree = "<group>"; };
+		DDFC9B481BC4E3D1001AE931 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DDFC9B541BC4EFDB001AE931 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		DDFC9B571BC4F053001AE931 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
+		DDFC9B581BC4F053001AE931 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
+		DDFC9B591BC4F053001AE931 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
+		DDFC9B5A1BC4F053001AE931 /* AFHTTPRequestOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperationManager.m; sourceTree = "<group>"; };
+		DDFC9B5B1BC4F053001AE931 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
+		DDFC9B5C1BC4F053001AE931 /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
+		DDFC9B5D1BC4F053001AE931 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
+		DDFC9B5E1BC4F053001AE931 /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
+		DDFC9B5F1BC4F053001AE931 /* AFNetworkReachabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkReachabilityManager.m; sourceTree = "<group>"; };
+		DDFC9B601BC4F053001AE931 /* AFSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFSecurityPolicy.h; sourceTree = "<group>"; };
+		DDFC9B611BC4F053001AE931 /* AFSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSecurityPolicy.m; sourceTree = "<group>"; };
+		DDFC9B621BC4F053001AE931 /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLConnectionOperation.h; sourceTree = "<group>"; };
+		DDFC9B631BC4F053001AE931 /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLConnectionOperation.m; sourceTree = "<group>"; };
+		DDFC9B641BC4F053001AE931 /* AFURLRequestSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLRequestSerialization.h; sourceTree = "<group>"; };
+		DDFC9B651BC4F053001AE931 /* AFURLRequestSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLRequestSerialization.m; sourceTree = "<group>"; };
+		DDFC9B661BC4F053001AE931 /* AFURLResponseSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLResponseSerialization.h; sourceTree = "<group>"; };
+		DDFC9B671BC4F053001AE931 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
+		DDFC9B681BC4F053001AE931 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
+		DDFC9B691BC4F053001AE931 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
+		DDFC9B6B1BC4F053001AE931 /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
+		DDFC9B6C1BC4F053001AE931 /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
+		DDFC9B6D1BC4F053001AE931 /* UIActivityIndicatorView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActivityIndicatorView+AFNetworking.h"; sourceTree = "<group>"; };
+		DDFC9B6E1BC4F053001AE931 /* UIActivityIndicatorView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActivityIndicatorView+AFNetworking.m"; sourceTree = "<group>"; };
+		DDFC9B6F1BC4F053001AE931 /* UIAlertView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+AFNetworking.h"; sourceTree = "<group>"; };
+		DDFC9B701BC4F053001AE931 /* UIAlertView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+AFNetworking.m"; sourceTree = "<group>"; };
+		DDFC9B711BC4F053001AE931 /* UIButton+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+AFNetworking.h"; sourceTree = "<group>"; };
+		DDFC9B721BC4F053001AE931 /* UIButton+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+AFNetworking.m"; sourceTree = "<group>"; };
+		DDFC9B731BC4F053001AE931 /* UIImage+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+AFNetworking.h"; sourceTree = "<group>"; };
+		DDFC9B741BC4F053001AE931 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
+		DDFC9B751BC4F053001AE931 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
+		DDFC9B761BC4F053001AE931 /* UIKit+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIKit+AFNetworking.h"; sourceTree = "<group>"; };
+		DDFC9B771BC4F053001AE931 /* UIProgressView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIProgressView+AFNetworking.h"; sourceTree = "<group>"; };
+		DDFC9B781BC4F053001AE931 /* UIProgressView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIProgressView+AFNetworking.m"; sourceTree = "<group>"; };
+		DDFC9B791BC4F053001AE931 /* UIRefreshControl+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIRefreshControl+AFNetworking.h"; sourceTree = "<group>"; };
+		DDFC9B7A1BC4F053001AE931 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
+		DDFC9B7B1BC4F053001AE931 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
+		DDFC9B7C1BC4F053001AE931 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
+		DDFC9B8E1BC502AB001AE931 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DDFC9B901BC502B5001AE931 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DDFC9B921BC502BF001AE931 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DDFC9B1B1BC4E3D0001AE931 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDFC9B931BC502BF001AE931 /* Foundation.framework in Frameworks */,
+				DDFC9B911BC502B5001AE931 /* UIKit.framework in Frameworks */,
+				DDFC9B8F1BC502AB001AE931 /* CoreGraphics.framework in Frameworks */,
+				DDFC9B551BC4EFDB001AE931 /* CoreLocation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDFC9B341BC4E3D1001AE931 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDFC9B3F1BC4E3D1001AE931 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DDFC9B151BC4E3D0001AE931 = {
+			isa = PBXGroup;
+			children = (
+				DDFC9B921BC502BF001AE931 /* Foundation.framework */,
+				DDFC9B901BC502B5001AE931 /* UIKit.framework */,
+				DDFC9B8E1BC502AB001AE931 /* CoreGraphics.framework */,
+				DDFC9B541BC4EFDB001AE931 /* CoreLocation.framework */,
+				DDFC9B201BC4E3D0001AE931 /* Drone_control */,
+				DDFC9B3A1BC4E3D1001AE931 /* Drone_controlTests */,
+				DDFC9B451BC4E3D1001AE931 /* Drone_controlUITests */,
+				DDFC9B1F1BC4E3D0001AE931 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DDFC9B1F1BC4E3D0001AE931 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DDFC9B1E1BC4E3D0001AE931 /* Drone_control.app */,
+				DDFC9B371BC4E3D1001AE931 /* Drone_controlTests.xctest */,
+				DDFC9B421BC4E3D1001AE931 /* Drone_controlUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DDFC9B201BC4E3D0001AE931 /* Drone_control */ = {
+			isa = PBXGroup;
+			children = (
+				DDFC9B561BC4F053001AE931 /* AFNetworking */,
+				DDFC9B6A1BC4F053001AE931 /* UIKit+AFNetworking */,
+				DDFC9B241BC4E3D0001AE931 /* AppDelegate.h */,
+				DDFC9B251BC4E3D0001AE931 /* AppDelegate.m */,
+				DDFC9B271BC4E3D0001AE931 /* ViewController.h */,
+				DDFC9B281BC4E3D0001AE931 /* ViewController.m */,
+				DDFC9B2A1BC4E3D0001AE931 /* Main.storyboard */,
+				DDFC9B2D1BC4E3D0001AE931 /* Assets.xcassets */,
+				DDFC9B2F1BC4E3D0001AE931 /* LaunchScreen.storyboard */,
+				DDFC9B321BC4E3D0001AE931 /* Info.plist */,
+				DDFC9B211BC4E3D0001AE931 /* Supporting Files */,
+			);
+			path = Drone_control;
+			sourceTree = "<group>";
+		};
+		DDFC9B211BC4E3D0001AE931 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DDFC9B221BC4E3D0001AE931 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DDFC9B3A1BC4E3D1001AE931 /* Drone_controlTests */ = {
+			isa = PBXGroup;
+			children = (
+				DDFC9B3B1BC4E3D1001AE931 /* Drone_controlTests.m */,
+				DDFC9B3D1BC4E3D1001AE931 /* Info.plist */,
+			);
+			path = Drone_controlTests;
+			sourceTree = "<group>";
+		};
+		DDFC9B451BC4E3D1001AE931 /* Drone_controlUITests */ = {
+			isa = PBXGroup;
+			children = (
+				DDFC9B461BC4E3D1001AE931 /* Drone_controlUITests.m */,
+				DDFC9B481BC4E3D1001AE931 /* Info.plist */,
+			);
+			path = Drone_controlUITests;
+			sourceTree = "<group>";
+		};
+		DDFC9B561BC4F053001AE931 /* AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				DDFC9B571BC4F053001AE931 /* AFHTTPRequestOperation.h */,
+				DDFC9B581BC4F053001AE931 /* AFHTTPRequestOperation.m */,
+				DDFC9B591BC4F053001AE931 /* AFHTTPRequestOperationManager.h */,
+				DDFC9B5A1BC4F053001AE931 /* AFHTTPRequestOperationManager.m */,
+				DDFC9B5B1BC4F053001AE931 /* AFHTTPSessionManager.h */,
+				DDFC9B5C1BC4F053001AE931 /* AFHTTPSessionManager.m */,
+				DDFC9B5D1BC4F053001AE931 /* AFNetworking.h */,
+				DDFC9B5E1BC4F053001AE931 /* AFNetworkReachabilityManager.h */,
+				DDFC9B5F1BC4F053001AE931 /* AFNetworkReachabilityManager.m */,
+				DDFC9B601BC4F053001AE931 /* AFSecurityPolicy.h */,
+				DDFC9B611BC4F053001AE931 /* AFSecurityPolicy.m */,
+				DDFC9B621BC4F053001AE931 /* AFURLConnectionOperation.h */,
+				DDFC9B631BC4F053001AE931 /* AFURLConnectionOperation.m */,
+				DDFC9B641BC4F053001AE931 /* AFURLRequestSerialization.h */,
+				DDFC9B651BC4F053001AE931 /* AFURLRequestSerialization.m */,
+				DDFC9B661BC4F053001AE931 /* AFURLResponseSerialization.h */,
+				DDFC9B671BC4F053001AE931 /* AFURLResponseSerialization.m */,
+				DDFC9B681BC4F053001AE931 /* AFURLSessionManager.h */,
+				DDFC9B691BC4F053001AE931 /* AFURLSessionManager.m */,
+			);
+			path = AFNetworking;
+			sourceTree = "<group>";
+		};
+		DDFC9B6A1BC4F053001AE931 /* UIKit+AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				DDFC9B6B1BC4F053001AE931 /* AFNetworkActivityIndicatorManager.h */,
+				DDFC9B6C1BC4F053001AE931 /* AFNetworkActivityIndicatorManager.m */,
+				DDFC9B6D1BC4F053001AE931 /* UIActivityIndicatorView+AFNetworking.h */,
+				DDFC9B6E1BC4F053001AE931 /* UIActivityIndicatorView+AFNetworking.m */,
+				DDFC9B6F1BC4F053001AE931 /* UIAlertView+AFNetworking.h */,
+				DDFC9B701BC4F053001AE931 /* UIAlertView+AFNetworking.m */,
+				DDFC9B711BC4F053001AE931 /* UIButton+AFNetworking.h */,
+				DDFC9B721BC4F053001AE931 /* UIButton+AFNetworking.m */,
+				DDFC9B731BC4F053001AE931 /* UIImage+AFNetworking.h */,
+				DDFC9B741BC4F053001AE931 /* UIImageView+AFNetworking.h */,
+				DDFC9B751BC4F053001AE931 /* UIImageView+AFNetworking.m */,
+				DDFC9B761BC4F053001AE931 /* UIKit+AFNetworking.h */,
+				DDFC9B771BC4F053001AE931 /* UIProgressView+AFNetworking.h */,
+				DDFC9B781BC4F053001AE931 /* UIProgressView+AFNetworking.m */,
+				DDFC9B791BC4F053001AE931 /* UIRefreshControl+AFNetworking.h */,
+				DDFC9B7A1BC4F053001AE931 /* UIRefreshControl+AFNetworking.m */,
+				DDFC9B7B1BC4F053001AE931 /* UIWebView+AFNetworking.h */,
+				DDFC9B7C1BC4F053001AE931 /* UIWebView+AFNetworking.m */,
+			);
+			path = "UIKit+AFNetworking";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DDFC9B1D1BC4E3D0001AE931 /* Drone_control */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDFC9B4B1BC4E3D1001AE931 /* Build configuration list for PBXNativeTarget "Drone_control" */;
+			buildPhases = (
+				DDFC9B1A1BC4E3D0001AE931 /* Sources */,
+				DDFC9B1B1BC4E3D0001AE931 /* Frameworks */,
+				DDFC9B1C1BC4E3D0001AE931 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Drone_control;
+			productName = Drone_control;
+			productReference = DDFC9B1E1BC4E3D0001AE931 /* Drone_control.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DDFC9B361BC4E3D1001AE931 /* Drone_controlTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDFC9B4E1BC4E3D1001AE931 /* Build configuration list for PBXNativeTarget "Drone_controlTests" */;
+			buildPhases = (
+				DDFC9B331BC4E3D1001AE931 /* Sources */,
+				DDFC9B341BC4E3D1001AE931 /* Frameworks */,
+				DDFC9B351BC4E3D1001AE931 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DDFC9B391BC4E3D1001AE931 /* PBXTargetDependency */,
+			);
+			name = Drone_controlTests;
+			productName = Drone_controlTests;
+			productReference = DDFC9B371BC4E3D1001AE931 /* Drone_controlTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		DDFC9B411BC4E3D1001AE931 /* Drone_controlUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDFC9B511BC4E3D1001AE931 /* Build configuration list for PBXNativeTarget "Drone_controlUITests" */;
+			buildPhases = (
+				DDFC9B3E1BC4E3D1001AE931 /* Sources */,
+				DDFC9B3F1BC4E3D1001AE931 /* Frameworks */,
+				DDFC9B401BC4E3D1001AE931 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DDFC9B441BC4E3D1001AE931 /* PBXTargetDependency */,
+			);
+			name = Drone_controlUITests;
+			productName = Drone_controlUITests;
+			productReference = DDFC9B421BC4E3D1001AE931 /* Drone_controlUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DDFC9B161BC4E3D0001AE931 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = YANGYANG;
+				TargetAttributes = {
+					DDFC9B1D1BC4E3D0001AE931 = {
+						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = KRHWSW5T33;
+					};
+					DDFC9B361BC4E3D1001AE931 = {
+						CreatedOnToolsVersion = 7.0.1;
+						TestTargetID = DDFC9B1D1BC4E3D0001AE931;
+					};
+					DDFC9B411BC4E3D1001AE931 = {
+						CreatedOnToolsVersion = 7.0.1;
+						TestTargetID = DDFC9B1D1BC4E3D0001AE931;
+					};
+				};
+			};
+			buildConfigurationList = DDFC9B191BC4E3D0001AE931 /* Build configuration list for PBXProject "Drone_control" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DDFC9B151BC4E3D0001AE931;
+			productRefGroup = DDFC9B1F1BC4E3D0001AE931 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DDFC9B1D1BC4E3D0001AE931 /* Drone_control */,
+				DDFC9B361BC4E3D1001AE931 /* Drone_controlTests */,
+				DDFC9B411BC4E3D1001AE931 /* Drone_controlUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DDFC9B1C1BC4E3D0001AE931 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDFC9B311BC4E3D0001AE931 /* LaunchScreen.storyboard in Resources */,
+				DDFC9B2E1BC4E3D0001AE931 /* Assets.xcassets in Resources */,
+				DDFC9B2C1BC4E3D0001AE931 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDFC9B351BC4E3D1001AE931 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDFC9B401BC4E3D1001AE931 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DDFC9B1A1BC4E3D0001AE931 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDFC9B7D1BC4F053001AE931 /* AFHTTPRequestOperation.m in Sources */,
+				DDFC9B8A1BC4F053001AE931 /* UIImageView+AFNetworking.m in Sources */,
+				DDFC9B291BC4E3D0001AE931 /* ViewController.m in Sources */,
+				DDFC9B7E1BC4F053001AE931 /* AFHTTPRequestOperationManager.m in Sources */,
+				DDFC9B8B1BC4F053001AE931 /* UIProgressView+AFNetworking.m in Sources */,
+				DDFC9B801BC4F053001AE931 /* AFNetworkReachabilityManager.m in Sources */,
+				DDFC9B841BC4F053001AE931 /* AFURLResponseSerialization.m in Sources */,
+				DDFC9B821BC4F053001AE931 /* AFURLConnectionOperation.m in Sources */,
+				DDFC9B891BC4F053001AE931 /* UIButton+AFNetworking.m in Sources */,
+				DDFC9B871BC4F053001AE931 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
+				DDFC9B811BC4F053001AE931 /* AFSecurityPolicy.m in Sources */,
+				DDFC9B8C1BC4F053001AE931 /* UIRefreshControl+AFNetworking.m in Sources */,
+				DDFC9B8D1BC4F053001AE931 /* UIWebView+AFNetworking.m in Sources */,
+				DDFC9B7F1BC4F053001AE931 /* AFHTTPSessionManager.m in Sources */,
+				DDFC9B881BC4F053001AE931 /* UIAlertView+AFNetworking.m in Sources */,
+				DDFC9B831BC4F053001AE931 /* AFURLRequestSerialization.m in Sources */,
+				DDFC9B861BC4F053001AE931 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				DDFC9B851BC4F053001AE931 /* AFURLSessionManager.m in Sources */,
+				DDFC9B261BC4E3D0001AE931 /* AppDelegate.m in Sources */,
+				DDFC9B231BC4E3D0001AE931 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDFC9B331BC4E3D1001AE931 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDFC9B3C1BC4E3D1001AE931 /* Drone_controlTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDFC9B3E1BC4E3D1001AE931 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDFC9B471BC4E3D1001AE931 /* Drone_controlUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DDFC9B391BC4E3D1001AE931 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDFC9B1D1BC4E3D0001AE931 /* Drone_control */;
+			targetProxy = DDFC9B381BC4E3D1001AE931 /* PBXContainerItemProxy */;
+		};
+		DDFC9B441BC4E3D1001AE931 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DDFC9B1D1BC4E3D0001AE931 /* Drone_control */;
+			targetProxy = DDFC9B431BC4E3D1001AE931 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DDFC9B2A1BC4E3D0001AE931 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DDFC9B2B1BC4E3D0001AE931 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		DDFC9B2F1BC4E3D0001AE931 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DDFC9B301BC4E3D0001AE931 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DDFC9B491BC4E3D1001AE931 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DDFC9B4A1BC4E3D1001AE931 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DDFC9B4C1BC4E3D1001AE931 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = Drone_control/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.Drone-control";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		DDFC9B4D1BC4E3D1001AE931 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = Drone_control/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.Drone-control";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+		DDFC9B4F1BC4E3D1001AE931 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = Drone_controlTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.Drone-controlTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Drone_control.app/Drone_control";
+			};
+			name = Debug;
+		};
+		DDFC9B501BC4E3D1001AE931 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = Drone_controlTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.Drone-controlTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Drone_control.app/Drone_control";
+			};
+			name = Release;
+		};
+		DDFC9B521BC4E3D1001AE931 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Drone_controlUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.Drone-controlUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Drone_control;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		DDFC9B531BC4E3D1001AE931 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Drone_controlUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.Drone-controlUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Drone_control;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DDFC9B191BC4E3D0001AE931 /* Build configuration list for PBXProject "Drone_control" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDFC9B491BC4E3D1001AE931 /* Debug */,
+				DDFC9B4A1BC4E3D1001AE931 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DDFC9B4B1BC4E3D1001AE931 /* Build configuration list for PBXNativeTarget "Drone_control" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDFC9B4C1BC4E3D1001AE931 /* Debug */,
+				DDFC9B4D1BC4E3D1001AE931 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		DDFC9B4E1BC4E3D1001AE931 /* Build configuration list for PBXNativeTarget "Drone_controlTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDFC9B4F1BC4E3D1001AE931 /* Debug */,
+				DDFC9B501BC4E3D1001AE931 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		DDFC9B511BC4E3D1001AE931 /* Build configuration list for PBXNativeTarget "Drone_controlUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDFC9B521BC4E3D1001AE931 /* Debug */,
+				DDFC9B531BC4E3D1001AE931 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DDFC9B161BC4E3D0001AE931 /* Project object */;
+}

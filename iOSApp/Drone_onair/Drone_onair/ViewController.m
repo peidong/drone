@@ -32,7 +32,6 @@
     NSDate *lastWebsiteUpdateTime;
     int timeIntervalInSeconds;
     bool increasedAccuracy;
-
 }
 
 - (void)viewDidLoad {
@@ -206,28 +205,7 @@
 
 - (void)PostToWebsite:(NSString *)latitude longitude:(NSString *)longitude
 {
-    // use the websmithing defaultUploadWebsite for testing, change the *phoneNumber* form variable to something you
-    // know and then check your location with your browser here: https://www.websmithing.com/gpstracker/displaymap.php
-    /*
-     NSString *defaultUploadWebsite = @"http://example.com/resources.json";
-     
-     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-     
-     NSDictionary *parameters = @{@"latitude": latitude,
-     @"longitude": longitude,
-     };
-     
-     [manager GET:defaultUploadWebsite parameters:parameters
-     success:^(AFHTTPRequestOperation *operation, id responseObject) {
-     NSString *response = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-     NSLog(@"Response: %@", response);
-     }
-     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-     NSLog(@"AFHTTPRequestOperation Error: %@", [error description]);
-     }];
-    */
-    
+   
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSDictionary *parameters = @{@"ip_address":latitude, @"network_name":longitude};
     [manager POST:@"http://fryer.ee.ucla.edu/rest/api/ip_address/post/" parameters:parameters
