@@ -22,3 +22,4 @@ Database: edison, table: control
 7. suspend
 8. clockwiseRotate
 9. anticlockwiseRotate
+10. stop

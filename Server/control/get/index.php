@@ -10,13 +10,14 @@
     $conn = mysql_connect('localhost', 'webmaster', '');
     mysql_select_db('edison', $conn);
     
-    $query = "SELECT id, ip_address, network_name, update_time
-        FROM ip_address
+    $query = "SELECT id, mac_address, ip_address, network_name, control_type, auto_control_command, manual_control_command, update_time
+        FROM control
         WHERE id = '1'";
 
     $result = mysql_query($query);
     $result_array = mysql_fetch_array($result);
 
+    $ip_address = $result_array[ip_address];
     $ip_address = $result_array[ip_address];
     $network_name = $result_array[network_name];
     $update_time = $result_array[update_time];
