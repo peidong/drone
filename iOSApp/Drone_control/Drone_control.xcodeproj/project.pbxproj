@@ -557,6 +557,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Drone_control/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.Drone-control";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -571,6 +572,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Drone_control/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.Drone-control";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -645,6 +647,7 @@
 				DDFC9B4D1BC4E3D1001AE931 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DDFC9B4E1BC4E3D1001AE931 /* Build configuration list for PBXNativeTarget "Drone_controlTests" */ = {
 			isa = XCConfigurationList;
@@ -653,6 +656,7 @@
 				DDFC9B501BC4E3D1001AE931 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DDFC9B511BC4E3D1001AE931 /* Build configuration list for PBXNativeTarget "Drone_controlUITests" */ = {
 			isa = XCConfigurationList;
@@ -661,6 +665,7 @@
 				DDFC9B531BC4E3D1001AE931 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
