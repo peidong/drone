@@ -14,7 +14,7 @@
     $conn = mysql_connect('localhost', 'webmaster', '');
     mysql_select_db('edison', $conn);
 
-    for ($i=1; $i<=5; $i++)
+    for ($i=5; $i>=0; $i--)
     {
         $j = $i + 1;
         $query = "UPDATE ip_address
