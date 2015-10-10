@@ -12,6 +12,7 @@ When we want to code with Intel Edison Board using C or Python without using Ard
 ###How to use git to manage the files
         cd ~/drone
 
+        git pull
         git add -A :/
         git commit -m "comment notes"
         git push
