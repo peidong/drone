@@ -8,9 +8,6 @@
     $mac_address = $_POST['mac_address'];
     $network_name = $_POST['network_name'];
 
-    // close the session
-    session_write_close();
-
     $conn = mysql_connect('localhost', 'webmaster', '');
     mysql_select_db('edison', $conn);
 
@@ -34,6 +31,9 @@
         WHERE id = '1'";
 
     $result = mysql_query($query);
+
+    // close the session
+    session_write_close();
 
     deliver_response(200, "The ip_address has been updated", NULL);
 
