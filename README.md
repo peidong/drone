@@ -8,3 +8,10 @@ When we want to code with Intel Edison Board using C or Python without using Ard
 
 ###How to execute shell script when boot
 [https://communities.intel.com/thread/60537](https://communities.intel.com/thread/60537)
+
+###How to use git to manage the files
+        cd ~/drone
+
+        git add -A :/
+        git commit -m "comment notes"
+        git push
