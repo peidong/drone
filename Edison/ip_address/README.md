@@ -20,7 +20,7 @@ Copy and paste these into your file
     #User=root
     ExecStart=/home/root/drone/Edison/ip_address/update_ip_address.sh
     Restart=always
-    RestartSec=1800s
+    RestartSec=60s
      
     [Install]
     WantedBy=multi-user.target
