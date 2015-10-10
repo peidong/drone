@@ -8,7 +8,7 @@ Then modify the system start service
 
         cd /lib/systemd/system
         touch update_ip_address.service
-        vim update_ip_address.service
+        vi update_ip_address.service
 
 Copy and paste these into your file
 
@@ -20,7 +20,7 @@ Copy and paste these into your file
     #User=root
     ExecStart=/home/root/drone/Edison/ip_address/update_ip_address.sh
     Restart=always
-    RestartSec=10s
+    RestartSec=1800s
      
     [Install]
     WantedBy=multi-user.target

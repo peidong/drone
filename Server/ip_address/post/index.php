@@ -11,20 +11,20 @@
     $conn = mysql_connect('localhost', 'webmaster', '');
     mysql_select_db('edison', $conn);
 
-    //for ($i=4; $i>=1; $i--)
-    //{
-        //$j = $i + 1;
-        //$query = "SELECT id, ip_address, mac_address, network_name, update_time
-            //FROM ip_address
-            //WHERE id='$i'";
-        //$result = mysql_query($query);
-        //$result_array = mysql_fetch_array($result);
-        //$query = "UPDATE ip_address
-            //SET ip_address='$result_array[ip_address]', mac_address='$result_array[mac_address]', network_name='$result_array[network_name]', update_time='$result_array[update_time]'
-            //WHERE id = '$j'";
+    for ($i=4; $i>=1; $i--)
+    {
+        $j = $i + 1;
+        $query = "SELECT id, ip_address, mac_address, network_name, update_time
+            FROM ip_address
+            WHERE id='$i'";
+        $result = mysql_query($query);
+        $result_array = mysql_fetch_array($result);
+        $query = "UPDATE ip_address
+            SET ip_address='$result_array[ip_address]', mac_address='$result_array[mac_address]', network_name='$result_array[network_name]', update_time='$result_array[update_time]'
+            WHERE id = '$j'";
 
-        //$result = mysql_query($query);
-    //}
+        $result = mysql_query($query);
+    }
 
     $query = "UPDATE ip_address
         SET ip_address = '$ip_address', mac_address = '$mac_address', network_name = '$network_name', update_time = now()
