@@ -209,8 +209,8 @@
 - (void)PostToWebsite:(NSNumber *)forwardDataN backwardData:(NSNumber *) backwardDataN leftData:(NSNumber *) leftDataN rightData:(NSNumber *) rightDataN
 {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSDictionary *parameters = @{@"forwardData":forwardDataN, @"backwardData":backwardDataN, @"leftData":leftDataN, @"rightData":rightDataN};
-    [manager POST:@"http://fryer.ee.ucla.edu/rest/api/ip_address/post/" parameters:parameters
+    NSDictionary *parameters = @{@"pwm1":forwardDataN, @"pwm2":backwardDataN, @"pwm3":leftDataN, @"pwm4":rightDataN};
+    [manager POST:@"http://fryer.ee.ucla.edu/rest/api/pwm/post/" parameters:parameters
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSLog(@"JSON_todata: %@", responseObject);
           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
