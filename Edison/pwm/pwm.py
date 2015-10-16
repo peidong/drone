@@ -30,6 +30,10 @@ while True:
     pwm2_value = float(results['data']['pwm2'])
     pwm3_value = float(results['data']['pwm3'])
     pwm4_value = float(results['data']['pwm4'])
+    print "pwm1 = " + pwm1_value
+    print "pwm2 = " + pwm2_value
+    print "pwm3 = " + pwm3_value
+    print "pwm4 = " + pwm4_value
 
     while pwm1_value<0.1:
           pwm1.write(pwm1_value)
