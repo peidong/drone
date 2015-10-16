@@ -29,9 +29,9 @@ while True:
     results_json = results_raw.text
     results = yaml.safe_load(results_json)
     pwm1_value = float(results['data']['pwm1'])/100
-    # pwm2_value = float(results['data']['pwm2'])
-    # pwm3_value = float(results['data']['pwm3'])
-    # pwm4_value = float(results['data']['pwm4'])
+    # pwm2_value = float(results['data']['pwm2'])/100
+    # pwm3_value = float(results['data']['pwm3'])/100
+    # pwm4_value = float(results['data']['pwm4'])/100
     print "i = " + str(i)
     print "pwm1 = " + str(pwm1_value)
     # print "pwm2 = " + str(pwm2_value)
