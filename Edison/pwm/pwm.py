@@ -6,7 +6,7 @@ import json
 import yaml
 import threading
 
-pwm1 = mraa.Pwm(6)
+pwm1 = mraa.Pwm(3)
 # pwm2 = mraa.Pwm(5)
 # pwm3 = mraa.Pwm(6)
 # pwm4 = mraa.Pwm(9)
@@ -35,11 +35,5 @@ while True:
     # print "pwm3 = " + str(pwm3_value)
     # print "pwm4 = " + str(pwm4_value)
 
-    while pwm1_value<0.1:
-          pwm1.write(pwm1_value)
-          pwm1_value = pwm1_value + 0.001
-          time.sleep(0.005)
-    while pwm1_value>0.03:
-          pwm1.write(pwm1_value)
-          pwm1_value = pwm1_value - 0.001
-          time.sleep(0.005)
+    pwm1.write(pwm1_value)
+    time.sleep(0.05)

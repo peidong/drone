@@ -9,7 +9,7 @@ value= 0.0
 
 while True:
     x.write(value)
-    time.sleep(0.5)
+    time.sleep(0.05)
     value = value + 0.01
     if value >= 1:
         value = 0.0
