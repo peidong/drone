@@ -6,7 +6,7 @@ import json
 import yaml
 import threading
 
-pwm1 = mraa.Pwm(3)
+pwm1 = mraa.Pwm(6)
 # pwm2 = mraa.Pwm(5)
 # pwm3 = mraa.Pwm(6)
 # pwm4 = mraa.Pwm(9)
