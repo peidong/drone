@@ -20,9 +20,11 @@ pwm1.enable(True)
 # pwm2.enable(True)
 # pwm3.enable(True)
 # pwm4.enable(True)
+i = 0
 
 while True:
 
+    i = i + 1
     results_raw = requests.get("http://fryer.ee.ucla.edu/rest/api/pwm/get/")
     results_json = results_raw.text
     results = yaml.safe_load(results_json)
@@ -30,6 +32,7 @@ while True:
     # pwm2_value = float(results['data']['pwm2'])
     # pwm3_value = float(results['data']['pwm3'])
     # pwm4_value = float(results['data']['pwm4'])
+    print "i = " + str(i)
     print "pwm1 = " + str(pwm1_value)
     # print "pwm2 = " + str(pwm2_value)
     # print "pwm3 = " + str(pwm3_value)
