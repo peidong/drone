@@ -31,11 +31,11 @@ while True:
     pwm3_value = float(results['data']['pwm3'])
     pwm4_value = float(results['data']['pwm4'])
 
-    while value<0.1:
+    while pwm1_value<0.1:
           pwm1.write(pwm1_value)
           pwm1_value = pwm1_value + 0.001
           time.sleep(0.005)
     while pwm1_value>0.03:
           pwm1.write(pwm1_value)
-          pwm1_value = value - 0.001
+          pwm1_value = pwm1_value - 0.001
           time.sleep(0.005)
