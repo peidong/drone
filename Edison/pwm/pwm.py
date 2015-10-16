@@ -26,7 +26,7 @@ while True:
     results_raw = requests.get("http://fryer.ee.ucla.edu/rest/api/pwm/get/")
     results_json = results_raw.text
     results = yaml.safe_load(results_json)
-    pwm1_value = float(results['data']['pwm1'])
+    pwm1_value = float(results['data']['pwm1'])/100
     # pwm2_value = float(results['data']['pwm2'])
     # pwm3_value = float(results['data']['pwm3'])
     # pwm4_value = float(results['data']['pwm4'])
