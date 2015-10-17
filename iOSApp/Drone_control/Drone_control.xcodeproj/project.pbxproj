@@ -330,7 +330,7 @@
 				TargetAttributes = {
 					DDFC9B1D1BC4E3D0001AE931 = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = KRHWSW5T33;
+						DevelopmentTeam = FPHT4R48Z8;
 					};
 					DDFC9B361BC4E3D1001AE931 = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -559,7 +559,7 @@
 				INFOPLIST_FILE = Drone_control/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.Drone-control";
+				PRODUCT_BUNDLE_IDENTIFIER = "Drone-control";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -574,7 +574,7 @@
 				INFOPLIST_FILE = Drone_control/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.Drone-control";
+				PRODUCT_BUNDLE_IDENTIFIER = "Drone-control";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

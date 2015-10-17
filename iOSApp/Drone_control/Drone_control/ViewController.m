@@ -93,6 +93,10 @@
     backwardData = (int)([_slider2 value] * 100);
     leftData = (int)([_slider3 value] * 100);
     rightData = (int)([_slider4 value] * 100);
+    _stepper1.value = (int)([_slider1 value] * 100);
+    _stepper2.value = (int)([_slider2 value] * 100);
+    _stepper3.value = (int)([_slider3 value] * 100);
+    _stepper4.value = (int)([_slider4 value] * 100);
 
     _forward.text = [NSString stringWithFormat:@"a: %d", forwardData];
     _backward.text = [NSString stringWithFormat:@"b: %d", backwardData];
@@ -112,6 +116,7 @@
         
         [self PostToWebsite:forwardDataN backwardData:backwardDataN leftData:leftDataN rightData:rightDataN];
     }
+    NSLog(@"Update Value");
     
 }
 
@@ -125,6 +130,7 @@
         
     _slider3.value = [[_text3 text] intValue]*0.01;
     _slider4.value = [[_text4 text] intValue]*0.01;
+    NSLog(@"Edit did end");
     [self updateValue];
     }
 }
