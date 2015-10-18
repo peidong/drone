@@ -1,7 +1,0 @@
-platform :ios, '8.1'
-pod "AFNetworking"
-pod 'FCFileManager'
-pod 'SBJson'
-pod 'JSONModel'
-pod 'EstimoteIndoorSDK'
-pod 'BFDragGestureRecognizer'
