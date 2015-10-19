@@ -6,14 +6,6 @@
 #include <curl/easy.h>
 #include <string.h>
 
-//json-c (https://github.com/json-c/json-c) 
-//opkg update
-//opkg install libjson
-//#include <json-c/json.h>
- 
-
-
-
 /* the function to invoke as the data recieved */
 size_t static write_callback_func(void *buffer, size_t size, size_t nmemb, void *userp)
 {
@@ -23,12 +15,13 @@ size_t static write_callback_func(void *buffer, size_t size, size_t nmemb, void 
     *response_ptr = strndup(buffer, (size_t)(size *nmemb));
     return 0;
 }
+
+
 char* http_get(char* url)
 {
     CURL *curl;
     CURLcode res;
     char *response=NULL;
-
 
     /* In windows, this will init the winsock stuff */ 
     curl_global_init(CURL_GLOBAL_ALL);
