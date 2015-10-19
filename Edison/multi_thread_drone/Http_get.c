@@ -59,7 +59,7 @@ int main(int argc , char *argv[])
     puts("Connected\n");
     
     //Send some data
-    message = "GET / HTTP:fryer.ee.ucla.edu/rest/api/pwm\r\n\r\n";
+    message = "GET / HTTP/1.0\r\n\r\n";
     if( send(socket_desc , message , strlen(message) , 0) < 0)
     {
         puts("Send failed");
