@@ -7,7 +7,7 @@
 //json-c (https://github.com/json-c/json-c) 
 //opkg update
 //opkg install libjson
-#include <json-c/json.h>
+//#include <json-c/json.h>
  
 char* http_get(char* url)
 {
