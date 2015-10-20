@@ -1,7 +1,7 @@
 objects = main.o
 
 main : $(objects)
-	gcc -o main $(objects) -lcurl
+	gcc -o main $(objects) -lcurl -ljson-c 
 
 main.o : http.h
 
