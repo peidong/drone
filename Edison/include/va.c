@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+/*http://blog.csdn.net/weiwangchao_/article/details/4857567*/
 
 /* ANSI标准形式的声明方式，括号内的省略号表示可选参数 */  
 
