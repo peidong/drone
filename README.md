@@ -16,3 +16,10 @@ When we want to code with Intel Edison Board using C or Python without using Ard
         git add -A :/
         git commit -m "comment notes"
         git push
+
+###Add some environment variables
+        cd /etc
+        vi profile
+
+And write this following line at the bottom of the file
+        export LD_LIBRARY_PATH=/usr/local/lib
