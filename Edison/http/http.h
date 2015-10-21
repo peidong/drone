@@ -4,7 +4,6 @@
 //opkg install libcurl
 #include <curl/curl.h>
 #include <string.h>
-#include <json-c/json.h>
 /* the function to invoke as the data recieved */
 size_t static write_callback(void *buffer, size_t size, size_t nmemb, void *userp) {
     char **response_ptr =  (char**)userp;
