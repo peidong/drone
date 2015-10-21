@@ -1,4 +1,4 @@
-#include <mraa/mraa.h>
+#include <mraa/pwm.h>
 int main()
 {
     mraa_pwm_context pwm;

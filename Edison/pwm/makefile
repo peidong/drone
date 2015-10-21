@@ -11,12 +11,9 @@ ifeq ($(shell uname), Linux)
 	LDFLAGS += -ljson-c
 endif
 
-objects = main.o
-
-main : $(objects)
-	$(CC) -o main $(objects) -lcurl $(LDFLAGS) $(CFLAGS)
-
-main.o : http.h
+objects = pwm.o
+pwm : $(objects)
+	$(CC) -o pwm $(objects)
 
 clean:
-	rm -rf main $(objects)
+	rm -rf pwm $(objects)
