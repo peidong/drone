@@ -11,41 +11,44 @@ struct pwm_struct {
     UT_hash_handle hh;         /* makes this structure hashable */
 };
 
-int get_pwm_struct(char *url_get_pwm, char *url_post_pwm)
+int get_pwm_struct()
 {
     //For test
-    url_get_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/get/";
-    url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";
+    char *url_get_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/get/";
+    char *url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";
     
-    struct json_object *jobj;
-    char* content;
-    struct json_object *pwm1, *data, *pwm2, *pwm3, *pwm4, *update_time;
-    int res1, res2;
-    content = http_get("http://fryer.ee.ucla.edu/rest/api/pwm/get/");
-    jobj = json_tokener_parse(content);
-    res1 = json_object_object_get_ex(jobj,"data",&data);
-    res2 = json_object_object_get_ex(data,"pwm1",&pwm1);
-    res2 = json_object_object_get_ex(data,"pwm2",&pwm2);
-    res2 = json_object_object_get_ex(data,"pwm3",&pwm3);
-    res2 = json_object_object_get_ex(data,"pwm4",&pwm4);
-    res2 = json_object_object_get_ex(data,"update_time",&update_time);
-    const char **n, *str_keys[] = {"pwm1", "pwm2", "pwm3", "pwm4"};
+    char* str_http_response;
+    struct json_object *json_object_whole_response, *json_object_data, *json_object_pwm1, *json_object_pwm2, *json_object_pwm3, *json_object_pwm4, *json_object_update_time;
+    int tag_res;
+
+    str_http_response = http_get(url_get_pwm);
+
+    json_object_whole_response = json_tokener_parse(str_http_response);
+
+    tag_res = json_object_object_get_ex(json_object_whole_response,"data",&json_object_data);
+    tag_res = json_object_object_get_ex(json_object_data,"pwm1",&json_object_pwm1);
+    tag_res = json_object_object_get_ex(json_object_data,"pwm2",&json_object_pwm2);
+    tag_res = json_object_object_get_ex(json_object_data,"pwm3",&json_object_pwm3);
+    tag_res = json_object_object_get_ex(json_object_data,"pwm4",&json_object_pwm4);
+    tag_res = json_object_object_get_ex(json_object_data,"update_time",&json_object_update_time);
+
+    const char **index, *str_keys[] = {"pwm1", "pwm2", "pwm3", "pwm4"};
     struct pwm_struct *s, *tmp, *users = NULL;
     int i=0;
 
-    for (n = str_keys; *n != NULL; n++) {
+    for (index = str_keys; *index != NULL; index++) {
         s = (struct pwm_struct*)malloc(sizeof(struct pwm_struct));
         if (s == NULL) {
             exit(-1);
         }
-        s->str_key = *n;
+        s->str_key = *index;
         s->pwm_value = i++;
         HASH_ADD_KEYPTR(hh, users, s->str_key, strlen(s->str_key), s );
     }
 
     HASH_FIND_STR( users, "betty", s);
     if (s != NULL) {
-        printf("betty's pwm_value is %f\n", s->pwm_value);
+        printf("betty's pwm_value is %f\index", s->pwm_value);
     }
 
     /* free the hash table contents */
