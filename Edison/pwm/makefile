@@ -13,7 +13,7 @@ endif
 
 objects = pwm.o
 pwm : $(objects)
-	$(CC) -o pwm $(objects)
+	$(CC) -o pwm $(objects) -lcurl $(LDFLAGS) $(CFLAGS)
 
 clean:
 	rm -rf pwm $(objects)

@@ -80,11 +80,11 @@ double GetPwmValue(struct T_pwm *pT_pwm_all, char *sz_pwm_key)
     return d_pwm;
 }
 
-int main()
-{
-    struct T_pwm *pT_pwm_all = GetPwmStruct();
-    double d_pwm = GetPwmValue(pT_pwm_all, "pwm2");
-    printf("pwm2 = %f", d_pwm);
-    FreeHashTablePwm(pT_pwm_all);
-    return 0;
-}
+/*int main()*/
+/*{*/
+    /*struct T_pwm *pT_pwm_all = GetPwmStruct();*/
+    /*double d_pwm = GetPwmValue(pT_pwm_all, "pwm2");*/
+    /*printf("pwm2 = %f", d_pwm);*/
+    /*FreeHashTablePwm(pT_pwm_all);*/
+    /*return 0;*/
+/*}*/
