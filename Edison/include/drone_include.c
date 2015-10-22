@@ -40,7 +40,7 @@ int GetPwmStruct()
         printf("The %i of pwm is: %f\n", n_index, pd_pwm[n_index]);
     }
 
-    const char **kppchIndex, *kstrKeys[] = {"pwm1", "pwm2", "pwm3", "pwm4"};
+    const char **kppchIndex, *kstrKeys[] = {"pwm1", "pwm2", "pwm3", "pwm4", NULL};
     struct T_pwm *pT_pwm_selector, *pT_pwm_tmp, *pT_pwm_all = NULL;
 
     n_index = 0;
