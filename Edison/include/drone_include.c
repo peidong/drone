@@ -13,7 +13,6 @@ struct T_pwm {
 
 int GetPwmStruct()
 {
-    //For test
     char *sz_url_get_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/get/";
     /*char *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";*/
     
@@ -42,28 +41,28 @@ int GetPwmStruct()
     }
 
     const char **kppchIndex, *kstrKeys[] = {"pwm1", "pwm2", "pwm3", "pwm4"};
-    struct T_pwm *pT_tmp_pwm, *pT_not_in_use_pwm, *pT_handle_pwm = NULL;
+    struct T_pwm *pT_pwm_selector, *pT_pwm_tmp, *pT_pwm_all = NULL;
 
     n_index = 0;
     for (kppchIndex = kstrKeys; *kppchIndex != NULL; kppchIndex++) {
-        pT_tmp_pwm = (struct T_pwm*)malloc(sizeof(struct T_pwm));
-        if (pT_tmp_pwm == NULL) {
+        pT_pwm_selector = (struct T_pwm*)malloc(sizeof(struct T_pwm));
+        if (pT_pwm_selector == NULL) {
             exit(-1);
         }
-        pT_tmp_pwm->pstr_key = *kppchIndex;
-        pT_tmp_pwm->d_pwm = pd_pwm[n_index];
+        pT_pwm_selector->pstr_key = *kppchIndex;
+        pT_pwm_selector->d_pwm = pd_pwm[n_index];
         n_index++;
-        HASH_ADD_KEYPTR(hh, pT_handle_pwm, pT_tmp_pwm->pstr_key, strlen(pT_tmp_pwm->pstr_key), pT_tmp_pwm);
+        HASH_ADD_KEYPTR(hh, pT_pwm_all, pT_pwm_selector->pstr_key, strlen(pT_pwm_selector->pstr_key), pT_pwm_selector);
     }
-    HASH_FIND_STR(pT_handle_pwm, "pwm3", pT_tmp_pwm);
-    if (pT_tmp_pwm != NULL) {
-        printf("pwm3 is %f\n", pT_tmp_pwm->d_pwm);
+    HASH_FIND_STR(pT_pwm_all, "pwm3", pT_pwm_selector);
+    if (pT_pwm_selector != NULL) {
+        printf("pwm3 is %f\n", pT_pwm_selector->d_pwm);
     }
 
     /* free the hash table contents */
-    HASH_ITER(hh, pT_handle_pwm, pT_tmp_pwm, pT_not_in_use_pwm) {
-        HASH_DEL(pT_handle_pwm, pT_tmp_pwm);
-        free(pT_tmp_pwm);
+    HASH_ITER(hh, pT_pwm_all, pT_pwm_selector, pT_pwm_tmp) {
+        HASH_DEL(pT_pwm_all, pT_pwm_selector);
+        free(pT_pwm_selector);
     }
     return 0;
 }
