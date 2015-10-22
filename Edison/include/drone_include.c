@@ -11,7 +11,7 @@ struct T_pwm {
     UT_hash_handle hh;         /* makes this structure hashable */
 };
 
-int GetPwmStruct()
+struct T_pwm* GetPwmStruct()
 {
     char *sz_url_get_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/get/";
     /*char *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";*/
@@ -37,7 +37,6 @@ int GetPwmStruct()
     for(n_index = 0; n_index < 4; n_index++)
     {
         pd_pwm[n_index] = json_object_get_double(*(ppT_json_object_pwm+n_index));
-        printf("The %i of pwm is: %f\n", n_index, pd_pwm[n_index]);
     }
 
     const char **kppchIndex, *kstrKeys[] = {"pwm1", "pwm2", "pwm3", "pwm4", NULL};
@@ -54,21 +53,38 @@ int GetPwmStruct()
         n_index++;
         HASH_ADD_KEYPTR(hh, pT_pwm_all, pT_pwm_selector->pstr_key, strlen(pT_pwm_selector->pstr_key), pT_pwm_selector);
     }
-    HASH_FIND_STR(pT_pwm_all, "pwm3", pT_pwm_selector);
-    if (pT_pwm_selector != NULL) {
-        printf("pwm3 is %f\n", pT_pwm_selector->d_pwm);
-    }
 
+    return pT_pwm_all;
+}
+
+int FreeHashTablePwm(struct T_pwm *pT_pwm_all){
+    struct T_pwm *pT_pwm_selector, *pT_pwm_tmp;
     /* free the hash table contents */
     HASH_ITER(hh, pT_pwm_all, pT_pwm_selector, pT_pwm_tmp) {
         HASH_DEL(pT_pwm_all, pT_pwm_selector);
         free(pT_pwm_selector);
     }
     return 0;
+} 
+
+double GetPwmValue(struct T_pwm *pT_pwm_all, char *sz_pwm_key)
+{
+    struct T_pwm *pT_pwm_selector;
+    double d_pwm;
+    HASH_FIND_STR(pT_pwm_all, sz_pwm_key, pT_pwm_selector);
+    if (pT_pwm_selector != NULL) {
+        d_pwm = pT_pwm_selector->d_pwm;
+    }else{
+        d_pwm = 0;
+    }
+    return d_pwm;
 }
 
 int main()
 {
-    GetPwmStruct();
+    struct T_pwm *pT_pwm_all = GetPwmStruct();
+    double d_pwm = GetPwmValue(pT_pwm_all, "pwm2");
+    printf("pwm2 = %f", d_pwm);
+    FreeHashTablePwm(pT_pwm_all);
     return 0;
 }
