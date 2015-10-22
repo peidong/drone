@@ -10,8 +10,16 @@ When we want to code with Intel Edison Board using C or Python without using Ard
 [https://communities.intel.com/thread/60537](https://communities.intel.com/thread/60537)
 
 ###How to use git to manage the files
-        cd ~/drone
+First, set up password
 
+        cd ~/drone
+        git config --global credential.helper 'cache --timeout 604800'
+        git config credential.helper store
+        git push
+
+And next time, simply do this to git push
+        
+        cd ~/drone
         git pull
         git add -A :/
         git commit -m "comment notes"
