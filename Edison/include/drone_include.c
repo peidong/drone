@@ -5,61 +5,72 @@
 #include "http/http.h"
 #include <json-c/json.h>
 
-struct pwm_struct {
-    const char *str_key;          /* key */
-    double pwm_value;
+struct T_pwm {
+    const char *pstr_key;          /* key */
+    double d_pwm;
     UT_hash_handle hh;         /* makes this structure hashable */
 };
 
-int get_pwm_struct()
+int GetPwmStruct()
 {
     //For test
-    char *url_get_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/get/";
-    char *url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";
+    char *sz_url_get_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/get/";
+    /*char *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";*/
     
-    char* str_http_response;
-    struct json_object *json_object_whole_response, *json_object_data, *json_object_pwm1, *json_object_pwm2, *json_object_pwm3, *json_object_pwm4, *json_object_update_time;
-    int tag_res;
+    char* sz_http_response;
+    struct json_object *pT_json_object_whole_response, **ppT_json_object_pwm, *pT_json_object_data, *pT_json_object_update_time;
+    int n_json_response;
+    double *pd_pwm;
+    int n_index=0;
 
-    str_http_response = http_get(url_get_pwm);
+    sz_http_response = http_get(sz_url_get_pwm);
 
-    json_object_whole_response = json_tokener_parse(str_http_response);
+    pT_json_object_whole_response = json_tokener_parse(sz_http_response);
 
-    tag_res = json_object_object_get_ex(json_object_whole_response,"data",&json_object_data);
-    tag_res = json_object_object_get_ex(json_object_data,"pwm1",&json_object_pwm1);
-    tag_res = json_object_object_get_ex(json_object_data,"pwm2",&json_object_pwm2);
-    tag_res = json_object_object_get_ex(json_object_data,"pwm3",&json_object_pwm3);
-    tag_res = json_object_object_get_ex(json_object_data,"pwm4",&json_object_pwm4);
-    tag_res = json_object_object_get_ex(json_object_data,"update_time",&json_object_update_time);
+    n_json_response = json_object_object_get_ex(pT_json_object_whole_response,"data",&pT_json_object_data);
+    n_json_response = json_object_object_get_ex(pT_json_object_data,"pwm1",ppT_json_object_pwm);
+    n_json_response = json_object_object_get_ex(pT_json_object_data,"pwm2",(ppT_json_object_pwm+1));
+    n_json_response = json_object_object_get_ex(pT_json_object_data,"pwm3",(ppT_json_object_pwm+2));
+    n_json_response = json_object_object_get_ex(pT_json_object_data,"pwm4",(ppT_json_object_pwm+3));
+    n_json_response = json_object_object_get_ex(pT_json_object_data,"update_time",&pT_json_object_update_time);
 
-    const char **index, *str_keys[] = {"pwm1", "pwm2", "pwm3", "pwm4"};
-    struct pwm_struct *s, *tmp, *users = NULL;
-    int i=0;
-
-    for (index = str_keys; *index != NULL; index++) {
-        s = (struct pwm_struct*)malloc(sizeof(struct pwm_struct));
-        if (s == NULL) {
-            exit(-1);
-        }
-        s->str_key = *index;
-        s->pwm_value = i++;
-        HASH_ADD_KEYPTR(hh, users, s->str_key, strlen(s->str_key), s );
+    n_index = 0;
+    for(n_index = 0; n_index < 4; n_index++)
+    {
+        *(pd_pwm+n_index) = json_object_get_double(*(ppT_json_object_pwm+n_index));
+        /*printf("The %i of pwm is: %f", n_index, *(pd_pwm+n_index));*/
+        printf("The index is %i, the value is %f\n", n_index, json_object_get_double(*(ppT_json_object_pwm +n_index)));
     }
 
-    HASH_FIND_STR( users, "betty", s);
-    if (s != NULL) {
-        printf("betty's pwm_value is %f\index", s->pwm_value);
-    }
+    /*const char **kppchIndex, *kstrKeys[] = {"pwm1", "pwm2", "pwm3", "pwm4"};*/
+    /*struct T_pwm *pT_tmp_pwm, *pT_handle_pwm = NULL;*/
 
-    /* free the hash table contents */
-    HASH_ITER(hh, users, s, tmp) {
-        HASH_DEL(users, s);
-        free(s);
-    }
+    /*n_index = 0;*/
+    /*for (kppchIndex = kstrKeys; *kppchIndex != NULL; kppchIndex++) {*/
+        /*pT_tmp_pwm = (struct T_pwm*)malloc(sizeof(struct T_pwm));*/
+        /*if (pT_tmp_pwm == NULL) {*/
+            /*exit(-1);*/
+        /*}*/
+        /*pT_tmp_pwm->pstr_key = *kppchIndex;*/
+        /*pT_tmp_pwm->d_pwm = *(pd_pwm + n_index);*/
+        /*n_index++;*/
+        /*HASH_ADD_KEYPTR(hh, pT_handle_pwm, pT_tmp_pwm->pstr_key, strlen(pT_tmp_pwm->pstr_key), pT_tmp_pwm);*/
+    /*}*/
+    /*HASH_FIND_STR(pT_handle_pwm, "pwm1", pT_tmp_pwm);*/
+    /*if (pT_tmp_pwm != NULL) {*/
+        /*printf("pwm1 is %f\n", pT_tmp_pwm->d_pwm);*/
+    /*}*/
+
+    /*[> free the hash table contents <]*/
+    /*HASH_ITER(hh, pT_handle_pwm, pT_tmp_pwm) {*/
+        /*HASH_DEL(pT_handle_pwm, pT_tmp_pwm);*/
+        /*free(pT_tmp_pwm);*/
+    /*}*/
     return 0;
 }
 
 int main()
 {
+    GetPwmStruct();
     return 0;
 }
