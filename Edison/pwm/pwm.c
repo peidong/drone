@@ -22,7 +22,7 @@ int main()
         }
         printf("pwm1's value is %f\n", arrd_pwm[0]);
 
-        mraa_pwm_write(pwm, arrd_pwm[0]);
+        mraa_pwm_write(pwm, (arrd_pwm[0]/100));
         usleep(50000);
         float output = mraa_pwm_read(pwm);
     }
