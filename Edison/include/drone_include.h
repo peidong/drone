@@ -85,7 +85,7 @@ double get_d_pwm(struct T_pwm *pT_pwm_all, char *sz_pwm_key)
 
 struct T_control {
     const char *pstr_key;          /* key */
-    double d_pwm;
+    double d_control;
     UT_hash_handle hh;         /* makes this structure hashable */
 };
 
@@ -127,7 +127,7 @@ struct T_control* HTTP_get_pT_control()
             exit(-1);
         }
         pT_control_selector->pstr_key = *kppchIndex;
-        pT_control_selector->d_pwm = pd_control[n_index];
+        pT_control_selector->d_control = pd_control[n_index];
         n_index++;
         HASH_ADD_KEYPTR(hh, pT_control_all, pT_control_selector->pstr_key, strlen(pT_control_selector->pstr_key), pT_control_selector);
     }
