@@ -11,9 +11,9 @@ ifeq ($(shell uname), Linux)
 	LDFLAGS += -ljson-c -lmraa
 endif
 
-objects = pwm.o
+objects = pwm.o ../include/thread/thpool.o
 pwm : $(objects)
-	$(CC) -o pwm $(objects) -lcurl $(LDFLAGS) $(CFLAGS)
+	$(CC) -o pwm $(objects) -lcurl $(LDFLAGS) $(CFLAGS) -pthread
 
 clean:
 	rm -rf pwm $(objects)

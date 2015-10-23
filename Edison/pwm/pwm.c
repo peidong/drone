@@ -9,20 +9,13 @@ int main()
     }
     mraa_pwm_period_us(pwm, 200);
     mraa_pwm_enable(pwm, 1);
-    struct T_pwm *pT_pwm_all;
-    double arrd_pwm[4];
     char *arrsz_pwm_key_name[4] = {"pwm1", "pwm2", "pwm3", "pwm4"};
     int n_index;
     while(1)
     {
-        pT_pwm_all = GetPwmStruct();
-        for(n_index = 0; n_index < 4; n_index++){
-            arrd_pwm[n_index] = GetPwmValue(pT_pwm_all, arrsz_pwm_key_name[n_index]);
-            /*printf("%s's value is %f\n", arrsz_pwm_key_name[n_index], arrd_pwm[n_index]);*/
-        }
-        printf("pwm1's value is %f\n", arrd_pwm[0]);
-
-        mraa_pwm_write(pwm, (arrd_pwm[0]/100));
+        g_pT_pwm = get_pT_pwm();
+        g_arrd_pwm[0] = get_d_pwm(g_pT_pwm, "pwm1") / 100;
+        mraa_pwm_write(pwm, (g_arrd_pwm[0]/100));
         usleep(50000);
         float output = mraa_pwm_read(pwm);
     }

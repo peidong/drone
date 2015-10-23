@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <scenes>
@@ -14,34 +13,34 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="ZAl-hS-bk7">
-                                <rect key="frame" x="18" y="100" width="296" height="31"/>
+                                <rect key="frame" x="18" y="100" width="714" height="31"/>
                                 <animations/>
                             </slider>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="G5U-RU-Gab">
-                                <rect key="frame" x="18" y="195" width="296" height="31"/>
+                                <rect key="frame" x="18" y="195" width="714" height="31"/>
                                 <animations/>
                             </slider>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="dx8-lZ-FjH">
-                                <rect key="frame" x="18" y="285" width="296" height="31"/>
+                                <rect key="frame" x="18" y="285" width="714" height="31"/>
                                 <animations/>
                             </slider>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="jwl-tF-vYe">
-                                <rect key="frame" x="21" y="384" width="293" height="31"/>
+                                <rect key="frame" x="21" y="384" width="711" height="31"/>
                                 <animations/>
                             </slider>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pGv-HD-BOE">
-                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="777" height="44"/>
                                 <animations/>
                                 <items>
                                     <navigationItem id="2WJ-bC-YmH">
                                         <nil key="title"/>
                                         <barButtonItem key="leftBarButtonItem" style="plain" id="Sx8-15-cDg">
                                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="BBm-ue-IjN">
-                                                <rect key="frame" x="16" y="7" width="92" height="30"/>
+                                                <rect key="frame" x="20" y="7" width="92" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <animations/>
                                                 <state key="normal" title="Min"/>
@@ -51,7 +50,7 @@
                                             </button>
                                         </barButtonItem>
                                         <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="owQ-vH-7T8">
-                                            <rect key="frame" x="141" y="7" width="38" height="30"/>
+                                            <rect key="frame" x="369.5" y="7" width="38" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <animations/>
                                             <state key="normal" title="med"/>
@@ -61,7 +60,7 @@
                                         </button>
                                         <barButtonItem key="rightBarButtonItem" style="plain" id="mis-KG-8Hk">
                                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Q2a-ZN-Z1M">
-                                                <rect key="frame" x="212" y="7" width="92" height="30"/>
+                                                <rect key="frame" x="665" y="7" width="92" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <animations/>
                                                 <state key="normal" title="max"/>
@@ -102,28 +101,28 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="ePd-S2-mHy">
-                                <rect key="frame" x="218" y="143" width="94" height="29"/>
+                                <rect key="frame" x="329" y="143" width="94" height="29"/>
                                 <animations/>
                                 <connections>
                                     <action selector="stepper:" destination="BYZ-38-t0r" eventType="valueChanged" id="01F-8l-8E8"/>
                                 </connections>
                             </stepper>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="RYb-5a-UYg">
-                                <rect key="frame" x="218" y="233" width="94" height="29"/>
+                                <rect key="frame" x="329" y="234" width="94" height="29"/>
                                 <animations/>
                                 <connections>
                                     <action selector="stepper2:" destination="BYZ-38-t0r" eventType="valueChanged" id="bKd-fR-l9J"/>
                                 </connections>
                             </stepper>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="hfx-pA-JpO">
-                                <rect key="frame" x="218" y="327" width="94" height="29"/>
+                                <rect key="frame" x="328" y="323" width="94" height="29"/>
                                 <animations/>
                                 <connections>
                                     <action selector="stepper3:" destination="BYZ-38-t0r" eventType="valueChanged" id="fIP-f7-eSU"/>
                                 </connections>
                             </stepper>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="klR-Yh-Lyg">
-                                <rect key="frame" x="218" y="423" width="94" height="29"/>
+                                <rect key="frame" x="328" y="422" width="94" height="29"/>
                                 <animations/>
                                 <connections>
                                     <action selector="stepper4:" destination="BYZ-38-t0r" eventType="valueChanged" id="0lZ-kL-RII"/>
@@ -165,16 +164,6 @@
                                     <action selector="changeByText:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="Y6U-sm-YaK"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DVp-St-jsw">
-                                <rect key="frame" x="96" y="478" width="216" height="70"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <size key="titleShadowOffset" width="2.2250738585072014e-308" height="0.0"/>
-                                <state key="normal" title="start sending"/>
-                                <connections>
-                                    <action selector="HandleStart:" destination="BYZ-38-t0r" eventType="touchUpInside" id="56E-gu-Gwv"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4uP-jW-bws">
                                 <rect key="frame" x="9" y="498" width="79" height="30"/>
                                 <animations/>
@@ -183,11 +172,21 @@
                                     <action selector="changeByText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OjW-O5-oY4"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DVp-St-jsw">
+                                <rect key="frame" x="514" y="477" width="216" height="70"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <size key="titleShadowOffset" width="2.2250738585072014e-308" height="0.0"/>
+                                <state key="normal" title="start sending"/>
+                                <connections>
+                                    <action selector="HandleStart:" destination="BYZ-38-t0r" eventType="touchUpInside" id="56E-gu-Gwv"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="backward" destination="aIf-oM-Z3q" id="cMG-WG-LJK"/>
                         <outlet property="forward" destination="eJ7-la-u9N" id="C2E-VP-fwW"/>
