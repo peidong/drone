@@ -14,37 +14,38 @@
 #include <stdio.h>
 #include "thpool.h"
 
-
+int globali=0;
 void task1(){
 	printf("Thread #%u working on task1\n", (int)pthread_self());
     int i;
-    for (i=1; i<1000; i++){
+    for (i=1; i<51; i++){
         printf("task1's i=%i\n", i);
+        globali += i;
     }
 }
 
 void task2(){
 	printf("Thread #%u working on task2\n", (int)pthread_self());
     int i;
-    for (i=1; i<1000; i++){
+    for (i=51; i<101; i++){
         printf("task2's i=%i\n", i);
+        globali += i;
     }
 }
 
 int main(){
 	
 	puts("Making threadpool with 4 threads");
-	threadpool thpool = thpool_init(4);
+	threadpool thpool = thpool_init(10);
 
 	puts("Adding 40 tasks to threadpool");
-	/*int i;*/
-	/*for (i=0; i<20; i++){*/
-		thpool_add_work(thpool, (void*)task1, NULL);
-		thpool_add_work(thpool, (void*)task2, NULL);
-	/*};*/
+    thpool_add_work(thpool, (void*)task1, NULL);
+    thpool_add_work(thpool, (void*)task2, NULL);
+    thpool_wait(thpool);
+    printf("\n\nGlobal i = %i\n", globali);
 
-	/*puts("Killing threadpool");*/
-	/*thpool_destroy(thpool);*/
+    puts("Killing threadpool");
+    thpool_destroy(thpool);
 	
 	return 0;
 }
