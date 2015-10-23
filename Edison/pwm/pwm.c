@@ -17,6 +17,7 @@ int main()
         g_arrd_pwm[0] = get_d_pwm(g_pT_pwm, "pwm1") / 100;
         mraa_pwm_write(pwm, (g_arrd_pwm[0]/100));
         usleep(50000);
+        printf("pwm1 = %f\n", (g_arrd_pwm[0]/100));
         float output = mraa_pwm_read(pwm);
     }
     return 0;
