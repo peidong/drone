@@ -11,10 +11,10 @@ ifeq ($(shell uname), Linux)
 	LDFLAGS += -ljson-c
 endif
 
-objects = drone_include.o
+objects = drone_include.o ./thread/thpool.o
 
 drone_include : $(objects)
-	$(CC) -o drone_include $(objects) -lcurl $(LDFLAGS) $(CFLAGS)
+	$(CC) $(objects) -pthread -lcurl $(LDFLAGS) $(CFLAGS) -o drone_include
 
 clean:
 	rm -rf drone_include $(objects)

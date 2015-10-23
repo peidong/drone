@@ -33,6 +33,23 @@ void task2(){
         globali += i;
     }
 }
+void task5(){
+	printf("Thread #%u working on task5\n", (int)pthread_self());
+    int i;
+    for (i=1; i<51; i++){
+        printf("task5's i=%i\n", i);
+        globali += i;
+    }
+}
+
+void task6(){
+	printf("Thread #%u working on task6\n", (int)pthread_self());
+    int i;
+    for (i=51; i<101; i++){
+        printf("task6's i=%i\n", i);
+        globali += i;
+    }
+}
 
 void task3(){
 	printf("Thread #%u working on task3\n", (int)pthread_self());
@@ -59,8 +76,10 @@ int main(){
 	threadpool thpool = thpool_init(10);
 
 	puts("Adding 40 tasks to threadpool");
-    thpool_add_work(thpool, (void*)task3, NULL);
-    thpool_add_work(thpool, (void*)task4, NULL);
+    thpool_add_work(thpool, (void*)task1, NULL);
+    thpool_add_work(thpool, (void*)task2, NULL);
+    thpool_add_work(thpool, (void*)task5, NULL);
+    thpool_add_work(thpool, (void*)task6, NULL);
     thpool_wait(thpool);
     printf("\n\nGlobal i = %i\n", globali);
 

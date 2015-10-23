@@ -4,6 +4,9 @@
 #include "uthash/uthash.h"
 #include "http/http.h"
 #include <json-c/json.h>
+#include "thread/thpool.h"
+#include <unistd.h>/*usleep*/
+
 
 struct T_pwm {
     const char *pstr_key;          /* key */
@@ -11,7 +14,7 @@ struct T_pwm {
     UT_hash_handle hh;         /* makes this structure hashable */
 };
 
-struct T_pwm* GetPwmStruct()
+struct T_pwm* get_pT_pwm()
 {
     char *sz_url_get_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/get/";
     /*char *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";*/
@@ -40,7 +43,7 @@ struct T_pwm* GetPwmStruct()
     }
 
     const char **kppchIndex, *kstrKeys[] = {"pwm1", "pwm2", "pwm3", "pwm4", NULL};
-    struct T_pwm *pT_pwm_selector, *pT_pwm_tmp, *pT_pwm_all = NULL;
+    struct T_pwm *pT_pwm_selector, *pT_pwm_all = NULL;
 
     n_index = 0;
     for (kppchIndex = kstrKeys; *kppchIndex != NULL; kppchIndex++) {
@@ -57,7 +60,7 @@ struct T_pwm* GetPwmStruct()
     return pT_pwm_all;
 }
 
-int FreeHashTablePwm(struct T_pwm *pT_pwm_all){
+int free_pT_pwm(struct T_pwm *pT_pwm_all){
     struct T_pwm *pT_pwm_selector, *pT_pwm_tmp;
     /* free the hash table contents */
     HASH_ITER(hh, pT_pwm_all, pT_pwm_selector, pT_pwm_tmp) {
@@ -67,7 +70,7 @@ int FreeHashTablePwm(struct T_pwm *pT_pwm_all){
     return 0;
 } 
 
-double GetPwmValue(struct T_pwm *pT_pwm_all, char *sz_pwm_key)
+double get_d_pwm(struct T_pwm *pT_pwm_all, char *sz_pwm_key)
 {
     struct T_pwm *pT_pwm_selector;
     double d_pwm;
@@ -80,11 +83,30 @@ double GetPwmValue(struct T_pwm *pT_pwm_all, char *sz_pwm_key)
     return d_pwm;
 }
 
-/*int main()*/
-/*{*/
-    /*struct T_pwm *pT_pwm_all = GetPwmStruct();*/
-    /*double d_pwm = GetPwmValue(pT_pwm_all, "pwm2");*/
-    /*printf("pwm2 = %f", d_pwm);*/
-    /*FreeHashTablePwm(pT_pwm_all);*/
-    /*return 0;*/
-/*}*/
+struct T_pwm *g_pT_pwm;
+double g_d_pwm;
+
+void ThreadTask_get_pT_pwm(){
+    while(1){
+        g_pT_pwm = get_pT_pwm();
+        usleep(50000);
+    }
+}
+void ThreadTask_get_d_pwm(){
+    while(1){
+        g_d_pwm = get_d_pwm(g_pT_pwm, "pwm2");
+        printf("pwm2 = %f\n", g_d_pwm);
+        usleep(50000);
+    }
+}
+
+int main()
+{
+    threadpool thpool = thpool_init(10);
+    thpool_add_work(thpool, (void*)ThreadTask_get_pT_pwm, NULL);
+    thpool_add_work(thpool, (void*)ThreadTask_get_d_pwm, NULL);
+    thpool_wait(thpool);
+    thpool_destroy(thpool);
+    free_pT_pwm(g_pT_pwm);
+    return 0;
+}
