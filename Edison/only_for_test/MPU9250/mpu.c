@@ -372,7 +372,7 @@ int main()
   deltat = 0.0015f;
   GyroMeasError = PI * (60.0f / 180.0f);     // gyroscope measurement error in rads/s (start at 60 deg/s), then reduce after ~10 s to 3
   beta = invSqrt(0.75) * GyroMeasError;  // compute beta
-  beta = 0.6f;
+  beta = 1.5f;
 //  GyroMeasDrift = PI * (1.0f / 180.0f);      // gyroscope measurement drift in rad/s/s (start at 0.0 deg/s/s)
 //  zeta = invSqrt(0.75) * PI * (1.0f / 180.0f);  // compute zeta, the other free parameter in the Madgwick scheme usually set to a small or zero value
 
@@ -397,9 +397,9 @@ int main()
     
 		// Magnetometer  
 		mraa_i2c_read_bytes_data(mpu, 73, Buf, 6);
-		int16_t mrawx = (Buf[1] << 8 | Buf[0])-223;// + mag_offset_x;
-		int16_t mrawy = (Buf[3] << 8 | Buf[2])-76;// + mag_offset_y;
-		int16_t mrawz = (Buf[5] << 8 | Buf[4])+186;// + mag_offset_z;
+		int16_t mrawx = (Buf[1] << 8 | Buf[0])-213;// + mag_offset_x;
+		int16_t mrawy = (Buf[3] << 8 | Buf[2])-92;// + mag_offset_y;
+		int16_t mrawz = (Buf[5] << 8 | Buf[4])+200;// + mag_offset_z;
 		int result_agm[9] = {arawx, arawy, arawz, grawx, grawy, grawz, mrawx, mrawy, mrawz};
     //usleep(3000);
 //		printf("%6d,%6d,%6d\n",grawx, grawy, grawz);
