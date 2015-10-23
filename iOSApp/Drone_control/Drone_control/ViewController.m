@@ -52,25 +52,25 @@
     currentlyStart = NO;
     
     // Do any additional setup after loading the view, typically from a nib.
-    _slider1.continuous = YES;
+    _slider1.continuous = NO;
     _slider1.value = 0.3;
     forwardData = (int)([_slider1 value] * 100);
     [_slider1 addTarget:self action:@selector(updateValue) forControlEvents:UIControlEventValueChanged];
 
     
-    _slider2.continuous = YES;
+    _slider2.continuous = NO;
     _slider2.value = 0.3;
     backwardData = (int)([_slider2 value] * 100);
     [_slider2 addTarget:self action:@selector(updateValue) forControlEvents:UIControlEventValueChanged];
 
 
-    _slider3.continuous = YES;
+    _slider3.continuous = NO;
     _slider3.value = 0.3;
     leftData = (int)([_slider3 value] * 100);
     [_slider3 addTarget:self action:@selector(updateValue) forControlEvents:UIControlEventValueChanged];
 
 
-    _slider4.continuous = YES;
+    _slider4.continuous = NO;
     _slider4.value = 0.3;
     rightData = (int)([_slider4 value] * 100);
     [_slider4 addTarget:self action:@selector(updateValue) forControlEvents:UIControlEventValueChanged];
