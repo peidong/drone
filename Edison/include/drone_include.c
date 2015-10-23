@@ -84,19 +84,27 @@ double get_d_pwm(struct T_pwm *pT_pwm_all, char *sz_pwm_key)
 }
 
 struct T_pwm *g_pT_pwm;
-double g_d_pwm;
+double g_arrd_pwm[4];
 
 void ThreadTask_get_pT_pwm(){
     while(1){
         g_pT_pwm = get_pT_pwm();
-        usleep(50000);
+        usleep(100000);
     }
 }
-void ThreadTask_get_d_pwm(){
+
+void ThreadTask_get_arrd_pwm(){
     while(1){
-        g_d_pwm = get_d_pwm(g_pT_pwm, "pwm2");
-        printf("pwm2 = %f\n", g_d_pwm);
-        usleep(50000);
+        g_arrd_pwm[0] = get_d_pwm(g_pT_pwm, "pwm1") / 100;
+        g_arrd_pwm[1] = get_d_pwm(g_pT_pwm, "pwm2") / 100;
+        g_arrd_pwm[2] = get_d_pwm(g_pT_pwm, "pwm3") / 100;
+        g_arrd_pwm[3] = get_d_pwm(g_pT_pwm, "pwm4") / 100;
+        printf("pwm1 = %f\n", g_arrd_pwm[0]);
+        printf("pwm2 = %f\n", g_arrd_pwm[1]);
+        printf("pwm3 = %f\n", g_arrd_pwm[2]);
+        printf("pwm4 = %f\n", g_arrd_pwm[3]);
+        printf("\n");
+        usleep(100000);
     }
 }
 
@@ -104,7 +112,7 @@ int main()
 {
     threadpool thpool = thpool_init(10);
     thpool_add_work(thpool, (void*)ThreadTask_get_pT_pwm, NULL);
-    thpool_add_work(thpool, (void*)ThreadTask_get_d_pwm, NULL);
+    thpool_add_work(thpool, (void*)ThreadTask_get_arrd_pwm, NULL);
     thpool_wait(thpool);
     thpool_destroy(thpool);
     free_pT_pwm(g_pT_pwm);
