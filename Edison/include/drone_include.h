@@ -14,7 +14,7 @@ struct T_pwm {
     UT_hash_handle hh;         /* makes this structure hashable */
 };
 
-struct T_pwm* get_pT_pwm()
+struct T_pwm* HTTP_get_pT_pwm()
 {
     char *sz_url_get_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/get/";
     /*char *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";*/
@@ -88,7 +88,7 @@ double g_arrd_pwm[4];
 
 void ThreadTask_get_pT_pwm(){
     while(1){
-        g_pT_pwm = get_pT_pwm();
+        g_pT_pwm = HTTP_get_pT_pwm();
         usleep(50000);
     }
 }
@@ -106,6 +106,18 @@ void ThreadTask_get_arrd_pwm(){
         printf("\n");
         usleep(50000);
     }
+}
+
+void ThreadTask_Pid(){
+}
+
+void ThreadTask_update_yaw_pitch_roll(){
+}
+
+void ThreadTask_update_ultrasound(){
+}
+
+void ThreadTask_HTTP_get_control(){
 }
 
 int main()
