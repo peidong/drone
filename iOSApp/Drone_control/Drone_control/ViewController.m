@@ -89,7 +89,8 @@
   _sliders = @[_slider1, _slider2, _slider3, _slider4];
 }
 -(void)updateValue{
-    forwardData = (int)([_slider1 value] * 100);
+    
+    forwardData = (int)(_slider1.value * 100);
     backwardData = (int)([_slider2 value] * 100);
     leftData = (int)([_slider3 value] * 100);
     rightData = (int)([_slider4 value] * 100);
@@ -139,20 +140,20 @@
 
 //setup stepper action
 - (IBAction)stepper:(id)sender {
-    _slider1.value = _stepper1.value*0.01;
+    _slider1.value = _slider1.value+0.01;
     [self updateValue];
 }
 - (IBAction)stepper2:(id)sender {
-    _slider2.value = _stepper2.value*0.01;
+    _slider2.value = _slider2.value+0.01;
     [self updateValue];
 }
 - (IBAction)stepper3:(id)sender {
-    _slider3.value = _stepper3.value*0.01;
+    _slider3.value = _slider3.value+0.01;
     [self updateValue];
 }
 
 - (IBAction)stepper4:(id)sender {
-    _slider4.value = _stepper4.value*0.01;
+    _slider4.value = _slider4.value+0.01;
     [self updateValue];
 }
 
