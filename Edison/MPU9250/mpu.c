@@ -448,7 +448,7 @@ int main()
     
     
 //    printf("%f,%f,%f,%f\n",SEq_1,SEq_2,SEq_3,SEq_4);
-    sample+=1;
+    /*sample+=1;*/
 //    printf("%8.6f,%8.6f,%8.6f,%8.6f,%8.6f,%8.6f,%8.6f,%8.6f,%8.6f\n",ax,ay,az,gx,gy,gz,mx,my,mz);
    // printf("%d,%d,%d\n",mrawx,mrawy,mrawz);
 	}
