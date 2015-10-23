@@ -89,7 +89,7 @@ double g_arrd_pwm[4];
 void ThreadTask_get_pT_pwm(){
     while(1){
         g_pT_pwm = get_pT_pwm();
-        usleep(100000);
+        usleep(50000);
     }
 }
 
@@ -104,7 +104,7 @@ void ThreadTask_get_arrd_pwm(){
         printf("pwm3 = %f\n", g_arrd_pwm[2]);
         printf("pwm4 = %f\n", g_arrd_pwm[3]);
         printf("\n");
-        usleep(100000);
+        usleep(50000);
     }
 }
 
