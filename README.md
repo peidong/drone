@@ -32,3 +32,14 @@ And next time, simply do this to git push
 And write this following line at the bottom of the file
 
         export LD_LIBRARY_PATH=/usr/local/lib
+
+###Install libraries
+#####[json-c library](https://github.com/json-c/json-c)
+
+        git clone https://github.com/json-c/json-c.git
+        cd json-c
+        sh autogen.sh
+        ./configure
+        make
+        make install
+        make check
