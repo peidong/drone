@@ -18,8 +18,9 @@ int main()
         pT_pwm_all = GetPwmStruct();
         for(n_index = 0; n_index < 4; n_index++){
             arrd_pwm[n_index] = GetPwmValue(pT_pwm_all, arrsz_pwm_key_name[n_index]);
-            printf("%s's value is %f\n", arrsz_pwm_key_name[n_index], arrd_pwm[n_index]);
+            /*printf("%s's value is %f\n", arrsz_pwm_key_name[n_index], arrd_pwm[n_index]);*/
         }
+        printf("pwm1's value is %f\n", arrd_pwm[0]);
 
         mraa_pwm_write(pwm, arrd_pwm[0]);
         usleep(50000);
