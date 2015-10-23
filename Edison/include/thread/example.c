@@ -17,13 +17,19 @@
 
 void task1(){
 	printf("Thread #%u working on task1\n", (int)pthread_self());
+    int i;
+    for (i=1; i<1000; i++){
+        printf("task1's i=%i\n", i);
+    }
 }
-
 
 void task2(){
 	printf("Thread #%u working on task2\n", (int)pthread_self());
+    int i;
+    for (i=1; i<1000; i++){
+        printf("task2's i=%i\n", i);
+    }
 }
-
 
 int main(){
 	
@@ -31,14 +37,14 @@ int main(){
 	threadpool thpool = thpool_init(4);
 
 	puts("Adding 40 tasks to threadpool");
-	int i;
-	for (i=0; i<20; i++){
+	/*int i;*/
+	/*for (i=0; i<20; i++){*/
 		thpool_add_work(thpool, (void*)task1, NULL);
 		thpool_add_work(thpool, (void*)task2, NULL);
-	};
+	/*};*/
 
-	puts("Killing threadpool");
-	thpool_destroy(thpool);
+	/*puts("Killing threadpool");*/
+	/*thpool_destroy(thpool);*/
 	
 	return 0;
 }

@@ -14,7 +14,7 @@ endif
 objects = example.o thpool.o
 
 example : $(objects)
-	$(CC) -o example $(objects) -pthread
+	$(CC) $(objects) -pthread -o example 
 
 clean:
 	rm -rf example $(objects)
