@@ -165,6 +165,13 @@ int get_n_ultrasound(int n_ultrasound_position){
     return 0;
 }
 
+/**
+ * update the global value of g_arrd_yaw_pitch_roll
+ */
+void update_gd_yaw_pitch_roll(){
+    //update the value of g_arrd_yaw_pitch_roll[3]
+}
+
 struct T_pwm *g_pT_pwm;
 double g_arrd_pwm[4];
 struct T_control *g_pT_control;
