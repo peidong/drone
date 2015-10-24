@@ -160,6 +160,10 @@ double get_d_control(struct T_control *pT_control_all, char *sz_control_key)
 
 struct T_pwm *g_pT_pwm;
 double g_arrd_pwm[4];
+struct T_control *g_pT_control;
+double g_arrd_control[4];
+int g_arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
+double g_arrd_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
 
 void ThreadTask_HTTP_get_pT_pwm(){
     while(1){
