@@ -158,6 +158,13 @@ double get_d_control(struct T_control *pT_control_all, char *sz_control_key)
     return d_control;
 }
 
+/**
+ * n_ultrasound_position 0:up 1:down 2:left 3:right 4:forward 5:backward
+ */
+int get_n_ultrasound(int n_ultrasound_position){
+    return 0;
+}
+
 struct T_pwm *g_pT_pwm;
 double g_arrd_pwm[4];
 struct T_control *g_pT_control;
@@ -194,6 +201,12 @@ void ThreadTask_update_yaw_pitch_roll(){
 }
 
 void ThreadTask_update_ultrasound(){
+    int n_index;
+    while(1){
+        for(n_index=0;n_index<=5;n++){
+            g_arrn_ultrasound[n_index]=get_n_ultrasound(n_index);
+        }
+    }
 }
 
 void ThreadTask_HTTP_get_control(){
