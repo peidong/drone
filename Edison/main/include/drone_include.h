@@ -8,7 +8,7 @@
 #include <unistd.h>/*usleep*/
 
 #include "mpu9250/mpu9250.h"  //include pid file 
-#include "Pid/Pid.h"  //include pid file 
+#include "Pid/Pid.h"  //include pid file .c 
 
 struct T_pwm *g_pT_pwm;
 double g_arrd_pwm[4];
@@ -175,13 +175,6 @@ int get_n_ultrasound(int n_ultrasound_position){
     return 0;
 }
 
-/**
- * update the global value of g_arrd_yaw_pitch_roll
- */
-void update_gd_yaw_pitch_roll(){
-    //update the value of g_arrd_yaw_pitch_roll[3]    
-}
-
 void ThreadTask_HTTP_get_pT_pwm(){
     while(1){
         g_pT_pwm = HTTP_get_pT_pwm();
@@ -244,7 +237,7 @@ void ThreadTask_Pid(){
 void ThreadTask_update_ultrasound(){
     int n_index;
     while(1){
-        for(n_index=0;n_index<=5;n++){
+        for(n_index=0;n_index<=5;n_index++){
             g_arrn_ultrasound[n_index]=get_n_ultrasound(n_index);
         }
     }
