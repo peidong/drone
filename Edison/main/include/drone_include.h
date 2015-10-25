@@ -169,10 +169,9 @@ double get_d_control(struct T_control *pT_control_all, char *sz_control_key)
 }
 
 /**
- * n_ultrasound_position 0:up 1:down 2:left 3:right 4:forward 5:backward
+ * 0:up 1:down 2:left 3:right 4:forward 5:backward
  */
-int get_n_ultrasound(int n_ultrasound_position){
-    return 0;
+void update_g_arrn_ultrasound(){
 }
 
 void ThreadTask_HTTP_get_pT_pwm(){
@@ -222,7 +221,7 @@ void ThreadTask_Pid(){
     Pid_SetSetPoint(pidData_roll, 0);
 
 
-    while (1){
+    while(1){
         Pid_Run(pidData_yaw, g_arrd_yaw_pitch_roll[0]);
         g_arrd_Pid_yaw_pitch_roll[0] = pidData_yaw->output;
 
@@ -235,19 +234,14 @@ void ThreadTask_Pid(){
 }
 
 void ThreadTask_update_ultrasound(){
-    int n_index;
     while(1){
-        for(n_index=0;n_index<=5;n_index++){
-            g_arrn_ultrasound[n_index]=get_n_ultrasound(n_index);
-        }
+        update_g_arrn_ultrasound();
     }
-
-
-
 }
 
 void ThreadTask_update_yaw_pitch_roll(){
 	update_gd_yaw_pitch_roll();
+    //not work
 }
 
 void ThreadTask_HTTP_get_control(){
