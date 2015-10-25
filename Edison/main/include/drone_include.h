@@ -176,7 +176,6 @@ void update_g_arrn_ultrasound(){
 
 void update_g_arrd_yaw_pitch_roll()
 {
-
 	MPU_init();
 	while (1)
 	{
@@ -198,10 +197,9 @@ void update_g_arrd_yaw_pitch_roll()
 		int16_t mrawz = (Buf[5] << 8 | Buf[4]);//+200;// + mag_offset_z;
 		int result_agm[9] = { arawx, arawy, arawz, grawx, grawy, grawz, mrawx, mrawy, mrawz };
 
-
 		//		printf("%6d,%6d,%6d\n",arawx, arawy, arawz);
-
 		//		printf("%6d,%6d,%6d\n",grawx, grawy, grawz);    
+
 		float ax = (float)arawx*aRes;
 		float ay = (float)arawy*aRes;
 		float az = (float)arawz*aRes;
@@ -234,9 +232,7 @@ void update_g_arrd_yaw_pitch_roll()
 		g_arrd_yaw_pitch_roll[2] = roll;
 		//    printf("%.1f, %.1f, %.1f\n",yaw, pitch, roll);
 	}
-
 }
-
 
 void ThreadTask_HTTP_get_pT_pwm(){
     while(1){
@@ -284,7 +280,6 @@ void ThreadTask_Pid(){
     Pid_Init(pidData_roll, kp, ki, kd, controllerDir, samplePeriodMs);
     Pid_SetSetPoint(pidData_roll, 0);
 
-
     while(1){
         Pid_Run(pidData_yaw, g_arrd_yaw_pitch_roll[0]);
         g_arrd_Pid_yaw_pitch_roll[0] = pidData_yaw->output;
@@ -307,7 +302,6 @@ void ThreadTask_update_ultrasound(){
 
 void ThreadTask_update_yaw_pitch_roll(){
 	update_g_arrd_yaw_pitch_roll();
-    //not work
 }
 
 void ThreadTask_HTTP_get_control(){
