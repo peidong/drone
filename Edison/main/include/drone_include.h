@@ -174,8 +174,71 @@ double get_d_control(struct T_control *pT_control_all, char *sz_control_key)
 void update_g_arrn_ultrasound(){
 }
 
-void update_g_arrd_yaw_pitch_roll(){
+void update_g_arrd_yaw_pitch_roll()
+{
+
+	MPU_init();
+	int sample = 0;
+	int i, j;
+	while (1)
+	{
+		uint8_t Buf[14];
+		mraa_i2c_read_bytes_data(mpu, 59, Buf, 14);
+		// Accelerometer
+		int16_t arawx = -(Buf[0] << 8 | Buf[1]) - 170;
+		int16_t arawy = -(Buf[2] << 8 | Buf[3]) + 600;
+		int16_t arawz = Buf[4] << 8 | Buf[5];
+		// Gyroscope
+		int16_t grawx = (Buf[8] << 8 | Buf[9]) - 25;
+		int16_t grawy = (Buf[10] << 8 | Buf[11]) - 2;
+		int16_t grawz = (Buf[12] << 8 | Buf[13]) + 9;
+
+		// Magnetometer  
+		mraa_i2c_read_bytes_data(mpu, 73, Buf, 6);
+		int16_t mrawx = (Buf[1] << 8 | Buf[0]);//-213;// + mag_offset_x;
+		int16_t mrawy = (Buf[3] << 8 | Buf[2]);//-92;// + mag_offset_y;
+		int16_t mrawz = (Buf[5] << 8 | Buf[4]);//+200;// + mag_offset_z;
+		int result_agm[9] = { arawx, arawy, arawz, grawx, grawy, grawz, mrawx, mrawy, mrawz };
+
+
+		//		printf("%6d,%6d,%6d\n",arawx, arawy, arawz);
+
+		//		printf("%6d,%6d,%6d\n",grawx, grawy, grawz);    
+		float ax = (float)arawx*aRes;
+		float ay = (float)arawy*aRes;
+		float az = (float)arawz*aRes;
+		float gx = (float)grawx*gRes;
+		float gy = (float)grawy*gRes;
+		float gz = (float)grawz*gRes;
+		float mx = (float)mrawx*mRes*magCalibration[0] - 406;  // get actual magnetometer value, this depends on scale being set
+		float my = (float)mrawy*mRes*magCalibration[1] - 95;
+		float mz = (float)mrawz*mRes*magCalibration[2] + 370;
+		//    printf("%.1f,%.1f,%.1f\n",mx,my,mz);
+
+		//    MadgwickQuaternionUpdate(ax,ay,az,gx*PI/180.0f,gy*PI/180.0f,gz*PI/180.0f,my,mx,mz);
+		MadgwickAHRSupdate(ax, ay, az, gx*PI / 180.0f, gy*PI / 180.0f, gz*PI / 180.0f, my, mx, mz); //my, mx, mz
+		q[0] = q0; q[1] = q1; q[2] = q2; q[3] = q3;
+		float yaw = atan2(2.0f * (q[1] * q[2] + q[0] * q[3]), q[0] * q[0] + q[1] * q[1] - q[2] * q[2] - q[3] * q[3]);
+		float pitch = -asin(2.0f * (q[1] * q[3] - q[0] * q[2]));
+		float roll = atan2(2.0f * (q[0] * q[1] + q[2] * q[3]), q[0] * q[0] - q[1] * q[1] - q[2] * q[2] + q[3] * q[3]);
+		yaw *= 180.0f / PI;
+		pitch *= 180.0f / PI;
+		roll *= 180.0f / PI;
+
+		if (yaw<0) yaw += 360;
+
+		//    yaw   -= 13.8; // Declination at Danville, California is 13 degrees 48 minutes and 47 seconds on 2014-04-04
+		//    pitch -= 0.5;
+		//    roll -= 1.9;
+
+		g_arrd_yaw_pitch_roll[0] = yaw;
+		g_arrd_yaw_pitch_roll[1] = pitch;
+		g_arrd_yaw_pitch_roll[2] = roll;
+		//    printf("%.1f, %.1f, %.1f\n",yaw, pitch, roll);
+	}
+
 }
+
 
 void ThreadTask_HTTP_get_pT_pwm(){
     while(1){
@@ -245,7 +308,7 @@ void ThreadTask_update_ultrasound(){
 }
 
 void ThreadTask_update_yaw_pitch_roll(){
-	update_gd_yaw_pitch_roll();
+	update_g_arrd_yaw_pitch_roll();
     //not work
 }
 
