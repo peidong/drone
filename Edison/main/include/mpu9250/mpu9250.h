@@ -1,4 +1,4 @@
-#include <stdio.h> 
+#include <stdio.h>
 #include <unistd.h>
 #include <mraa.h>
 #include <math.h>
