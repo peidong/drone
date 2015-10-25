@@ -174,6 +174,9 @@ double get_d_control(struct T_control *pT_control_all, char *sz_control_key)
 void update_g_arrn_ultrasound(){
 }
 
+void update_g_arrd_yaw_pitch_roll(){
+}
+
 void ThreadTask_HTTP_get_pT_pwm(){
     while(1){
         g_pT_pwm = HTTP_get_pT_pwm();
