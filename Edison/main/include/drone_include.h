@@ -7,7 +7,7 @@
 #include "thread/thpool.h" /*https://github.com/Pithikos/C-Thread-Pool*/
 #include <unistd.h>/*usleep*/
 
-
+#include "mpu9250/mpu9250.h"  //include pid file 
 #include "Pid/Pid.h"  //include pid file 
 
 struct T_pwm *g_pT_pwm;
@@ -230,13 +230,13 @@ void ThreadTask_Pid(){
 
 
     while (1){
-        Pid_Run(pidData_yaw, g_arrd_yaw_pitch_roll[2]);
+        Pid_Run(pidData_yaw, g_arrd_yaw_pitch_roll[0]);
         g_arrd_Pid_yaw_pitch_roll[0] = pidData_yaw->output;
 
         Pid_Run(pidData_pitch, g_arrd_yaw_pitch_roll[1]);
         g_arrd_Pid_yaw_pitch_roll[1] = pidData_pitch->output;
 
-        Pid_Run(pidData_roll, g_arrd_yaw_pitch_roll[0]);
+        Pid_Run(pidData_roll, g_arrd_yaw_pitch_roll[2]);
         g_arrd_Pid_yaw_pitch_roll[2] = pidData_roll->output;
     }
 }
@@ -254,7 +254,7 @@ void ThreadTask_update_ultrasound(){
 }
 
 void ThreadTask_update_yaw_pitch_roll(){
-   
+	update_gd_yaw_pitch_roll();
 }
 
 void ThreadTask_HTTP_get_control(){
