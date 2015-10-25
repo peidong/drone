@@ -8,7 +8,7 @@
 #include <unistd.h>/*usleep*/
 
 
-#include "Pid.h"  //include pid file 
+#include "Pid/Pid.h"  //include pid file 
 
 struct T_pwm {
     const char *pstr_key;          /* key */
@@ -212,6 +212,17 @@ void ThreadTask_Pid(){
 }
 
 void ThreadTask_update_yaw_pitch_roll(){
+    pidData_t *pidData;
+	double kp, ki, kd;
+    double yawPid, pitchPid, rollPid;
+	ctrlDir_t controllerDir;
+	uint32_t samplePeriodMs;
+    Pid_SetSetPoint(pidData, 0);
+    Pid_Init(pidData, kp, ki, kd, controllerDir, samplePeriodMs);
+    yawPid = Pid_Run(pidData, double input);
+    pitchPid = Pid_Run(pidData, double input);
+    rollPid = Pid_Run(PidData, double input);
+
 }
 
 void ThreadTask_update_ultrasound(){
