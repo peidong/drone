@@ -8,3 +8,9 @@ iOSApp/.DS_Store
 iOSApp/Drone_control/.DS_Store
 
 .DS_Store
+
+*.swp
+
+*.pyc
+
+*.pyc
