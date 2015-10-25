@@ -8,7 +8,7 @@
 #include <unistd.h>/*usleep*/
 
 #include "mpu9250/mpu9250.h"  //include pid file 
-#include "Pid/Pid.h"  //include pid file .c 
+#include "pid/pid.h"  //include pid file .c 
 
 struct T_pwm *g_pT_pwm;
 double g_arrd_pwm[4];
