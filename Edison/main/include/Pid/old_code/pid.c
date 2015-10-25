@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Pid.h"
+#include "pid.h"
 
 void Pid_Init(
 	pidData_t *pidData,

@@ -11,7 +11,7 @@ ifeq ($(shell uname), Linux)
 	LDFLAGS += -ljson-c -lmraa -lm
 endif
 
-objects = drone_main.o ./include/thread/thpool.o
+objects = drone_main.o
 
 drone_main : $(objects)
 	$(CC) $(objects) -pthread -lcurl $(LDFLAGS) $(CFLAGS) -o drone_main
