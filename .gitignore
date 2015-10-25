@@ -14,3 +14,7 @@ iOSApp/Drone_control/.DS_Store
 *.pyc
 
 *.pyc
+
+*.h
+
+*.c

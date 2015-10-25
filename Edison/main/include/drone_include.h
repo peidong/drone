@@ -10,6 +10,14 @@
 
 #include "Pid/Pid.h"  //include pid file 
 
+struct T_pwm *g_pT_pwm;
+double g_arrd_pwm[4];
+struct T_control *g_pT_control;
+double g_arrd_control[4];
+int g_arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
+double g_arrd_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
+double g_arrd_Pid_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
+
 struct T_pwm {
     const char *pstr_key;          /* key */
     double d_pwm;
@@ -171,15 +179,8 @@ int get_n_ultrasound(int n_ultrasound_position){
  * update the global value of g_arrd_yaw_pitch_roll
  */
 void update_gd_yaw_pitch_roll(){
-    //update the value of g_arrd_yaw_pitch_roll[3]
+    //update the value of g_arrd_yaw_pitch_roll[3]    
 }
-
-struct T_pwm *g_pT_pwm;
-double g_arrd_pwm[4];
-struct T_control *g_pT_control;
-double g_arrd_control[4];
-int g_arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
-double g_arrd_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
 
 void ThreadTask_HTTP_get_pT_pwm(){
     while(1){
@@ -205,24 +206,39 @@ void ThreadTask_get_arrd_pwm(){
 
 void ThreadTask_Pid(){
 
-
-
-
-
-}
-
-void ThreadTask_update_yaw_pitch_roll(){
-    pidData_t *pidData;
+    pidData_t *pidData_yaw,*pidData_pitch,*pidData_roll;
+    pidData_yaw = (pidData_t*) malloc(sizeof(pidData_t));
+    pidData_pitch = (pidData_t*) malloc(sizeof(pidData_t));
+    pidData_roll = (pidData_t*) malloc(sizeof(pidData_t));
+    
 	double kp, ki, kd;
-    double yawPid, pitchPid, rollPid;
 	ctrlDir_t controllerDir;
 	uint32_t samplePeriodMs;
-    Pid_SetSetPoint(pidData, 0);
-    Pid_Init(pidData, kp, ki, kd, controllerDir, samplePeriodMs);
-    yawPid = Pid_Run(pidData, double input);
-    pitchPid = Pid_Run(pidData, double input);
-    rollPid = Pid_Run(PidData, double input);
 
+    kp = 0;     // these three need to be tuning
+    ki = 0;
+    kd = 0;
+    samplePeriodMs = 20; //need to be setup
+    controllerDir = PID_DIRECT; //Direct control not reverse.
+
+    Pid_Init(pidData_yaw, kp, ki, kd, controllerDir, samplePeriodMs);
+    Pid_SetSetPoint(pidData_yaw, 0);
+    Pid_Init(pidData_pitch, kp, ki, kd, controllerDir, samplePeriodMs);
+    Pid_SetSetPoint(pidData_pitch, 0);
+    Pid_Init(pidData_roll, kp, ki, kd, controllerDir, samplePeriodMs);
+    Pid_SetSetPoint(pidData_roll, 0);
+
+
+    while (1){
+        Pid_Run(pidData_yaw, g_arrd_yaw_pitch_roll[2]);
+        g_arrd_Pid_yaw_pitch_roll[0] = pidData_yaw->output;
+
+        Pid_Run(pidData_pitch, g_arrd_yaw_pitch_roll[1]);
+        g_arrd_Pid_yaw_pitch_roll[1] = pidData_pitch->output;
+
+        Pid_Run(pidData_roll, g_arrd_yaw_pitch_roll[0]);
+        g_arrd_Pid_yaw_pitch_roll[2] = pidData_roll->output;
+    }
 }
 
 void ThreadTask_update_ultrasound(){
@@ -232,6 +248,13 @@ void ThreadTask_update_ultrasound(){
             g_arrn_ultrasound[n_index]=get_n_ultrasound(n_index);
         }
     }
+
+
+
+}
+
+void ThreadTask_update_yaw_pitch_roll(){
+   
 }
 
 void ThreadTask_HTTP_get_control(){
