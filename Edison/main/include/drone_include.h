@@ -9,6 +9,7 @@
 
 #include "mpu9250/mpu9250.h"  //include pid file    
 #include "pid/pid.h"  //include pid file
+#include "timer/timer.h" //timer
 
 struct T_pwm *g_pT_pwm;
 double g_arrd_pwm[4];
@@ -17,6 +18,7 @@ double g_arrd_control[4];
 int g_arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
 double g_arrd_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
 double g_arrd_Pid_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
+time_t g_T_timer;
 
 struct T_pwm {
     const char *pstr_key;          /* key */
@@ -179,6 +181,8 @@ void update_g_arrd_yaw_pitch_roll()
 	MPU_init();
 	while (1)
 	{
+        printf("Timer started\n");
+        timer_start(&g_T_timer);
 		uint8_t Buf[14];
 		mraa_i2c_read_bytes_data(mpu, 59, Buf, 14);
 		// Accelerometer
@@ -231,6 +235,9 @@ void update_g_arrd_yaw_pitch_roll()
 		g_arrd_yaw_pitch_roll[1] = pitch;
 		g_arrd_yaw_pitch_roll[2] = roll;
 		//    printf("%.1f, %.1f, %.1f\n",yaw, pitch, roll);
+        timer_pause(&g_T_timer);
+        printf("Delta (us): %ld\n", timer_delta_us(&g_T_timer));
+        printf("Delta (ms): %ld\n", timer_delta_ms(&g_T_timer));
 	}
 }
 
