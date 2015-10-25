@@ -8,7 +8,7 @@
 #include <unistd.h>/*usleep*/
 
 #include "mpu9250/mpu9250.h"  //include pid file    
-#include "pid/pid.h"  //include pid file .c 
+#include "pid/pid.h"  //include pid file
 
 struct T_pwm *g_pT_pwm;
 double g_arrd_pwm[4];
@@ -178,8 +178,6 @@ void update_g_arrd_yaw_pitch_roll()
 {
 
 	MPU_init();
-	int sample = 0;
-	int i, j;
 	while (1)
 	{
 		uint8_t Buf[14];
