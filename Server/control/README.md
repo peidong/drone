@@ -4,6 +4,8 @@
 
 Database: edison, table: control
 
+#####mac_address
+
 #####control_type
 
 - 1: automatic
@@ -28,3 +30,11 @@ Database: edison, table: control
 - 8: clockwiseRotate
 - 9: anticlockwiseRotate
 - 10: stop
+
+#####suspend_pwm1
+
+#####suspend_pwm2
+
+#####suspend_pwm3
+
+#####suspend_pwm4

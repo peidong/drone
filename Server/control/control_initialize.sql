@@ -7,6 +7,10 @@ CREATE TABLE IF NOT EXISTS edison.control (
     `control_type` int(11) DEFAULT 0,
     `auto_control_command` int(11) DEFAULT 0,
     `manual_control_command` int(11) DEFAULT 0,
+    `suspend_pwm1` double(5,2) DEFAULT 0.0,
+    `suspend_pwm2` double(5,2) DEFAULT 0.0,
+    `suspend_pwm3` double(5,2) DEFAULT 0.0,
+    `suspend_pwm4` double(5,2) DEFAULT 0.0,
     `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
     ) ENGINE = InnoDB;
 
