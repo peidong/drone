@@ -4,7 +4,7 @@
     // start the session
     session_start();
 
-    $mac_address = $_GET['mac_address'];
+    $mac_address = $_POST['mac_address'];
     $control_type = $_POST['control_type'];
     $auto_control_command = $_POST['auto_control_command'];
     $manual_control_command = $_POST['manual_control_command'];
@@ -13,6 +13,8 @@
     $suspend_pwm3 = $_POST['suspend_pwm3'];
     $suspend_pwm4 = $_POST['suspend_pwm4'];
 
+    // close the session
+    session_write_close();
 
     $conn = mysql_connect('localhost', 'webmaster', '');
     mysql_select_db('control', $conn);
@@ -47,9 +49,6 @@
     $response['suspend_pwm3'] = $suspend_pwm3;
     $response['suspend_pwm4'] = $suspend_pwm4;
     $response['update_time'] = $update_time;
-
-    // close the session
-    session_write_close();
 
     deliver_response(200, "The control commands have been updated", $response);
 
