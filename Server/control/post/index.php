@@ -13,15 +13,13 @@
     $suspend_pwm3 = $_POST['suspend_pwm3'];
     $suspend_pwm4 = $_POST['suspend_pwm4'];
 
-    // close the session
-    session_write_close();
 
     $conn = mysql_connect('localhost', 'webmaster', '');
     mysql_select_db('control', $conn);
     
     $query = "UPDATE control
         SET control_type = '$control_type', auto_control_command = '$auto_control_command', manual_control_command = '$manual_control_command', suspend_pwm1 = '$suspend_pwm1', suspend_pwm2 = '$suspend_pwm2', suspend_pwm3 = '$suspend_pwm3', suspend_pwm4 = '$suspend_pwm4', update_time = now()
-        WHERE id = '1'";
+        WHERE mac_address = '$mac_address'";
 
     $result = mysql_query($query);
 
@@ -49,6 +47,9 @@
     $response['suspend_pwm3'] = $suspend_pwm3;
     $response['suspend_pwm4'] = $suspend_pwm4;
     $response['update_time'] = $update_time;
+
+    // close the session
+    session_write_close();
 
     deliver_response(200, "The control commands have been updated", $response);
 
