@@ -22,6 +22,7 @@
     $query = "UPDATE control
         SET control_type = '$control_type', auto_control_command = '$auto_control_command', manual_control_command = '$manual_control_command', suspend_pwm1 = '$suspend_pwm1', suspend_pwm2 = '$suspend_pwm2', suspend_pwm3 = '$suspend_pwm3', suspend_pwm4 = '$suspend_pwm4', update_time = now()
         WHERE mac_address = '$mac_address'";
+    print_r($mac_address);
 
     $result = mysql_query($query);
 
