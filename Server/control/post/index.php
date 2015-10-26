@@ -4,7 +4,7 @@
     // start the session
     session_start();
 
-    $mac_address = $_POST['mac_address'];
+    $mac_address = $_GET['mac_address'];
     $control_type = $_POST['control_type'];
     $auto_control_command = $_POST['auto_control_command'];
     $manual_control_command = $_POST['manual_control_command'];
