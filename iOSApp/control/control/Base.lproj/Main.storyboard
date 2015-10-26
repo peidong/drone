@@ -78,7 +78,7 @@
                                 <state key="normal" title="stop"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZgA-nL-5VG">
-                                <rect key="frame" x="23" y="524" width="54" height="30"/>
+                                <rect key="frame" x="23" y="555" width="54" height="30"/>
                                 <state key="normal" title="StartFly"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iVv-t5-cbR">
@@ -97,39 +97,67 @@
                                 <rect key="frame" x="196" y="428" width="30" height="30"/>
                                 <state key="normal" title="4"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EzM-XZ-x0v">
-                                <rect key="frame" x="218" y="584" width="96" height="48"/>
-                                <state key="normal" title="Manual"/>
-                            </button>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VyQ-HI-e0v">
-                                <rect key="frame" x="103" y="523" width="51" height="31"/>
+                                <rect key="frame" x="103" y="554" width="51" height="31"/>
                             </switch>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3j3-iC-a1k">
-                                <rect key="frame" x="299" y="523" width="51" height="31"/>
+                                <rect key="frame" x="306" y="554" width="51" height="31"/>
                             </switch>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vjs-PJ-rbb">
                                 <rect key="frame" x="64" y="367" width="97" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="changeByText:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="3te-jR-fm1"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uXG-kJ-VBx">
                                 <rect key="frame" x="231" y="367" width="97" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="changeByText:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="nMG-zz-D0s"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="u93-CX-gQY">
                                 <rect key="frame" x="64" y="429" width="97" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="changeByText:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="dx8-31-Cl5"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="o9l-fg-WHf">
                                 <rect key="frame" x="231" y="430" width="97" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="changeByText:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="3m2-4Q-SZA"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dnj-xq-zaj">
-                                <rect key="frame" x="239" y="523" width="39" height="30"/>
+                                <rect key="frame" x="240" y="554" width="39" height="30"/>
                                 <state key="normal" title="Learn"/>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bh5-m8-mq5">
+                                <rect key="frame" x="163" y="478" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5vI-AS-IVG">
+                                <rect key="frame" x="57" y="478" width="90" height="30"/>
+                                <state key="normal" title="Mac Address"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="il4-Ne-JZE">
+                                <rect key="frame" x="258" y="516" width="56" height="30"/>
+                                <state key="normal" title="change!"/>
+                                <connections>
+                                    <action selector="sendPWM:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kKa-Yd-0yj"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EzM-XZ-x0v">
+                                <rect key="frame" x="271" y="301" width="96" height="48"/>
+                                <state key="normal" title="Manual"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -142,6 +170,7 @@
                         <outlet property="down" destination="WYj-ng-WP7" id="rJV-KK-n9a"/>
                         <outlet property="forward" destination="P12-zN-gbp" id="23y-zI-qev"/>
                         <outlet property="left" destination="1eH-6H-hVV" id="E3S-dg-LvG"/>
+                        <outlet property="mac_add" destination="bh5-m8-mq5" id="5Oj-YO-kfV"/>
                         <outlet property="pwm1" destination="Vjs-PJ-rbb" id="jGx-uG-FV9"/>
                         <outlet property="pwm2" destination="uXG-kJ-VBx" id="6DQ-Ik-40v"/>
                         <outlet property="pwm3" destination="u93-CX-gQY" id="ZCa-9V-Bpb"/>
