@@ -25,7 +25,7 @@
 
     $result = mysql_query($query);
 
-    print_r($query);
+    print_r($result);
 
     $query = "SELECT *
         FROM control
