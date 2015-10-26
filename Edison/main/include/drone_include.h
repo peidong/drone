@@ -110,9 +110,9 @@ void HTTP_update_T_control(struct T_control *pT_control){
     /*char *sz_url_post_control = "http://fryer.ee.ucla.edu/rest/api/control/post/";*/
     
     char* sz_http_response;
-    struct json_object *pT_json_object_whole_response, *ppT_json_object_control[4], *pT_json_object_data, *pT_json_object_update_time;
+    struct json_object *pT_json_object_whole_response, *ppT_json_object_suspend_pwm[4], *pT_json_object_data, *pT_json_object_update_time, *pT_json_object_control_type, *pT_json_object_auto_control_command, *pT_json_object_manual_control_command;
     int n_json_response;
-    double pd_control[4];
+    double tmp_arrd_suspend_pwm[4];
     int n_index=0;
 
     sz_http_response = http_get(sz_url_get_control);
@@ -120,8 +120,8 @@ void HTTP_update_T_control(struct T_control *pT_control){
     pT_json_object_whole_response = json_tokener_parse(sz_http_response);
 
     n_json_response = json_object_object_get_ex(pT_json_object_whole_response,"data",&pT_json_object_data);
-    n_json_response = json_object_object_get_ex(pT_json_object_data,"control1",&ppT_json_object_control[0]);
-    n_json_response = json_object_object_get_ex(pT_json_object_data,"control2",&ppT_json_object_control[1]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data,"control_type",&ppT_json_object_control[0]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data,"auto_control_command",&ppT_json_object_control[1]);
 
 }
 
