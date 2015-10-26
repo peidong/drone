@@ -14,4 +14,4 @@ CREATE TABLE IF NOT EXISTS edison.control (
     `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
     ) ENGINE = InnoDB;
 
-INSERT INTO `control` VALUES (1, 'mac_address DEFAULT', 0, 0, 0, '0000-00-00 00:00:00');
+INSERT INTO `control` VALUES (1, 'mac_address DEFAULT', 0, 0, 0, 0.0, 0.0, 0.0, 0.0, '0000-00-00 00:00:00');
