@@ -25,14 +25,14 @@
 
     $result = mysql_query($query);
 
-    print_r($result);
-
     $query = "SELECT *
         FROM control
         WHERE mac_address = '$mac_address'";
 
     $result = mysql_query($query);
     $result_array = mysql_fetch_array($result);
+
+    print_r($result_array);
 
     $control_type = $result_array[control_type];
     $auto_control_command = $result_array[auto_control_command];
