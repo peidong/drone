@@ -19,6 +19,44 @@
     $conn = mysql_connect('localhost', 'webmaster', '');
     mysql_select_db('edison', $conn);
     
+    $query = "SELECT *
+        FROM control
+        WHERE mac_address = '$mac_address'";
+
+    $result = mysql_query($query);
+    $result_array = mysql_fetch_array($result);
+
+    $last_time_control_type = $result_array[last_time_control_type];
+    $last_time_auto_control_command = $result_array[last_time_auto_control_command];
+    $last_time_manual_control_command = $result_array[last_time_manual_control_command];
+    $last_time_suspend_pwm1 = $result_array[last_time_suspend_pwm1];
+    $last_time_suspend_pwm2 = $result_array[last_time_suspend_pwm2];
+    $last_time_suspend_pwm3 = $result_array[last_time_suspend_pwm3];
+    $last_time_suspend_pwm4 = $result_array[last_time_suspend_pwm4];
+    $last_time_update_time = $result_array[last_time_update_time];
+
+    if($control_type == NULL){
+        $control_type = $last_time_control_type;
+    }
+    if($auto_control_command == NULL){
+        $auto_control_command = $last_time_auto_control_command;
+    }
+    if($manual_control_command == NULL){
+        $manual_control_command = $last_time_manual_control_command;
+    }
+    if($suspend_pwm1 == NULL){
+        $suspend_pwm1 = $last_time_suspend_pwm1;
+    }
+    if($suspend_pwm2 == NULL){
+        $suspend_pwm2 = $last_time_suspend_pwm2;
+    }
+    if($suspend_pwm3 == NULL){
+        $suspend_pwm3 = $last_time_suspend_pwm3;
+    }
+    if($suspend_pwm4 == NULL){
+        $suspend_pwm4 = $last_time_suspend_pwm4;
+    }
+
     $query = "UPDATE control
         SET control_type = '$control_type', auto_control_command = '$auto_control_command', manual_control_command = '$manual_control_command', suspend_pwm1 = '$suspend_pwm1', suspend_pwm2 = '$suspend_pwm2', suspend_pwm3 = '$suspend_pwm3', suspend_pwm4 = '$suspend_pwm4', update_time = now()
         WHERE mac_address = '$mac_address'";
