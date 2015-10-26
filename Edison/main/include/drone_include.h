@@ -33,7 +33,7 @@ int g_arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
 double g_arrd_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
 double g_arrd_Pid_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
 time_t g_T_timer;
-struct T_control *g_T_my_control;
+struct T_control g_T_my_control;
 
 
 struct T_pwm* HTTP_get_pT_pwm()
@@ -105,7 +105,7 @@ double get_d_pwm(struct T_pwm *pT_pwm_all, char *sz_pwm_key)
     return d_pwm;
 }
 
-void HTTP_update_pT_control(struct T_control *pT_control){
+void HTTP_update_T_control(struct T_control *pT_control){
     char *sz_url_get_control = "http://fryer.ee.ucla.edu/rest/api/control/get/";
     /*char *sz_url_post_control = "http://fryer.ee.ucla.edu/rest/api/control/post/";*/
     
