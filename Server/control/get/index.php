@@ -14,7 +14,7 @@
     
     $query = "SELECT *
         FROM control
-        WHERE mac_address = $mac_address";
+        WHERE mac_address = '$mac_address'";
 
     $result = mysql_query($query);
     $result_array = mysql_fetch_array($result);
