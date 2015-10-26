@@ -19,13 +19,13 @@ Database: edison, table: control
 
 #####manual_control_command
 
-- 1: up
-- 2: down
-- 3: forward
-- 4: backward
-- 5: left
-- 6: right
-- 7: suspend
+- 1: suspend
+- 2: up
+- 3: down
+- 4: forward
+- 5: backward
+- 6: left
+- 7: right
 - 8: clockwiseRotate
 - 9: anticlockwiseRotate
 - 10: stop
