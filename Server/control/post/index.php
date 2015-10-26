@@ -32,8 +32,6 @@
     $result = mysql_query($query);
     $result_array = mysql_fetch_array($result);
 
-    print_r($result_array);
-
     $control_type = $result_array[control_type];
     $auto_control_command = $result_array[auto_control_command];
     $manual_control_command = $result_array[manual_control_command];
