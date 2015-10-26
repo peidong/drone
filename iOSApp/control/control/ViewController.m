@@ -37,6 +37,8 @@
     int manual_control_command;
     int suspend_pwm1, suspend_pwm2, suspend_pwm3, suspend_pwm4;
     bool currentlyManual;
+    bool startFly;
+    bool startLearn;
 
 }
 
@@ -44,6 +46,10 @@
     [super viewDidLoad];
     currentlyManual = YES;
     control_type = 1;
+    startFly = NO;
+    startLearn = NO;
+    auto_control_command =0;
+    manual_control_command = 0;
     
     _pwm1.clearButtonMode = UITextFieldViewModeAlways;
     _pwm2.clearButtonMode = UITextFieldViewModeAlways;
@@ -96,6 +102,95 @@
           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
               NSLog(@"Error: %@", error);
           }];
+}
+
+- (IBAction)startfly:(id)sender {
+    if (startFly) {
+        startFly = NO;
+        auto_control_command =0;
+        [self.Manual_auto setTitle:@"startFly" forState:UIControlStateNormal];
+    }else{
+        startFly = YES;
+        auto_control_command =1;
+        [self.Manual_auto setTitle:@"Fly_Starting" forState:UIControlStateNormal];
+    }
+    [self updateValue];
+}
+
+
+- (IBAction)learn:(id)sender {
+    if (startLearn) {
+        startLearn = NO;
+        auto_control_command =0;
+        [self.Manual_auto setTitle:@"startLearn" forState:UIControlStateNormal];
+    }else{
+        startLearn = YES;
+        auto_control_command =2;
+        [self.Manual_auto setTitle:@"Learn_Starting" forState:UIControlStateNormal];
+    }
+    [self updateValue];
+}
+
+
+- (IBAction)suspeng_1:(id)sender {
+    manual_control_command = 1;
+    [self updateValue];
+}
+
+- (IBAction)up_2:(id)sender {
+    manual_control_command = 2;
+    [self updateValue];
+
+}
+
+- (IBAction)down_3:(id)sender {
+    manual_control_command = 3;
+    [self updateValue];
+
+}
+
+- (IBAction)forward_4:(id)sender {
+    manual_control_command = 4;
+    [self updateValue];
+
+}
+- (IBAction)backward_5:(id)sender {
+    manual_control_command = 5;
+    [self updateValue];
+
+}
+- (IBAction)left_6:(id)sender {
+    manual_control_command = 6;
+    [self updateValue];
+
+}
+- (IBAction)right7:(id)sender {
+    manual_control_command = 7;
+    [self updateValue];
+
+}
+- (IBAction)clock_8:(id)sender {
+    manual_control_command = 8;
+    [self updateValue];
+
+}
+- (IBAction)unclock_9:(id)sender {
+    manual_control_command = 9;
+    [self updateValue];
+
+}
+- (IBAction)stop_10:(id)sender {
+    manual_control_command = 10;
+    [self updateValue];
+
+}
+-(void)updateValue{
+    
+    NSNumber *auto_control_commandN = [NSNumber numberWithUnsignedInt:auto_control_command];
+    NSNumber *manual_control_commandN = [NSNumber numberWithUnsignedInt:manual_control_command];
+    [self PostToWebsite2:auto_control_commandN manual_control_command:manual_control_commandN];
+    NSLog(@"Update Value");
+    
 }
 
 
