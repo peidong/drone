@@ -15,8 +15,7 @@ Database: edison, table: control
 
 - 1: stopFly
 - 2: startFly
-- 3: learnVariablesAndStartFly
-- 4: learnVariablesAndStopFly
+- 3: learnVariables
 
 #####manual_control_command
 
