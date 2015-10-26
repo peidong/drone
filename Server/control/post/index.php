@@ -19,11 +19,11 @@
     $conn = mysql_connect('localhost', 'webmaster', '');
     mysql_select_db('control', $conn);
     
-    $query = "UPDATE control
-        SET control_type = '$control_type', auto_control_command = '$auto_control_command', manual_control_command = '$manual_control_command', suspend_pwm1 = '$suspend_pwm1', suspend_pwm2 = '$suspend_pwm2', suspend_pwm3 = '$suspend_pwm3', suspend_pwm4 = '$suspend_pwm4', update_time = now()
-        WHERE mac_address = '$mac_address'";
+    //$query = "UPDATE control
+        //SET control_type = '$control_type', auto_control_command = '$auto_control_command', manual_control_command = '$manual_control_command', suspend_pwm1 = '$suspend_pwm1', suspend_pwm2 = '$suspend_pwm2', suspend_pwm3 = '$suspend_pwm3', suspend_pwm4 = '$suspend_pwm4', update_time = now()
+        //WHERE mac_address = '$mac_address'";
 
-    $result = mysql_query($query);
+    //$result = mysql_query($query);
 
     $query = "SELECT *
         FROM control
