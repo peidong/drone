@@ -37,7 +37,7 @@
     $response['suspend_pwm4'] = $suspend_pwm4;
     $response['update_time'] = $update_time;
 
-    deliver_response(200, "The ip address has been got", $response);
+    deliver_response(200, "The control commands have been got", $response);
 
     function deliver_response($status,$status_message,$data){
         header("HTTP/1.1 $status $status_message");
