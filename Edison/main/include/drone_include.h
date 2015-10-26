@@ -19,6 +19,11 @@ int g_arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
 double g_arrd_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
 double g_arrd_Pid_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
 time_t g_T_timer;
+char *g_sz_my_mac_address;
+int g_n_control_type;
+int g_n_auto_control_command;
+int g_n_manual_control_command;
+double g_arrd_suspend_pwm[4];
 
 struct T_pwm {
     const char *pstr_key;          /* key */
