@@ -119,9 +119,11 @@ void HTTP_update_T_control(struct T_control *pT_control){
 
     pT_json_object_whole_response = json_tokener_parse(sz_http_response);
 
-    n_json_response = json_object_object_get_ex(pT_json_object_whole_response,"data",&pT_json_object_data);
-    n_json_response = json_object_object_get_ex(pT_json_object_data,"control_type",&ppT_json_object_control[0]);
-    n_json_response = json_object_object_get_ex(pT_json_object_data,"auto_control_command",&ppT_json_object_control[1]);
+    n_json_response = json_object_object_get_ex(pT_json_object_whole_response, "data", &pT_json_object_data);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "control_type", &pT_json_object_control_type);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "auto_control_command", &pT_json_object_auto_control_command);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "manual_control_command", &pT_json_object_manual_control_command);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "manual_control_command", &pT_json_object_manual_control_command);
 
 }
 
