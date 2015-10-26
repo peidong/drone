@@ -26,14 +26,14 @@
     $result = mysql_query($query);
     $result_array = mysql_fetch_array($result);
 
-    $last_time_control_type = $result_array[last_time_control_type];
-    $last_time_auto_control_command = $result_array[last_time_auto_control_command];
-    $last_time_manual_control_command = $result_array[last_time_manual_control_command];
-    $last_time_suspend_pwm1 = $result_array[last_time_suspend_pwm1];
-    $last_time_suspend_pwm2 = $result_array[last_time_suspend_pwm2];
-    $last_time_suspend_pwm3 = $result_array[last_time_suspend_pwm3];
-    $last_time_suspend_pwm4 = $result_array[last_time_suspend_pwm4];
-    $last_time_update_time = $result_array[last_time_update_time];
+    $last_time_control_type = $result_array[control_type];
+    $last_time_auto_control_command = $result_array[auto_control_command];
+    $last_time_manual_control_command = $result_array[manual_control_command];
+    $last_time_suspend_pwm1 = $result_array[suspend_pwm1];
+    $last_time_suspend_pwm2 = $result_array[suspend_pwm2];
+    $last_time_suspend_pwm3 = $result_array[suspend_pwm3];
+    $last_time_suspend_pwm4 = $result_array[suspend_pwm4];
+    $last_time_update_time = $result_array[update_time];
 
     if($control_type == NULL){
         $control_type = $last_time_control_type;
