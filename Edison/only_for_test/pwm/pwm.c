@@ -43,10 +43,10 @@ int main()
         if (g_arrd_last_pwm[3] != g_arrd_current_pwm[3]){
             mraa_pwm_write(pwm4, (g_arrd_current_pwm[3]));
         }
-        g_arrd_last_pwm[0] = g_arrd_current_pwm[0]
-        g_arrd_last_pwm[1] = g_arrd_current_pwm[1]
-        g_arrd_last_pwm[2] = g_arrd_current_pwm[2]
-        g_arrd_last_pwm[3] = g_arrd_current_pwm[3]
+        g_arrd_last_pwm[0] = g_arrd_current_pwm[0];
+        g_arrd_last_pwm[1] = g_arrd_current_pwm[1];
+        g_arrd_last_pwm[2] = g_arrd_current_pwm[2];
+        g_arrd_last_pwm[3] = g_arrd_current_pwm[3];
         usleep(50000);
         printf("pwm1 = %f\n", (g_arrd_current_pwm[0]));
         printf("pwm2 = %f\n", (g_arrd_current_pwm[1]));
