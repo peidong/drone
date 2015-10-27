@@ -11,7 +11,7 @@ ifeq ($(shell uname), Linux)
 	LDFLAGS += -ljson-c -lmraa
 endif
 
-objects = pwm.o ../include/thread/thpool.o
+objects = pwm.o
 pwm : $(objects)
 	$(CC) -o pwm $(objects) -lcurl $(LDFLAGS) $(CFLAGS) -pthread
 

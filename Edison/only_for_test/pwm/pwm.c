@@ -1,5 +1,5 @@
 #include <mraa/pwm.h>
-#include "../include/drone_include.h"
+#include "../../main/include/drone_include.h"
 int main()
 {
     mraa_pwm_context pwm;
