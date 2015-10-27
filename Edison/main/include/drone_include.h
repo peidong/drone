@@ -18,10 +18,10 @@ struct T_pwm {
 };
 
 struct T_control {
-    char *mac_address;
-    int control_type;
-    int auto_control_command;
-    int manual_control_command;
+    char *sz_mac_address;
+    int n_control_type;
+    int n_auto_control_command;
+    int n_manual_control_command;
     double arrd_suspend_pwm[4];
 };
 
@@ -105,14 +105,17 @@ double get_d_pwm(struct T_pwm *pT_pwm_all, char *sz_pwm_key)
     return d_pwm;
 }
 
-void HTTP_update_T_control(struct T_control *pT_control){
-    char *sz_url_get_control = "http://fryer.ee.ucla.edu/rest/api/control/get/";
+int HTTP_update_T_control(struct T_control *pT_control){
+    g_T_my_control.sz_mac_address = "fc:c2:de:3d:7f:af";
+    char *sz_url_get_control_part1 = "http://fryer.ee.ucla.edu/rest/api/control/get/?mac_address=";
+    char *sz_url_get_control = (char*) malloc(1 + strlen(sz_url_get_control_part1) + strlen(g_T_my_control.sz_mac_address));
+    strcpy(sz_url_get_control, sz_url_get_control_part1);
+    strcat(sz_url_get_control, g_T_my_control.sz_mac_address);
     /*char *sz_url_post_control = "http://fryer.ee.ucla.edu/rest/api/control/post/";*/
     
     char* sz_http_response;
     struct json_object *pT_json_object_whole_response, *ppT_json_object_suspend_pwm[4], *pT_json_object_data, *pT_json_object_update_time, *pT_json_object_control_type, *pT_json_object_auto_control_command, *pT_json_object_manual_control_command;
     int n_json_response;
-    double tmp_arrd_suspend_pwm[4];
     int n_index=0;
 
     sz_http_response = http_get(sz_url_get_control);
@@ -123,18 +126,20 @@ void HTTP_update_T_control(struct T_control *pT_control){
     n_json_response = json_object_object_get_ex(pT_json_object_data, "control_type", &pT_json_object_control_type);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "auto_control_command", &pT_json_object_auto_control_command);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "manual_control_command", &pT_json_object_manual_control_command);
-    n_json_response = json_object_object_get_ex(pT_json_object_data, "manual_control_command", &pT_json_object_manual_control_command);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "suspend_pwm1", &ppT_json_object_suspend_pwm[0]);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "suspend_pwm2", &ppT_json_object_suspend_pwm[1]);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "suspend_pwm3", &ppT_json_object_suspend_pwm[2]);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "suspend_pwm4", &ppT_json_object_suspend_pwm[3]);
     n_json_response = json_object_object_get_ex(pT_json_object_data,"update_time",&pT_json_object_update_time);
 
-    pT_control->control_type = json_object_get_int();
+    pT_control->n_control_type = json_object_get_int(pT_json_object_control_type);
+    pT_control->n_auto_control_command = json_object_get_int(pT_json_object_auto_control_command);
+    pT_control->n_manual_control_command = json_object_get_int(pT_json_object_manual_control_command);
     for(n_index = 0; n_index < 4; n_index++)
     {
-        tmp_arrd_suspend_pwm[n_index] = json_object_get_double(*(ppT_json_object_suspend_pwm + n_index));
+        pT_control->arrd_suspend_pwm[n_index] = json_object_get_double(*(ppT_json_object_suspend_pwm + n_index));
     }
+    return 0;
 }
 
 /**
