@@ -2,6 +2,7 @@
 #include "../../main/include/drone_include.h"
 int main()
 {
+    double g_arrd_last_pwm[4] = {0.0, 0.0, 0.0 ,0.0};
     mraa_pwm_context pwm1;
     mraa_pwm_context pwm2;
     mraa_pwm_context pwm3;
@@ -30,10 +31,22 @@ int main()
         g_arrd_current_pwm[1] = get_d_pwm(g_pT_pwm, "pwm2") / 100;
         g_arrd_current_pwm[2] = get_d_pwm(g_pT_pwm, "pwm3") / 100;
         g_arrd_current_pwm[3] = get_d_pwm(g_pT_pwm, "pwm4") / 100;
-        mraa_pwm_write(pwm1, (g_arrd_current_pwm[0]));
-        mraa_pwm_write(pwm2, (g_arrd_current_pwm[1]));
-        mraa_pwm_write(pwm3, (g_arrd_current_pwm[2]));
-        mraa_pwm_write(pwm4, (g_arrd_current_pwm[3]));
+        if (g_arrd_last_pwm[0] != g_arrd_current_pwm[0]){
+            mraa_pwm_write(pwm1, (g_arrd_current_pwm[0]));
+        }
+        if (g_arrd_last_pwm[1] != g_arrd_current_pwm[1]){
+            mraa_pwm_write(pwm2, (g_arrd_current_pwm[1]));
+        }
+        if (g_arrd_last_pwm[2] != g_arrd_current_pwm[2]){
+            mraa_pwm_write(pwm3, (g_arrd_current_pwm[2]));
+        }
+        if (g_arrd_last_pwm[3] != g_arrd_current_pwm[3]){
+            mraa_pwm_write(pwm4, (g_arrd_current_pwm[3]));
+        }
+        g_arrd_last_pwm[0] = g_arrd_current_pwm[0]
+        g_arrd_last_pwm[1] = g_arrd_current_pwm[1]
+        g_arrd_last_pwm[2] = g_arrd_current_pwm[2]
+        g_arrd_last_pwm[3] = g_arrd_current_pwm[3]
         usleep(50000);
         printf("pwm1 = %f\n", (g_arrd_current_pwm[0]));
         printf("pwm2 = %f\n", (g_arrd_current_pwm[1]));
