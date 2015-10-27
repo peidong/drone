@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIStepper *stepper2;
 @property (weak, nonatomic) IBOutlet UIStepper *stepper3;
 @property (weak, nonatomic) IBOutlet UIStepper *stepper4;
+@property (weak, nonatomic) IBOutlet UIStepper *stepper_total;
 
 @property (weak, nonatomic) IBOutlet UITextField *text1;
 @property (weak, nonatomic) IBOutlet UITextField *text2;
@@ -137,6 +138,33 @@
 }
 
 
+- (IBAction)stepper_total:(id)sender {
+    if (_slider1.value - _stepper_total.value * 0.01 < 0) {
+        _slider1.value = _slider1.value + 0.01;
+    }else{
+        _slider1.value = _slider1.value - 0.01;
+    }
+    
+    if (_slider2.value - _stepper_total.value * 0.01 < 0) {
+        _slider2.value = _slider2.value + 0.01;
+    }else{
+        _slider2.value = _slider2.value - 0.01;
+    }
+    
+    if (_slider3.value - _stepper_total.value * 0.01 < 0) {
+        _slider3.value = _slider3.value + 0.01;
+    }else{
+        _slider3.value = _slider3.value - 0.01;
+    }
+    
+    if (_slider4.value - _stepper_total.value * 0.01 < 0) {
+        _slider4.value = _slider4.value + 0.01;
+    }else{
+        _slider4.value = _slider4.value - 0.01;
+    }
+    [self updateValue];
+
+}
 
 //setup stepper action
 - (IBAction)stepper:(id)sender {
