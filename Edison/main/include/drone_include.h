@@ -38,8 +38,8 @@ struct T_control g_T_my_control;
 
 struct T_pwm* HTTP_get_pT_pwm()
 {
-    char const *sz_url_get_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/get/";
-    /*char const *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";*/
+    char *sz_url_get_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/get/";
+    /*char *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";*/
     
     char *sz_http_response;
     struct json_object *pT_json_object_whole_response, *ppT_json_object_pwm[4], *pT_json_object_data, *pT_json_object_update_time;
@@ -109,11 +109,11 @@ int HTTP_update_T_control(struct T_control *pT_control){
     //How to concat two char* string in C program
     //http://stackoverflow.com/questions/18468229/how-to-concat-two-char-string-in-c-program
     g_T_my_control.sz_mac_address = "fc:c2:de:3d:7f:af";
-    char const *sz_url_get_control_part1 = "http://fryer.ee.ucla.edu/rest/api/control/get/?mac_address=";
+    char *sz_url_get_control_part1 = "http://fryer.ee.ucla.edu/rest/api/control/get/?mac_address=";
     char *sz_url_get_control = (char*) malloc(1 + strlen(sz_url_get_control_part1) + strlen(g_T_my_control.sz_mac_address));
     strcpy(sz_url_get_control, sz_url_get_control_part1);
     strcat(sz_url_get_control, g_T_my_control.sz_mac_address);
-    /*char const *sz_url_post_control = "http://fryer.ee.ucla.edu/rest/api/control/post/";*/
+    /*char *sz_url_post_control = "http://fryer.ee.ucla.edu/rest/api/control/post/";*/
     
     char *sz_http_response;
     struct json_object *pT_json_object_whole_response, *ppT_json_object_suspend_pwm[4], *pT_json_object_data, *pT_json_object_update_time, *pT_json_object_control_type, *pT_json_object_auto_control_command, *pT_json_object_manual_control_command;
