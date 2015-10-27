@@ -7,6 +7,6 @@ int main()
     thpool_add_work(thpool, (void*)ThreadTask_get_arrd_pwm, NULL);
     thpool_wait(thpool);
     thpool_destroy(thpool);
-    free_pT_pwm(g_pT_pwm);
+    free_pT_pwm(g_pT_hash_pwm);
     return 0;
 }

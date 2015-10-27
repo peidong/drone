@@ -11,7 +11,7 @@
 #include "pid/pid.h"  //include pid file
 //#include "timer/timer.h" //timer
 
-struct T_pwm {
+struct T_hash_pwm {
     const char *pstr_key;          /* key */
     double d_pwm;
     UT_hash_handle hh;         /* makes this structure hashable */
@@ -25,7 +25,7 @@ struct T_control {
     double arrd_suspend_pwm[4];
 };
 
-struct T_pwm *g_pT_pwm;
+struct T_hash_pwm *g_pT_hash_pwm;
 double g_arrd_current_pwm[4];
 struct T_control *g_pT_control;
 double g_arrd_control[4];
@@ -36,7 +36,7 @@ double g_arrd_Pid_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
 struct T_control g_T_my_control;
 
 
-struct T_pwm* HTTP_get_pT_pwm()
+struct T_hash_pwm* HTTP_get_pT_pwm()
 {
     char *sz_url_get_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/get/";
     /*char *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";*/
@@ -65,11 +65,11 @@ struct T_pwm* HTTP_get_pT_pwm()
     }
 
     const char **kppchIndex, *kstrKeys[] = {"pwm1", "pwm2", "pwm3", "pwm4", NULL};
-    struct T_pwm *pT_pwm_selector, *pT_pwm_all = NULL;
+    struct T_hash_pwm *pT_pwm_selector, *pT_pwm_all = NULL;
 
     n_index = 0;
     for (kppchIndex = kstrKeys; *kppchIndex != NULL; kppchIndex++) {
-        pT_pwm_selector = (struct T_pwm*)malloc(sizeof(struct T_pwm));
+        pT_pwm_selector = (struct T_hash_pwm*)malloc(sizeof(struct T_hash_pwm));
         if (pT_pwm_selector == NULL) {
             exit(-1);
         }
@@ -82,8 +82,8 @@ struct T_pwm* HTTP_get_pT_pwm()
     return pT_pwm_all;
 }
 
-int free_pT_pwm(struct T_pwm *pT_pwm_all){
-    struct T_pwm *pT_pwm_selector, *pT_pwm_tmp;
+int free_pT_pwm(struct T_hash_pwm *pT_pwm_all){
+    struct T_hash_pwm *pT_pwm_selector, *pT_pwm_tmp;
     /* free the hash table contents */
     HASH_ITER(hh, pT_pwm_all, pT_pwm_selector, pT_pwm_tmp) {
         HASH_DEL(pT_pwm_all, pT_pwm_selector);
@@ -92,9 +92,9 @@ int free_pT_pwm(struct T_pwm *pT_pwm_all){
     return 0;
 } 
 
-double get_d_pwm(struct T_pwm *pT_pwm_all, char *sz_pwm_key)
+double get_d_pwm(struct T_hash_pwm *pT_pwm_all, char *sz_pwm_key)
 {
-    struct T_pwm *pT_pwm_selector;
+    struct T_hash_pwm *pT_pwm_selector;
     double d_pwm;
     HASH_FIND_STR(pT_pwm_all, sz_pwm_key, pT_pwm_selector);
     if (pT_pwm_selector != NULL) {
@@ -212,17 +212,17 @@ void update_g_arrd_yaw_pitch_roll()
 
 void ThreadTask_HTTP_get_pT_pwm(){
     while(1){
-        g_pT_pwm = HTTP_get_pT_pwm();
+        g_pT_hash_pwm = HTTP_get_pT_pwm();
         usleep(50000);
     }
 }
 
 void ThreadTask_get_arrd_pwm(){
     while(1){
-        g_arrd_current_pwm[0] = get_d_pwm(g_pT_pwm, "pwm1") / 100;
-        g_arrd_current_pwm[1] = get_d_pwm(g_pT_pwm, "pwm2") / 100;
-        g_arrd_current_pwm[2] = get_d_pwm(g_pT_pwm, "pwm3") / 100;
-        g_arrd_current_pwm[3] = get_d_pwm(g_pT_pwm, "pwm4") / 100;
+        g_arrd_current_pwm[0] = get_d_pwm(g_pT_hash_pwm, "pwm1") / 100;
+        g_arrd_current_pwm[1] = get_d_pwm(g_pT_hash_pwm, "pwm2") / 100;
+        g_arrd_current_pwm[2] = get_d_pwm(g_pT_hash_pwm, "pwm3") / 100;
+        g_arrd_current_pwm[3] = get_d_pwm(g_pT_hash_pwm, "pwm4") / 100;
         printf("pwm1 = %f\n", g_arrd_current_pwm[0]);
         printf("pwm2 = %f\n", g_arrd_current_pwm[1]);
         printf("pwm3 = %f\n", g_arrd_current_pwm[2]);
@@ -290,6 +290,6 @@ void ThreadTask_HTTP_get_control(){
     //thpool_add_work(thpool, (void*)ThreadTask_get_arrd_pwm, NULL);
     //thpool_wait(thpool);
     //thpool_destroy(thpool);
-    //free_pT_pwm(g_pT_pwm);
+    //free_pT_pwm(g_pT_hash_pwm);
     //return 0;
 //}
