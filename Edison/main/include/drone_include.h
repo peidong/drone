@@ -106,6 +106,8 @@ double get_d_pwm(struct T_pwm *pT_pwm_all, char *sz_pwm_key)
 }
 
 int HTTP_update_T_control(struct T_control *pT_control){
+    //How to concat two char* string in C program
+    //http://stackoverflow.com/questions/18468229/how-to-concat-two-char-string-in-c-program
     g_T_my_control.sz_mac_address = "fc:c2:de:3d:7f:af";
     char *sz_url_get_control_part1 = "http://fryer.ee.ucla.edu/rest/api/control/get/?mac_address=";
     char *sz_url_get_control = (char*) malloc(1 + strlen(sz_url_get_control_part1) + strlen(g_T_my_control.sz_mac_address));
