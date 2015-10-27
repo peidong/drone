@@ -9,7 +9,7 @@
 
 #include "mpu9250/mpu9250.h"  //include pid file    
 #include "pid/pid.h"  //include pid file
-#include "timer/timer.h" //timer
+//#include "timer/timer.h" //timer
 
 struct T_pwm {
     const char *pstr_key;          /* key */
@@ -32,7 +32,7 @@ double g_arrd_control[4];
 int g_arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
 double g_arrd_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
 double g_arrd_Pid_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
-time_t g_T_timer;
+//time_t g_T_timer;
 struct T_control g_T_my_control;
 
 
