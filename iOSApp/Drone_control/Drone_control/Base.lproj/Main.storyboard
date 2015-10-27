@@ -173,16 +173,6 @@
                                     <action selector="changeByText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OjW-O5-oY4"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DVp-St-jsw">
-                                <rect key="frame" x="107" y="892" width="216" height="70"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <size key="titleShadowOffset" width="2.2250738585072014e-308" height="0.0"/>
-                                <state key="normal" title="start sending"/>
-                                <connections>
-                                    <action selector="HandleStart:" destination="BYZ-38-t0r" eventType="touchUpInside" id="56E-gu-Gwv"/>
-                                </connections>
-                            </button>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="45V-xp-t4X">
                                 <rect key="frame" x="550" y="477" width="94" height="29"/>
                                 <animations/>
@@ -190,6 +180,16 @@
                                     <action selector="stepper_total:" destination="BYZ-38-t0r" eventType="valueChanged" id="iUR-gg-dFy"/>
                                 </connections>
                             </stepper>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DVp-St-jsw">
+                                <rect key="frame" x="307" y="629" width="104" height="37"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <size key="titleShadowOffset" width="2.2250738585072014e-308" height="0.0"/>
+                                <state key="normal" title="start sending"/>
+                                <connections>
+                                    <action selector="HandleStart:" destination="BYZ-38-t0r" eventType="touchUpInside" id="56E-gu-Gwv"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -218,7 +218,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="300" y="452"/>
+            <point key="canvasLocation" x="310" y="254"/>
         </scene>
     </scenes>
 </document>
