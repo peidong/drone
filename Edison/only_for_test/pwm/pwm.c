@@ -14,13 +14,13 @@ int main()
     if (pwm1 == NULL || pwm2 == NULL || pwm3 == NULL || pwm4 == NULL) {
         return 1;
     }
-    mraa_pwm_period_us(pwm1, 200);
+    mraa_pwm_period_us(pwm1, 20000);
     mraa_pwm_enable(pwm1, 1);
-    mraa_pwm_period_us(pwm2, 200);
+    mraa_pwm_period_us(pwm2, 20000);
     mraa_pwm_enable(pwm2, 1);
-    mraa_pwm_period_us(pwm3, 200);
+    mraa_pwm_period_us(pwm3, 20000);
     mraa_pwm_enable(pwm3, 1);
-    mraa_pwm_period_us(pwm4, 200);
+    mraa_pwm_period_us(pwm4, 20000);
     mraa_pwm_enable(pwm4, 1);
     char *arrsz_pwm_key_name[4] = {"pwm1", "pwm2", "pwm3", "pwm4"};
     int n_index;
