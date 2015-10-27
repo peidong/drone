@@ -140,20 +140,36 @@
 
 //setup stepper action
 - (IBAction)stepper:(id)sender {
-    _slider1.value = _slider1.value+0.01;
+    if (_slider1.value - _stepper1.value * 0.01 < 0) {
+        _slider1.value = _slider1.value + 0.01;
+    }else{
+        _slider1.value = _slider1.value - 0.01;
+    }
     [self updateValue];
 }
 - (IBAction)stepper2:(id)sender {
-    _slider2.value = _slider2.value+0.01;
+    if (_slider2.value - _stepper2.value * 0.01 < 0) {
+        _slider2.value = _slider2.value + 0.01;
+    }else{
+        _slider2.value = _slider2.value - 0.01;
+    }
     [self updateValue];
 }
 - (IBAction)stepper3:(id)sender {
-    _slider3.value = _slider3.value+0.01;
+    if (_slider3.value - _stepper3.value * 0.01 < 0) {
+        _slider3.value = _slider3.value + 0.01;
+    }else{
+        _slider3.value = _slider3.value - 0.01;
+    }
     [self updateValue];
 }
 
 - (IBAction)stepper4:(id)sender {
-    _slider4.value = _slider4.value+0.01;
+    if (_slider4.value - _stepper4.value * 0.01 < 0) {
+        _slider4.value = _slider4.value + 0.01;
+    }else{
+        _slider4.value = _slider4.value - 0.01;
+    }
     [self updateValue];
 }
 
