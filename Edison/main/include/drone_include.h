@@ -26,7 +26,7 @@ struct T_control {
 };
 
 struct T_pwm *g_pT_pwm;
-double g_arrd_pwm[4];
+double g_arrd_current_pwm[4];
 struct T_control *g_pT_control;
 double g_arrd_control[4];
 int g_arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
@@ -51,12 +51,12 @@ struct T_pwm* HTTP_get_pT_pwm()
 
     pT_json_object_whole_response = json_tokener_parse(sz_http_response);
 
-    n_json_response = json_object_object_get_ex(pT_json_object_whole_response,"data",&pT_json_object_data);
-    n_json_response = json_object_object_get_ex(pT_json_object_data,"pwm1",&ppT_json_object_pwm[0]);
-    n_json_response = json_object_object_get_ex(pT_json_object_data,"pwm2",&ppT_json_object_pwm[1]);
-    n_json_response = json_object_object_get_ex(pT_json_object_data,"pwm3",&ppT_json_object_pwm[2]);
-    n_json_response = json_object_object_get_ex(pT_json_object_data,"pwm4",&ppT_json_object_pwm[3]);
-    n_json_response = json_object_object_get_ex(pT_json_object_data,"update_time",&pT_json_object_update_time);
+    n_json_response = json_object_object_get_ex(pT_json_object_whole_response, "data", &pT_json_object_data);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm1", &ppT_json_object_pwm[0]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm2", &ppT_json_object_pwm[1]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm3", &ppT_json_object_pwm[2]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm4", &ppT_json_object_pwm[3]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "update_time", &pT_json_object_update_time);
 
     n_index = 0;
     for(n_index = 0; n_index < 4; n_index++)
@@ -124,7 +124,17 @@ void HTTP_update_T_control(struct T_control *pT_control){
     n_json_response = json_object_object_get_ex(pT_json_object_data, "auto_control_command", &pT_json_object_auto_control_command);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "manual_control_command", &pT_json_object_manual_control_command);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "manual_control_command", &pT_json_object_manual_control_command);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "suspend_pwm1", &ppT_json_object_suspend_pwm[0]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "suspend_pwm2", &ppT_json_object_suspend_pwm[1]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "suspend_pwm3", &ppT_json_object_suspend_pwm[2]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "suspend_pwm4", &ppT_json_object_suspend_pwm[3]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data,"update_time",&pT_json_object_update_time);
 
+    pT_control->control_type = json_object_get_int();
+    for(n_index = 0; n_index < 4; n_index++)
+    {
+        tmp_arrd_suspend_pwm[n_index] = json_object_get_double(*(ppT_json_object_suspend_pwm + n_index));
+    }
 }
 
 /**
@@ -202,14 +212,14 @@ void ThreadTask_HTTP_get_pT_pwm(){
 
 void ThreadTask_get_arrd_pwm(){
     while(1){
-        g_arrd_pwm[0] = get_d_pwm(g_pT_pwm, "pwm1") / 100;
-        g_arrd_pwm[1] = get_d_pwm(g_pT_pwm, "pwm2") / 100;
-        g_arrd_pwm[2] = get_d_pwm(g_pT_pwm, "pwm3") / 100;
-        g_arrd_pwm[3] = get_d_pwm(g_pT_pwm, "pwm4") / 100;
-        printf("pwm1 = %f\n", g_arrd_pwm[0]);
-        printf("pwm2 = %f\n", g_arrd_pwm[1]);
-        printf("pwm3 = %f\n", g_arrd_pwm[2]);
-        printf("pwm4 = %f\n", g_arrd_pwm[3]);
+        g_arrd_current_pwm[0] = get_d_pwm(g_pT_pwm, "pwm1") / 100;
+        g_arrd_current_pwm[1] = get_d_pwm(g_pT_pwm, "pwm2") / 100;
+        g_arrd_current_pwm[2] = get_d_pwm(g_pT_pwm, "pwm3") / 100;
+        g_arrd_current_pwm[3] = get_d_pwm(g_pT_pwm, "pwm4") / 100;
+        printf("pwm1 = %f\n", g_arrd_current_pwm[0]);
+        printf("pwm2 = %f\n", g_arrd_current_pwm[1]);
+        printf("pwm3 = %f\n", g_arrd_current_pwm[2]);
+        printf("pwm4 = %f\n", g_arrd_current_pwm[3]);
         printf("\n");
         usleep(50000);
     }
