@@ -18,7 +18,7 @@ struct T_pwm {
 };
 
 struct T_control {
-    char const *sz_mac_address;
+    char *sz_mac_address;
     int n_control_type;
     int n_auto_control_command;
     int n_manual_control_command;
