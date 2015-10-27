@@ -26,11 +26,11 @@ int main()
     int n_index;
     while(1)
     {
-        g_pT_pwm = HTTP_get_pT_pwm();
-        g_arrd_current_pwm[0] = get_d_pwm(g_pT_pwm, "pwm1") / 1000;
-        g_arrd_current_pwm[1] = get_d_pwm(g_pT_pwm, "pwm2") / 1000;
-        g_arrd_current_pwm[2] = get_d_pwm(g_pT_pwm, "pwm3") / 1000;
-        g_arrd_current_pwm[3] = get_d_pwm(g_pT_pwm, "pwm4") / 1000;
+        g_pT_hash_pwm = HTTP_get_pT_pwm();
+        g_arrd_current_pwm[0] = get_d_pwm(g_pT_hash_pwm, "pwm1") / 1000;
+        g_arrd_current_pwm[1] = get_d_pwm(g_pT_hash_pwm, "pwm2") / 1000;
+        g_arrd_current_pwm[2] = get_d_pwm(g_pT_hash_pwm, "pwm3") / 1000;
+        g_arrd_current_pwm[3] = get_d_pwm(g_pT_hash_pwm, "pwm4") / 1000;
         if (g_arrd_last_pwm[0] != g_arrd_current_pwm[0]){
             mraa_pwm_write(pwm1, (g_arrd_current_pwm[0]));
         }
