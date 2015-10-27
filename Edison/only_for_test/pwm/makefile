@@ -8,7 +8,7 @@ endif
 ifeq ($(shell uname), Linux)
 	JSON_C_DIR=/usr/local
 	CFLAGS += -I$(JSON_C_DIR)/include
-	LDFLAGS += -ljson-c -lmraa
+	LDFLAGS += -ljson-c -lmraa -lm
 endif
 
 objects = pwm.o
