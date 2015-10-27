@@ -44,6 +44,7 @@
     int leftData;
     int rightData;
     bool currentlyStart;
+    int total;
     
     NSArray *_sliders;
 }
@@ -80,7 +81,9 @@
     _stepper2.value = 30;
     _stepper3.value = 30;
     _stepper4.value = 30;
-
+    total = 30;
+    _stepper_total.value = 30;
+    
     _text1.clearButtonMode = UITextFieldViewModeAlways;
     _text2.clearButtonMode = UITextFieldViewModeAlways;
     _text3.clearButtonMode = UITextFieldViewModeAlways;
@@ -99,7 +102,8 @@
     _stepper2.value = (int)([_slider2 value] * 100);
     _stepper3.value = (int)([_slider3 value] * 100);
     _stepper4.value = (int)([_slider4 value] * 100);
-
+    total = (int)([_stepper_total value]);
+    
     _forward.text = [NSString stringWithFormat:@"a: %d", forwardData];
     _backward.text = [NSString stringWithFormat:@"b: %d", backwardData];
     _left.text = [NSString stringWithFormat:@"c: %d", leftData];
@@ -139,29 +143,18 @@
 
 
 - (IBAction)stepper_total:(id)sender {
-    if (_slider1.value - _stepper_total.value * 0.01 < 0) {
+    if (total - _stepper_total.value  < 0) {
         _slider1.value = _slider1.value + 0.01;
-    }else{
-        _slider1.value = _slider1.value - 0.01;
-    }
-    
-    if (_slider2.value - _stepper_total.value * 0.01 < 0) {
         _slider2.value = _slider2.value + 0.01;
-    }else{
-        _slider2.value = _slider2.value - 0.01;
-    }
-    
-    if (_slider3.value - _stepper_total.value * 0.01 < 0) {
         _slider3.value = _slider3.value + 0.01;
-    }else{
-        _slider3.value = _slider3.value - 0.01;
-    }
-    
-    if (_slider4.value - _stepper_total.value * 0.01 < 0) {
         _slider4.value = _slider4.value + 0.01;
     }else{
+        _slider1.value = _slider1.value - 0.01;
+        _slider2.value = _slider2.value - 0.01;
+        _slider3.value = _slider3.value - 0.01;
         _slider4.value = _slider4.value - 0.01;
     }
+    
     [self updateValue];
 
 }
