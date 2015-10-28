@@ -34,9 +34,6 @@ struct T_drone{
     double arrd_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
     double arrd_pid_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
     int arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
-    
-    //functions
-    int HTTP_update_T_drone();
 };
 
 struct T_control {
@@ -50,16 +47,12 @@ struct T_control {
 struct T_hash_pwm *g_pT_hash_pwm;
 double g_arrd_current_pwm[4];
 //time_t g_T_timer;
-struct T_drone g_T_drone_my;
-
-int T_drone::HTTP_update_T_drone(){
-    return 0;
-}
+struct T_drone g_T_drone_self;
 
 /**
  * update the pwm value using by test purpose
  */
-int HTTP_update_T_drone_pwm(struct T_drone *pT_drone){
+int update_T_drone_http_pwm(struct T_drone *pT_drone){
     char *sz_url_get_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/get/";
     /*char *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";*/
     
@@ -161,12 +154,12 @@ int HTTP_update_T_drone_pwm(struct T_drone *pT_drone){
 /**
  * update the drone value
  */
-int HTTP_update_T_drone(struct T_drone *pT_drone){
+int update_T_drone_http(struct T_drone *pT_drone){
     //How to concat two char* string in C program
     //http://stackoverflow.com/questions/18468229/how-to-concat-two-char-string-in-c-program
-    pT_drone->sz_mac_address = "fc:c2:de:3d:7f:af";
+    //sz_mac_address = "fc:c2:de:3d:7f:af";
     char *sz_url_get_control_part1 = "http://fryer.ee.ucla.edu/rest/api/control/get/?mac_address=";
-    char *sz_url_get_control = (char*) malloc(1 + strlen(sz_url_get_control_part1) + strlen(g_T_drone_my.sz_mac_address));
+    char *sz_url_get_control = (char*) malloc(1 + strlen(sz_url_get_control_part1) + strlen(pT_drone->sz_mac_address));
     strcpy(sz_url_get_control, sz_url_get_control_part1);
     strcat(sz_url_get_control, pT_drone->sz_mac_address);
     /*char *sz_url_post_control = "http://fryer.ee.ucla.edu/rest/api/control/post/";*/
@@ -203,10 +196,11 @@ int HTTP_update_T_drone(struct T_drone *pT_drone){
 /**
  * 0:up 1:down 2:left 3:right 4:forward 5:backward
  */
-void update_g_arrn_ultrasound(){
+int update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
+    return 0;
 }
 
-void update_g_arrd_yaw_pitch_roll()
+int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 {
 	MPU_init();
 	while (1)
@@ -259,11 +253,48 @@ void update_g_arrd_yaw_pitch_roll()
 		//    pitch -= 0.5;
 		//    roll -= 1.9;
 
-		g_T_drone_my.arrd_yaw_pitch_roll[0] = yaw;
-		g_T_drone_my.arrd_yaw_pitch_roll[1] = pitch;
-		g_T_drone_my.arrd_yaw_pitch_roll[2] = roll;
+		pT_drone->arrd_yaw_pitch_roll[0] = yaw;
+		pT_drone->arrd_yaw_pitch_roll[1] = pitch;
+		pT_drone->arrd_yaw_pitch_roll[2] = roll;
 		//    printf("%.1f, %.1f, %.1f\n",yaw, pitch, roll);
 	}
+    return 0;
+}
+
+int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
+    pidData_t *pidData_yaw,*pidData_pitch,*pidData_roll;
+    pidData_yaw = (pidData_t*) malloc(sizeof(pidData_t));
+    pidData_pitch = (pidData_t*) malloc(sizeof(pidData_t));
+    pidData_roll = (pidData_t*) malloc(sizeof(pidData_t));
+    
+	double kp, ki, kd;
+	ctrlDir_t controllerDir;
+	uint32_t samplePeriodMs;
+
+    kp = 0;     // these three need to be tuning
+    ki = 0;
+    kd = 0;
+    samplePeriodMs = 20; //need to be setup
+    controllerDir = PID_DIRECT; //Direct control not reverse.
+
+    Pid_Init(pidData_yaw, kp, ki, kd, controllerDir, samplePeriodMs);
+    Pid_SetSetPoint(pidData_yaw, 0);
+    Pid_Init(pidData_pitch, kp, ki, kd, controllerDir, samplePeriodMs);
+    Pid_SetSetPoint(pidData_pitch, 0);
+    Pid_Init(pidData_roll, kp, ki, kd, controllerDir, samplePeriodMs);
+    Pid_SetSetPoint(pidData_roll, 0);
+
+    while(1){
+        Pid_Run(pidData_yaw, pT_drone->arrd_yaw_pitch_roll[0]);
+        pT_drone->arrd_pid_yaw_pitch_roll[0] = pidData_yaw->output;
+
+        Pid_Run(pidData_pitch, pT_drone->arrd_yaw_pitch_roll[1]);
+        pT_drone->arrd_pid_yaw_pitch_roll[1] = pidData_pitch->output;
+
+        Pid_Run(pidData_roll, pT_drone->arrd_yaw_pitch_roll[2]);
+        pT_drone->arrd_pid_yaw_pitch_roll[2] = pidData_roll->output;
+    }
+    return 0;
 }
 
 int GeneratePwm(double d_pwm_duty_cycle){
@@ -280,9 +311,16 @@ int GeneratePwm(double d_pwm_duty_cycle){
     return 0;
 }
 
-void ThreadTask_HTTP_update_T_drone_pwm(){
+void ThreadTask_update_T_drone_http_pwm(struct T_drone *pT_drone){
     while(1){
-        HTTP_update_T_drone_pwm(&g_T_drone_my);
+        update_T_drone_http_pwm(pT_drone);
+        usleep(50000);
+    }
+}
+
+void ThreadTask_update_T_drone_http(struct T_drone *pT_drone){
+    while(1){
+        update_T_drone_http(pT_drone);
     }
 }
 
@@ -308,55 +346,18 @@ void ThreadTask_HTTP_update_T_drone_pwm(){
     //}
 //}
 
-void ThreadTask_Pid(){
-
-    pidData_t *pidData_yaw,*pidData_pitch,*pidData_roll;
-    pidData_yaw = (pidData_t*) malloc(sizeof(pidData_t));
-    pidData_pitch = (pidData_t*) malloc(sizeof(pidData_t));
-    pidData_roll = (pidData_t*) malloc(sizeof(pidData_t));
-    
-	double kp, ki, kd;
-	ctrlDir_t controllerDir;
-	uint32_t samplePeriodMs;
-
-    kp = 0;     // these three need to be tuning
-    ki = 0;
-    kd = 0;
-    samplePeriodMs = 20; //need to be setup
-    controllerDir = PID_DIRECT; //Direct control not reverse.
-
-    Pid_Init(pidData_yaw, kp, ki, kd, controllerDir, samplePeriodMs);
-    Pid_SetSetPoint(pidData_yaw, 0);
-    Pid_Init(pidData_pitch, kp, ki, kd, controllerDir, samplePeriodMs);
-    Pid_SetSetPoint(pidData_pitch, 0);
-    Pid_Init(pidData_roll, kp, ki, kd, controllerDir, samplePeriodMs);
-    Pid_SetSetPoint(pidData_roll, 0);
-
-    while(1){
-        Pid_Run(pidData_yaw, g_T_drone_my.arrd_yaw_pitch_roll[0]);
-        g_T_drone_my.arrd_pid_yaw_pitch_roll[0] = pidData_yaw->output;
-
-        Pid_Run(pidData_pitch, g_T_drone_my.arrd_yaw_pitch_roll[1]);
-        g_T_drone_my.arrd_pid_yaw_pitch_roll[1] = pidData_pitch->output;
-
-        Pid_Run(pidData_roll, g_T_drone_my.arrd_yaw_pitch_roll[2]);
-        g_T_drone_my.arrd_pid_yaw_pitch_roll[2] = pidData_roll->output;
-    }
-
-
+void ThreadTask_update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
+    update_T_drone_arrd_pid_yaw_pitch_roll(pT_drone);
 }
 
-void ThreadTask_update_ultrasound(){
+void ThreadTask_update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
     while(1){
-        update_g_arrn_ultrasound();
+        update_T_drone_arrn_ultrasound(pT_drone);
     }
 }
 
-void ThreadTask_update_yaw_pitch_roll(){
-	update_g_arrd_yaw_pitch_roll();
-}
-
-void ThreadTask_HTTP_get_control(){
+void ThreadTask_update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
+    update_T_drone_arrd_yaw_pitch_roll(pT_drone);
 }
 
 //int main()
