@@ -328,14 +328,14 @@ int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port, char
         mraa_gpio_write(gpio, 1);
 
 #ifdef DEBUG_GPIO_PWM
-        printf("%s: voltage = 1\n", sz_pwm);
+        printf("%s : voltage = 1\n", sz_pwm);
 #endif
 
         nanosleep(&T_timespec_high, NULL);
         mraa_gpio_write(gpio, 0);
 
 #ifdef DEBUG_GPIO_PWM
-        printf("%s: voltage = 0\n", sz_pwm);
+        printf("%s : voltage = 0\n", sz_pwm);
         printf("\n");
 #endif
 
