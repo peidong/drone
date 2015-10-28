@@ -49,6 +49,33 @@ double g_arrd_current_pwm[4];
 //time_t g_T_timer;
 struct T_drone g_T_drone_my;
 
+int HTTP_update_T_drone_pwm(struct T_drone *pT_drone){
+    char *sz_url_get_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/get/";
+    /*char *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";*/
+    
+    char *sz_http_response;
+    struct json_object *pT_json_object_whole_response, *ppT_json_object_pwm[4], *pT_json_object_data, *pT_json_object_update_time;
+    int n_json_response;
+    int n_index=0;
+
+    sz_http_response = http_get(sz_url_get_pwm);
+
+    pT_json_object_whole_response = json_tokener_parse(sz_http_response);
+
+    n_json_response = json_object_object_get_ex(pT_json_object_whole_response, "data", &pT_json_object_data);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm1", &ppT_json_object_pwm[0]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm2", &ppT_json_object_pwm[1]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm3", &ppT_json_object_pwm[2]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm4", &ppT_json_object_pwm[3]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "update_time", &pT_json_object_update_time);
+
+    n_index = 0;
+    for(n_index = 0; n_index < 4; n_index++)
+    {
+        pT_drone->arrd_current_pwm[n_index] = json_object_get_double(*(ppT_json_object_pwm+n_index));
+    }
+    return 0;
+}
 
 struct T_hash_pwm* HTTP_get_pT_pwm()
 {
