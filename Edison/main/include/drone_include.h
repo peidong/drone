@@ -13,13 +13,13 @@
 //#include "timer/timer.h" //timer
 
 #define PWM_PERIOD_NS 20000000
-#define PRINT_PWM 1
+#define DEBUG
 
-struct T_hash_pwm {
-    const char *pstr_key;          /* key */
-    double d_pwm;
-    UT_hash_handle hh;         /* makes this structure hashable */
-};
+//struct T_hash_pwm {
+    //const char *pstr_key;          [> key <]
+    //double d_pwm;
+    //UT_hash_handle hh;         [> makes this structure hashable <]
+//};
 
 struct T_drone{
     //These following are from server
@@ -37,16 +37,15 @@ struct T_drone{
     int arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
 };
 
-struct T_control {
-    char *sz_mac_address;
-    int n_control_type;
-    int n_auto_control_command;
-    int n_manual_control_command;
-    double arrd_suspend_pwm[4];
-};
+//struct T_control {
+    //char *sz_mac_address;
+    //int n_control_type;
+    //int n_auto_control_command;
+    //int n_manual_control_command;
+    //double arrd_suspend_pwm[4];
+//};
 
-struct T_hash_pwm *g_pT_hash_pwm;
-double g_arrd_current_pwm[4];
+//struct T_hash_pwm *g_pT_hash_pwm;
 //time_t g_T_timer;
 struct T_drone g_T_drone_self;
 
@@ -315,13 +314,13 @@ int GeneratePwm(double d_pwm_duty_cycle){
 void ThreadTask_update_T_drone_http_pwm(struct T_drone *pT_drone){
     while(1){
         update_T_drone_http_pwm(pT_drone);
-        if(PRINT_PWM){
+#ifdef DEBUG
             printf("pwm1 = %f\n", pT_drone->arrd_current_pwm[0]);
             printf("pwm2 = %f\n", pT_drone->arrd_current_pwm[1]);
             printf("pwm3 = %f\n", pT_drone->arrd_current_pwm[2]);
             printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
             printf("\n");
-        }
+#endif
         usleep(50000);
     }
 }
