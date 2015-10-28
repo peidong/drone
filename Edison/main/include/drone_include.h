@@ -318,6 +318,7 @@ void ThreadTask_update_T_drone_http_pwm(struct T_drone *pT_drone){
         printf("pwm2 = %f\n", pT_drone->arrd_current_pwm[1]);
         printf("pwm3 = %f\n", pT_drone->arrd_current_pwm[2]);
         printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
+        printf("\n");
         usleep(50000);
     }
 }
