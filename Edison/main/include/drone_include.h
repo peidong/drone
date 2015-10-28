@@ -34,6 +34,9 @@ struct T_drone{
     double arrd_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
     double arrd_pid_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
     int arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
+    
+    //functions
+    int HTTP_update_T_drone();
 };
 
 struct T_control {
@@ -48,6 +51,10 @@ struct T_hash_pwm *g_pT_hash_pwm;
 double g_arrd_current_pwm[4];
 //time_t g_T_timer;
 struct T_drone g_T_drone_my;
+
+int T_drone::HTTP_update_T_drone(){
+    return 0;
+}
 
 /**
  * update the pwm value using by test purpose
@@ -151,14 +158,17 @@ int HTTP_update_T_drone_pwm(struct T_drone *pT_drone){
     //return d_pwm;
 //}
 
-int HTTP_update_T_control(struct T_control *pT_control){
+/**
+ * update the drone value
+ */
+int HTTP_update_T_drone(struct T_drone *pT_drone){
     //How to concat two char* string in C program
     //http://stackoverflow.com/questions/18468229/how-to-concat-two-char-string-in-c-program
-    g_T_drone_my.sz_mac_address = "fc:c2:de:3d:7f:af";
+    pT_drone->sz_mac_address = "fc:c2:de:3d:7f:af";
     char *sz_url_get_control_part1 = "http://fryer.ee.ucla.edu/rest/api/control/get/?mac_address=";
     char *sz_url_get_control = (char*) malloc(1 + strlen(sz_url_get_control_part1) + strlen(g_T_drone_my.sz_mac_address));
     strcpy(sz_url_get_control, sz_url_get_control_part1);
-    strcat(sz_url_get_control, g_T_drone_my.sz_mac_address);
+    strcat(sz_url_get_control, pT_drone->sz_mac_address);
     /*char *sz_url_post_control = "http://fryer.ee.ucla.edu/rest/api/control/post/";*/
     
     char *sz_http_response;
@@ -180,12 +190,12 @@ int HTTP_update_T_control(struct T_control *pT_control){
     n_json_response = json_object_object_get_ex(pT_json_object_data, "suspend_pwm4", &ppT_json_object_suspend_pwm[3]);
     n_json_response = json_object_object_get_ex(pT_json_object_data,"update_time",&pT_json_object_update_time);
 
-    pT_control->n_control_type = json_object_get_int(pT_json_object_control_type);
-    pT_control->n_auto_control_command = json_object_get_int(pT_json_object_auto_control_command);
-    pT_control->n_manual_control_command = json_object_get_int(pT_json_object_manual_control_command);
+    pT_drone->n_control_type = json_object_get_int(pT_json_object_control_type);
+    pT_drone->n_auto_control_command = json_object_get_int(pT_json_object_auto_control_command);
+    pT_drone->n_manual_control_command = json_object_get_int(pT_json_object_manual_control_command);
     for(n_index = 0; n_index < 4; n_index++)
     {
-        pT_control->arrd_suspend_pwm[n_index] = json_object_get_double(*(ppT_json_object_suspend_pwm + n_index));
+        pT_drone->arrd_suspend_pwm[n_index] = json_object_get_double(*(ppT_json_object_suspend_pwm + n_index));
     }
     return 0;
 }
