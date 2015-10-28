@@ -365,11 +365,11 @@ void GeneratePwmTest(struct T_drone *pT_drone){
     mraa_pwm_period_us(pwm, 2000);
     mraa_pwm_enable(pwm, 1);
     while(1){
+        mraa_pwm_enable(pwm, 1);
         update_T_drone_http_pwm(pT_drone);
         mraa_pwm_write(pwm, (pT_drone->arrd_current_pwm[0]));
-        //printf("pwm1 = %f", pT_drone->arrd_current_pwm[0]);
         usleep(2000);
-        mraa_pwm_write(pwm, 0);
+        mraa_pwm_enable(pwm, 0);
         usleep(18000);
     }
     //return 0;
