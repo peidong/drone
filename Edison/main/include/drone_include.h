@@ -413,7 +413,7 @@ void ThreadTask_GeneratePwm(int n_pwm_index){
         n_gpio_port = 4;
     }else if(n_pwm_index == 2){
         n_gpio_port = 7;
-    }else if(n_pwm_index == 4){
+    }else if(n_pwm_index == 3){
         n_gpio_port = 8;
     }
     GeneratePwm(&g_T_drone_self, n_pwm_index, n_gpio_port);
