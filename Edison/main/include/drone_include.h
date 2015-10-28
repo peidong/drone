@@ -11,6 +11,7 @@
 #include "mpu9250/mpu9250.h"  //include pid file    
 #include "pid/pid.h"  //include pid file
 //#include "timer/timer.h" //timer
+#include <mraa/gpio.h>
 
 #define PWM_PERIOD_NS 20000000
 #define DEBUG
@@ -297,16 +298,27 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
     return 0;
 }
 
-int GeneratePwm(double d_pwm_duty_cycle){
+int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port){
+
+    mraa_gpio_context gpio;
+    gpio = mraa_gpio_init(n_gpio_port);
+    mraa_gpio_dir(gpio, MRAA_GPIO_OUT);
 
     struct timespec T_timespec_high;
     struct timespec T_timespec_low;
 
-    T_timespec_high.tv_sec = ((int)round(PWM_PERIOD_NS * d_pwm_duty_cycle)) / 1000000000;
-    T_timespec_high.tv_nsec = ((int)round(PWM_PERIOD_NS * d_pwm_duty_cycle)) % 1000000000;
+    T_timespec_high.tv_sec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) / 1000000000;
+    T_timespec_high.tv_nsec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) % 1000000000;
 
-    T_timespec_low.tv_sec = ((int)round(PWM_PERIOD_NS * ( 1 - d_pwm_duty_cycle ))) / 1000000000;
-    T_timespec_low.tv_nsec = ((int)round(PWM_PERIOD_NS * ( 1 - d_pwm_duty_cycle ))) % 1000000000;
+    T_timespec_low.tv_sec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) / 1000000000;
+    T_timespec_low.tv_nsec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) % 1000000000;
+
+    while(1){
+
+        mraa_gpio_write(gpio, 1);
+        nanosleep(&T_timespec_high, NULL);
+        mraa_gpio_write(gpio, 0);
+        nanosleep(&T_timespec_low, NULL);
 
     return 0;
 }
