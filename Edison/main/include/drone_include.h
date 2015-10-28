@@ -13,10 +13,10 @@
 //#include "timer/timer.h" //timer
 #include <mraa/gpio.h>
 
-//#define PWM_PERIOD_NS 20000000//20ms
-#define PWM_PERIOD_NS 5000000000//5s
-//#define DEBUG_PWM
-#define DEBUG_GPIO_PWM
+#define PWM_PERIOD_NS 20000000//20ms
+//#define PWM_PERIOD_NS 5000000000//5s
+#define DEBUG_PWM
+//#define DEBUG_GPIO_PWM
 #define PWM_DEVIDE_RATIO 100
 
 //struct T_hash_pwm {
