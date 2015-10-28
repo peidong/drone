@@ -39,6 +39,8 @@ struct T_drone{
     double arrd_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
     double arrd_pid_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
     int arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
+    struct timespec T_timespec_high;
+    struct timespec T_timespec_low;
 };
 
 //struct T_control {
