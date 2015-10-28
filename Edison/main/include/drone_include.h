@@ -307,18 +307,20 @@ int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port){
     struct timespec T_timespec_high;
     struct timespec T_timespec_low;
 
-    T_timespec_high.tv_sec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) / 1000000000;
-    T_timespec_high.tv_nsec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) % 1000000000;
-
-    T_timespec_low.tv_sec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) / 1000000000;
-    T_timespec_low.tv_nsec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) % 1000000000;
-
     while(1){
+
+        T_timespec_high.tv_sec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) / 1000000000;
+        T_timespec_high.tv_nsec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) % 1000000000;
+
+        T_timespec_low.tv_sec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) / 1000000000;
+        T_timespec_low.tv_nsec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) % 1000000000;
 
         mraa_gpio_write(gpio, 1);
         nanosleep(&T_timespec_high, NULL);
         mraa_gpio_write(gpio, 0);
         nanosleep(&T_timespec_low, NULL);
+
+    }
 
     return 0;
 }
