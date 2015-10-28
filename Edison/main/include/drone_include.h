@@ -15,8 +15,8 @@
 
 #define PWM_PERIOD_NS 20000000//20ms
 //#define PWM_PERIOD_NS 5000000000//5s
-#define DEBUG_PWM
-//#define DEBUG_GPIO_PWM
+//#define DEBUG_PWM
+#define DEBUG_GPIO_PWM
 #define PWM_DEVIDE_RATIO 100
 
 //struct T_hash_pwm {
@@ -304,7 +304,7 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
 /**
  * n_pwm_index = 0,1,2,3
  */
-int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port, char *sz_pwm){
+int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port){
 
     mraa_gpio_context gpio;
     gpio = mraa_gpio_init(n_gpio_port);
@@ -322,21 +322,20 @@ int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port, char
         T_timespec_low.tv_nsec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) % 1000000000;
 
 #ifdef DEBUG_GPIO_PWM
-        printf("%s = %f\n", sz_pwm, pT_drone->arrd_current_pwm[n_pwm_index]);
+        printf("pwm%d = %f\n", (n_pwm_index+1), pT_drone->arrd_current_pwm[n_pwm_index]);
 #endif
 
         mraa_gpio_write(gpio, 1);
 
 #ifdef DEBUG_GPIO_PWM
-        printf("%s : voltage = 1\n", sz_pwm);
+        printf("pwm%d : voltage = 1\n", (n_pwm_index+1));
 #endif
 
         nanosleep(&T_timespec_high, NULL);
         mraa_gpio_write(gpio, 0);
 
 #ifdef DEBUG_GPIO_PWM
-        printf("%s : voltage = 0\n", sz_pwm);
-        printf("\n");
+        printf("pwm%d : voltage = 1\n", (n_pwm_index+1));
 #endif
 
         nanosleep(&T_timespec_low, NULL);
@@ -408,21 +407,16 @@ void ThreadTask_update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
  */
 void ThreadTask_GeneratePwm(int n_pwm_index){
     int n_gpio_port;
-    char *sz_pwm;
     if(n_pwm_index == 0){
         n_gpio_port = 2;
-        sz_pwm = "pwm1";
     }else if(n_pwm_index == 1){
         n_gpio_port = 4;
-        sz_pwm = "pwm2";
     }else if(n_pwm_index == 2){
         n_gpio_port = 7;
-        sz_pwm = "pwm3";
     }else if(n_pwm_index == 4){
         n_gpio_port = 8;
-        sz_pwm = "pwm4";
     }
-    GeneratePwm(&g_T_drone_self, n_pwm_index, n_gpio_port, sz_pwm);
+    GeneratePwm(&g_T_drone_self, n_pwm_index, n_gpio_port);
 }
 
 //int main()
