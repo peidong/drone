@@ -16,7 +16,7 @@
 
 #define PWM_PERIOD_NS 20000000//20ms
 //#define PWM_PERIOD_NS 5000000000//5s
-#define DEBUG_PWM
+//#define DEBUG_PWM
 //#define DEBUG_GPIO_PWM
 #define PWM_DEVIDE_RATIO 100
 
@@ -360,17 +360,14 @@ int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port){
 }
 
 int GeneratePwmTest(struct T_drone *pT_drone){
-    double g_arrd_last_pwm[4] = {0.0, 0.0, 0.0 ,0.0};
     mraa_pwm_context pwm;
     pwm = mraa_pwm_init(3);
     mraa_pwm_period_us(pwm, 2000);
     mraa_pwm_enable(pwm, 1);
     while(1){
         update_T_drone_http_pwm(&g_T_drone_self);
-        if (g_arrd_last_pwm[0] != g_T_drone_self.arrd_current_pwm[0]){
-            mraa_pwm_write(pwm, (g_T_drone_self.arrd_current_pwm[0]));
-        }
-        g_arrd_last_pwm[0] = g_T_drone_self.arrd_current_pwm[0];
+        mraa_pwm_write(pwm, (g_T_drone_self.arrd_current_pwm[0]));
+        printf("pwm1 = %f", g_T_drone_self.arrd_current_pwm[0]);
         usleep(2000);
         mraa_pwm_write(pwm, 0);
         usleep(8000);
