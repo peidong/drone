@@ -370,7 +370,7 @@ void GeneratePwmTest(struct T_drone *pT_drone){
         //printf("pwm1 = %f", pT_drone->arrd_current_pwm[0]);
         usleep(2000);
         mraa_pwm_write(pwm, 0);
-        usleep(8000);
+        usleep(18000);
     }
     //return 0;
 }
