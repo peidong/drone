@@ -270,27 +270,33 @@ int GeneratePwm(double d_pwm_duty_cycle){
     return 0;
 }
 
-void ThreadTask_HTTP_get_pT_pwm(){
+void ThreadTask_HTTP_update_T_drone_pwm(){
     while(1){
-        g_pT_hash_pwm = HTTP_get_pT_pwm();
-        usleep(50000);
+        HTTP_update_T_drone_pwm(&g_T_drone_my);
     }
 }
 
-void ThreadTask_get_arrd_pwm(){
-    while(1){
-        g_arrd_current_pwm[0] = get_d_pwm(g_pT_hash_pwm, "pwm1") / 100;
-        g_arrd_current_pwm[1] = get_d_pwm(g_pT_hash_pwm, "pwm2") / 100;
-        g_arrd_current_pwm[2] = get_d_pwm(g_pT_hash_pwm, "pwm3") / 100;
-        g_arrd_current_pwm[3] = get_d_pwm(g_pT_hash_pwm, "pwm4") / 100;
-        printf("pwm1 = %f\n", g_arrd_current_pwm[0]);
-        printf("pwm2 = %f\n", g_arrd_current_pwm[1]);
-        printf("pwm3 = %f\n", g_arrd_current_pwm[2]);
-        printf("pwm4 = %f\n", g_arrd_current_pwm[3]);
-        printf("\n");
-        usleep(50000);
-    }
-}
+//void ThreadTask_HTTP_get_pT_pwm(){
+    //while(1){
+        //g_pT_hash_pwm = HTTP_get_pT_pwm();
+        //usleep(50000);
+    //}
+//}
+
+//void ThreadTask_get_arrd_pwm(){
+    //while(1){
+        //g_arrd_current_pwm[0] = get_d_pwm(g_pT_hash_pwm, "pwm1") / 100;
+        //g_arrd_current_pwm[1] = get_d_pwm(g_pT_hash_pwm, "pwm2") / 100;
+        //g_arrd_current_pwm[2] = get_d_pwm(g_pT_hash_pwm, "pwm3") / 100;
+        //g_arrd_current_pwm[3] = get_d_pwm(g_pT_hash_pwm, "pwm4") / 100;
+        //printf("pwm1 = %f\n", g_arrd_current_pwm[0]);
+        //printf("pwm2 = %f\n", g_arrd_current_pwm[1]);
+        //printf("pwm3 = %f\n", g_arrd_current_pwm[2]);
+        //printf("pwm4 = %f\n", g_arrd_current_pwm[3]);
+        //printf("\n");
+        //usleep(50000);
+    //}
+//}
 
 void ThreadTask_Pid(){
 
