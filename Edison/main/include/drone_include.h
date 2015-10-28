@@ -39,8 +39,8 @@ struct T_drone{
     double arrd_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
     double arrd_pid_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
     int arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
-    struct timespec T_timespec_high;
-    struct timespec T_timespec_low;
+    struct timespec arrT_timespec_high[4];
+    struct timespec arrT_timespec_low[4];
 };
 
 //struct T_control {
@@ -299,6 +299,17 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
 
         Pid_Run(pidData_roll, pT_drone->arrd_yaw_pitch_roll[2]);
         pT_drone->arrd_pid_yaw_pitch_roll[2] = pidData_roll->output;
+    }
+    return 0;
+}
+
+int update_T_drone_arrT_timespec(struct T_drone *pT_drone){
+    int n_pwm_index = 0;
+    for(n_pwm_index = 0; n_pwm_index < 4; n_pwm_index++){
+        pT_drone->arrT_timespec_high[n_pwm_index].tv_sec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) / 1000000000;
+        pT_drone->arrT_timespec_high[n_pwm_index].tv_nsec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) % 1000000000;
+        pT_drone->arrT_timespec_low[n_pwm_index].tv_sec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) / 1000000000;
+        pT_drone->arrT_timespec_low[n_pwm_index] = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) % 1000000000;
     }
     return 0;
 }
