@@ -27,10 +27,10 @@ int main()
     while(1)
     {
         update_T_drone_http_pwm(&g_T_drone_self);
-        g_T_drone_self.arrd_current_pwm[0] = g_T_drone_self.arrd_current_pwm[0] / 100;
-        g_T_drone_self.arrd_current_pwm[1] = g_T_drone_self.arrd_current_pwm[1] / 100;
-        g_T_drone_self.arrd_current_pwm[2] = g_T_drone_self.arrd_current_pwm[2] / 100;
-        g_T_drone_self.arrd_current_pwm[3] = g_T_drone_self.arrd_current_pwm[3] / 100;
+        g_T_drone_self.arrd_current_pwm[0] = g_T_drone_self.arrd_current_pwm[0] / 1;
+        g_T_drone_self.arrd_current_pwm[1] = g_T_drone_self.arrd_current_pwm[1] / 1;
+        g_T_drone_self.arrd_current_pwm[2] = g_T_drone_self.arrd_current_pwm[2] / 1;
+        g_T_drone_self.arrd_current_pwm[3] = g_T_drone_self.arrd_current_pwm[3] / 1;
         if (g_arrd_last_pwm[0] != g_T_drone_self.arrd_current_pwm[0]){
             mraa_pwm_write(pwm1, (g_T_drone_self.arrd_current_pwm[0]));
         }
