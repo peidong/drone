@@ -49,6 +49,9 @@ double g_arrd_current_pwm[4];
 //time_t g_T_timer;
 struct T_drone g_T_drone_my;
 
+/**
+ * update the pwm value using by test purpose
+ */
 int HTTP_update_T_drone_pwm(struct T_drone *pT_drone){
     char *sz_url_get_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/get/";
     /*char *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";*/
