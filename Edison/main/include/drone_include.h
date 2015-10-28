@@ -13,8 +13,10 @@
 //#include "timer/timer.h" //timer
 #include <mraa/gpio.h>
 
-#define PWM_PERIOD_NS 20000000
-#define DEBUG
+//#define PWM_PERIOD_NS 20000000//20ms
+#define PWM_PERIOD_NS 5000000000//5s
+//#define DEBUG_PWM
+#define DEBUG_GPIO_PWM
 #define PWM_DEVIDE_RATIO 100
 
 //struct T_hash_pwm {
@@ -319,21 +321,22 @@ int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port, char
         T_timespec_low.tv_sec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) / 1000000000;
         T_timespec_low.tv_nsec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) % 1000000000;
 
-#ifdef DEBUG
+#ifdef DEBUG_GPIO_PWM
         printf("%s = %f\n", sz_pwm, pT_drone->arrd_current_pwm[n_pwm_index]);
 #endif
 
         mraa_gpio_write(gpio, 1);
 
-#ifdef DEBUG
+#ifdef DEBUG_GPIO_PWM
         printf("%s: voltage = 1\n", sz_pwm);
 #endif
 
         nanosleep(&T_timespec_high, NULL);
         mraa_gpio_write(gpio, 0);
 
-#ifdef DEBUG
+#ifdef DEBUG_GPIO_PWM
         printf("%s: voltage = 0\n", sz_pwm);
+        printf("\n");
 #endif
 
         nanosleep(&T_timespec_low, NULL);
@@ -346,7 +349,7 @@ int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port, char
 void ThreadTask_update_T_drone_http_pwm(struct T_drone *pT_drone){
     while(1){
         update_T_drone_http_pwm(pT_drone);
-#ifdef DEBUG
+#ifdef DEBUG_PWM
             printf("pwm1 = %f\n", pT_drone->arrd_current_pwm[0]);
             printf("pwm2 = %f\n", pT_drone->arrd_current_pwm[1]);
             printf("pwm3 = %f\n", pT_drone->arrd_current_pwm[2]);

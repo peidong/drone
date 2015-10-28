@@ -6,6 +6,9 @@ int main()
     threadpool thpool = thpool_init(10);
     thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http_pwm, (void*)&g_T_drone_self);
     thpool_add_work(thpool, (void*)ThreadTask_GeneratePwm, (void*)0);
+    thpool_add_work(thpool, (void*)ThreadTask_GeneratePwm, (void*)1);
+    thpool_add_work(thpool, (void*)ThreadTask_GeneratePwm, (void*)2);
+    thpool_add_work(thpool, (void*)ThreadTask_GeneratePwm, (void*)3);
     thpool_wait(thpool);
     thpool_destroy(thpool);
     /*free_pT_pwm(g_pT_hash_pwm);*/
