@@ -26,32 +26,32 @@ int main()
     int n_index;
     while(1)
     {
-        HTTP_update_T_drone_pwm(&g_T_drone_my);
-        g_T_drone_my.arrd_current_pwm[0] = g_T_drone_my.arrd_current_pwm[0] / 1000;
-        g_T_drone_my.arrd_current_pwm[1] = g_T_drone_my.arrd_current_pwm[1] / 1000;
-        g_T_drone_my.arrd_current_pwm[2] = g_T_drone_my.arrd_current_pwm[2] / 1000;
-        g_T_drone_my.arrd_current_pwm[3] = g_T_drone_my.arrd_current_pwm[3] / 1000;
-        if (g_arrd_last_pwm[0] != g_T_drone_my.arrd_current_pwm[0]){
-            mraa_pwm_write(pwm1, (g_T_drone_my.arrd_current_pwm[0]));
+        update_T_drone_http_pwm(&g_T_drone_self);
+        g_T_drone_self.arrd_current_pwm[0] = g_T_drone_self.arrd_current_pwm[0] / 1000;
+        g_T_drone_self.arrd_current_pwm[1] = g_T_drone_self.arrd_current_pwm[1] / 1000;
+        g_T_drone_self.arrd_current_pwm[2] = g_T_drone_self.arrd_current_pwm[2] / 1000;
+        g_T_drone_self.arrd_current_pwm[3] = g_T_drone_self.arrd_current_pwm[3] / 1000;
+        if (g_arrd_last_pwm[0] != g_T_drone_self.arrd_current_pwm[0]){
+            mraa_pwm_write(pwm1, (g_T_drone_self.arrd_current_pwm[0]));
         }
-        if (g_arrd_last_pwm[1] != g_T_drone_my.arrd_current_pwm[1]){
-            mraa_pwm_write(pwm2, (g_T_drone_my.arrd_current_pwm[1]));
+        if (g_arrd_last_pwm[1] != g_T_drone_self.arrd_current_pwm[1]){
+            mraa_pwm_write(pwm2, (g_T_drone_self.arrd_current_pwm[1]));
         }
-        if (g_arrd_last_pwm[2] != g_T_drone_my.arrd_current_pwm[2]){
-            mraa_pwm_write(pwm3, (g_T_drone_my.arrd_current_pwm[2]));
+        if (g_arrd_last_pwm[2] != g_T_drone_self.arrd_current_pwm[2]){
+            mraa_pwm_write(pwm3, (g_T_drone_self.arrd_current_pwm[2]));
         }
-        if (g_arrd_last_pwm[3] != g_T_drone_my.arrd_current_pwm[3]){
-            mraa_pwm_write(pwm4, (g_T_drone_my.arrd_current_pwm[3]));
+        if (g_arrd_last_pwm[3] != g_T_drone_self.arrd_current_pwm[3]){
+            mraa_pwm_write(pwm4, (g_T_drone_self.arrd_current_pwm[3]));
         }
-        g_arrd_last_pwm[0] = g_T_drone_my.arrd_current_pwm[0];
-        g_arrd_last_pwm[1] = g_T_drone_my.arrd_current_pwm[1];
-        g_arrd_last_pwm[2] = g_T_drone_my.arrd_current_pwm[2];
-        g_arrd_last_pwm[3] = g_T_drone_my.arrd_current_pwm[3];
+        g_arrd_last_pwm[0] = g_T_drone_self.arrd_current_pwm[0];
+        g_arrd_last_pwm[1] = g_T_drone_self.arrd_current_pwm[1];
+        g_arrd_last_pwm[2] = g_T_drone_self.arrd_current_pwm[2];
+        g_arrd_last_pwm[3] = g_T_drone_self.arrd_current_pwm[3];
         usleep(50000);
-        printf("pwm1 = %f\n", (g_T_drone_my.arrd_current_pwm[0]));
-        printf("pwm2 = %f\n", (g_T_drone_my.arrd_current_pwm[1]));
-        printf("pwm3 = %f\n", (g_T_drone_my.arrd_current_pwm[2]));
-        printf("pwm4 = %f\n\n", (g_T_drone_my.arrd_current_pwm[3]));
+        printf("pwm1 = %f\n", (g_T_drone_self.arrd_current_pwm[0]));
+        printf("pwm2 = %f\n", (g_T_drone_self.arrd_current_pwm[1]));
+        printf("pwm3 = %f\n", (g_T_drone_self.arrd_current_pwm[2]));
+        printf("pwm4 = %f\n\n", (g_T_drone_self.arrd_current_pwm[3]));
         /*float output = mraa_pwm_read(pwm1);*/
     }
     return 0;
