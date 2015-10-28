@@ -20,6 +20,22 @@ struct T_hash_pwm {
     UT_hash_handle hh;         /* makes this structure hashable */
 };
 
+struct T_drone{
+    //These following are from server
+    char *sz_mac_address;
+    int n_control_type;
+    int n_auto_control_command;
+    int n_manual_control_command;
+    double arrd_suspend_pwm[4];
+
+    //These following are from the board itself
+    double arrd_current_pwm[4];
+    double arrd_last_pwm[4];
+    double arrd_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
+    double arrd_pid_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
+    int arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
+};
+
 struct T_control {
     char *sz_mac_address;
     int n_control_type;
@@ -30,13 +46,8 @@ struct T_control {
 
 struct T_hash_pwm *g_pT_hash_pwm;
 double g_arrd_current_pwm[4];
-struct T_control *g_pT_control;
-double g_arrd_control[4];
-int g_arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
-double g_arrd_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
-double g_arrd_Pid_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
 //time_t g_T_timer;
-struct T_control g_T_my_control;
+struct T_drone g_T_drone_my;
 
 
 struct T_hash_pwm* HTTP_get_pT_pwm()
@@ -111,11 +122,11 @@ double get_d_pwm(struct T_hash_pwm *pT_pwm_all, char *sz_pwm_key)
 int HTTP_update_T_control(struct T_control *pT_control){
     //How to concat two char* string in C program
     //http://stackoverflow.com/questions/18468229/how-to-concat-two-char-string-in-c-program
-    g_T_my_control.sz_mac_address = "fc:c2:de:3d:7f:af";
+    g_T_drone_my.sz_mac_address = "fc:c2:de:3d:7f:af";
     char *sz_url_get_control_part1 = "http://fryer.ee.ucla.edu/rest/api/control/get/?mac_address=";
-    char *sz_url_get_control = (char*) malloc(1 + strlen(sz_url_get_control_part1) + strlen(g_T_my_control.sz_mac_address));
+    char *sz_url_get_control = (char*) malloc(1 + strlen(sz_url_get_control_part1) + strlen(g_T_drone_my.sz_mac_address));
     strcpy(sz_url_get_control, sz_url_get_control_part1);
-    strcat(sz_url_get_control, g_T_my_control.sz_mac_address);
+    strcat(sz_url_get_control, g_T_drone_my.sz_mac_address);
     /*char *sz_url_post_control = "http://fryer.ee.ucla.edu/rest/api/control/post/";*/
     
     char *sz_http_response;
@@ -206,9 +217,9 @@ void update_g_arrd_yaw_pitch_roll()
 		//    pitch -= 0.5;
 		//    roll -= 1.9;
 
-		g_arrd_yaw_pitch_roll[0] = yaw;
-		g_arrd_yaw_pitch_roll[1] = pitch;
-		g_arrd_yaw_pitch_roll[2] = roll;
+		g_T_drone_my.arrd_yaw_pitch_roll[0] = yaw;
+		g_T_drone_my.arrd_yaw_pitch_roll[1] = pitch;
+		g_T_drone_my.arrd_yaw_pitch_roll[2] = roll;
 		//    printf("%.1f, %.1f, %.1f\n",yaw, pitch, roll);
 	}
 }
@@ -274,14 +285,14 @@ void ThreadTask_Pid(){
     Pid_SetSetPoint(pidData_roll, 0);
 
     while(1){
-        Pid_Run(pidData_yaw, g_arrd_yaw_pitch_roll[0]);
-        g_arrd_Pid_yaw_pitch_roll[0] = pidData_yaw->output;
+        Pid_Run(pidData_yaw, g_T_drone_my.arrd_yaw_pitch_roll[0]);
+        g_T_drone_my.arrd_pid_yaw_pitch_roll[0] = pidData_yaw->output;
 
-        Pid_Run(pidData_pitch, g_arrd_yaw_pitch_roll[1]);
-        g_arrd_Pid_yaw_pitch_roll[1] = pidData_pitch->output;
+        Pid_Run(pidData_pitch, g_T_drone_my.arrd_yaw_pitch_roll[1]);
+        g_T_drone_my.arrd_pid_yaw_pitch_roll[1] = pidData_pitch->output;
 
-        Pid_Run(pidData_roll, g_arrd_yaw_pitch_roll[2]);
-        g_arrd_Pid_yaw_pitch_roll[2] = pidData_roll->output;
+        Pid_Run(pidData_roll, g_T_drone_my.arrd_yaw_pitch_roll[2]);
+        g_T_drone_my.arrd_pid_yaw_pitch_roll[2] = pidData_roll->output;
     }
 
 
