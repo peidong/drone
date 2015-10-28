@@ -13,7 +13,7 @@
 //#include "timer/timer.h" //timer
 
 #define PWM_PERIOD_NS 20000000
-//#define DEBUG
+#define DEBUG
 
 //struct T_hash_pwm {
     //const char *pstr_key;          [> key <]
