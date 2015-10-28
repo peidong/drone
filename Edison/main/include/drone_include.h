@@ -359,7 +359,7 @@ int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port){
     return 0;
 }
 
-int GeneratePwmTest(struct T_drone *pT_drone){
+void GeneratePwmTest(struct T_drone *pT_drone){
     mraa_pwm_context pwm;
     pwm = mraa_pwm_init(3);
     mraa_pwm_period_us(pwm, 2000);
@@ -372,7 +372,7 @@ int GeneratePwmTest(struct T_drone *pT_drone){
         mraa_pwm_write(pwm, 0);
         usleep(8000);
     }
-    return 0;
+    //return 0;
 }
 
 void ThreadTask_update_T_drone_http_pwm(struct T_drone *pT_drone){
