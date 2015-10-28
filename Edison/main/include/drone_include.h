@@ -13,10 +13,10 @@
 //#include "timer/timer.h" //timer
 #include <mraa/gpio.h>
 
-//#define PWM_PERIOD_NS 20000000//20ms
-#define PWM_PERIOD_NS 5000000000//5s
-//#define DEBUG_PWM
-#define DEBUG_GPIO_PWM
+#define PWM_PERIOD_NS 20000000//20ms
+//#define PWM_PERIOD_NS 5000000000//5s
+#define DEBUG_PWM
+//#define DEBUG_GPIO_PWM
 #define PWM_DEVIDE_RATIO 100
 
 //struct T_hash_pwm {
@@ -335,7 +335,7 @@ int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port){
         mraa_gpio_write(gpio, 0);
 
 #ifdef DEBUG_GPIO_PWM
-        printf("pwm%d : voltage = 1\n", (n_pwm_index+1));
+        printf("pwm%d : voltage = 0\n", (n_pwm_index+1));
 #endif
 
         nanosleep(&T_timespec_low, NULL);
