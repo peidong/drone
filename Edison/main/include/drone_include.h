@@ -15,6 +15,7 @@
 
 #define PWM_PERIOD_NS 20000000
 #define DEBUG
+#define PWM_DEVIDE_RATIO 100
 
 //struct T_hash_pwm {
     //const char *pstr_key;          [> key <]
@@ -76,7 +77,7 @@ int update_T_drone_http_pwm(struct T_drone *pT_drone){
     n_index = 0;
     for(n_index = 0; n_index < 4; n_index++)
     {
-        pT_drone->arrd_current_pwm[n_index] = json_object_get_double(*(ppT_json_object_pwm+n_index));
+        pT_drone->arrd_current_pwm[n_index] = (json_object_get_double(*(ppT_json_object_pwm+n_index))) / PWM_DEVIDE_RATIO;
     }
     return 0;
 }
@@ -298,7 +299,10 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
     return 0;
 }
 
-int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port){
+/**
+ * n_pwm_index = 0,1,2,3
+ */
+int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port, char *sz_pwm){
 
     mraa_gpio_context gpio;
     gpio = mraa_gpio_init(n_gpio_port);
@@ -315,9 +319,23 @@ int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port){
         T_timespec_low.tv_sec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) / 1000000000;
         T_timespec_low.tv_nsec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) % 1000000000;
 
+#ifdef DEBUG
+        printf("%s = %f\n", sz_pwm, pT_drone->arrd_current_pwm[n_pwm_index]);
+#endif
+
         mraa_gpio_write(gpio, 1);
+
+#ifdef DEBUG
+        printf("%s: voltage = 1\n", sz_pwm);
+#endif
+
         nanosleep(&T_timespec_high, NULL);
         mraa_gpio_write(gpio, 0);
+
+#ifdef DEBUG
+        printf("%s: voltage = 0\n", sz_pwm);
+#endif
+
         nanosleep(&T_timespec_low, NULL);
 
     }
@@ -380,6 +398,28 @@ void ThreadTask_update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
 
 void ThreadTask_update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     update_T_drone_arrd_yaw_pitch_roll(pT_drone);
+}
+
+/**
+ * n_pwm_index = 0,1,2,3
+ */
+void ThreadTask_GeneratePwm(int n_pwm_index){
+    int n_gpio_port;
+    char *sz_pwm;
+    if(n_pwm_index == 0){
+        n_gpio_port = 2;
+        sz_pwm = "pwm1";
+    }else if(n_pwm_index == 1){
+        n_gpio_port = 4;
+        sz_pwm = "pwm2";
+    }else if(n_pwm_index == 2){
+        n_gpio_port = 7;
+        sz_pwm = "pwm3";
+    }else if(n_pwm_index == 4){
+        n_gpio_port = 8;
+        sz_pwm = "pwm4";
+    }
+    GeneratePwm(&g_T_drone_self, n_pwm_index, n_gpio_port, sz_pwm);
 }
 
 //int main()
