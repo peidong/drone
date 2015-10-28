@@ -6,10 +6,13 @@
 #include <json-c/json.h>
 #include "thread/thpool.h" /*https://github.com/Pithikos/C-Thread-Pool*/
 #include <unistd.h>/*usleep*/
-
+#include <math.h>//round
+#include <time.h>//nanosleep
 #include "mpu9250/mpu9250.h"  //include pid file    
 #include "pid/pid.h"  //include pid file
 //#include "timer/timer.h" //timer
+
+#define PWM_PERIOD_NS 20000000
 
 struct T_hash_pwm {
     const char *pstr_key;          /* key */
@@ -208,6 +211,20 @@ void update_g_arrd_yaw_pitch_roll()
 		g_arrd_yaw_pitch_roll[2] = roll;
 		//    printf("%.1f, %.1f, %.1f\n",yaw, pitch, roll);
 	}
+}
+
+int GeneratePwm(double d_pwm_duty_cycle){
+
+    struct timespec T_timespec_high;
+    struct timespec T_timespec_low;
+
+    T_timespec_high.tv_sec = ((int)round(PWM_PERIOD_NS * d_pwm_duty_cycle)) / 1000000000;
+    T_timespec_high.tv_nsec = ((int)round(PWM_PERIOD_NS * d_pwm_duty_cycle)) % 1000000000;
+
+    T_timespec_low.tv_sec = ((int)round(PWM_PERIOD_NS * ( 1 - d_pwm_duty_cycle ))) / 1000000000;
+    T_timespec_low.tv_nsec = ((int)round(PWM_PERIOD_NS * ( 1 - d_pwm_duty_cycle ))) % 1000000000;
+
+    return 0;
 }
 
 void ThreadTask_HTTP_get_pT_pwm(){
