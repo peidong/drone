@@ -314,6 +314,10 @@ int GeneratePwm(double d_pwm_duty_cycle){
 void ThreadTask_update_T_drone_http_pwm(struct T_drone *pT_drone){
     while(1){
         update_T_drone_http_pwm(pT_drone);
+        printf("pwm1 = %f\n", pT_drone->arrd_current_pwm[0]);
+        printf("pwm2 = %f\n", pT_drone->arrd_current_pwm[1]);
+        printf("pwm3 = %f\n", pT_drone->arrd_current_pwm[2]);
+        printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
         usleep(50000);
     }
 }
@@ -321,6 +325,7 @@ void ThreadTask_update_T_drone_http_pwm(struct T_drone *pT_drone){
 void ThreadTask_update_T_drone_http(struct T_drone *pT_drone){
     while(1){
         update_T_drone_http(pT_drone);
+        usleep(50000);
     }
 }
 
