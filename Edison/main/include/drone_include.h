@@ -13,6 +13,7 @@
 //#include "timer/timer.h" //timer
 
 #define PWM_PERIOD_NS 20000000
+#define PRINT_PWM 1
 
 struct T_hash_pwm {
     const char *pstr_key;          /* key */
@@ -314,11 +315,13 @@ int GeneratePwm(double d_pwm_duty_cycle){
 void ThreadTask_update_T_drone_http_pwm(struct T_drone *pT_drone){
     while(1){
         update_T_drone_http_pwm(pT_drone);
-        printf("pwm1 = %f\n", pT_drone->arrd_current_pwm[0]);
-        printf("pwm2 = %f\n", pT_drone->arrd_current_pwm[1]);
-        printf("pwm3 = %f\n", pT_drone->arrd_current_pwm[2]);
-        printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
-        printf("\n");
+        if(PRINT_PWM){
+            printf("pwm1 = %f\n", pT_drone->arrd_current_pwm[0]);
+            printf("pwm2 = %f\n", pT_drone->arrd_current_pwm[1]);
+            printf("pwm3 = %f\n", pT_drone->arrd_current_pwm[2]);
+            printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
+            printf("\n");
+        }
         usleep(50000);
     }
 }
