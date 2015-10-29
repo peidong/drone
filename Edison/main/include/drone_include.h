@@ -361,7 +361,7 @@ int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port){
 
 void GeneratePwmTest(struct T_drone *pT_drone){
     mraa_pwm_context pwm;
-    pwm = mraa_pwm_init(3);
+    pwm = mraa_pwm_init(5);
     mraa_pwm_period_us(pwm, 2000);
     mraa_pwm_enable(pwm, 1);
     struct timespec T_timespec_high;
