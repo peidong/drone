@@ -31,10 +31,10 @@ print request
 ####
 
 #### Decode message to json format and assign to variables
-ret = json.loads(request)
-anchor_id = ret["anchor_id"]
-client_id = ret["client_id"]
-RSSI = ret["RSSI"]
+# ret = json.loads(request)
+# anchor_id = ret["anchor_id"]
+# client_id = ret["client_id"]
+# RSSI = ret["RSSI"]
 # time_raw = ret["time"]
 # time_str = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(time_raw)))
 
