@@ -10,9 +10,9 @@ import MySQLdb
 HOST, PORT = 'fryer.ee.ucla.edu', 5000
 
 listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+# listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 listen_socket.bind((HOST, PORT))
-listen_socket.listen(1)
+listen_socket.listen(5)
 print 'Serving HTTP on port %s ...' % PORT
 ####
 
@@ -23,11 +23,11 @@ print 'Serving HTTP on port %s ...' % PORT
 # cur = db.cursor() 
 ####
 
-while(True):
 #### When connection is accepted, start to receive data messages
-    client_connection, client_address = listen_socket.accept()
+client_connection, client_address = listen_socket.accept()
+print'Connected by', client_address
+while 1:
     request = client_connection.recv(1024)
-
     print request
 ####
 
