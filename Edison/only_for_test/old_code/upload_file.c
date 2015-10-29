@@ -6,6 +6,7 @@
 #include <curl/curl.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 int main(void)
 {
@@ -15,7 +16,7 @@ int main(void)
   double speed_upload, total_time;
   FILE *fd;
 
-  fd = fopen("Http_get.c", "rb"); /* open file to upload */
+  fd = fopen("/home/webmaster/drone/Edison/only_for_test/old_code/Http_get.c", "rb"); /* open file to upload */
   if(!fd) {
 
     return 1; /* can't continue */
@@ -31,7 +32,7 @@ int main(void)
   if(curl) {
     /* upload to this place */
     curl_easy_setopt(curl, CURLOPT_URL,
-                     "http://fryer.ee.ucla.edu/rest/api/");
+                     "http://fryer.ee.ucla.edu/rest/api/upload/index.php");
 
     /* tell it to "upload" to the URL */
     curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
@@ -65,5 +66,13 @@ int main(void)
     /* always cleanup */
     curl_easy_cleanup(curl);
   }
+  printf("\n\n\n");
+/*char *name[] = {*/
+        /*"/bin/bash",*/
+        /*"-c",*/
+        /*"curl -v -F 'filename=Http_get.c' -F 'file=@/home/webmaster/drone/Edison/only_for_test/old_code/Http_get.c' http://fryer.ee.ucla.edu/rest/api/upload/index.php",*/
+        /*NULL*/
+    /*};*/
+    /*execvp(name[0], name);*/
   return 0;
 }
