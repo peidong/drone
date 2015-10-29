@@ -7,7 +7,7 @@ import MySQLdb
 
 
 #### Open port and start listening
-HOST, PORT = '', 5000
+HOST, PORT = 'fryer.ee.ucla.edu', 5000
 
 listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -18,9 +18,9 @@ print 'Serving HTTP on port %s ...' % PORT
 
 
 #### Connect to database
-db=MySQLdb.connect(host="localhost",user="ucla",db="ee202c_BT")
-db.autocommit(True)
-cur = db.cursor() 
+# db=MySQLdb.connect(host="localhost",user="ucla",db="ee202c_BT")
+# db.autocommit(True)
+# cur = db.cursor() 
 ####
 
 #### When connection is accepted, start to receive data messages
@@ -41,17 +41,17 @@ RSSI = ret["RSSI"]
 ####
 
 #### Update database using SQL commands
-cur.execute("CREATE TABLE IF NOT EXISTS ee202c_BT.RSSI (\
-id int NOT NULL PRIMARY KEY AUTO_INCREMENT,\
-anchor_id varchar(20),\
-client_id varchar(20),\
-RSSI 		varchar(20),\
-update_time timestamp  DEFAULT '0000-00-00 00:00:00'\
-) ENGINE = InnoDB;")
+# cur.execute("CREATE TABLE IF NOT EXISTS ee202c_BT.RSSI (\
+# id int NOT NULL PRIMARY KEY AUTO_INCREMENT,\
+# anchor_id varchar(20),\
+# client_id varchar(20),\
+# RSSI 		varchar(20),\
+# update_time timestamp  DEFAULT '0000-00-00 00:00:00'\
+# ) ENGINE = InnoDB;")
 
-cur.execute("INSERT INTO RSSI (anchor_id, client_id, RSSI,\
-	update_time) VALUES (%s, %s, %s, now());", (anchor_id, client_id, \
-	RSSI))
+# cur.execute("INSERT INTO RSSI (anchor_id, client_id, RSSI,\
+	# update_time) VALUES (%s, %s, %s, now());", (anchor_id, client_id, \
+	# RSSI))
 
 ####
 

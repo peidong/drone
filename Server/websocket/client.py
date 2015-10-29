@@ -9,7 +9,7 @@ import threading
 #import MySQLdb
 
 #### Connect to host, build socket connection
-HOST = '164.67.194.243'    # The remote host
+HOST = 'fryer.ee.ucla.edu'    # The remote host
 PORT = 5000              # The same port as used by the server
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
