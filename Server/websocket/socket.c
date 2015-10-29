@@ -46,5 +46,12 @@ int main(int argc , char *argv[])
     puts("Reply received\n");
     puts(server_reply);
      
+    if( recv(socket_desc, server_reply , 2000 , 0) < 0)
+    {
+        puts("recv failed");
+    }
+    puts("Reply received\n");
+    puts(server_reply);
+
     return 0;
 }
