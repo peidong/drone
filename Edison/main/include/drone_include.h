@@ -367,10 +367,10 @@ void GeneratePwmTest(struct T_drone *pT_drone){
     struct timespec T_timespec_high;
     struct timespec T_timespec_low;
     T_timespec_high.tv_sec = 0;
-    T_timespec_high.tv_nsec = 1.9 * 1000000;
+    T_timespec_high.tv_nsec = 1 * 1000000;
 
     T_timespec_low.tv_sec = 0;
-    T_timespec_low.tv_nsec = 17.5 * 1000000;
+    T_timespec_low.tv_nsec = 18.5 * 1000000;
 
     while(1){
         //update_T_drone_http_pwm(pT_drone);
