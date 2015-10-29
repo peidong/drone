@@ -364,13 +364,22 @@ void GeneratePwmTest(struct T_drone *pT_drone){
     pwm = mraa_pwm_init(3);
     mraa_pwm_period_us(pwm, 2000);
     mraa_pwm_enable(pwm, 1);
+    struct timespec T_timespec_high;
+    struct timespec T_timespec_low;
+    T_timespec_high.tv_sec = 0;
+    T_timespec_high.tv_nsec = 2 * 1000000;
+
+    T_timespec_low.tv_sec = 0;
+    T_timespec_low.tv_nsec = 18 * 1000000;
+
     while(1){
         mraa_pwm_enable(pwm, 1);
-        update_T_drone_http_pwm(pT_drone);
-        mraa_pwm_write(pwm, (pT_drone->arrd_current_pwm[0]));
-        usleep(2000);
+        //update_T_drone_http_pwm(pT_drone);
+        mraa_pwm_write(pwm, 0.5);
+        nanosleep(&T_timespec_high, NULL);
+        mraa_pwm_write(pwm, 0);
         mraa_pwm_enable(pwm, 0);
-        usleep(18000);
+        nanosleep(&T_timespec_low, NULL);
     }
     //return 0;
 }
