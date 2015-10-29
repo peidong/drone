@@ -318,7 +318,7 @@ int update_T_drone_arrT_timespec(struct T_drone *pT_drone){
 /**
  * n_pwm_index = 0,1,2,3
  */
-int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port){
+int GeneratePwmFromGpio(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port){
 
     mraa_gpio_context gpio;
     gpio = mraa_gpio_init(n_gpio_port);
@@ -359,7 +359,7 @@ int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port){
     return 0;
 }
 
-void GeneratePwmTest(struct T_drone *pT_drone){
+void GeneratePwmFromPwm(struct T_drone *pT_drone){
     mraa_pwm_context pwm;
     pwm = mraa_pwm_init(5);
     mraa_pwm_period_us(pwm, 2000);
@@ -457,16 +457,5 @@ void ThreadTask_GeneratePwm(int n_pwm_index){
     }else if(n_pwm_index == 3){
         n_gpio_port = 8;
     }
-    GeneratePwm(&g_T_drone_self, n_pwm_index, n_gpio_port);
+    GeneratePwmFromGpio(&g_T_drone_self, n_pwm_index, n_gpio_port);
 }
-
-//int main()
-//{
-    //threadpool thpool = thpool_init(10);
-    //thpool_add_work(thpool, (void*)ThreadTask_HTTP_get_pT_pwm, NULL);
-    //thpool_add_work(thpool, (void*)ThreadTask_get_arrd_pwm, NULL);
-    //thpool_wait(thpool);
-    //thpool_destroy(thpool);
-    //free_pT_pwm(g_pT_hash_pwm);
-    //return 0;
-//}
