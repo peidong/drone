@@ -376,7 +376,7 @@ void GeneratePwmTest(struct T_drone *pT_drone){
         //update_T_drone_http_pwm(pT_drone);
         mraa_pwm_write(pwm, 0.2);
         //nanosleep(&T_timespec_high, NULL);
-        usleep(1000);
+        usleep(2000);
         mraa_pwm_write(pwm, 0);
         //mraa_pwm_enable(pwm, 0);
         usleep(3000);
