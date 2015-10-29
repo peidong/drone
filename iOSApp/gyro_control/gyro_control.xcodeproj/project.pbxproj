@@ -1,0 +1,525 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DD16595B1BE1DBF400B41F36 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DD16595A1BE1DBF400B41F36 /* main.m */; };
+		DD16595E1BE1DBF400B41F36 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD16595D1BE1DBF400B41F36 /* AppDelegate.m */; };
+		DD1659611BE1DBF400B41F36 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1659601BE1DBF400B41F36 /* ViewController.m */; };
+		DD1659641BE1DBF400B41F36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD1659621BE1DBF400B41F36 /* Main.storyboard */; };
+		DD1659661BE1DBF400B41F36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD1659651BE1DBF400B41F36 /* Assets.xcassets */; };
+		DD1659691BE1DBF400B41F36 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD1659671BE1DBF400B41F36 /* LaunchScreen.storyboard */; };
+		DD1659741BE1DBF400B41F36 /* gyro_controlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DD1659731BE1DBF400B41F36 /* gyro_controlTests.m */; };
+		DD16597F1BE1DBF400B41F36 /* gyro_controlUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = DD16597E1BE1DBF400B41F36 /* gyro_controlUITests.m */; };
+		DD16598D1BE1DD5100B41F36 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD16598C1BE1DD5100B41F36 /* CoreMotion.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DD1659701BE1DBF400B41F36 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD16594E1BE1DBF400B41F36 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD1659551BE1DBF400B41F36;
+			remoteInfo = gyro_control;
+		};
+		DD16597B1BE1DBF400B41F36 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD16594E1BE1DBF400B41F36 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD1659551BE1DBF400B41F36;
+			remoteInfo = gyro_control;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DD1659561BE1DBF400B41F36 /* gyro_control.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gyro_control.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD16595A1BE1DBF400B41F36 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DD16595C1BE1DBF400B41F36 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		DD16595D1BE1DBF400B41F36 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		DD16595F1BE1DBF400B41F36 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		DD1659601BE1DBF400B41F36 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		DD1659631BE1DBF400B41F36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DD1659651BE1DBF400B41F36 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DD1659681BE1DBF400B41F36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		DD16596A1BE1DBF400B41F36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD16596F1BE1DBF400B41F36 /* gyro_controlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = gyro_controlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD1659731BE1DBF400B41F36 /* gyro_controlTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = gyro_controlTests.m; sourceTree = "<group>"; };
+		DD1659751BE1DBF400B41F36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD16597A1BE1DBF400B41F36 /* gyro_controlUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = gyro_controlUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD16597E1BE1DBF400B41F36 /* gyro_controlUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = gyro_controlUITests.m; sourceTree = "<group>"; };
+		DD1659801BE1DBF400B41F36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD16598C1BE1DD5100B41F36 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DD1659531BE1DBF400B41F36 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD16598D1BE1DD5100B41F36 /* CoreMotion.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD16596C1BE1DBF400B41F36 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD1659771BE1DBF400B41F36 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DD16594D1BE1DBF400B41F36 = {
+			isa = PBXGroup;
+			children = (
+				DD16598C1BE1DD5100B41F36 /* CoreMotion.framework */,
+				DD1659581BE1DBF400B41F36 /* gyro_control */,
+				DD1659721BE1DBF400B41F36 /* gyro_controlTests */,
+				DD16597D1BE1DBF400B41F36 /* gyro_controlUITests */,
+				DD1659571BE1DBF400B41F36 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DD1659571BE1DBF400B41F36 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DD1659561BE1DBF400B41F36 /* gyro_control.app */,
+				DD16596F1BE1DBF400B41F36 /* gyro_controlTests.xctest */,
+				DD16597A1BE1DBF400B41F36 /* gyro_controlUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DD1659581BE1DBF400B41F36 /* gyro_control */ = {
+			isa = PBXGroup;
+			children = (
+				DD16595C1BE1DBF400B41F36 /* AppDelegate.h */,
+				DD16595D1BE1DBF400B41F36 /* AppDelegate.m */,
+				DD16595F1BE1DBF400B41F36 /* ViewController.h */,
+				DD1659601BE1DBF400B41F36 /* ViewController.m */,
+				DD1659621BE1DBF400B41F36 /* Main.storyboard */,
+				DD1659651BE1DBF400B41F36 /* Assets.xcassets */,
+				DD1659671BE1DBF400B41F36 /* LaunchScreen.storyboard */,
+				DD16596A1BE1DBF400B41F36 /* Info.plist */,
+				DD1659591BE1DBF400B41F36 /* Supporting Files */,
+			);
+			path = gyro_control;
+			sourceTree = "<group>";
+		};
+		DD1659591BE1DBF400B41F36 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DD16595A1BE1DBF400B41F36 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DD1659721BE1DBF400B41F36 /* gyro_controlTests */ = {
+			isa = PBXGroup;
+			children = (
+				DD1659731BE1DBF400B41F36 /* gyro_controlTests.m */,
+				DD1659751BE1DBF400B41F36 /* Info.plist */,
+			);
+			path = gyro_controlTests;
+			sourceTree = "<group>";
+		};
+		DD16597D1BE1DBF400B41F36 /* gyro_controlUITests */ = {
+			isa = PBXGroup;
+			children = (
+				DD16597E1BE1DBF400B41F36 /* gyro_controlUITests.m */,
+				DD1659801BE1DBF400B41F36 /* Info.plist */,
+			);
+			path = gyro_controlUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DD1659551BE1DBF400B41F36 /* gyro_control */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD1659831BE1DBF400B41F36 /* Build configuration list for PBXNativeTarget "gyro_control" */;
+			buildPhases = (
+				DD1659521BE1DBF400B41F36 /* Sources */,
+				DD1659531BE1DBF400B41F36 /* Frameworks */,
+				DD1659541BE1DBF400B41F36 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = gyro_control;
+			productName = gyro_control;
+			productReference = DD1659561BE1DBF400B41F36 /* gyro_control.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DD16596E1BE1DBF400B41F36 /* gyro_controlTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD1659861BE1DBF400B41F36 /* Build configuration list for PBXNativeTarget "gyro_controlTests" */;
+			buildPhases = (
+				DD16596B1BE1DBF400B41F36 /* Sources */,
+				DD16596C1BE1DBF400B41F36 /* Frameworks */,
+				DD16596D1BE1DBF400B41F36 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DD1659711BE1DBF400B41F36 /* PBXTargetDependency */,
+			);
+			name = gyro_controlTests;
+			productName = gyro_controlTests;
+			productReference = DD16596F1BE1DBF400B41F36 /* gyro_controlTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		DD1659791BE1DBF400B41F36 /* gyro_controlUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD1659891BE1DBF400B41F36 /* Build configuration list for PBXNativeTarget "gyro_controlUITests" */;
+			buildPhases = (
+				DD1659761BE1DBF400B41F36 /* Sources */,
+				DD1659771BE1DBF400B41F36 /* Frameworks */,
+				DD1659781BE1DBF400B41F36 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DD16597C1BE1DBF400B41F36 /* PBXTargetDependency */,
+			);
+			name = gyro_controlUITests;
+			productName = gyro_controlUITests;
+			productReference = DD16597A1BE1DBF400B41F36 /* gyro_controlUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DD16594E1BE1DBF400B41F36 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = YANGYANG;
+				TargetAttributes = {
+					DD1659551BE1DBF400B41F36 = {
+						CreatedOnToolsVersion = 7.1;
+					};
+					DD16596E1BE1DBF400B41F36 = {
+						CreatedOnToolsVersion = 7.1;
+						TestTargetID = DD1659551BE1DBF400B41F36;
+					};
+					DD1659791BE1DBF400B41F36 = {
+						CreatedOnToolsVersion = 7.1;
+						TestTargetID = DD1659551BE1DBF400B41F36;
+					};
+				};
+			};
+			buildConfigurationList = DD1659511BE1DBF400B41F36 /* Build configuration list for PBXProject "gyro_control" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DD16594D1BE1DBF400B41F36;
+			productRefGroup = DD1659571BE1DBF400B41F36 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DD1659551BE1DBF400B41F36 /* gyro_control */,
+				DD16596E1BE1DBF400B41F36 /* gyro_controlTests */,
+				DD1659791BE1DBF400B41F36 /* gyro_controlUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DD1659541BE1DBF400B41F36 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD1659691BE1DBF400B41F36 /* LaunchScreen.storyboard in Resources */,
+				DD1659661BE1DBF400B41F36 /* Assets.xcassets in Resources */,
+				DD1659641BE1DBF400B41F36 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD16596D1BE1DBF400B41F36 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD1659781BE1DBF400B41F36 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DD1659521BE1DBF400B41F36 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD1659611BE1DBF400B41F36 /* ViewController.m in Sources */,
+				DD16595E1BE1DBF400B41F36 /* AppDelegate.m in Sources */,
+				DD16595B1BE1DBF400B41F36 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD16596B1BE1DBF400B41F36 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD1659741BE1DBF400B41F36 /* gyro_controlTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD1659761BE1DBF400B41F36 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD16597F1BE1DBF400B41F36 /* gyro_controlUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DD1659711BE1DBF400B41F36 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD1659551BE1DBF400B41F36 /* gyro_control */;
+			targetProxy = DD1659701BE1DBF400B41F36 /* PBXContainerItemProxy */;
+		};
+		DD16597C1BE1DBF400B41F36 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD1659551BE1DBF400B41F36 /* gyro_control */;
+			targetProxy = DD16597B1BE1DBF400B41F36 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DD1659621BE1DBF400B41F36 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD1659631BE1DBF400B41F36 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		DD1659671BE1DBF400B41F36 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD1659681BE1DBF400B41F36 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DD1659811BE1DBF400B41F36 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DD1659821BE1DBF400B41F36 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DD1659841BE1DBF400B41F36 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = gyro_control/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.gyro-control";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DD1659851BE1DBF400B41F36 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = gyro_control/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.gyro-control";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		DD1659871BE1DBF400B41F36 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = gyro_controlTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.gyro-controlTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/gyro_control.app/gyro_control";
+			};
+			name = Debug;
+		};
+		DD1659881BE1DBF400B41F36 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = gyro_controlTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.gyro-controlTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/gyro_control.app/gyro_control";
+			};
+			name = Release;
+		};
+		DD16598A1BE1DBF400B41F36 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = gyro_controlUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.gyro-controlUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = gyro_control;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		DD16598B1BE1DBF400B41F36 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = gyro_controlUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.gyro-controlUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = gyro_control;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DD1659511BE1DBF400B41F36 /* Build configuration list for PBXProject "gyro_control" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD1659811BE1DBF400B41F36 /* Debug */,
+				DD1659821BE1DBF400B41F36 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DD1659831BE1DBF400B41F36 /* Build configuration list for PBXNativeTarget "gyro_control" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD1659841BE1DBF400B41F36 /* Debug */,
+				DD1659851BE1DBF400B41F36 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		DD1659861BE1DBF400B41F36 /* Build configuration list for PBXNativeTarget "gyro_controlTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD1659871BE1DBF400B41F36 /* Debug */,
+				DD1659881BE1DBF400B41F36 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		DD1659891BE1DBF400B41F36 /* Build configuration list for PBXNativeTarget "gyro_controlUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD16598A1BE1DBF400B41F36 /* Debug */,
+				DD16598B1BE1DBF400B41F36 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DD16594E1BE1DBF400B41F36 /* Project object */;
+}
