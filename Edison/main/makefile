@@ -13,8 +13,13 @@ endif
 
 objects = drone_main.o
 
-drone_main : $(objects)
+drone : $(objects)
 	$(CC) $(objects) -pthread -lcurl $(LDFLAGS) $(CFLAGS) -o drone_main
 
+objects_demo = demo_main.o
+
+demo : $(objects_demo)
+	$(CC) $(objects_demo) -pthread -lcurl $(LDFLAGS) $(CFLAGS) -o demo_main
+
 clean:
-	rm -rf drone_main $(objects)
+	rm -rf drone_main demo_main $(objects) $(objects_demo)
