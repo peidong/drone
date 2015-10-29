@@ -345,16 +345,14 @@ int GeneratePwm(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port){
         printf("pwm%d : voltage = 1\n", (n_pwm_index+1));
 #endif
 
-        //nanosleep(pT_drone->arrT_timespec_high+n_pwm_index, NULL);
-        usleep(1000);
+        nanosleep(pT_drone->arrT_timespec_high+n_pwm_index, NULL);
         mraa_gpio_write(gpio, 0);
 
 #ifdef DEBUG_GPIO_PWM
         printf("pwm%d : voltage = 0\n", (n_pwm_index+1));
 #endif
 
-        usleep(19000);
-        //nanosleep(pT_drone->arrT_timespec_low+n_pwm_index, NULL);
+        nanosleep(pT_drone->arrT_timespec_low+n_pwm_index, NULL);
 
     }
 
