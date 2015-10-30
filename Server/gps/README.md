@@ -1,8 +1,8 @@
-#control part
+#gps part
 
 1. HTTP GET
 
-        http://fryer.ee.ucla.edu/rest/api/control/get/?mac_address=fc:c2:de:3d:7f:af
+        http://fryer.ee.ucla.edu/rest/api/gps/get/?mac_address=fc:c2:de:3d:7f:af
 
 2. HTTP POST
 
@@ -12,11 +12,11 @@
 
     Url
     
-        http://fryer.ee.ucla.edu/rest/api/control/post/?mac_address=fc:c2:de:3d:7f:af
+        http://fryer.ee.ucla.edu/rest/api/gps/post/?mac_address=fc:c2:de:3d:7f:af
 
 ###Database part
 
-Database: edison, table: control
+Database: edison, table: gps
 
 #####mac_address
 
