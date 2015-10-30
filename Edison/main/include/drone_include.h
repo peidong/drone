@@ -43,6 +43,11 @@ struct T_drone{
     int arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
     struct timespec arrT_timespec_high[4];
     struct timespec arrT_timespec_low[4];
+
+    //GPS info
+    double d_latitude;
+    double d_longitude;
+    double d_face_direction;
 };
 
 //struct T_control {
