@@ -26,14 +26,21 @@ int main(){
         	scanf("%s", turn_user_input);               
                 
     		if (!strcmp(turn_user_input, "L") || !strcmp(turn_user_input, "l"))     
-        	    turn_left();
-            else if (!strcmp(turn_user_input, "C") || !strcmp(turn_user_input, "c")){
+            {
+                for (i = 0;i<=30;i++){
+                    turn_left();
+                }
+            }else if (!strcmp(turn_user_input, "C") || !strcmp(turn_user_input, "c"))
+            {
                 for (i = 0;i<=50;i++){
                     move_forward();
                 }
             }               
-        	else if (!strcmp(turn_user_input, "R") || !strcmp(turn_user_input, "r"))
-		        turn_right();
+        	else if (!strcmp(turn_user_input, "R") || !strcmp(turn_user_input, "r")){
+                for (i = 0;i<=30;i++){
+                    turn_right();
+                } 
+            }
             else if(!strcmp(turn_user_input, "S") || !strcmp(turn_user_input, "s"))
             {
                  turn = CENTER;
