@@ -60,21 +60,21 @@ void speed_control(mraa_pwm_context in1, mraa_pwm_context in2, float speed) {
 
 void turn_left(){
     turn = CENTER - LEFT;
-    mraa_pwm_wirte(turn_pwm, turn);
+    mraa_pwm_write(turn_pwm, turn);
     usleep(100000);
     speed_control(speed_pwm_in1, speed_pwm_in2, speed);
 }
 
 void turn_right(){
     turn = CENTER - RIGHT;
-    mraa_pwm_wirte(turn_pwm, turn);
+    mraa_pwm_write(turn_pwm, turn);
     usleep(100000);
     speed_control(speed_pwm_in1, speed_pwm_in2, speed);
 }
 
 void move_forward(){
     turn = CENTER;
-    mraa_pwm_wirte(turn_pwm, turn);
+    mraa_pwm_write(turn_pwm, turn);
     usleep(100000);
     speed_control(speed_pwm_in1, speed_pwm_in2, speed);
 }
