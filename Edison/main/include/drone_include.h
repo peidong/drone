@@ -19,7 +19,7 @@
 #define DEBUG_PWM
 //#define DEBUG_GPIO_PWM
 #define PWM_DEVIDE_RATIO 100
-#define DEBUG_YAW_PITCH_ROLL
+//#define DEBUG_YAW_PITCH_ROLL0
 
 //struct T_hash_pwm {
     //const char *pstr_key;          [> key <]
@@ -231,7 +231,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		int16_t mrawz = (Buf[5] << 8 | Buf[4]);//+200;// + mag_offset_z;
 		//int result_agm[9] = { arawx, arawy, arawz, grawx, grawy, grawz, mrawx, mrawy, mrawz };
 
-		//		printf("%6d,%6d,%6d\n",arawx, arawy, arawz);
+        printf("%6d,%6d,%6d\n",arawx, arawy, arawz);
 		//		printf("%6d,%6d,%6d\n",grawx, grawy, grawz);    
 
 		float ax = (float)arawx*aRes;
@@ -264,7 +264,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		pT_drone->arrd_yaw_pitch_roll[0] = yaw;
 		pT_drone->arrd_yaw_pitch_roll[1] = pitch;
 		pT_drone->arrd_yaw_pitch_roll[2] = roll;
-#ifdef DEBUG_YAW_PITCH_ROLL
+#ifdef DEBUG_YAW_PITCH_ROLL0
         printf("%.1f, %.1f, %.1f\n",yaw, pitch, roll);
 #endif
 	}
