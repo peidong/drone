@@ -207,6 +207,45 @@ int update_T_drone_http(struct T_drone *pT_drone){
 }
 
 /**
+ * update the drone value for gps
+ */
+int update_T_drone_http_gps(struct T_drone *pT_drone){
+    //How to concat two char* string in C program
+    //http://stackoverflow.com/questions/18468229/how-to-concat-two-char-string-in-c-program
+    char *sz_url_get_gps = "http://fryer.ee.ucla.edu/rest/api/gps/get/?location_type=0";
+    char *sz_url_get_gps_iPhone = "http://fryer.ee.ucla.edu/rest/api/gps/get/?location_type=1";
+    char *sz_url_post_gps = "http://fryer.ee.ucla.edu/rest/api/gps/post/?location_type=1";
+    
+    char *sz_http_response;
+    struct json_object *pT_json_object_whole_response, *ppT_json_object_suspend_pwm[4], *pT_json_object_data, *pT_json_object_update_time, *pT_json_object_control_type, *pT_json_object_auto_control_command, *pT_json_object_manual_control_command;
+    int n_json_response;
+    int n_index=0;
+
+    sz_http_response = http_get(sz_url_get_gps_iPhone);
+
+    pT_json_object_whole_response = json_tokener_parse(sz_http_response);
+
+    n_json_response = json_object_object_get_ex(pT_json_object_whole_response, "data", &pT_json_object_data);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "control_type", &pT_json_object_control_type);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "auto_control_command", &pT_json_object_auto_control_command);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "manual_control_command", &pT_json_object_manual_control_command);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "suspend_pwm1", &ppT_json_object_suspend_pwm[0]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "suspend_pwm2", &ppT_json_object_suspend_pwm[1]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "suspend_pwm3", &ppT_json_object_suspend_pwm[2]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "suspend_pwm4", &ppT_json_object_suspend_pwm[3]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data,"update_time",&pT_json_object_update_time);
+
+    pT_drone->n_control_type = json_object_get_int(pT_json_object_control_type);
+    pT_drone->n_auto_control_command = json_object_get_int(pT_json_object_auto_control_command);
+    pT_drone->n_manual_control_command = json_object_get_int(pT_json_object_manual_control_command);
+    for(n_index = 0; n_index < 4; n_index++)
+    {
+        pT_drone->arrd_suspend_pwm[n_index] = json_object_get_double(*(ppT_json_object_suspend_pwm + n_index));
+    }
+    return 0;
+}
+
+/**
  * 0:up 1:down 2:left 3:right 4:forward 5:backward
  */
 int update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
