@@ -216,8 +216,8 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		uint8_t Buf[14];
 		mraa_i2c_read_bytes_data(mpu, 59, Buf, 14);
 		// Accelerometer
-		int16_t arawx = -(Buf[0] << 8 | Buf[1]) - 170;
-		int16_t arawy = -(Buf[2] << 8 | Buf[3]) + 600;
+		int16_t arawx = -(Buf[0] << 8 | Buf[1]) - 170 + 470;
+		int16_t arawy = -(Buf[2] << 8 | Buf[3]) + 600 - 300;
 		int16_t arawz = Buf[4] << 8 | Buf[5];
 		// Gyroscope
 		int16_t grawx = (Buf[8] << 8 | Buf[9]) - 25;
