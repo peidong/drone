@@ -48,6 +48,8 @@ struct T_drone{
     double d_current_latitude;
     double d_current_longitude;
     double d_face_direction;
+    double d_destination_latitude;
+    double d_destination_longitude;
 };
 
 //struct T_control {
@@ -217,7 +219,7 @@ int update_T_drone_http_gps(struct T_drone *pT_drone){
     char *sz_url_post_gps = "http://fryer.ee.ucla.edu/rest/api/gps/post/?location_type=1";
     
     char *sz_http_response;
-    struct json_object *pT_json_object_whole_response, *pT_json_object_data, *pT_json_object_update_time, *pT_json_object_face_direction, *pT_json_object_current_latitude, *pT_json_object_current_longitude;
+    struct json_object *pT_json_object_whole_response, *pT_json_object_data, *pT_json_object_update_time, *pT_json_object_face_direction, *pT_json_object_latitude, *pT_json_object_longitude;
     int n_json_response;
 
     sz_http_response = http_get(sz_url_get_gps_iPhone);
@@ -226,13 +228,26 @@ int update_T_drone_http_gps(struct T_drone *pT_drone){
 
     n_json_response = json_object_object_get_ex(pT_json_object_whole_response, "data", &pT_json_object_data);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "face_direction", &pT_json_object_face_direction);
-    n_json_response = json_object_object_get_ex(pT_json_object_data, "latitude", &pT_json_object_current_latitude);
-    n_json_response = json_object_object_get_ex(pT_json_object_data, "longitude", &pT_json_object_current_longitude);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "latitude", &pT_json_object_latitude);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "longitude", &pT_json_object_longitude);
     n_json_response = json_object_object_get_ex(pT_json_object_data,"update_time",&pT_json_object_update_time);
 
     pT_drone->d_face_direction = json_object_get_int(pT_json_object_face_direction);
-    pT_drone->d_current_latitude = json_object_get_int(pT_json_object_current_latitude);
-    pT_drone->d_current_longitude = json_object_get_int(pT_json_object_current_longitude);
+    pT_drone->d_current_latitude = json_object_get_int(pT_json_object_latitude);
+    pT_drone->d_current_longitude = json_object_get_int(pT_json_object_longitude);
+
+    sz_http_response = http_get(sz_url_get_gps);
+
+    pT_json_object_whole_response = json_tokener_parse(sz_http_response);
+
+    n_json_response = json_object_object_get_ex(pT_json_object_whole_response, "data", &pT_json_object_data);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "face_direction", &pT_json_object_face_direction);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "latitude", &pT_json_object_latitude);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "longitude", &pT_json_object_longitude);
+    n_json_response = json_object_object_get_ex(pT_json_object_data,"update_time",&pT_json_object_update_time);
+
+    pT_drone->d_destination_latitude = json_object_get_int(pT_json_object_latitude);
+    pT_drone->d_destination_longitude = json_object_get_int(pT_json_object_longitude);
     return 0;
 }
 
