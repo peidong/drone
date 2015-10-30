@@ -1,12 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <signal.h>
-#include <string.h>
-#include <mraa/pwm.h>
-#include <mraa/gpio.h>
-#include <sys/time.h>
-#include <math.h>
 #include "../main/include/drone_include.h"
 
 
@@ -38,6 +29,7 @@ struct T_drone{
     struct timespec arrT_timespec_high[4];
     struct timespec arrT_timespec_low[4];
 
+    //GPS info
     double d_latitude;
     double d_longitude;
     double d_face_direction;
@@ -48,12 +40,12 @@ struct T_drone{
 void speed_control(mraa_pwm_context in1, mraa_pwm_context in2, float speed) {
 	speed = speed / 100;                                  
         if (speed >= 0) {                                   
-                mraa_pwm_write(in2, 1.0f);        
-                mraa_pwm_write(in1, 1.0f - speed);
+            mraa_pwm_write(in2, 1.0f);        
+            mraa_pwm_write(in1, 1.0f - speed);
         }                                                   
         else if (speed < 0) {                               
-                mraa_pwm_write(in1, 1.0f);        
-                mraa_pwm_write(in2, 1.0f + speed);
+            mraa_pwm_write(in1, 1.0f);        
+            mraa_pwm_write(in2, 1.0f + speed);
         }    
 }
 
