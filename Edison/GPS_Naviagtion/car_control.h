@@ -14,7 +14,7 @@
 #define MAXBUFSIZ 1024
 #define CENTER 0.068f
 #define LEFT 0.015f
-#define RIGHT 0.015f
+#define RIGHT -0.015f
 #define LEFTMAX 0.048f
 #define RIGHTMAX 0.088f
 
@@ -63,7 +63,6 @@ void turn_left(){
     mraa_pwm_write(turn_pwm, turn);
     usleep(10000);
     speed_control(speed_pwm_in1, speed_pwm_in2, speed);
-    usleep(10000);
     
 }
 
@@ -72,7 +71,6 @@ void turn_right(){
     mraa_pwm_write(turn_pwm, turn);
     usleep(10000);
     speed_control(speed_pwm_in1, speed_pwm_in2, speed);
-    usleep(10000);
     
 }
 
@@ -81,7 +79,6 @@ void move_forward(){
     mraa_pwm_write(turn_pwm, turn);
     usleep(10000);
     speed_control(speed_pwm_in1, speed_pwm_in2, speed);
-    usleep(10000);
     
 }
 
@@ -90,7 +87,6 @@ void move_backward(){
     mraa_pwm_write(turn_pwm, turn);
     usleep(10000);
     speed_control(speed_pwm_in1, speed_pwm_in2, speed);
-    usleep(10000);
     
 }
 

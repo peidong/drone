@@ -26,8 +26,11 @@ int main(){
                 
     		if (!strcmp(turn_user_input, "L") || !strcmp(turn_user_input, "l"))     
         	    turn_left();
-            else if (!strcmp(turn_user_input, "C") || !strcmp(turn_user_input, "c"))
-            	move_forward();               
+            else if (!strcmp(turn_user_input, "C") || !strcmp(turn_user_input, "c")){
+                for (int i = 0;i<=5;i++){
+                    move_forward();
+                }
+            }               
         	else if (!strcmp(turn_user_input, "R") || !strcmp(turn_user_input, "r"))
 		        turn_right();
             else if(!strcmp(turn_user_input, "S") || !strcmp(turn_user_input, "s"))
