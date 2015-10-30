@@ -75,17 +75,17 @@ double currentMaxRotZ;
     
     
     
-    self.accX.text = [NSString stringWithFormat:@" %.2fg",acceleration.x];
+    self.accX.text = [NSString stringWithFormat:@"Acceleration In X: %.2fg",acceleration.x];
     if(fabs(acceleration.x) > fabs(currentMaxAccelX))
     {
         currentMaxAccelX = acceleration.x;
     }
-    self.accY.text = [NSString stringWithFormat:@" %.2fg",acceleration.y];
+    self.accY.text = [NSString stringWithFormat:@"Acceleration In Y: %.2fg",acceleration.y];
     if(fabs(acceleration.y) > fabs(currentMaxAccelY))
     {
         currentMaxAccelY = acceleration.y;
     }
-    self.accZ.text = [NSString stringWithFormat:@" %.2fg",acceleration.z];
+    self.accZ.text = [NSString stringWithFormat:@"Acceleration In Z: %.2fg",acceleration.z];
     if(fabs(acceleration.z) > fabs(currentMaxAccelZ))
     {
         currentMaxAccelZ = acceleration.z;
@@ -100,17 +100,17 @@ double currentMaxRotZ;
 -(void)outputRotationData:(CMRotationRate)rotation
 {
     
-    self.rotX.text = [NSString stringWithFormat:@" %.2fr/s",rotation.x];
+    self.rotX.text = [NSString stringWithFormat:@"Rotation About X: %.2fr/s",rotation.x];
     if(fabs(rotation.x) > fabs(currentMaxRotX))
     {
         currentMaxRotX = rotation.x;
     }
-    self.rotY.text = [NSString stringWithFormat:@" %.2fr/s",rotation.y];
+    self.rotY.text = [NSString stringWithFormat:@"Rotation About Y: %.2fr/s",rotation.y];
     if(fabs(rotation.y) > fabs(currentMaxRotY))
     {
         currentMaxRotY = rotation.y;
     }
-    self.rotZ.text = [NSString stringWithFormat:@" %.2fr/s",rotation.z];
+    self.rotZ.text = [NSString stringWithFormat:@"Rotation About Z: %.2fr/s",rotation.z];
     if(fabs(rotation.z) > fabs(currentMaxRotZ))
     {
         currentMaxRotZ = rotation.z;
