@@ -45,6 +45,7 @@
     int rightData;
     bool currentlyStart;
     int total;
+    double fpwm, bpwm, lpwm, rpwm;
     
     NSArray *_sliders;
 }
@@ -56,33 +57,45 @@
     // Do any additional setup after loading the view, typically from a nib.
     _slider1.continuous = NO;
     _slider1.value = 0.3;
-    forwardData = (int)([_slider1 value] * 100);
+    forwardData = (int)([_slider1 value] * 4000);
     [_slider1 addTarget:self action:@selector(updateValue) forControlEvents:UIControlEventValueChanged];
 
     
     _slider2.continuous = NO;
     _slider2.value = 0.3;
-    backwardData = (int)([_slider2 value] * 100);
+    backwardData = (int)([_slider2 value] * 4000);
     [_slider2 addTarget:self action:@selector(updateValue) forControlEvents:UIControlEventValueChanged];
 
 
     _slider3.continuous = NO;
     _slider3.value = 0.3;
-    leftData = (int)([_slider3 value] * 100);
+    leftData = (int)([_slider3 value] * 4000);
     [_slider3 addTarget:self action:@selector(updateValue) forControlEvents:UIControlEventValueChanged];
 
 
     _slider4.continuous = NO;
     _slider4.value = 0.3;
-    rightData = (int)([_slider4 value] * 100);
+    rightData = (int)([_slider4 value] * 4000);
     [_slider4 addTarget:self action:@selector(updateValue) forControlEvents:UIControlEventValueChanged];
     
-    _stepper1.value = 30;
-    _stepper2.value = 30;
-    _stepper3.value = 30;
-    _stepper4.value = 30;
-    total = 30;
-    _stepper_total.value = 30;
+    _stepper1.value = 1200;
+    _stepper2.value = 1200;
+    _stepper3.value = 1200;
+    _stepper4.value = 1200;
+    total = 1200;
+    _stepper_total.value = 1200;
+    
+    _stepper1.maximumValue = 4000;
+    _stepper1.minimumValue = 0;
+    _stepper2.maximumValue = 4000;
+    _stepper2.minimumValue = 0;
+    _stepper3.maximumValue = 4000;
+    _stepper3.minimumValue = 0;
+    _stepper4.maximumValue = 4000;
+    _stepper4.minimumValue = 0;
+    _stepper_total.maximumValue = 4000;
+    _stepper_total.minimumValue = 0;
+    
     
     _text1.clearButtonMode = UITextFieldViewModeAlways;
     _text2.clearButtonMode = UITextFieldViewModeAlways;
@@ -94,20 +107,25 @@
 }
 -(void)updateValue{
     
-    forwardData = (int)(_slider1.value * 100);
-    backwardData = (int)([_slider2 value] * 100);
-    leftData = (int)([_slider3 value] * 100);
-    rightData = (int)([_slider4 value] * 100);
-    _stepper1.value = (int)([_slider1 value] * 100);
-    _stepper2.value = (int)([_slider2 value] * 100);
-    _stepper3.value = (int)([_slider3 value] * 100);
-    _stepper4.value = (int)([_slider4 value] * 100);
+    forwardData = (int)(_slider1.value * 4000);
+    backwardData = (int)([_slider2 value] * 4000);
+    leftData = (int)([_slider3 value] * 4000);
+    rightData = (int)([_slider4 value] * 4000);
+    _stepper1.value = (int)([_slider1 value] * 4000);
+    _stepper2.value = (int)([_slider2 value] * 4000);
+    _stepper3.value = (int)([_slider3 value] * 4000);
+    _stepper4.value = (int)([_slider4 value] * 4000);
+    
+    fpwm = forwardData * 0.1 /4000;
+    bpwm = backwardData * 0.1/4000;
+    lpwm = leftData * 0.1/4000;
+    rpwm = rightData * 0.1/4000;
     total = (int)([_stepper_total value]);
     
-    _forward.text = [NSString stringWithFormat:@"a: %d", forwardData];
-    _backward.text = [NSString stringWithFormat:@"b: %d", backwardData];
-    _left.text = [NSString stringWithFormat:@"c: %d", leftData];
-    _right.text = [NSString stringWithFormat:@"d: %d", rightData];
+    _forward.text = [NSString stringWithFormat:@"a: %f", fpwm];
+    _backward.text = [NSString stringWithFormat:@"b: %f", bpwm];
+    _left.text = [NSString stringWithFormat:@"c: %f", lpwm];
+    _right.text = [NSString stringWithFormat:@"d: %f", rpwm];
     
     _text1.text = [NSString stringWithFormat:@"%d", forwardData];
     _text2.text = [NSString stringWithFormat:@"%d", backwardData];
@@ -115,10 +133,11 @@
     _text4.text = [NSString stringWithFormat:@"%d", rightData];
     
     if (currentlyStart) {
-        NSNumber *forwardDataN = [NSNumber numberWithUnsignedInt:forwardData];
-        NSNumber *backwardDataN = [NSNumber numberWithUnsignedInt:backwardData];
-        NSNumber *leftDataN = [NSNumber numberWithUnsignedInt:leftData];
-        NSNumber *rightDataN = [NSNumber numberWithUnsignedInt:rightData];
+        
+        NSNumber *forwardDataN = [NSNumber numberWithUnsignedInt:fpwm];
+        NSNumber *backwardDataN = [NSNumber numberWithUnsignedInt:bpwm];
+        NSNumber *leftDataN = [NSNumber numberWithUnsignedInt:lpwm];
+        NSNumber *rightDataN = [NSNumber numberWithUnsignedInt:rpwm];
         
         [self PostToWebsite:forwardDataN backwardData:backwardDataN leftData:leftDataN rightData:rightDataN];
     }
@@ -129,13 +148,13 @@
 //setup text field
 
 - (IBAction)changeByText:(id)sender {
-    if ([[_text1 text] intValue]>=0 && [[_text1 text] intValue] <=100 && [[_text2 text] intValue]>=0 && [[_text2 text] intValue] <=100 &&[[_text3 text] intValue]>=0 && [[_text3 text] intValue] <=100 && [[_text4 text] intValue]>=0 && [[_text4 text] intValue] <=100) {
+    if ([[_text1 text] intValue]>=0 && [[_text1 text] intValue] <=100 && [[_text2 text] intValue]>=0 && [[_text2 text] intValue] <=4000 &&[[_text3 text] intValue]>=0 && [[_text3 text] intValue] <=4000 && [[_text4 text] intValue]>=0 && [[_text4 text] intValue] <=4000) {
         
-    _slider1.value = [[_text1 text] intValue]*0.01;
-    _slider2.value = [[_text2 text] intValue]*0.01;
+    _slider1.value = [[_text1 text] intValue]/4000;
+    _slider2.value = [[_text2 text] intValue]/4000;
         
-    _slider3.value = [[_text3 text] intValue]*0.01;
-    _slider4.value = [[_text4 text] intValue]*0.01;
+    _slider3.value = [[_text3 text] intValue]/4000;
+    _slider4.value = [[_text4 text] intValue]/4000;
     NSLog(@"Edit did end");
     [self updateValue];
     }
@@ -144,15 +163,15 @@
 
 - (IBAction)stepper_total:(id)sender {
     if (total - _stepper_total.value  < 0) {
-        _slider1.value = _slider1.value + 0.01;
-        _slider2.value = _slider2.value + 0.01;
-        _slider3.value = _slider3.value + 0.01;
-        _slider4.value = _slider4.value + 0.01;
+        _slider1.value = _slider1.value + 0.00025;
+        _slider2.value = _slider2.value + 0.00025;
+        _slider3.value = _slider3.value + 0.00025;
+        _slider4.value = _slider4.value + 0.00025;
     }else{
-        _slider1.value = _slider1.value - 0.01;
-        _slider2.value = _slider2.value - 0.01;
-        _slider3.value = _slider3.value - 0.01;
-        _slider4.value = _slider4.value - 0.01;
+        _slider1.value = _slider1.value - 0.00025;
+        _slider2.value = _slider2.value - 0.00025;
+        _slider3.value = _slider3.value - 0.00025;
+        _slider4.value = _slider4.value - 0.00025;
     }
     
     [self updateValue];
@@ -161,35 +180,35 @@
 
 //setup stepper action
 - (IBAction)stepper:(id)sender {
-    if (_slider1.value - _stepper1.value * 0.01 < 0) {
-        _slider1.value = _slider1.value + 0.01;
+    if (_slider1.value - _stepper1.value / 4000 < 0) {
+        _slider1.value = _slider1.value + 0.00025;
     }else{
-        _slider1.value = _slider1.value - 0.01;
+        _slider1.value = _slider1.value - 0.00025;
     }
     [self updateValue];
 }
 - (IBAction)stepper2:(id)sender {
-    if (_slider2.value - _stepper2.value * 0.01 < 0) {
-        _slider2.value = _slider2.value + 0.01;
+    if (_slider2.value - _stepper2.value / 4000 < 0) {
+        _slider2.value = _slider2.value + 0.00025;
     }else{
-        _slider2.value = _slider2.value - 0.01;
+        _slider2.value = _slider2.value - 0.00025;
     }
     [self updateValue];
 }
 - (IBAction)stepper3:(id)sender {
-    if (_slider3.value - _stepper3.value * 0.01 < 0) {
-        _slider3.value = _slider3.value + 0.01;
+    if (_slider3.value - _stepper3.value / 4000 < 0) {
+        _slider3.value = _slider3.value + 0.00025;
     }else{
-        _slider3.value = _slider3.value - 0.01;
+        _slider3.value = _slider3.value - 0.00025;
     }
     [self updateValue];
 }
 
 - (IBAction)stepper4:(id)sender {
-    if (_slider4.value - _stepper4.value * 0.01 < 0) {
-        _slider4.value = _slider4.value + 0.01;
+    if (_slider4.value - _stepper4.value / 4000 < 0) {
+        _slider4.value = _slider4.value + 0.00025;
     }else{
-        _slider4.value = _slider4.value - 0.01;
+        _slider4.value = _slider4.value - 0.00025;
     }
     [self updateValue];
 }

@@ -18,11 +18,17 @@
 @property (strong, nonatomic) IBOutlet UIButton *trackingButton;
 @property (strong, nonatomic) IBOutlet UILabel *accuracyLevelLabel;
 @property (strong, nonatomic) IBOutlet UILabel *sessionIDLabel;
+@property (weak, nonatomic) IBOutlet UILabel *magHeading;
+@property (weak, nonatomic) IBOutlet UILabel *trueHeading;
+
+
+
 
 @end
 
 @implementation ViewController
 {
+    CLHeading *newHeading;
     CLLocationManager *locationManager;
     CLLocation *previousLocation;
     double totalDistanceInMeters;
@@ -71,6 +77,7 @@
     }
     
     [locationManager startUpdatingLocation];
+    [locationManager startUpdatingHeading];
 }
 
 - (void)stopTracking
@@ -141,7 +148,6 @@
             NSString *latitude = [NSString stringWithFormat:@"%f", location.coordinate.latitude];
             NSString *longitude = [NSString stringWithFormat:@"%f", location.coordinate.longitude];
             
-            
              //note that the guid is created in startTracking method above
             [self GetWebsiteData:latitude longitude:longitude];
             [self PostToWebsite:latitude longitude:longitude];
@@ -157,6 +163,17 @@
     if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
         [self updateUIWithLocationData:location];
     }
+
+}
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
+    NSString *direction = [NSString stringWithFormat:@"%f", newHeading.magneticHeading];
+
+    [self magHeading].text = [NSString stringWithFormat:@"%f", newHeading.magneticHeading];
+    [self trueHeading].text = [NSString stringWithFormat:@"%f", newHeading.trueHeading];
+    [self PostToWebsite2:direction];
+
+    
 }
 
 - (void)updateAccuracyLevel:(NSString *)accuracyLevel
@@ -172,7 +189,8 @@
     [self latitudeLabel].text = [NSString stringWithFormat:@"latitude: %f", location.coordinate.latitude];
     [self longitudeLabel].text = [NSString stringWithFormat:@"longitude: %f", location.coordinate.longitude];
     [self accuracyLabel].text= [NSString stringWithFormat:@"accuracy: %dm", (int)location.horizontalAccuracy];
-}
+    }
+
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
@@ -207,8 +225,8 @@
 {
    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSDictionary *parameters = @{@"ip_address":latitude, @"network_name":longitude};
-    [manager POST:@"http://fryer.ee.ucla.edu/rest/api/ip_address/post/" parameters:parameters
+    NSDictionary *parameters = @{@"latitude":latitude, @"longitude":longitude};
+    [manager POST:@"http://fryer.ee.ucla.edu/rest/api/gps/post/?location_type=0" parameters:parameters
         success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON_todata: %@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -217,6 +235,20 @@
     
 }
 
+
+- (void)PostToWebsite2:(NSString *)direction
+{
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSDictionary *parameters = @{@"face_direction":direction};
+    [manager POST:@"http://fryer.ee.ucla.edu/rest/api/gps/post/?location_type=0" parameters:parameters
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              NSLog(@"JSON_todata: %@", responseObject);
+          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              NSLog(@"Error: %@", error);
+          }];
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

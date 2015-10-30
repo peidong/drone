@@ -16,23 +16,23 @@
 		DDCC919D1BBFB9A500DA693F /* Drone_onairTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC919C1BBFB9A500DA693F /* Drone_onairTests.m */; };
 		DDCC91A81BBFB9A500DA693F /* Drone_onairUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91A71BBFB9A500DA693F /* Drone_onairUITests.m */; };
 		DDCC91B61BBFB9B100DA693F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDCC91B51BBFB9B100DA693F /* CoreLocation.framework */; };
-		DDCC91DE1BBFBD5100DA693F /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91B91BBFBD5100DA693F /* AFHTTPRequestOperation.m */; settings = {ASSET_TAGS = (); }; };
-		DDCC91DF1BBFBD5100DA693F /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91BB1BBFBD5100DA693F /* AFHTTPRequestOperationManager.m */; settings = {ASSET_TAGS = (); }; };
-		DDCC91E01BBFBD5100DA693F /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91BD1BBFBD5100DA693F /* AFHTTPSessionManager.m */; settings = {ASSET_TAGS = (); }; };
-		DDCC91E11BBFBD5100DA693F /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91C01BBFBD5100DA693F /* AFNetworkReachabilityManager.m */; settings = {ASSET_TAGS = (); }; };
-		DDCC91E21BBFBD5100DA693F /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91C21BBFBD5100DA693F /* AFSecurityPolicy.m */; settings = {ASSET_TAGS = (); }; };
-		DDCC91E31BBFBD5100DA693F /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91C41BBFBD5100DA693F /* AFURLConnectionOperation.m */; settings = {ASSET_TAGS = (); }; };
-		DDCC91E41BBFBD5100DA693F /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91C61BBFBD5100DA693F /* AFURLRequestSerialization.m */; settings = {ASSET_TAGS = (); }; };
-		DDCC91E51BBFBD5100DA693F /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91C81BBFBD5100DA693F /* AFURLResponseSerialization.m */; settings = {ASSET_TAGS = (); }; };
-		DDCC91E61BBFBD5100DA693F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91CA1BBFBD5100DA693F /* AFURLSessionManager.m */; settings = {ASSET_TAGS = (); }; };
-		DDCC91E71BBFBD5100DA693F /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91CD1BBFBD5100DA693F /* AFNetworkActivityIndicatorManager.m */; settings = {ASSET_TAGS = (); }; };
-		DDCC91E81BBFBD5100DA693F /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91CF1BBFBD5100DA693F /* UIActivityIndicatorView+AFNetworking.m */; settings = {ASSET_TAGS = (); }; };
-		DDCC91E91BBFBD5100DA693F /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91D11BBFBD5100DA693F /* UIAlertView+AFNetworking.m */; settings = {ASSET_TAGS = (); }; };
-		DDCC91EA1BBFBD5100DA693F /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91D31BBFBD5100DA693F /* UIButton+AFNetworking.m */; settings = {ASSET_TAGS = (); }; };
-		DDCC91EB1BBFBD5100DA693F /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91D61BBFBD5100DA693F /* UIImageView+AFNetworking.m */; settings = {ASSET_TAGS = (); }; };
-		DDCC91EC1BBFBD5100DA693F /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91D91BBFBD5100DA693F /* UIProgressView+AFNetworking.m */; settings = {ASSET_TAGS = (); }; };
-		DDCC91ED1BBFBD5100DA693F /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91DB1BBFBD5100DA693F /* UIRefreshControl+AFNetworking.m */; settings = {ASSET_TAGS = (); }; };
-		DDCC91EE1BBFBD5100DA693F /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91DD1BBFBD5100DA693F /* UIWebView+AFNetworking.m */; settings = {ASSET_TAGS = (); }; };
+		DDCC91DE1BBFBD5100DA693F /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91B91BBFBD5100DA693F /* AFHTTPRequestOperation.m */; };
+		DDCC91DF1BBFBD5100DA693F /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91BB1BBFBD5100DA693F /* AFHTTPRequestOperationManager.m */; };
+		DDCC91E01BBFBD5100DA693F /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91BD1BBFBD5100DA693F /* AFHTTPSessionManager.m */; };
+		DDCC91E11BBFBD5100DA693F /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91C01BBFBD5100DA693F /* AFNetworkReachabilityManager.m */; };
+		DDCC91E21BBFBD5100DA693F /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91C21BBFBD5100DA693F /* AFSecurityPolicy.m */; };
+		DDCC91E31BBFBD5100DA693F /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91C41BBFBD5100DA693F /* AFURLConnectionOperation.m */; };
+		DDCC91E41BBFBD5100DA693F /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91C61BBFBD5100DA693F /* AFURLRequestSerialization.m */; };
+		DDCC91E51BBFBD5100DA693F /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91C81BBFBD5100DA693F /* AFURLResponseSerialization.m */; };
+		DDCC91E61BBFBD5100DA693F /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91CA1BBFBD5100DA693F /* AFURLSessionManager.m */; };
+		DDCC91E71BBFBD5100DA693F /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91CD1BBFBD5100DA693F /* AFNetworkActivityIndicatorManager.m */; };
+		DDCC91E81BBFBD5100DA693F /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91CF1BBFBD5100DA693F /* UIActivityIndicatorView+AFNetworking.m */; };
+		DDCC91E91BBFBD5100DA693F /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91D11BBFBD5100DA693F /* UIAlertView+AFNetworking.m */; };
+		DDCC91EA1BBFBD5100DA693F /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91D31BBFBD5100DA693F /* UIButton+AFNetworking.m */; };
+		DDCC91EB1BBFBD5100DA693F /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91D61BBFBD5100DA693F /* UIImageView+AFNetworking.m */; };
+		DDCC91EC1BBFBD5100DA693F /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91D91BBFBD5100DA693F /* UIProgressView+AFNetworking.m */; };
+		DDCC91ED1BBFBD5100DA693F /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91DB1BBFBD5100DA693F /* UIRefreshControl+AFNetworking.m */; };
+		DDCC91EE1BBFBD5100DA693F /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCC91DD1BBFBD5100DA693F /* UIWebView+AFNetworking.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -545,7 +545,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Drone_onair/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.Drone-onair";
+				PRODUCT_BUNDLE_IDENTIFIER = "Mycar.Drone-onair";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -557,7 +557,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Drone_onair/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "MyFu.Drone-onair";
+				PRODUCT_BUNDLE_IDENTIFIER = "Mycar.Drone-onair";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -629,6 +629,7 @@
 				DDCC91AE1BBFB9A500DA693F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DDCC91AF1BBFB9A500DA693F /* Build configuration list for PBXNativeTarget "Drone_onairTests" */ = {
 			isa = XCConfigurationList;
@@ -637,6 +638,7 @@
 				DDCC91B11BBFB9A500DA693F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DDCC91B21BBFB9A500DA693F /* Build configuration list for PBXNativeTarget "Drone_onairUITests" */ = {
 			isa = XCConfigurationList;
@@ -645,6 +647,7 @@
 				DDCC91B41BBFB9A500DA693F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
