@@ -2,52 +2,34 @@
 
 1. HTTP GET
 
-        http://fryer.ee.ucla.edu/rest/api/gps/get/?mac_address=fc:c2:de:3d:7f:af
+        http://fryer.ee.ucla.edu/rest/api/gps/get/?location_type=0
 
 2. HTTP POST
 
     Post data example
 
-        control_type=2&auto_control_command=3&manual_control_command=5&suspend_pwm1=0.12&suspend_pwm2=0.23&suspend_pwm3=0.34&suspend_pwm4=0.45
+       face_direction=120.0&latitude=34.0&longitude=118.0 
 
     Url
     
-        http://fryer.ee.ucla.edu/rest/api/gps/post/?mac_address=fc:c2:de:3d:7f:af
+        http://fryer.ee.ucla.edu/rest/api/gps/post/?location_type=0
 
 ###Database part
 
 Database: edison, table: gps
 
-#####mac_address
+#####location_type
+- 0: Destination
+- 1: Drone's location
 
-#####control_type
+#####face_direction
 
-- 1: automatic
-- 2: manual
+- The direction degree
 
-#####auto_control_command
+#####latitude
 
-- 1: stopFly
-- 2: startFly
-- 3: learnVariables
+- The latitude degree
 
-#####manual_control_command
+#####longitude
 
-- 1: suspend
-- 2: up
-- 3: down
-- 4: forward
-- 5: backward
-- 6: left
-- 7: right
-- 8: clockwiseRotate
-- 9: anticlockwiseRotate
-- 10: stop
-
-#####suspend_pwm1
-
-#####suspend_pwm2
-
-#####suspend_pwm3
-
-#####suspend_pwm4
+- The longitude degree
