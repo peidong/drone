@@ -18,7 +18,7 @@ Copy and paste these into your file
      
     [Service]
     #User=root
-    ExecStart=/home/root/drone/Edison/ip_address/update_ip_address.sh
+    ExecStart=/home/root/drone/Edison/main/ip_address/update_ip_address.sh
     Restart=always
     RestartSec=60s
      
