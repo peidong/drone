@@ -30,6 +30,13 @@ int main(){
             	move_forward();               
         	else if (!strcmp(turn_user_input, "R") || !strcmp(turn_user_input, "r"))
 		        turn_right();
+            else if(!strcmp(turn_user_input, "S") || !strcmp(turn_user_input, "s"))
+            {
+                 turn = CENTER;
+                 mraa_pwm_write(turn_pwm, turn);
+                 usleep(10000);
+                 speed_control(speed_pwm_in1, speed_pwm_in2, 0);
+            }
             else {                                 
             		printf("Wrong turn type!\n");
  			return 1;
