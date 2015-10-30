@@ -7,8 +7,8 @@
 #include <mraa/gpio.h>
 #include <sys/time.h>
 #include <math.h>
-#include "uthash/uthash.h"
-#include "http/http.h"
+//#include "uthash/uthash.h"
+//#include "http/http.h"
 
 
 #define MAXBUFSIZ 1024
