@@ -81,7 +81,7 @@ void move_forward(){
 
 void move_backward(){
     turn = CENTER;
-    mraa_pwm_init(turn_pwm, turn);
+    mraa_pwm_write(turn_pwm, turn);
     usleep(100000);
     speed_control(speed_pwm_in1, speed_pwm_in2, speed);
 }
