@@ -231,8 +231,8 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		int16_t mrawz = (Buf[5] << 8 | Buf[4]);//+200;// + mag_offset_z;
 		//int result_agm[9] = { arawx, arawy, arawz, grawx, grawy, grawz, mrawx, mrawy, mrawz };
 
-        printf("%6d,%6d,%6d\n",arawx, arawy, arawz);
-		//		printf("%6d,%6d,%6d\n",grawx, grawy, grawz);    
+        //printf("%6d,%6d,%6d\n",arawx, arawy, arawz);
+        printf("%6d,%6d,%6d\n",grawx, grawy, grawz);    
 
 		float ax = (float)arawx*aRes;
 		float ay = (float)arawy*aRes;
