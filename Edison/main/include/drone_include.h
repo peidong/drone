@@ -232,7 +232,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		//int result_agm[9] = { arawx, arawy, arawz, grawx, grawy, grawz, mrawx, mrawy, mrawz };
 
         //printf("%6d,%6d,%6d\n",arawx, arawy, arawz);
-        printf("%6d,%6d,%6d\n",grawx, grawy, grawz);    
+        //printf("%6d,%6d,%6d\n",grawx, grawy, grawz);    
 
 		float ax = (float)arawx*aRes;
 		float ay = (float)arawy*aRes;
@@ -243,7 +243,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		float mx = (float)mrawx*mRes*magCalibration[0] - 406;  // get actual magnetometer value, this depends on scale being set
 		float my = (float)mrawy*mRes*magCalibration[1] - 95;
 		float mz = (float)mrawz*mRes*magCalibration[2] + 370;
-		//    printf("%.1f,%.1f,%.1f\n",mx,my,mz);
+        printf("%.1f,%.1f,%.1f\n",mx,my,mz);
 
 		//    MadgwickQuaternionUpdate(ax,ay,az,gx*PI/180.0f,gy*PI/180.0f,gz*PI/180.0f,my,mx,mz);
 		MadgwickAHRSupdate(ax, ay, az, gx*PI / 180.0f, gy*PI / 180.0f, gz*PI / 180.0f, my, mx, mz); //my, mx, mz
