@@ -45,8 +45,8 @@ struct T_drone{
     struct timespec arrT_timespec_low[4];
 
     //GPS info
-    double d_latitude;
-    double d_longitude;
+    double d_current_latitude;
+    double d_current_longitude;
     double d_face_direction;
 };
 
