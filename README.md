@@ -25,6 +25,10 @@ And next time, simply do this to git push
         git commit -m "comment notes"
         git push
 
+or we can do this
+        
+        git pull && git add -A :/ && git commit -m "comment notes" && git push
+
 ###Add some environment variables
         cd /etc
         vi profile
