@@ -1,5 +1,5 @@
 #include "car_control.h"
-#include <math.h>
+
 const double EARTH_RADIUS = 6378.137;
 
 static double rad(double d)

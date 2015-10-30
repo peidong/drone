@@ -134,10 +134,10 @@
     
     if (currentlyStart) {
         
-        NSNumber *forwardDataN = [NSNumber numberWithUnsignedInt:fpwm];
-        NSNumber *backwardDataN = [NSNumber numberWithUnsignedInt:bpwm];
-        NSNumber *leftDataN = [NSNumber numberWithUnsignedInt:lpwm];
-        NSNumber *rightDataN = [NSNumber numberWithUnsignedInt:rpwm];
+        NSNumber *forwardDataN = [NSNumber numberWithDouble:fpwm];
+        NSNumber *backwardDataN = [NSNumber numberWithDouble:bpwm];
+        NSNumber *leftDataN = [NSNumber numberWithDouble:lpwm];
+        NSNumber *rightDataN = [NSNumber numberWithDouble:rpwm];
         
         [self PostToWebsite:forwardDataN backwardData:backwardDataN leftData:leftDataN rightData:rightDataN];
     }
