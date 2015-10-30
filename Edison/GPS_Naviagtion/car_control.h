@@ -19,6 +19,9 @@
 #define RIGHTMAX 0.088f
 
 
+    float speed, turn;
+    mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm;
+
 struct T_drone{
     //These following are from server
     char *sz_mac_address;
@@ -42,11 +45,6 @@ struct T_drone{
 };
 
 
-float speed, turn;
-mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm;
-speed_pwm_in1 = mraa_pwm_init(3);
-speed_pwm_in2 = mraa_pwm_init(5);
-turn_pwm = mraa_pwm_init(6);
 
 void speed_control(mraa_pwm_context in1, mraa_pwm_context in2, float speed) {
 	speed = speed / 100;                                  

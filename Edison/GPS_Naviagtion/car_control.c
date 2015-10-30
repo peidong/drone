@@ -1,6 +1,9 @@
 #include "car_control.h"
 
 int main(){
+    speed_pwm_in1 = mraa_pwm_init(3);
+    speed_pwm_in2 = mraa_pwm_init(5);
+    turn_pwm = mraa_pwm_init(6);
 	char turn_user_input[MAXBUFSIZ];
     
     mraa_pwm_period_us(speed_pwm_in1,870); //1150Hz
