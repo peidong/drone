@@ -27,7 +27,7 @@ int main(){
                 
     		if (!strcmp(turn_user_input, "L") || !strcmp(turn_user_input, "l"))     
             {
-                for (i = 0;i<=30;i++){
+                for (i = 0;i<=180;i++){
                     turn_left();
                 }
             }else if (!strcmp(turn_user_input, "C") || !strcmp(turn_user_input, "c"))
@@ -37,7 +37,7 @@ int main(){
                 }
             }               
         	else if (!strcmp(turn_user_input, "R") || !strcmp(turn_user_input, "r")){
-                for (i = 0;i<=30;i++){
+                for (i = 0;i<=180;i++){
                     turn_right();
                 } 
             }
