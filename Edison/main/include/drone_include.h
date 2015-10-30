@@ -18,7 +18,8 @@
 //#define PWM_PERIOD_NS 5000000000//5s
 #define DEBUG_PWM
 //#define DEBUG_GPIO_PWM
-#define PWM_DEVIDE_RATIO 1000
+#define PWM_DEVIDE_RATIO 100
+#define DEBUG_YAW_PITCH_ROLL
 
 //struct T_hash_pwm {
     //const char *pstr_key;          [> key <]
@@ -263,7 +264,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		pT_drone->arrd_yaw_pitch_roll[0] = yaw;
 		pT_drone->arrd_yaw_pitch_roll[1] = pitch;
 		pT_drone->arrd_yaw_pitch_roll[2] = roll;
-		//    printf("%.1f, %.1f, %.1f\n",yaw, pitch, roll);
+#ifdef DEBUG_YAW_PITCH_ROLL
+        printf("%.1f, %.1f, %.1f\n",yaw, pitch, roll);
+#endif
 	}
     return 0;
 }
