@@ -4,7 +4,7 @@
     // start the session
     session_start();
 
-    $mac_address = $_GET['mac_address'];
+    $location_type = $_GET['location_type'];
 
     // close the session
     session_write_close();
@@ -13,31 +13,23 @@
     mysql_select_db('edison', $conn);
     
     $query = "SELECT *
-        FROM control
-        WHERE mac_address = '$mac_address'";
+        FROM gps
+        WHERE location_type = '$location_type'";
 
     $result = mysql_query($query);
     $result_array = mysql_fetch_array($result);
 
-    $control_type = $result_array[control_type];
-    $auto_control_command = $result_array[auto_control_command];
-    $manual_control_command = $result_array[manual_control_command];
-    $suspend_pwm1 = $result_array[suspend_pwm1];
-    $suspend_pwm2 = $result_array[suspend_pwm2];
-    $suspend_pwm3 = $result_array[suspend_pwm3];
-    $suspend_pwm4 = $result_array[suspend_pwm4];
+    $face_direction = $result_array[face_direction];
+    $latitude = $result_array[latitude];
+    $longitude = $result_array[longitude];
     $update_time = $result_array[update_time];
 
-    $response['control_type'] = $control_type;
-    $response['auto_control_command'] = $auto_control_command;
-    $response['manual_control_command'] = $manual_control_command;
-    $response['suspend_pwm1'] = $suspend_pwm1;
-    $response['suspend_pwm2'] = $suspend_pwm2;
-    $response['suspend_pwm3'] = $suspend_pwm3;
-    $response['suspend_pwm4'] = $suspend_pwm4;
+    $response['face_direction'] = $face_direction;
+    $response['latitude'] = $latitude;
+    $response['longitude'] = $longitude;
     $response['update_time'] = $update_time;
 
-    deliver_response(200, "The control commands have been got", $response);
+    deliver_response(200, "The gps commands have been got", $response);
 
     function deliver_response($status,$status_message,$data){
         header("HTTP/1.1 $status $status_message");
