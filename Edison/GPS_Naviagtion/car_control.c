@@ -28,7 +28,7 @@ int main(){
     		if (!strcmp(turn_user_input, "L") || !strcmp(turn_user_input, "l"))     
         	    turn_left();
             else if (!strcmp(turn_user_input, "C") || !strcmp(turn_user_input, "c")){
-                for (i = 0;i<=5;i++){
+                for (i = 0;i<=50;i++){
                     move_forward();
                 }
             }               
