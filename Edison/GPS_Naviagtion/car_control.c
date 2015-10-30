@@ -1,6 +1,7 @@
 #include "car_control.h"
 
 int main(){
+    int i;
     speed_pwm_in1 = mraa_pwm_init(3);
     speed_pwm_in2 = mraa_pwm_init(5);
     turn_pwm = mraa_pwm_init(6);
@@ -27,7 +28,7 @@ int main(){
     		if (!strcmp(turn_user_input, "L") || !strcmp(turn_user_input, "l"))     
         	    turn_left();
             else if (!strcmp(turn_user_input, "C") || !strcmp(turn_user_input, "c")){
-                for (int i = 0;i<=5;i++){
+                for (i = 0;i<=5;i++){
                     move_forward();
                 }
             }               
