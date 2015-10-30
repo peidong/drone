@@ -9,33 +9,8 @@
 #define RIGHTMAX 0.088f
 
 
-    float speed, turn;
-    mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm;
-
-struct T_drone{
-    //These following are from server
-    char *sz_mac_address;
-    int n_control_type;
-    int n_auto_control_command;
-    int n_manual_control_command;
-    double arrd_suspend_pwm[4];
-
-    //These following are from the board itself
-    double arrd_current_pwm[4];
-    double arrd_last_pwm[4];
-    double arrd_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
-    double arrd_pid_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
-    int arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
-    struct timespec arrT_timespec_high[4];
-    struct timespec arrT_timespec_low[4];
-
-    //GPS info
-    double d_latitude;
-    double d_longitude;
-    double d_face_direction;
-};
-
-
+float speed, turn;
+mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm;
 
 void speed_control(mraa_pwm_context in1, mraa_pwm_context in2, float speed) {
 	speed = speed / 100;                                  
