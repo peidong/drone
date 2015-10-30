@@ -19,7 +19,7 @@
 #define DEBUG_PWM
 //#define DEBUG_GPIO_PWM
 #define PWM_DEVIDE_RATIO 100
-//#define DEBUG_YAW_PITCH_ROLL0
+#define DEBUG_YAW_PITCH_ROLL
 
 //struct T_hash_pwm {
     //const char *pstr_key;          [> key <]
@@ -221,7 +221,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		uint8_t Buf[14];
 		mraa_i2c_read_bytes_data(mpu, 59, Buf, 14);
 		// Accelerometer
-		int16_t arawx = -(Buf[0] << 8 | Buf[1]) - 170 + 470;
+		int16_t arawx = -(Buf[0] << 8 | Buf[1]) - 170 + 250;
 		int16_t arawy = -(Buf[2] << 8 | Buf[3]) + 600 - 300;
 		int16_t arawz = Buf[4] << 8 | Buf[5];
 		// Gyroscope
@@ -245,10 +245,10 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		float gx = (float)grawx*gRes;
 		float gy = (float)grawy*gRes;
 		float gz = (float)grawz*gRes;
-		float mx = (float)mrawx*mRes*magCalibration[0] - 406;  // get actual magnetometer value, this depends on scale being set
-		float my = (float)mrawy*mRes*magCalibration[1] - 95;
-		float mz = (float)mrawz*mRes*magCalibration[2] + 370;
-        printf("%.1f,%.1f,%.1f\n",mx,my,mz);
+		float mx = (float)mrawx*mRes*magCalibration[0] - 406 - 49;  // get actual magnetometer value, this depends on scale being set
+		float my = (float)mrawy*mRes*magCalibration[1] - 95 + 43;
+		float mz = (float)mrawz*mRes*magCalibration[2] + 370 - 72;
+        //printf("%.1f,%.1f,%.1f\n",mx,my,mz);
 
 		//    MadgwickQuaternionUpdate(ax,ay,az,gx*PI/180.0f,gy*PI/180.0f,gz*PI/180.0f,my,mx,mz);
 		MadgwickAHRSupdate(ax, ay, az, gx*PI / 180.0f, gy*PI / 180.0f, gz*PI / 180.0f, my, mx, mz); //my, mx, mz
@@ -269,7 +269,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		pT_drone->arrd_yaw_pitch_roll[0] = yaw;
 		pT_drone->arrd_yaw_pitch_roll[1] = pitch;
 		pT_drone->arrd_yaw_pitch_roll[2] = roll;
-#ifdef DEBUG_YAW_PITCH_ROLL0
+#ifdef DEBUG_YAW_PITCH_ROLL
         printf("%.1f, %.1f, %.1f\n",yaw, pitch, roll);
 #endif
 	}
