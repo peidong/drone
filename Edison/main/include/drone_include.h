@@ -36,6 +36,7 @@ struct T_drone{
     int n_auto_control_command;
     int n_manual_control_command;
     double arrd_suspend_pwm[4];
+    int n_stop_sign;
 
     //These following are from the board itself
     double arrd_current_pwm[4];
@@ -221,7 +222,7 @@ int update_T_drone_http_gps(struct T_drone *pT_drone){
     char *sz_url_post_gps = "http://fryer.ee.ucla.edu/rest/api/gps/post/?location_type=1";
     
     char *sz_http_response;
-    struct json_object *pT_json_object_whole_response, *pT_json_object_data, *pT_json_object_update_time, *pT_json_object_face_direction, *pT_json_object_latitude, *pT_json_object_longitude;
+    struct json_object *pT_json_object_whole_response, *pT_json_object_data, *pT_json_object_update_time, *pT_json_object_face_direction, *pT_json_object_latitude, *pT_json_object_longitude, *pT_json_object_stop;
     int n_json_response;
 
     sz_http_response = http_get(sz_url_get_gps_iPhone);
@@ -232,6 +233,7 @@ int update_T_drone_http_gps(struct T_drone *pT_drone){
     n_json_response = json_object_object_get_ex(pT_json_object_data, "face_direction", &pT_json_object_face_direction);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "latitude", &pT_json_object_latitude);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "longitude", &pT_json_object_longitude);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "stop", &pT_json_object_stop);
     n_json_response = json_object_object_get_ex(pT_json_object_data,"update_time",&pT_json_object_update_time);
 
     pT_drone->d_face_direction = json_object_get_double(pT_json_object_face_direction);
@@ -554,10 +556,8 @@ void ThreadTask_GeneratePwm(struct T_drone *pT_drone){
 }
 
 void ThreadTask_update_T_drone_http_gps(struct T_drone *pT_drone){
-    int n_loop=0;
     while(1){
-        n_loop++;
-        if (n_loop > 10000)
+        if (pT_drone->n_stop_sign == 1)
         {
             break;
         }
