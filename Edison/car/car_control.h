@@ -41,14 +41,14 @@ void turn_right(){
     
 }
 
-void turn_direction(double d_degree){
-    f_turn = CENTER - RIGHT;
-    mraa_pwm_write(turn_pwm, f_turn);
-    usleep(10000);
-    speed_control(speed_pwm_in1, speed_pwm_in2, f_speed);
-}
+//void turn_direction(double d_degree){
+    //f_turn = CENTER - RIGHT;
+    //mraa_pwm_write(turn_pwm, f_turn);
+    //usleep(10000);
+    //speed_control(speed_pwm_in1, speed_pwm_in2, f_speed);
+//}
 
-void move_forward(double d_distance){
+void move_forward(){
     f_turn = CENTER;
     mraa_pwm_write(turn_pwm, f_turn);
     usleep(10000);
@@ -101,34 +101,46 @@ double get_longitude_distance(double d_lon1, double d_lon2, double d_lat1)
 }
 
 int GpsNavigationMove(struct T_drone *pT_drone){
+    int i;
     double d_west_to_east_distance, d_south_to_north_distance, d_move_direction;
     d_west_to_east_distance = get_latitude_distance(pT_drone->d_current_latitude, pT_drone->d_destination_latitude, pT_drone->d_current_longitude);
     d_south_to_north_distance = get_longitude_distance(pT_drone->d_current_longitude, pT_drone->d_destination_longitude, pT_drone->d_current_latitude);
     
-    if (d_west_to_east_distance > 0)
+    if ((pT_drone->d_destination_longitude - pT_drone->d_current_longitude) > 0)
     {
         d_move_direction = 90 - atan(d_south_to_north_distance / d_west_to_east_distance);
-    }else if (d_west_to_east_distance < 0)
+    }else if ((pT_drone->d_destination_longitude - pT_drone->d_current_longitude) < 0)
     {
         d_move_direction = 270 - atan(d_south_to_north_distance / d_west_to_east_distance);
-    }else if (d_west_to_east_distance == 0)
+    }else if ((pT_drone->d_destination_longitude - pT_drone->d_current_longitude) == 0)
     {
-        if (d_south_to_north_distance >= 0)
+        if ((pT_drone->d_destination_latitude - pT_drone->d_current_latitude) >= 0)
         {
             d_move_direction = 0;
-        }else if (d_south_to_north_distance < 0)
+        }else if ((pT_drone->d_destination_latitude - pT_drone->d_current_latitude) < 0)
         {
             d_move_direction = 180;
         }
     }
 
-    if (d_move_direction - pT_drone->d_face_direction > 10)
+    if (abs(d_move_direction - pT_drone->d_face_direction) > 2)
     {
-        turn_direction(d_move_direction - pT_drone->d_face_direction);
-    }
-    if (sqrt(pow(d_west_to_east_distance, 2) + pow(d_south_to_north_distance, 2)) > 3)
+        //turn_direction(d_move_direction - pT_drone->d_face_direction);
+        if(d_move_direction - pT_drone->d_face_direction > 0){
+            for (i = 0;i<=180;i++){
+                     turn_right();
+                 } 
+        }else
+        {   
+            for (i = 0;i<=180;i++){
+                     turn_left();
+                 }
+        }
+    }else if (sqrt(pow(d_west_to_east_distance, 2) + pow(d_south_to_north_distance, 2)) > 10)
     {
-        move_forward(sqrt(pow(d_west_to_east_distance, 2) + pow(d_south_to_north_distance, 2)));
+        for (i = 0; i<=200; i++){
+        move_forward();
+        }
     }
     return 0;
 }
@@ -136,5 +148,6 @@ int GpsNavigationMove(struct T_drone *pT_drone){
 void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
     while(1){
         GpsNavigationMove(pT_drone);
+        usleep(100000);
     }
 }
