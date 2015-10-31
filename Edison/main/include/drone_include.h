@@ -554,7 +554,14 @@ void ThreadTask_GeneratePwm(struct T_drone *pT_drone){
 }
 
 void ThreadTask_update_T_drone_http_gps(struct T_drone *pT_drone){
+    int n_loop=0;
     while(1){
+        n_loop++;
+        if (n_loop > 1000)
+        {
+            break;
+        }
         update_T_drone_http_gps(pT_drone);
+        usleep(100000);
     }
 }
