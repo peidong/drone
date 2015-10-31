@@ -557,7 +557,7 @@ void ThreadTask_update_T_drone_http_gps(struct T_drone *pT_drone){
     int n_loop=0;
     while(1){
         n_loop++;
-        if (n_loop > 1000)
+        if (n_loop > 100)
         {
             break;
         }
