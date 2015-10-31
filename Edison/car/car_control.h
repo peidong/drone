@@ -134,21 +134,21 @@ int GpsNavigationMove(struct T_drone *pT_drone){
     {
         //turn_direction(d_move_direction - pT_drone->d_face_direction);
         if(d_move_direction - pT_drone->d_face_direction > 0){
-            for (i = 0;i<=180;i++){
+            // for (i = 0;i<=180;i++){
                      turn_right();
-                 } 
+                 // } 
         }else
         {   
-            for (i = 0;i<=180;i++){
+            // for (i = 0;i<=180;i++){
                      turn_left();
-                 }
+                 // }
         }
     }else if (tmp_distance > 10)
     {
-        for (i = 0; i<=200; i++){
+        // for (i = 0; i<=200; i++){
             printf("move forward\n");
             move_forward();
-        }
+        // }
     }
     return 0;
 }
