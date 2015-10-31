@@ -1,0 +1,53 @@
+Driver Caps:
+  Driver: "uvcvideo"
+  Card: "USB 2.0 Camera"
+  Bus: "usb-dwc3-host.2-1"
+  Version: 1.0
+  Capabilities: 84000001
+Camera Cropping:
+  Bounds: 320x240+0+0
+  Default: 320x240+0+0
+  Aspect: 1/1
+  FMT : CE Desc
+--------------------
+  MJPG: C  MJPEG
+  YUYV:    YUV 4:2:2 (YUYV)
+Selected Camera Mode:
+  Width: 320
+  Height: 240
+  PixFmt: YUYV
+  Field: 1
+Length: 153600
+Address: 0xb7769000
+Image Length: 0
+Profile (QBUF): 17358
+Profile (STREAMON): 75400541
+Profile (SELECT): 196274149
+Profile (DQBUF): 40725
+Profile (QBUF): 16276
+Profile (SELECT): 232317979
+Profile (DQBUF): 40254
+Profile (QBUF): 15465
+Profile (SELECT): 300328115
+Profile (DQBUF): 41957
+Profile (QBUF): 15194
+Profile (SELECT): 364290074
+Profile (DQBUF): 41897
+Profile (QBUF): 15545
+Profile (SELECT): 400360947
+Profile (DQBUF): 40535
+Profile (QBUF): 15425
+Profile (SELECT): 468326762
+Profile (DQBUF): 41827
+Profile (QBUF): 16377
+Profile (SELECT): 532299840
+Profile (DQBUF): 41185
+Profile (QBUF): 14974
+Profile (SELECT): 568273988
+Profile (DQBUF): 40415
+Profile (QBUF): 16276
+Profile (SELECT): 636283323
+Profile (DQBUF): 41396
+Profile (QBUF): 15455
+Profile (SELECT): 700268289
+Profile (DQBUF): 41506
