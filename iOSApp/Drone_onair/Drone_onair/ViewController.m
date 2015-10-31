@@ -226,7 +226,7 @@
    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSDictionary *parameters = @{@"latitude":latitude, @"longitude":longitude};
-    [manager POST:@"http://fryer.ee.ucla.edu/rest/api/gps/post/?location_type=0" parameters:parameters
+    [manager POST:@"http://fryer.ee.ucla.edu/rest/api/gps/post/?location_type=1" parameters:parameters
         success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON_todata: %@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -241,7 +241,7 @@
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSDictionary *parameters = @{@"face_direction":direction};
-    [manager POST:@"http://fryer.ee.ucla.edu/rest/api/gps/post/?location_type=0" parameters:parameters
+    [manager POST:@"http://fryer.ee.ucla.edu/rest/api/gps/post/?location_type=1" parameters:parameters
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSLog(@"JSON_todata: %@", responseObject);
           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
