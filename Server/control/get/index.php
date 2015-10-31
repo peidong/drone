@@ -26,6 +26,7 @@
     $suspend_pwm2 = $result_array[suspend_pwm2];
     $suspend_pwm3 = $result_array[suspend_pwm3];
     $suspend_pwm4 = $result_array[suspend_pwm4];
+    $stop_sign = $result_array[stop_sign];
     $update_time = $result_array[update_time];
 
     $response['control_type'] = $control_type;
@@ -35,6 +36,7 @@
     $response['suspend_pwm2'] = $suspend_pwm2;
     $response['suspend_pwm3'] = $suspend_pwm3;
     $response['suspend_pwm4'] = $suspend_pwm4;
+    $response['stop_sign'] = $stop_sign;
     $response['update_time'] = $update_time;
 
     deliver_response(200, "The control commands have been got", $response);

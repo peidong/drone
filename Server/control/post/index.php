@@ -12,6 +12,7 @@
     $suspend_pwm2 = $_POST['suspend_pwm2'];
     $suspend_pwm3 = $_POST['suspend_pwm3'];
     $suspend_pwm4 = $_POST['suspend_pwm4'];
+    $stop_sign = $_POST['stop_sign'];
 
     // close the session
     session_write_close();
@@ -33,6 +34,7 @@
     $last_time_suspend_pwm2 = $result_array[suspend_pwm2];
     $last_time_suspend_pwm3 = $result_array[suspend_pwm3];
     $last_time_suspend_pwm4 = $result_array[suspend_pwm4];
+    $last_time_stop_sign = $result_array[stop_sign];
     $last_time_update_time = $result_array[update_time];
 
     if($control_type == NULL){
@@ -56,9 +58,12 @@
     if($suspend_pwm4 == NULL){
         $suspend_pwm4 = $last_time_suspend_pwm4;
     }
+    if($stop_sign == NULL){
+        $stop_sign = $last_time_stop_sign;
+    }
 
     $query = "UPDATE control
-        SET control_type = '$control_type', auto_control_command = '$auto_control_command', manual_control_command = '$manual_control_command', suspend_pwm1 = '$suspend_pwm1', suspend_pwm2 = '$suspend_pwm2', suspend_pwm3 = '$suspend_pwm3', suspend_pwm4 = '$suspend_pwm4', update_time = now()
+        SET control_type = '$control_type', auto_control_command = '$auto_control_command', manual_control_command = '$manual_control_command', suspend_pwm1 = '$suspend_pwm1', suspend_pwm2 = '$suspend_pwm2', suspend_pwm3 = '$suspend_pwm3', suspend_pwm4 = '$suspend_pwm4', stop_sign = '$stop_sign', update_time = now()
         WHERE mac_address = '$mac_address'";
 
     $result = mysql_query($query);
@@ -77,6 +82,7 @@
     $suspend_pwm2 = $result_array[suspend_pwm2];
     $suspend_pwm3 = $result_array[suspend_pwm3];
     $suspend_pwm4 = $result_array[suspend_pwm4];
+    $stop_sign = $result_array[stop_sign];
     $update_time = $result_array[update_time];
 
     $response['control_type'] = $control_type;
@@ -86,6 +92,7 @@
     $response['suspend_pwm2'] = $suspend_pwm2;
     $response['suspend_pwm3'] = $suspend_pwm3;
     $response['suspend_pwm4'] = $suspend_pwm4;
+    $response['stop_sign'] = $stop_sign;
     $response['update_time'] = $update_time;
 
     deliver_response(200, "The control commands have been updated", $response);

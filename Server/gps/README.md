@@ -8,7 +8,7 @@
 
     Post data example
 
-       face_direction=120.0&latitude=34.0&longitude=118.0 
+       face_direction=120.0&latitude=34.0&longitude=118.0&stop_sign=0
 
     Url
     
