@@ -363,15 +363,27 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
         Pid_Run(pidData_yaw, pT_drone->arrd_yaw_pitch_roll[0]);
         pT_drone->arrd_pid_yaw_pitch_roll[0] = pidData_yaw->output;
 
-		// For pitch, mainly we can use wires to lock the Y direction.
+		// For pitch, mainly we can use wires to lock the Y direction. First divide by 2. Adding to pwm1 and pwm2, substracting to pwm3 and pwm4.
 		Pid_SetSetPoint(pidData_pitch, 0);
         Pid_Run(pidData_pitch, pT_drone->arrd_yaw_pitch_roll[1]);
         pT_drone->arrd_pid_yaw_pitch_roll[1] = pidData_pitch->output;
 
-		// For roll, mainly we can use wires to lock the X direction.
+        pT_drone->arrd_current_pwm[0] += (pT_drone->arrd_pid_yaw_pitch_roll[1] / 2);
+        pT_drone->arrd_current_pwm[1] += (pT_drone->arrd_pid_yaw_pitch_roll[1] / 2);
+
+        pT_drone->arrd_current_pwm[2] -= (pT_drone->arrd_pid_yaw_pitch_roll[1] / 2);
+        pT_drone->arrd_current_pwm[3] -= (pT_drone->arrd_pid_yaw_pitch_roll[1] / 2);
+
+		// For roll, mainly we can use wires to lock the X direction. First divide by 2. Adding to pwm1 and pwm3, substracting to pwm2 and pwm4.
 		Pid_SetSetPoint(pidData_roll, 0); 
         Pid_Run(pidData_roll, pT_drone->arrd_yaw_pitch_roll[2]);
         pT_drone->arrd_pid_yaw_pitch_roll[2] = pidData_roll->output;
+
+        pT_drone->arrd_current_pwm[0] += (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
+        pT_drone->arrd_current_pwm[2] += (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
+
+        pT_drone->arrd_current_pwm[1] -= (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
+        pT_drone->arrd_current_pwm[3] -= (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
 
 		usleep(100000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good. 
     }
