@@ -61,7 +61,11 @@ int main(){
          /*speed_control(speed_pwm_in1, speed_pwm_in2, 0.0f);*/
      /*} */
 
-
+    f_turn = CENTER;
+    mraa_pwm_write(turn_pwm, f_turn);
+    usleep(10000);
+    speed_control(speed_pwm_in1, speed_pwm_in2, 0);
+    printf("stop\n");
     return 0;
 
 }

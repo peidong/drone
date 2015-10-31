@@ -124,7 +124,7 @@ int GpsNavigationMove(struct T_drone *pT_drone){
     }
     printf("d_move_direction = %f\n", d_move_direction);
     printf("abs(d_move_direction - pT_drone->d_face_direction) = %f\n", abs(d_move_direction - pT_drone->d_face_direction));
-    printf("pT_drone->d_face_direction = %f\n", pT_drone->d_face_direction);
+    printf("pT_drone->d_face_direction = %f\n\n", pT_drone->d_face_direction);
     if (abs(d_move_direction - pT_drone->d_face_direction) > 10)
     {
         //turn_direction(d_move_direction - pT_drone->d_face_direction);
@@ -151,7 +151,7 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
     int n_loop = 0;
     while(1){
         n_loop++;
-        if (n_loop > 10)
+        if (n_loop > 100)
         {
             break;
         }
