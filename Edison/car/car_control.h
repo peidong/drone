@@ -122,9 +122,9 @@ int GpsNavigationMove(struct T_drone *pT_drone){
         }
     }
 
-    if (d_move_direction - pT_drone->face_direction > 10)
+    if (d_move_direction - pT_drone->d_face_direction > 10)
     {
-        turn_direction(d_move_direction - pT_drone->face_direction);
+        turn_direction(d_move_direction - pT_drone->d_face_direction);
     }
     if (sqrt(pow(d_west_to_east_distance, 2) + pow(d_south_to_north_distance, 2)) > 3)
     {
