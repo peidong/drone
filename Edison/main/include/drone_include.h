@@ -216,8 +216,8 @@ int update_T_drone_http(struct T_drone *pT_drone){
 int update_T_drone_http_gps(struct T_drone *pT_drone){
     //How to concat two char* string in C program
     //http://stackoverflow.com/questions/18468229/how-to-concat-two-char-string-in-c-program
-    char *sz_url_get_gps = "http://fryer.ee.ucla.edu/rest/api/gps/get/?location_type=0";
-    char *sz_url_get_gps_iPhone = "http://fryer.ee.ucla.edu/rest/api/gps/get/?location_type=1";
+    char *sz_url_get_gps = "http://fryer.ee.ucla.edu/rest/api/gps/get/?location_type=0";//get destination gps
+    char *sz_url_get_gps_iPhone = "http://fryer.ee.ucla.edu/rest/api/gps/get/?location_type=1";//get iPhone(Edison board) current gps
     char *sz_url_post_gps = "http://fryer.ee.ucla.edu/rest/api/gps/post/?location_type=1";
     
     char *sz_http_response;
@@ -275,8 +275,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		int16_t grawx = (Buf[8] << 8 | Buf[9]) - 25;
 		int16_t grawy = (Buf[10] << 8 | Buf[11]) - 2;
 		int16_t grawz = (Buf[12] << 8 | Buf[13]) + 9;
-
-		// Magnetometer  
+		// Magnetometer
 		mraa_i2c_read_bytes_data(mpu, 73, Buf, 6);
 		int16_t mrawx = (Buf[1] << 8 | Buf[0]);//-213;// + mag_offset_x;
 		int16_t mrawy = (Buf[3] << 8 | Buf[2]);//-92;// + mag_offset_y;

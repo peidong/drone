@@ -335,7 +335,7 @@ void initAK8963(float * destination)
 
 void MPU_init()
 {
-  mraa_init();
+  // mraa_init();
 	mpu = mraa_i2c_init(0);
 	mraa_i2c_address(mpu, MPU9250_ADDRESS);
 	
