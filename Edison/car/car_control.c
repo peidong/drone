@@ -6,7 +6,7 @@ int main(){
     speed_pwm_in2 = mraa_pwm_init(5);
     turn_pwm = mraa_pwm_init(6);
 	char turn_user_input[MAXBUFSIZ];
-    speed = 40;
+    f_speed = 40;
     
     mraa_pwm_period_us(speed_pwm_in1,870); //1150Hz
 	mraa_pwm_enable(speed_pwm_in1, 1);
