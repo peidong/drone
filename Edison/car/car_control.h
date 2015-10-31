@@ -125,7 +125,7 @@ int GpsNavigationMove(struct T_drone *pT_drone){
     printf("d_move_direction = %f\n", d_move_direction);
     printf("abs(d_move_direction - pT_drone->d_face_direction) = %f\n", abs(d_move_direction - pT_drone->d_face_direction));
     printf("pT_drone->d_face_direction = %f\n", pT_drone->d_face_direction);
-    if (abs(d_move_direction - pT_drone->d_face_direction) > 2)
+    if (abs(d_move_direction - pT_drone->d_face_direction) > 10)
     {
         //turn_direction(d_move_direction - pT_drone->d_face_direction);
         if(d_move_direction - pT_drone->d_face_direction > 0){
