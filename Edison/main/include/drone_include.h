@@ -11,8 +11,10 @@
 #include "mpu9250/mpu9250.h"  //include pid file    
 #include "pid/pid.h"  //include pid file
 //#include "timer/timer.h" //timer
-#include <mraa/gpio.h>
-#include <mraa/pwm.h>
+//#include <mraa/gpio.h>
+//#include <mraa/pwm.h>
+#include <mraa.h>
+#include <stdint.h>
 
 #define PWM_PERIOD_NS 20000000//20ms
 //#define PWM_PERIOD_NS 5000000000//5s
@@ -37,7 +39,7 @@ struct T_drone{
 
     //These following are from the board itself
     double arrd_current_pwm[4];
-    double arrd_last_pwm[4];
+    //double arrd_last_pwm[4];
     double arrd_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
     double arrd_pid_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
     int arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
@@ -412,30 +414,34 @@ int GeneratePwmFromGpio(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_po
     return 0;
 }
 
-void GeneratePwmFromPwm(struct T_drone *pT_drone){
-    mraa_pwm_context pwm;
-    pwm = mraa_pwm_init(5);
-    mraa_pwm_period_us(pwm, 2000);
-    mraa_pwm_enable(pwm, 1);
-    struct timespec T_timespec_high;
-    struct timespec T_timespec_low;
-    T_timespec_high.tv_sec = 0;
-    T_timespec_high.tv_nsec = 1 * 1000000;
-
-    T_timespec_low.tv_sec = 0;
-    T_timespec_low.tv_nsec = 18.5 * 1000000;
-
+int GeneratePwm(struct T_drone *pT_drone){
+    mraa_i2c_context pwm12, pwm34;
+    pwm12 = mraa_i2c_init(1);
+    pwm34 = mraa_i2c_init(2);
+    mraa_i2c_address(pwm12, 2); // i2c address 2. It can be arbitrarily defined. For pwm12 output, address = 2
+    mraa_i2c_address(pwm34, 3); // i2c address 3. It can be arbitrarily defined. For pwm34 output, address = 3
+    double arrd_current_duty[4];
+    uint8_t arri_i2c_output[4] = { 0, 0, 0, 0 };
+    //double arrd_last_pwm[4];
     while(1){
-        //update_T_drone_http_pwm(pT_drone);
-        mraa_pwm_write(pwm, 0.2);
-        //nanosleep(&T_timespec_high, NULL);
-        usleep(2000);
-        mraa_pwm_write(pwm, 0);
-        //mraa_pwm_enable(pwm, 0);
-        usleep(3000);
-        //nanosleep(&T_timespec_low, NULL);
+        arrd_current_duty[0] = pT_drone->arrd_current_pwm[0] * 40000;
+        arrd_current_duty[1] = pT_drone->arrd_current_pwm[1] * 40000;
+        arrd_current_duty[2] = pT_drone->arrd_current_pwm[2] * 40000;
+        arrd_current_duty[3] = pT_drone->arrd_current_pwm[3] * 40000;
+        
+        arri_i2c_output[0] = ((int)arrd_current_duty[0]) / 256;
+        arri_i2c_output[1] = ((int)arrd_current_duty[0]) % 256;
+        arri_i2c_output[2] = ((int)arrd_current_duty[1]) / 256;
+        arri_i2c_output[3] = ((int)arrd_current_duty[1]) % 256;
+        mraa_i2c_write(pwm12, arri_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
+        
+        arri_i2c_output[0] = ((int)arrd_current_duty[2]) / 256;
+        arri_i2c_output[1] = ((int)arrd_current_duty[2]) % 256;
+        arri_i2c_output[2] = ((int)arrd_current_duty[3]) / 256;
+        arri_i2c_output[3] = ((int)arrd_current_duty[3]) % 256;
+        mraa_i2c_write(pwm34, arri_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
     }
-    //return 0;
+    return 0;
 }
 
 void ThreadTask_update_T_drone_http_pwm(struct T_drone *pT_drone){
@@ -499,7 +505,7 @@ void ThreadTask_update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 /**
  * n_pwm_index = 0,1,2,3
  */
-void ThreadTask_GeneratePwm(int n_pwm_index){
+void ThreadTask_GeneratePwmFromGpio(int n_pwm_index){
     int n_gpio_port;
     if(n_pwm_index == 0){
         n_gpio_port = 2;
@@ -511,4 +517,8 @@ void ThreadTask_GeneratePwm(int n_pwm_index){
         n_gpio_port = 8;
     }
     GeneratePwmFromGpio(&g_T_drone_self, n_pwm_index, n_gpio_port);
+}
+
+void ThreadTask_GeneratePwm(struct T_drone *pT_drone){
+    GeneratePwm(pT_drone);
 }
