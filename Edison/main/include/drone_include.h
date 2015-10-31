@@ -217,12 +217,12 @@ int update_T_drone_http(struct T_drone *pT_drone){
 int update_T_drone_http_gps(struct T_drone *pT_drone){
     //How to concat two char* string in C program
     //http://stackoverflow.com/questions/18468229/how-to-concat-two-char-string-in-c-program
-    char *sz_url_get_gps = "http://fryer.ee.ucla.edu/rest/api/gps/get/?location_type=0";//get destination gps
+    char *sz_url_get_gps_destination = "http://fryer.ee.ucla.edu/rest/api/gps/get/?location_type=0";//get destination gps
     char *sz_url_get_gps_iPhone = "http://fryer.ee.ucla.edu/rest/api/gps/get/?location_type=1";//get iPhone(Edison board) current gps
     char *sz_url_post_gps = "http://fryer.ee.ucla.edu/rest/api/gps/post/?location_type=1";
     
     char *sz_http_response;
-    struct json_object *pT_json_object_whole_response, *pT_json_object_data, *pT_json_object_update_time, *pT_json_object_face_direction, *pT_json_object_latitude, *pT_json_object_longitude, *pT_json_object_stop;
+    struct json_object *pT_json_object_whole_response, *pT_json_object_data, *pT_json_object_update_time, *pT_json_object_face_direction, *pT_json_object_latitude, *pT_json_object_longitude, *pT_json_object_stop_sign;
     int n_json_response;
 
     sz_http_response = http_get(sz_url_get_gps_iPhone);
@@ -233,14 +233,13 @@ int update_T_drone_http_gps(struct T_drone *pT_drone){
     n_json_response = json_object_object_get_ex(pT_json_object_data, "face_direction", &pT_json_object_face_direction);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "latitude", &pT_json_object_latitude);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "longitude", &pT_json_object_longitude);
-    n_json_response = json_object_object_get_ex(pT_json_object_data, "stop", &pT_json_object_stop);
     n_json_response = json_object_object_get_ex(pT_json_object_data,"update_time",&pT_json_object_update_time);
 
     pT_drone->d_face_direction = json_object_get_double(pT_json_object_face_direction);
     pT_drone->d_current_latitude = json_object_get_double(pT_json_object_latitude);
     pT_drone->d_current_longitude = json_object_get_double(pT_json_object_longitude);
 
-    sz_http_response = http_get(sz_url_get_gps);
+    sz_http_response = http_get(sz_url_get_gps_destination);
 
     pT_json_object_whole_response = json_tokener_parse(sz_http_response);
 
@@ -248,10 +247,13 @@ int update_T_drone_http_gps(struct T_drone *pT_drone){
     n_json_response = json_object_object_get_ex(pT_json_object_data, "face_direction", &pT_json_object_face_direction);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "latitude", &pT_json_object_latitude);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "longitude", &pT_json_object_longitude);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "stop_sign", &pT_json_object_stop_sign);
     n_json_response = json_object_object_get_ex(pT_json_object_data,"update_time",&pT_json_object_update_time);
 
     pT_drone->d_destination_latitude = json_object_get_double(pT_json_object_latitude);
     pT_drone->d_destination_longitude = json_object_get_double(pT_json_object_longitude);
+    pT_drone->n_stop_sign = json_object_get_int(pT_json_object_stop_sign);
+
     return 0;
 }
 
@@ -267,6 +269,11 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 	MPU_init();
 	while (1)
 	{
+        if (pT_drone->n_stop_sign == 1)
+        {
+            break;
+        }
+
 		uint8_t Buf[14];
 		mraa_i2c_read_bytes_data(mpu, 59, Buf, 14);
 		// Accelerometer
@@ -356,7 +363,12 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
     
 	Pid_Init(pidData_roll, kp_roll, ki_roll, kd_roll, controllerDir, samplePeriodMs);
    
-    while(1){ 
+    while(1){
+        if (pT_drone->n_stop_sign == 1)
+        {
+            break;
+        }
+
 		//"0" is the setpoint or the destination of the final attitude, representing hovering or suspending. 
 		//Replace "0" by HTTP request parameters later.
 
@@ -417,6 +429,11 @@ int GeneratePwmFromGpio(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_po
 
     while(1){
 
+        if (pT_drone->n_stop_sign == 1)
+        {
+            break;
+        }
+
         //T_timespec_high.tv_sec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) / 1000000000;
         //T_timespec_high.tv_nsec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) % 1000000000;
 
@@ -456,6 +473,12 @@ int GeneratePwm(struct T_drone *pT_drone){
     double arrd_current_duty[4];
     uint8_t arri_i2c_output[4] = { 0, 0, 0, 0 };
     while(1){
+
+        if (pT_drone->n_stop_sign == 1)
+        {
+            break;
+        }
+
         arrd_current_duty[0] = pT_drone->arrd_current_pwm[0] * 40000;
         arrd_current_duty[1] = pT_drone->arrd_current_pwm[1] * 40000;
         arrd_current_duty[2] = pT_drone->arrd_current_pwm[2] * 40000;
@@ -478,6 +501,11 @@ int GeneratePwm(struct T_drone *pT_drone){
 
 void ThreadTask_update_T_drone_http_pwm(struct T_drone *pT_drone){
     while(1){
+        if (pT_drone->n_stop_sign == 1)
+        {
+            break;
+        }
+
         update_T_drone_http_pwm(pT_drone);
 #ifdef DEBUG_PWM
             printf("pwm1 = %f\n", pT_drone->arrd_current_pwm[0]);
@@ -493,6 +521,11 @@ void ThreadTask_update_T_drone_http_pwm(struct T_drone *pT_drone){
 
 void ThreadTask_update_T_drone_http(struct T_drone *pT_drone){
     while(1){
+        if (pT_drone->n_stop_sign == 1)
+        {
+            break;
+        }
+
         update_T_drone_http(pT_drone);
         usleep(50000);
     }
@@ -526,6 +559,11 @@ void ThreadTask_update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone)
 
 void ThreadTask_update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
     while(1){
+        if (pT_drone->n_stop_sign == 1)
+        {
+            break;
+        }
+
         update_T_drone_arrn_ultrasound(pT_drone);
     }
 }
@@ -561,6 +599,7 @@ void ThreadTask_update_T_drone_http_gps(struct T_drone *pT_drone){
         {
             break;
         }
+
         update_T_drone_http_gps(pT_drone);
         usleep(50000);
     }
