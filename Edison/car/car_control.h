@@ -8,7 +8,7 @@
 #define LEFTMAX 0.048f
 #define RIGHTMAX 0.088f
 
-const double EARTH_RADIUS = 6378.137;
+const double EARTH_RADIUS = 6378137;
 
 float f_speed, f_turn;
 mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm;
@@ -162,6 +162,6 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
             break;
         }
         GpsNavigationMove(pT_drone);
-        usleep(100000);
+        usleep(50000);
     }
 }
