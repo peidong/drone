@@ -22,11 +22,13 @@
     $face_direction = $result_array[face_direction];
     $latitude = $result_array[latitude];
     $longitude = $result_array[longitude];
+    $stop_sign = $result_array[stop_sign];
     $update_time = $result_array[update_time];
 
     $response['face_direction'] = $face_direction;
     $response['latitude'] = $latitude;
     $response['longitude'] = $longitude;
+    $response['stop_sign'] = $stop_sign;
     $response['update_time'] = $update_time;
 
     deliver_response(200, "The gps commands have been got", $response);
