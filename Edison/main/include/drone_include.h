@@ -417,7 +417,7 @@ int GeneratePwmFromGpio(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_po
 int GeneratePwm(struct T_drone *pT_drone){
     mraa_i2c_context pwm12, pwm34;
     pwm12 = mraa_i2c_init(1);
-    pwm34 = mraa_i2c_init(2);
+    pwm34 = mraa_i2c_init(1);
     mraa_i2c_address(pwm12, 2); // i2c address 2. It can be arbitrarily defined. For pwm12 output, address = 2
     mraa_i2c_address(pwm34, 3); // i2c address 3. It can be arbitrarily defined. For pwm34 output, address = 3
     double arrd_current_duty[4];
