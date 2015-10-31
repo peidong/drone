@@ -59,42 +59,46 @@
     _slider1.value = 0.3;
     forwardData = (int)([_slider1 value] * 4000);
     [_slider1 addTarget:self action:@selector(updateValue) forControlEvents:UIControlEventValueChanged];
-
+    _slider1.minimumValue  = 0.001;
     
     _slider2.continuous = NO;
     _slider2.value = 0.3;
     backwardData = (int)([_slider2 value] * 4000);
     [_slider2 addTarget:self action:@selector(updateValue) forControlEvents:UIControlEventValueChanged];
+    _slider2.minimumValue  = 0.001;
 
 
     _slider3.continuous = NO;
     _slider3.value = 0.3;
     leftData = (int)([_slider3 value] * 4000);
     [_slider3 addTarget:self action:@selector(updateValue) forControlEvents:UIControlEventValueChanged];
+    _slider3.minimumValue  = 0.001;
 
 
     _slider4.continuous = NO;
     _slider4.value = 0.3;
     rightData = (int)([_slider4 value] * 4000);
     [_slider4 addTarget:self action:@selector(updateValue) forControlEvents:UIControlEventValueChanged];
-    
+    _slider4.minimumValue  = 0.001;
+
     _stepper1.value = 1200;
     _stepper2.value = 1200;
     _stepper3.value = 1200;
     _stepper4.value = 1200;
+    
     total = 1200;
     _stepper_total.value = 1200;
     
     _stepper1.maximumValue = 4000;
-    _stepper1.minimumValue = 0;
+    _stepper1.minimumValue = 4;
     _stepper2.maximumValue = 4000;
-    _stepper2.minimumValue = 0;
+    _stepper2.minimumValue = 4;
     _stepper3.maximumValue = 4000;
-    _stepper3.minimumValue = 0;
+    _stepper3.minimumValue = 4;
     _stepper4.maximumValue = 4000;
-    _stepper4.minimumValue = 0;
+    _stepper4.minimumValue = 4;
     _stepper_total.maximumValue = 4000;
-    _stepper_total.minimumValue = 0;
+    _stepper_total.minimumValue = 4;
     
     
     _text1.clearButtonMode = UITextFieldViewModeAlways;
