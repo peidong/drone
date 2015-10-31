@@ -150,7 +150,7 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
     int n_loop = 0;
     while(1){
         n_loop++;
-        if (n_loop > 100)
+        if (n_loop > 1000)
         {
             break;
         }
