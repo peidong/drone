@@ -47,8 +47,8 @@ int main(){
              }
              else if(!strcmp(turn_user_input, "S") || !strcmp(turn_user_input, "s"))
              {
-                  turn = CENTER;
-                  mraa_pwm_write(turn_pwm, turn);
+                  f_turn = CENTER;
+                  mraa_pwm_write(turn_pwm, f_turn);
                   usleep(10000);
                   speed_control(speed_pwm_in1, speed_pwm_in2, 0);
              }
