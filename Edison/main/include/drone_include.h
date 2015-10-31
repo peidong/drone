@@ -30,13 +30,15 @@
 //};
 
 struct T_drone{
+
+    int n_stop_sign;
+
     //These following are from server
     char *sz_mac_address;
     int n_control_type;
     int n_auto_control_command;
     int n_manual_control_command;
     double arrd_suspend_pwm[4];
-    int n_stop_sign;
 
     //These following are from the board itself
     double arrd_current_pwm[4];
@@ -44,8 +46,8 @@ struct T_drone{
     double arrd_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
     double arrd_pid_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
     int arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
-    struct timespec arrT_timespec_high[4];
-    struct timespec arrT_timespec_low[4];
+    // struct timespec arrT_timespec_high[4];
+    // struct timespec arrT_timespec_low[4];
 
     //GPS info
     double d_current_latitude;
@@ -404,65 +406,65 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
     return 0;
 }
 
-int update_T_drone_arrT_timespec(struct T_drone *pT_drone){
-    int n_pwm_index = 0;
-    for(n_pwm_index = 0; n_pwm_index < 4; n_pwm_index++){
-        pT_drone->arrT_timespec_high[n_pwm_index].tv_sec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) / 1000000000;
-        pT_drone->arrT_timespec_high[n_pwm_index].tv_nsec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) % 1000000000;
-        pT_drone->arrT_timespec_low[n_pwm_index].tv_sec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) / 1000000000;
-        pT_drone->arrT_timespec_low[n_pwm_index].tv_nsec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) % 1000000000;
-    }
-    return 0;
-}
+// int update_T_drone_arrT_timespec(struct T_drone *pT_drone){
+//     int n_pwm_index = 0;
+//     for(n_pwm_index = 0; n_pwm_index < 4; n_pwm_index++){
+//         pT_drone->arrT_timespec_high[n_pwm_index].tv_sec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) / 1000000000;
+//         pT_drone->arrT_timespec_high[n_pwm_index].tv_nsec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) % 1000000000;
+//         pT_drone->arrT_timespec_low[n_pwm_index].tv_sec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) / 1000000000;
+//         pT_drone->arrT_timespec_low[n_pwm_index].tv_nsec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) % 1000000000;
+//     }
+//     return 0;
+// }
 
 /**
  * n_pwm_index = 0,1,2,3
  */
-int GeneratePwmFromGpio(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port){
+// int GeneratePwmFromGpio(struct T_drone *pT_drone, int n_pwm_index, int n_gpio_port){
 
-    mraa_gpio_context gpio;
-    gpio = mraa_gpio_init(n_gpio_port);
-    mraa_gpio_dir(gpio, MRAA_GPIO_OUT);
+//     mraa_gpio_context gpio;
+//     gpio = mraa_gpio_init(n_gpio_port);
+//     mraa_gpio_dir(gpio, MRAA_GPIO_OUT);
 
-    struct timespec T_timespec_high;
-    struct timespec T_timespec_low;
+//     struct timespec T_timespec_high;
+//     struct timespec T_timespec_low;
 
-    while(1){
+//     while(1){
 
-        if (pT_drone->n_stop_sign == 1)
-        {
-            break;
-        }
+//         if (pT_drone->n_stop_sign == 1)
+//         {
+//             break;
+//         }
 
-        //T_timespec_high.tv_sec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) / 1000000000;
-        //T_timespec_high.tv_nsec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) % 1000000000;
+//         //T_timespec_high.tv_sec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) / 1000000000;
+//         //T_timespec_high.tv_nsec = ((int)round(PWM_PERIOD_NS * pT_drone->arrd_current_pwm[n_pwm_index])) % 1000000000;
 
-        //T_timespec_low.tv_sec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) / 1000000000;
-        //T_timespec_low.tv_nsec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) % 1000000000;
+//         //T_timespec_low.tv_sec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) / 1000000000;
+//         //T_timespec_low.tv_nsec = ((int)round(PWM_PERIOD_NS * ( 1 - pT_drone->arrd_current_pwm[n_pwm_index] ))) % 1000000000;
 
-#ifdef DEBUG_GPIO_PWM
-        printf("pwm%d = %f\n", (n_pwm_index+1), pT_drone->arrd_current_pwm[n_pwm_index]);
-#endif
+// #ifdef DEBUG_GPIO_PWM
+//         printf("pwm%d = %f\n", (n_pwm_index+1), pT_drone->arrd_current_pwm[n_pwm_index]);
+// #endif
 
-        mraa_gpio_write(gpio, 1);
+//         mraa_gpio_write(gpio, 1);
 
-#ifdef DEBUG_GPIO_PWM
-        printf("pwm%d : voltage = 1\n", (n_pwm_index+1));
-#endif
+// #ifdef DEBUG_GPIO_PWM
+//         printf("pwm%d : voltage = 1\n", (n_pwm_index+1));
+// #endif
 
-        nanosleep(pT_drone->arrT_timespec_high+n_pwm_index, NULL);
-        mraa_gpio_write(gpio, 0);
+//         nanosleep(pT_drone->arrT_timespec_high+n_pwm_index, NULL);
+//         mraa_gpio_write(gpio, 0);
 
-#ifdef DEBUG_GPIO_PWM
-        printf("pwm%d : voltage = 0\n", (n_pwm_index+1));
-#endif
+// #ifdef DEBUG_GPIO_PWM
+//         printf("pwm%d : voltage = 0\n", (n_pwm_index+1));
+// #endif
 
-        nanosleep(pT_drone->arrT_timespec_low+n_pwm_index, NULL);
+//         nanosleep(pT_drone->arrT_timespec_low+n_pwm_index, NULL);
 
-    }
+//     }
 
-    return 0;
-}
+//     return 0;
+// }
 
 int GeneratePwm(struct T_drone *pT_drone){
     mraa_i2c_context pwm12, pwm34;
