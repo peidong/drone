@@ -577,19 +577,19 @@ void ThreadTask_update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 /**
  * n_pwm_index = 0,1,2,3
  */
-void ThreadTask_GeneratePwmFromGpio(int n_pwm_index){
-    int n_gpio_port;
-    if(n_pwm_index == 0){
-        n_gpio_port = 2;
-    }else if(n_pwm_index == 1){
-        n_gpio_port = 4;
-    }else if(n_pwm_index == 2){
-        n_gpio_port = 7;
-    }else if(n_pwm_index == 3){
-        n_gpio_port = 8;
-    }
-    GeneratePwmFromGpio(&g_T_drone_self, n_pwm_index, n_gpio_port);
-}
+// void ThreadTask_GeneratePwmFromGpio(int n_pwm_index){
+//     int n_gpio_port;
+//     if(n_pwm_index == 0){
+//         n_gpio_port = 2;
+//     }else if(n_pwm_index == 1){
+//         n_gpio_port = 4;
+//     }else if(n_pwm_index == 2){
+//         n_gpio_port = 7;
+//     }else if(n_pwm_index == 3){
+//         n_gpio_port = 8;
+//     }
+//     GeneratePwmFromGpio(&g_T_drone_self, n_pwm_index, n_gpio_port);
+// }
 
 void ThreadTask_GeneratePwm(struct T_drone *pT_drone){
     GeneratePwm(pT_drone);
