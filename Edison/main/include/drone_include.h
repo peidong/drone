@@ -329,32 +329,52 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
     pidData_pitch = (pidData_t*) malloc(sizeof(pidData_t));
     pidData_roll = (pidData_t*) malloc(sizeof(pidData_t));
     
-	double kp, ki, kd;
+	double kp_pitch, ki_pitch, kd_pitch, kp_roll, ki_roll, kd_roll, kp_yaw, ki_yaw, kd_yaw;
 	ctrlDir_t controllerDir;
 	uint32_t samplePeriodMs;
 
-    kp = 0;     // these three need to be tuning
-    ki = 0;
-    kd = 0;
-    samplePeriodMs = 20; //need to be setup
+	// For the nine values, if we can modify them in IOS app, tests can be easier!
+	kp_pitch = 0; 
+	ki_pitch = 0; 
+	kd_pitch = 0;   // these three need to be tuning
+
+	kp_roll = 0; 
+	ki_roll = 0; 
+	kd_roll = 0;   // these three need to be tuning
+
+	kp_yaw = 0; 
+	ki_yaw = 0; 
+	kd_yaw = 0;   // these three need to be tuning
+    
+    samplePeriodMs = 100; //need to be setup
     controllerDir = PID_DIRECT; //Direct control not reverse.
 
-    Pid_Init(pidData_yaw, kp, ki, kd, controllerDir, samplePeriodMs);
-    Pid_SetSetPoint(pidData_yaw, 0);
-    Pid_Init(pidData_pitch, kp, ki, kd, controllerDir, samplePeriodMs);
-    Pid_SetSetPoint(pidData_pitch, 0);
-    Pid_Init(pidData_roll, kp, ki, kd, controllerDir, samplePeriodMs);
-    Pid_SetSetPoint(pidData_roll, 0);
+	Pid_Init(pidData_yaw, kp_yaw, ki_yaw, kd_yaw, controllerDir, samplePeriodMs);
+    
+	Pid_Init(pidData_pitch, kp_pitch, ki_pitch, kd_pitch, controllerDir, samplePeriodMs);
+    
+	Pid_Init(pidData_roll, kp_roll, ki_roll, kd_roll, controllerDir, samplePeriodMs);
+   
+    while(1){ 
+		//"0" is the setpoint or the destination of the final attitude, representing hovering or suspending. 
+		//Replace "0" by HTTP request parameters later.
 
-    while(1){
+		// It can be tested after tests for pitch and roll are finished.
+		Pid_SetSetPoint(pidData_yaw, 0);						
         Pid_Run(pidData_yaw, pT_drone->arrd_yaw_pitch_roll[0]);
         pT_drone->arrd_pid_yaw_pitch_roll[0] = pidData_yaw->output;
 
+		// For pitch, mainly we can use wires to lock the Y direction.
+		Pid_SetSetPoint(pidData_pitch, 0);
         Pid_Run(pidData_pitch, pT_drone->arrd_yaw_pitch_roll[1]);
         pT_drone->arrd_pid_yaw_pitch_roll[1] = pidData_pitch->output;
 
+		// For roll, mainly we can use wires to lock the X direction.
+		Pid_SetSetPoint(pidData_roll, 0); 
         Pid_Run(pidData_roll, pT_drone->arrd_yaw_pitch_roll[2]);
         pT_drone->arrd_pid_yaw_pitch_roll[2] = pidData_roll->output;
+
+		usleep(100000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good. 
     }
     return 0;
 }
