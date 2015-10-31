@@ -562,6 +562,6 @@ void ThreadTask_update_T_drone_http_gps(struct T_drone *pT_drone){
             break;
         }
         update_T_drone_http_gps(pT_drone);
-        usleep(100000);
+        usleep(50000);
     }
 }

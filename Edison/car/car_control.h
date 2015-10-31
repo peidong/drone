@@ -122,6 +122,8 @@ int GpsNavigationMove(struct T_drone *pT_drone){
             d_move_direction = 180;
         }
     }
+    printf("drone's location = lat:%f, lon:%f\n", pT_drone->d_current_latitude, pT_drone->d_current_longitude);
+    printf("Destination's location = lat:%f, lon:%f\n", pT_drone->d_destination_latitude, pT_drone->d_destination_longitude);
     printf("d_move_direction = %f\n", d_move_direction);
     double tmp = abs(d_move_direction - pT_drone->d_face_direction);
     printf("abs(d_move_direction - pT_drone->d_face_direction) = %f\n", tmp);
