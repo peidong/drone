@@ -422,7 +422,6 @@ int GeneratePwm(struct T_drone *pT_drone){
     mraa_i2c_address(pwm34, 3); // i2c address 3. It can be arbitrarily defined. For pwm34 output, address = 3
     double arrd_current_duty[4];
     uint8_t arri_i2c_output[4] = { 0, 0, 0, 0 };
-    //double arrd_last_pwm[4];
     while(1){
         arrd_current_duty[0] = pT_drone->arrd_current_pwm[0] * 40000;
         arrd_current_duty[1] = pT_drone->arrd_current_pwm[1] * 40000;
