@@ -20,6 +20,7 @@
 //#define DEBUG_GPIO_PWM
 #define PWM_DEVIDE_RATIO 1
 #define DEBUG_YAW_PITCH_ROLL
+#define PWM_MANUAL_CHANGE_AMOUNT 0.000025
 
 struct T_drone{
 
@@ -88,10 +89,14 @@ int update_T_drone_http(struct T_drone *pT_drone){
     //http://stackoverflow.com/questions/18468229/how-to-concat-two-char-string-in-c-program
     //sz_mac_address = "fc:c2:de:3d:7f:af";
     char *sz_url_get_control_part1 = "http://fryer.ee.ucla.edu/rest/api/control/get/?mac_address=";
+    char *sz_url_post_control_part1 = "http://fryer.ee.ucla.edu/rest/api/control/post/?mac_address=";
     char *sz_url_get_control = (char*) malloc(1 + strlen(sz_url_get_control_part1) + strlen(pT_drone->sz_mac_address));
     strcpy(sz_url_get_control, sz_url_get_control_part1);
     strcat(sz_url_get_control, pT_drone->sz_mac_address);
-    /*char *sz_url_post_control = "http://fryer.ee.ucla.edu/rest/api/control/post/";*/
+    
+    char *sz_url_post_control = (char*) malloc(1 + strlen(sz_url_post_control_part1) + strlen(pT_drone->sz_mac_address));
+    strcpy(sz_url_post_control, sz_url_post_control_part1);
+    strcat(sz_url_post_control, pT_drone->sz_mac_address);
     
     char *sz_http_response;
     struct json_object *pT_json_object_whole_response, *ppT_json_object_suspend_pwm[4], *pT_json_object_data, *pT_json_object_update_time, *pT_json_object_control_type, *pT_json_object_auto_control_command, *pT_json_object_manual_control_command;
@@ -119,6 +124,30 @@ int update_T_drone_http(struct T_drone *pT_drone){
     {
         pT_drone->arrd_suspend_pwm[n_index] = json_object_get_double(*(ppT_json_object_suspend_pwm + n_index));
     }
+
+    if (pT_drone->n_manual_control_command == 10)
+    {
+        pT_drone->n_stop_sign = 1;
+    }
+
+    if (pT_drone->n_manual_control_command == 11 || pT_drone->n_manual_control_command == 12)
+    {
+        if (pT_drone->n_manual_control_command == 11)
+        {
+            for(n_index=0; n_index<4; n_index++){
+                pT_drone->arrd_current_pwm[n_index] += PWM_MANUAL_CHANGE_AMOUNT;
+            }
+        }else if (pT_drone->n_manual_control_command == 12)
+        {
+            for(n_index=0; n_index<4; n_index++){
+                pT_drone->arrd_current_pwm[n_index] -= PWM_MANUAL_CHANGE_AMOUNT;
+            }
+        }
+
+        sz_http_response = http_post(sz_url_post_control, "manual_control_command=-1");
+
+    }
+
     return 0;
 }
 
