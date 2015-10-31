@@ -194,3 +194,13 @@
 // }
 
         // update_T_drone_arrT_timespec(pT_drone);
+
+    /*free_pT_pwm(g_pT_hash_pwm);*/
+    /*while(1){*/
+        /*HTTP_update_T_drone_pwm(&g_T_drone_my);*/
+        /*printf("pwm1 = %f\n", g_T_drone_my.arrd_current_pwm[0]);*/
+        /*printf("pwm2 = %f\n", g_T_drone_my.arrd_current_pwm[1]);*/
+        /*printf("pwm3 = %f\n", g_T_drone_my.arrd_current_pwm[2]);*/
+        /*printf("pwm4 = %f\n", g_T_drone_my.arrd_current_pwm[3]);*/
+        /*usleep(50000);*/
+    /*}*/
