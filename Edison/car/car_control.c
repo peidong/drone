@@ -15,7 +15,6 @@ int main(){
 	
 	mraa_pwm_period_ms(turn_pwm,20);
    	mraa_pwm_enable(turn_pwm, 1);
-
 	mraa_pwm_write(turn_pwm, CENTER);
 	mraa_pwm_write(speed_pwm_in1, 1.0f);
 	mraa_pwm_write(speed_pwm_in2, 1.0f);
@@ -56,6 +55,10 @@ int main(){
 		sleep(1);
 		speed_control(speed_pwm_in1, speed_pwm_in2, 0.0f);
 	}
-	return 0;
+
+    double currentLati, currentLon, destLati, destLon;   
+
+
+    return 0;
 
 }
