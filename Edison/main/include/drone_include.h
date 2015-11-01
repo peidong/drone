@@ -19,7 +19,7 @@
 //#define DEBUG_PWM
 //#define DEBUG_GPIO_PWM
 #define PWM_DEVIDE_RATIO 1
-#define DEBUG_YAW_PITCH_ROLL
+// #define DEBUG_YAW_PITCH_ROLL
 #define PWM_MANUAL_CHANGE_AMOUNT 0.000025
 
 struct T_drone{
@@ -125,11 +125,17 @@ int update_T_drone_http(struct T_drone *pT_drone){
         pT_drone->arrd_suspend_pwm[n_index] = json_object_get_double(*(ppT_json_object_suspend_pwm + n_index));
     }
 
+/**
+ * stop
+ */
     if (pT_drone->n_manual_control_command == 10)
     {
         pT_drone->n_stop_sign = 1;
     }
 
+/**
+ * pwm manual change
+ */
     if (pT_drone->n_manual_control_command == 11 || pT_drone->n_manual_control_command == 12)
     {
         if (pT_drone->n_manual_control_command == 11)
@@ -143,16 +149,19 @@ int update_T_drone_http(struct T_drone *pT_drone){
                 pT_drone->arrd_current_pwm[n_index] -= PWM_MANUAL_CHANGE_AMOUNT;
             }
         }
-
+/**
+ * set the manual control command back to server
+ */
         sz_http_response = http_post(sz_url_post_control, "manual_control_command=-1");
-
     }
 
     return 0;
 }
 
 /**
+ * 
  * update the drone value for gps
+ * 
  */
 int update_T_drone_http_gps(struct T_drone *pT_drone){
     //How to concat two char* string in C program
