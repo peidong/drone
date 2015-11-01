@@ -46,6 +46,17 @@ struct T_drone{
     double d_face_direction;
     double d_destination_latitude;
     double d_destination_longitude;
+
+    //pid variable
+    double d_kp_pitch;
+    double d_ki_pitch;
+    double d_kd_pitch;
+    double d_kp_roll;
+    double d_ki_roll;
+    double d_kd_roll;
+    double d_kp_yaw;
+    double d_ki_yaw;
+    double d_kd_yaw;
 };
 
 struct T_drone g_T_drone_self;
@@ -88,6 +99,16 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->d_face_direction = 0;
     pT_drone->d_destination_latitude = 0;
     pT_drone->d_destination_longitude = 0;
+
+    pT_drone->d_kp_pitch = 0;
+    pT_drone->d_ki_pitch = 0;
+    pT_drone->d_kd_pitch = 0;
+    pT_drone->d_kp_roll = 0;
+    pT_drone->d_ki_roll = 0;
+    pT_drone->d_kd_roll = 0;
+    pT_drone->d_kp_yaw = 0;
+    pT_drone->d_ki_yaw = 0;
+    pT_drone->d_kd_yaw = 0;
 }
 
 /**
@@ -346,17 +367,15 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
 	uint32_t samplePeriodMs;
 
 	// For the nine values, if we can modify them in IOS app, tests can be easier!
-	kp_pitch = 0; 
-	ki_pitch = 0;
-	kd_pitch = 0;   // these three need to be tuning
-
-	kp_roll = 0;
-	ki_roll = 0;
-	kd_roll = 0;   // these three need to be tuning
-
-	kp_yaw = 0; 
-	ki_yaw = 0; 
-	kd_yaw = 0;   // these three need to be tuning
+	kp_pitch = pT_drone->d_kp_pitch;
+	ki_pitch = pT_drone->d_ki_pitch;
+	kd_pitch = pT_drone->d_kd_pitch;
+	kp_roll = pT_drone->d_kp_roll;
+	ki_roll = pT_drone->d_ki_roll;
+	kd_roll = pT_drone->d_kd_roll;
+	kp_yaw  = pT_drone->d_kp_yaw;
+	ki_yaw  = pT_drone->d_ki_yaw;
+	kd_yaw  = pT_drone->d_kd_yaw;
     
     samplePeriodMs = 100; //need to be setup
     controllerDir = PID_DIRECT; //Direct control not reverse.
@@ -372,6 +391,17 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
         {
             break;
         }
+
+        kp_pitch = pT_drone->d_kp_pitch;
+        ki_pitch = pT_drone->d_ki_pitch;
+        kd_pitch = pT_drone->d_kd_pitch;
+        kp_roll = pT_drone->d_kp_roll;
+        ki_roll = pT_drone->d_ki_roll;
+        kd_roll = pT_drone->d_kd_roll;
+        kp_yaw  = pT_drone->d_kp_yaw;
+        ki_yaw  = pT_drone->d_ki_yaw;
+        kd_yaw  = pT_drone->d_kd_yaw;
+
         Pid_SetTunings(pidData_yaw, kp_yaw, ki_yaw, kd_yaw);
         Pid_SetTunings(pidData_pitch, kp_pitch, ki_pitch, kd_pitch);
         Pid_SetTunings(pidData_roll, kp_roll, ki_roll, kd_roll);
