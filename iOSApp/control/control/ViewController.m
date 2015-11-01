@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *pwm_minus;
 @property (weak, nonatomic) IBOutlet UIButton *pwm_daplus;
 @property (weak, nonatomic) IBOutlet UIButton *pwm_daminus;
+@property (weak, nonatomic) IBOutlet UIButton *start;
 
 @property (weak, nonatomic) IBOutlet UITextField *pwm1;
 @property (weak, nonatomic) IBOutlet UITextField *pwm2;
@@ -258,6 +259,10 @@
     manual_control_command = 14;
     [self updateValue];
 
+}
+- (IBAction)start:(id)sender {
+    manual_control_command = 0;
+    [self updateValue];
 }
 
 - (IBAction)updatePid:(id)sender {
