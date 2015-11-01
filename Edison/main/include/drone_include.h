@@ -268,7 +268,7 @@ int update_T_drone_http(struct T_drone *pT_drone){
         }else if (pT_drone->n_manual_control_command == 13)
         {
             for(n_index=0; n_index<4; n_index++){
-                pT_drone->arrd_current_pwm[n_index] -= PWM_MANUAL_CHANGE_AMOUNT_LARGE;
+                pT_drone->arrd_current_pwm[n_index] += PWM_MANUAL_CHANGE_AMOUNT_LARGE;
             }
         }else if (pT_drone->n_manual_control_command == 14)
         {
