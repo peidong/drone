@@ -53,9 +53,8 @@ struct T_drone g_T_drone_self;
 /**
  * update the pwm value using by test purpose
  */
-int update_T_drone_http_pwm(struct T_drone *pT_drone){
+int update_T_drone_http_pwm_get(struct T_drone *pT_drone){
     char *sz_url_get_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/get/";
-    /*char *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";*/
     
     char *sz_http_response;
     struct json_object *pT_json_object_whole_response, *ppT_json_object_pwm[4], *pT_json_object_data, *pT_json_object_update_time;
@@ -63,6 +62,36 @@ int update_T_drone_http_pwm(struct T_drone *pT_drone){
     int n_index=0;
 
     sz_http_response = http_get(sz_url_get_pwm);
+
+    pT_json_object_whole_response = json_tokener_parse(sz_http_response);
+
+    n_json_response = json_object_object_get_ex(pT_json_object_whole_response, "data", &pT_json_object_data);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm1", &ppT_json_object_pwm[0]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm2", &ppT_json_object_pwm[1]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm3", &ppT_json_object_pwm[2]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm4", &ppT_json_object_pwm[3]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "update_time", &pT_json_object_update_time);
+
+    n_index = 0;
+    for(n_index = 0; n_index < 4; n_index++)
+    {
+        pT_drone->arrd_current_pwm[n_index] = (json_object_get_double(*(ppT_json_object_pwm+n_index))) / PWM_DEVIDE_RATIO;
+    }
+    return 0;
+}
+
+/**
+ * update the pwm value using by test purpose
+ */
+int update_T_drone_http_pwm_post(struct T_drone *pT_drone){
+    char *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";
+    
+    char *sz_http_response;
+    struct json_object *pT_json_object_whole_response, *ppT_json_object_pwm[4], *pT_json_object_data, *pT_json_object_update_time;
+    int n_json_response;
+    int n_index=0;
+
+    sz_http_response = http_get(sz_url_post_pwm);
 
     pT_json_object_whole_response = json_tokener_parse(sz_http_response);
 
@@ -395,7 +424,7 @@ void ThreadTask_update_T_drone_http_pwm(struct T_drone *pT_drone){
             break;
         }
 
-        update_T_drone_http_pwm(pT_drone);
+        update_T_drone_http_pwm_get(pT_drone);
 #ifdef DEBUG_PWM
             printf("pwm1 = %f\n", pT_drone->arrd_current_pwm[0]);
             printf("pwm2 = %f\n", pT_drone->arrd_current_pwm[1]);
