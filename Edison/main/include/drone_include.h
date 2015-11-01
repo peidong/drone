@@ -167,7 +167,7 @@ int update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
     struct json_object *pT_json_object_whole_response, *ppT_json_object_pid_tuning[9], *pT_json_object_data, *pT_json_object_update_time;
     int n_json_response;
 
-    sz_http_response = http_get(sz_url_get_pwm);
+    sz_http_response = http_get(sz_url_get_pid_tuning);
 
     pT_json_object_whole_response = json_tokener_parse(sz_http_response);
 
