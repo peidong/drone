@@ -1,4 +1,4 @@
-#ip address update part
+#pid_tuning update part
 1. To get your edison board pid_tuning value
 
         http://fryer.ee.ucla.edu/rest/api/pid_tuning/get/
