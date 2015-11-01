@@ -158,6 +158,46 @@ int update_T_drone_http_pwm_post(struct T_drone *pT_drone){
 }
 
 /**
+ * update the pid_tuning value using by test purpose
+ */
+int update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
+    char *sz_url_get_pid_tuning = "http://fryer.ee.ucla.edu/rest/api/pid_tuning/get/";
+    
+    char *sz_http_response;
+    struct json_object *pT_json_object_whole_response, *ppT_json_object_pid_tuning[9], *pT_json_object_data, *pT_json_object_update_time;
+    int n_json_response;
+
+    sz_http_response = http_get(sz_url_get_pwm);
+
+    pT_json_object_whole_response = json_tokener_parse(sz_http_response);
+
+    n_json_response = json_object_object_get_ex(pT_json_object_whole_response, "data", &pT_json_object_data);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "kp_pitch", &ppT_json_object_pid_tuning[0]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "ki_pitch", &ppT_json_object_pid_tuning[1]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "kd_pitch", &ppT_json_object_pid_tuning[2]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "kp_roll", &ppT_json_object_pid_tuning[3]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "ki_roll", &ppT_json_object_pid_tuning[4]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "kd_roll", &ppT_json_object_pid_tuning[5]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "kp_yaw", &ppT_json_object_pid_tuning[6]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "ki_yaw", &ppT_json_object_pid_tuning[7]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "kd_yaw", &ppT_json_object_pid_tuning[8]);
+    n_json_response = json_object_object_get_ex(pT_json_object_data, "update_time", &pT_json_object_update_time);
+
+    pT_drone->d_kp_pitch = json_object_get_double(*(ppT_json_object_pid_tuning + 0));
+    pT_drone->d_ki_pitch = json_object_get_double(*(ppT_json_object_pid_tuning + 1));
+    pT_drone->d_kd_pitch = json_object_get_double(*(ppT_json_object_pid_tuning + 2));
+    pT_drone->d_kp_roll = json_object_get_double(*(ppT_json_object_pid_tuning + 3));
+    pT_drone->d_ki_roll = json_object_get_double(*(ppT_json_object_pid_tuning + 4));
+    pT_drone->d_kd_roll = json_object_get_double(*(ppT_json_object_pid_tuning + 5));
+    pT_drone->d_kp_yaw = json_object_get_double(*(ppT_json_object_pid_tuning + 6));
+    pT_drone->d_ki_yaw = json_object_get_double(*(ppT_json_object_pid_tuning + 7));
+    pT_drone->d_kd_yaw = json_object_get_double(*(ppT_json_object_pid_tuning + 8));
+
+    return 0;
+}
+
+
+/**
  * update the drone value
  */
 int update_T_drone_http(struct T_drone *pT_drone){
@@ -561,6 +601,18 @@ void ThreadTask_update_T_drone_http_gps(struct T_drone *pT_drone){
         }
 
         update_T_drone_http_gps(pT_drone);
+        usleep(50000);
+    }
+}
+
+void ThreadTask_update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
+    while(1){
+        if (pT_drone->n_stop_sign == 1)
+        {
+            break;
+        }
+
+        update_T_drone_http_pid_tuning_get(pT_drone);
         usleep(50000);
     }
 }
