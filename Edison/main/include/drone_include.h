@@ -19,7 +19,8 @@
 //#define DEBUG_PWM
 //#define DEBUG_GPIO_PWM
 #define PWM_DEVIDE_RATIO 1
-#define DEBUG_YAW_PITCH_ROLL
+// #define DEBUG_YAW_PITCH_ROLL
+#define DEBUG_PID
 #define PWM_MANUAL_CHANGE_AMOUNT 0.000025
 #define PWM_MANUAL_CHANGE_AMOUNT_LARGE 0.002000
 
@@ -487,6 +488,9 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
         pT_drone->arrd_current_pwm[1] -= (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
         pT_drone->arrd_current_pwm[3] -= (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
 
+#ifdef  DEBUG_PID
+        printf("%f, %f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
+#endif
 		usleep(100000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good. 
     }
     return 0;
