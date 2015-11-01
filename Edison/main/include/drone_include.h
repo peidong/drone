@@ -122,7 +122,7 @@ int update_T_drone_http_pwm_post(struct T_drone *pT_drone){
     char *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";
     char *sz_http_response, *sz_post_data;
 
-    // sprintf(sz_post_data, "pwm1=%f&pwm2=%f&pwm3=%f&pwm4=%f", pT_drone->arrd_current_pwm[0], pT_drone->arrd_current_pwm[1], pT_drone->arrd_current_pwm[2], pT_drone->arrd_current_pwm[3]);
+    sprintf(sz_post_data, "pwm1=%f&pwm2=%f&pwm3=%f&pwm4=%f", pT_drone->arrd_current_pwm[0], pT_drone->arrd_current_pwm[1], pT_drone->arrd_current_pwm[2], pT_drone->arrd_current_pwm[3]);
 
     sz_http_response = http_post(sz_url_post_pwm, sz_post_data);
 
