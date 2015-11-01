@@ -87,30 +87,12 @@ int update_T_drone_http_pwm_get(struct T_drone *pT_drone){
  */
 int update_T_drone_http_pwm_post(struct T_drone *pT_drone){
     char *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";
-    
-    char *sz_http_response;
-    struct json_object *pT_json_object_whole_response, *ppT_json_object_pwm[4], *pT_json_object_data, *pT_json_object_update_time;
-    int n_json_response;
-    int n_index=0;
-    char *sz_post_data;
+    char *sz_http_response, sz_post_data;
+
     sprintf(sz_post_data, "pwm1=%f&pwm2=%f&pwm3=%f&pwm4=%f", pT_drone->arrd_current_pwm[0], pT_drone->arrd_current_pwm[1], pT_drone->arrd_current_pwm[2], pT_drone->arrd_current_pwm[3]);
 
-    sz_http_response = http_post(sz_url_post_pwm);
+    sz_http_response = http_post(sz_url_post_pwm, sz_post_data);
 
-    pT_json_object_whole_response = json_tokener_parse(sz_http_response);
-
-    n_json_response = json_object_object_get_ex(pT_json_object_whole_response, "data", &pT_json_object_data);
-    n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm1", &ppT_json_object_pwm[0]);
-    n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm2", &ppT_json_object_pwm[1]);
-    n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm3", &ppT_json_object_pwm[2]);
-    n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm4", &ppT_json_object_pwm[3]);
-    n_json_response = json_object_object_get_ex(pT_json_object_data, "update_time", &pT_json_object_update_time);
-
-    n_index = 0;
-    for(n_index = 0; n_index < 4; n_index++)
-    {
-        pT_drone->arrd_current_pwm[n_index] = (json_object_get_double(*(ppT_json_object_pwm+n_index))) / PWM_DEVIDE_RATIO;
-    }
     return 0;
 }
 
@@ -418,10 +400,21 @@ int GeneratePwm(struct T_drone *pT_drone){
         arri_i2c_output[3] = ((int)arrd_current_duty[3]) % 256;
         mraa_i2c_write(pwm34, arri_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
     }
+
+    /**
+     * Stop
+     */
+    arri_i2c_output[0] = 0;
+    arri_i2c_output[1] = 0;
+    arri_i2c_output[2] = 0;
+    arri_i2c_output[3] = 0;
+    mraa_i2c_write(pwm12, arri_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
+    mraa_i2c_write(pwm34, arri_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
+
     return 0;
 }
 
-void ThreadTask_update_T_drone_http_pwm(struct T_drone *pT_drone){
+void ThreadTask_update_T_drone_http_pwm_get(struct T_drone *pT_drone){
     while(1){
         if (pT_drone->n_stop_sign == 1)
         {
@@ -436,6 +429,18 @@ void ThreadTask_update_T_drone_http_pwm(struct T_drone *pT_drone){
             printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
             printf("\n");
 #endif
+        usleep(50000);
+    }
+}
+
+void ThreadTask_update_T_drone_http_pwm_post(struct T_drone *pT_drone){
+    while(1){
+        if (pT_drone->n_stop_sign == 1)
+        {
+            break;
+        }
+
+        update_T_drone_http_pwm_post(pT_drone);
         usleep(50000);
     }
 }
