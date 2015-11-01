@@ -50,6 +50,39 @@ struct T_drone{
 
 struct T_drone g_T_drone_self;
 
+int initialize_struct_T_drone(struct T_drone *pT_drone){
+    pT_drone->n_stop_sign = 0;
+    pT_drone->sz_mac_address = "fc:c2:de:3d:7f:af";
+    pT_drone->n_control_type = -1;
+    pT_drone->n_auto_control_command = -1;
+    pT_drone->n_manual_control_command = -1;
+    pT_drone->arrd_suspend_pwm[0] = 0;
+    pT_drone->arrd_suspend_pwm[1] = 0;
+    pT_drone->arrd_suspend_pwm[2] = 0;
+    pT_drone->arrd_suspend_pwm[3] = 0;
+    pT_drone->arrd_current_pwm[0] = 0;
+    pT_drone->arrd_current_pwm[1] = 0;
+    pT_drone->arrd_current_pwm[2] = 0;
+    pT_drone->arrd_current_pwm[3] = 0;
+    pT_drone->arrd_yaw_pitch_roll[0] = 0;
+    pT_drone->arrd_yaw_pitch_roll[1] = 0;
+    pT_drone->arrd_yaw_pitch_roll[2] = 0;
+    pT_drone->arrd_pid_yaw_pitch_roll[0] = 0;
+    pT_drone->arrd_pid_yaw_pitch_roll[1] = 0;
+    pT_drone->arrd_pid_yaw_pitch_roll[2] = 0;
+    pT_drone->arrn_ultrasound[0] = 0;
+    pT_drone->arrn_ultrasound[1] = 0;
+    pT_drone->arrn_ultrasound[2] = 0;
+    pT_drone->arrn_ultrasound[3] = 0;
+    pT_drone->arrn_ultrasound[4] = 0;
+    pT_drone->arrn_ultrasound[5] = 0;
+    pT_drone->d_current_latitude = 0;
+    pT_drone->d_current_longitude = 0;
+    pT_drone->d_face_direction = 0;
+    pT_drone->d_destination_latitude = 0;
+    pT_drone->d_destination_longitude = 0;
+}
+
 /**
  * update the pwm value using by test purpose
  */
