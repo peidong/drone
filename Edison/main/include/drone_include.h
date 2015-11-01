@@ -64,8 +64,8 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->arrd_suspend_pwm[3] = 0;
 
     pT_drone->arrd_current_pwm[0] = 0;
-    pT_drone->arrd_current_pwm[1] = 0.2;
-    pT_drone->arrd_current_pwm[2] = 0.3;
+    pT_drone->arrd_current_pwm[1] = 0;
+    pT_drone->arrd_current_pwm[2] = 0;
     pT_drone->arrd_current_pwm[3] = 0;
 
     pT_drone->arrd_yaw_pitch_roll[0] = 0;
@@ -127,12 +127,11 @@ int update_T_drone_http_pwm_get(struct T_drone *pT_drone){
  */
 int update_T_drone_http_pwm_post(struct T_drone *pT_drone){
     char *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";
-    char *sz_http_response, *sz_post_data;
-    char arr_post_data[100];
+    char arrc_post_data[100];
 
-    sprintf(arr_post_data, "pwm1=%f&pwm2=%f&pwm3=%f&pwm4=%f", pT_drone->arrd_current_pwm[0], pT_drone->arrd_current_pwm[1], pT_drone->arrd_current_pwm[2], pT_drone->arrd_current_pwm[3]);
+    sprintf(arrc_post_data, "pwm1=%f&pwm2=%f&pwm3=%f&pwm4=%f", pT_drone->arrd_current_pwm[0], pT_drone->arrd_current_pwm[1], pT_drone->arrd_current_pwm[2], pT_drone->arrd_current_pwm[3]);
 
-    sz_http_response = http_post(sz_url_post_pwm, arr_post_data);
+    http_post(sz_url_post_pwm, arrc_post_data);
 
     return 0;
 }
