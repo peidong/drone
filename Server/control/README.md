@@ -43,8 +43,10 @@ Database: edison, table: control
 - 8: clockwiseRotate
 - 9: anticlockwiseRotate
 - 10: stop
-- 11: pwm manual up
-- 12: pwm manual down
+- 11: pwm manual up 0.000025
+- 12: pwm manual down 0.000025
+- 13: pwm manual up 0.002000
+- 14: pwm manual down 0.002000
 
 #####suspend_pwm1
 
