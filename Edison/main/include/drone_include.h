@@ -347,11 +347,11 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
 
 	// For the nine values, if we can modify them in IOS app, tests can be easier!
 	kp_pitch = 0; 
-	ki_pitch = 0; 
+	ki_pitch = 0;
 	kd_pitch = 0;   // these three need to be tuning
 
-	kp_roll = 0; 
-	ki_roll = 0; 
+	kp_roll = 0;
+	ki_roll = 0;
 	kd_roll = 0;   // these three need to be tuning
 
 	kp_yaw = 0; 
@@ -372,6 +372,9 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
         {
             break;
         }
+        Pid_SetTunings(pidData_yaw, kp_yaw, ki_yaw, kd_yaw);
+        Pid_SetTunings(pidData_pitch, kp_pitch, ki_pitch, kd_pitch);
+        Pid_SetTunings(pidData_roll, kp_roll, ki_roll, kd_roll);
 
 		//"0" is the setpoint or the destination of the final attitude, representing hovering or suspending. 
 		//Replace "0" by HTTP request parameters later.
