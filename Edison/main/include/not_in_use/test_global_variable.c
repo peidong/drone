@@ -28,6 +28,10 @@ int main(){
     /*struct timespec tspec_high;*/
     /*tspec_high.tv_sec = 0;*/
     /*tspec_high.tv_nsec = 500000000L;*/
+    char *s;
+    int a=10, b=11, c=12;
+    sprintf(s, "a=%d, b=%d, c=%d", a, b, c);
+    printf("s = %s\n", s);
     T_test1.n1 = 9;
     T_test1.arrn[0] = 19;
     T_test1.arrn[1] = 29;
