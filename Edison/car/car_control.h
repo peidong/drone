@@ -47,7 +47,7 @@ long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
     return distance;
 }
 
-void ThreadTask_GPS_read(){
+void ThreadTask_Ultrasonic_read(){
     //long distance_l, distance_c, distance_r;                                       
     mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r;              
  
@@ -170,6 +170,42 @@ double get_longitude_distance(double d_lon1, double d_lon2, double d_lat1)
     s = round(s * 10000) / 10000;   
     return s;  
 }
+
+
+/*  This is for Collision avoide using Ultrasonic
+ *  We set 0.5m as the distance threthold
+ *  Case1: 
+ *  all sensor l, c and r detecting obstacle. Then the car will move backwards and turn right/left
+ *
+ * */
+
+int obstacle_case1(){
+    int i;
+    while(distance_l <= 4 || distance_r <= 4){
+        move_backward;
+    }
+    for(i=0; i<= 100; i++){
+        move_backward;                          //backward more to get space for turn
+    }
+    
+    if(distance_l<=4 && distance_r >4){
+        for(i-0; i<= 650; i++){
+        turn_right             
+        }                 //
+    }
+    
+      for(i=0; i<= 100; i++){
+        move_forward;                          
+      }
+}
+
+
+/*  Case2:
+ *  Only c sensor detecting obstacles. Then the car will turn right/left
+ *
+ * */
+
+
 
 int GpsNavigationMove(struct T_drone *pT_drone){
     int i;
