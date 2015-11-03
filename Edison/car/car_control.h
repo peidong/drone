@@ -181,19 +181,19 @@ double get_longitude_distance(double d_lon1, double d_lon2, double d_lat1)
 int obstacle_case1(){
     int i;
     while(distance_l <= 4 || distance_r <= 4){
-        move_backward;
+        move_backward();
     }
     for(i=0; i<= 100; i++){
-        move_backward;                          //backward more to get space for turn
+        move_backward();                          //backward more to get space for turn
     }
     
     if(distance_l<=4 && distance_r >4){
         for(i=0; i<= 650; i++){
-        turn_right;             
+        turn_right();             
         }                 //
     }else if(distance_r<=4 && distance_l>4){
         for(i=0; i<= 650; i++){
-        turn_left;             
+        turn_left();             
         }                 //
     }else if(distance_r>4 && distance_l>4){
          if(d_move_direction - pT_drone->d_face_direction > 0){
@@ -234,28 +234,28 @@ int obstacle_case2(){
     }else{
         if(distance_slight_l <= 4 && distance_slight_r > 4){
             for(i=0; i<= 100; i++){
-            turn_right;             
+            turn_right();             
         }                               // turn slightly right
 
         }else if(distance_slight_r <=4 && distance_slight_l > 4){
             for(i=0; i<= 100; i++){
-            turn_left;   
+            turn_left();   
             }          
         }else if(distance_slight_r <=4 && distance_slight_r <= 4){
              while(distance_slight_l <= 4 || distance_slight_r <= 4){
-                move_backward;
+                move_backward();
              }
              for(i=0; i<= 100; i++){
-                 move_backward;                          //backward more to get space for turn
+                 move_backward();                          //backward more to get space for turn
              }
 
             if(distance_slight_l<=4 && distance_slight_r >4){
                  for(i=0; i<= 650; i++){
-                     turn_right;             
+                     turn_right();             
                  }                 //
             }else if(distance_slight_r<=4 && distance_slight_l>4){
                 for(i=0; i<= 650; i++){
-                     turn_left;             
+                     turn_left();             
                  }                 //
              }else if(distance_slight_r>4 && distance_slight_l>4){
                  if(d_move_direction - pT_drone->d_face_direction > 0){
@@ -271,7 +271,7 @@ int obstacle_case2(){
         }
     }
     for(i=0; i<= 100; i++){
-        move_forward;                          
+        move_forward();                          
     }
     return 0; 
 }
@@ -285,11 +285,11 @@ int obstacle_case3(){
 
     if(distance_l<=4 && distance_r >4){
         for(i=0; i<= 650; i++){
-        turn_right;             
+        turn_right();             
         }                 //
     }else if(distance_r<=4 && distance_l>4){
         for(i=0; i<= 650; i++){
-        turn_left;             
+        turn_left();             
         }                 //
     }else if(distance_r>4 && distance_l>4){
          if(d_move_direction - pT_drone->d_face_direction > 0){
@@ -305,7 +305,7 @@ int obstacle_case3(){
     }
 
     for(i=0; i<= 100; i++){
-        move_forward;                          
+        move_forward();                          
       }
     return 0;
 }
