@@ -9,9 +9,7 @@
 #define RIGHTMAX 0.088f
 
 const double EARTH_RADIUS = 6378137;
-long distance_l, distance_c, distance_r, direction_c;          // if direction_c = -1, it detecting obstacle on left side and angle more than 30.                                                                                // if direction_c = 1, it detecting obstacle on left side and angle more than 30. 
-                                                               // if direction_c = 0, it detecting obstacle at front.
-
+long distance_l, distance_c, distance_r, distance_slight_l, distance_slight_r;                                                                                   
 float f_speed, f_turn;
 mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm;
 
@@ -202,8 +200,7 @@ int obstacle_case1(){
             for (i = 0;i<=650;i++){
                      turn_right();
                  } 
-        }else
-        {   
+        }else{   
             for (i = 0;i<=650;i++){
                      turn_left();
              }
@@ -224,19 +221,7 @@ int obstacle_case1(){
  * */
 int obstacle_case2(){
     int i;
-    if(direction_c = -1){
-         for(i=0; i<= 300; i++){
-        turn_right;             
-        }                               // turn slightly right
-
-    }else if(direction = 1){
-         if(direction_c = -1){
-         for(i=0; i<= 300; i++){
-        turn_left;             
-        }                               // turn slightly left
-
-    
-    }else{
+    if(distance_c <= 4){
      if(d_move_direction - pT_drone->d_face_direction > 0){
             for (i = 0;i<=650;i++){
                      turn_right();
@@ -246,15 +231,60 @@ int obstacle_case2(){
             for (i = 0;i<=650;i++){
                      turn_left();
              }
+    }else{
+        if(distance_slight_l <= 4 && distance_slight_r > 4){
+            for(i=0; i<= 300; i++){
+            turn_right;             
+        }                               // turn slightly right
 
+        }else if(distance_slight_r <=4 && distance_slight_l > 4){
+            for(i=0; i<= 300; i++){
+            turn_left;   
+            }          
+        }else if(distance_slight_r <=4 && distance_slight_r <= 4){
+             while(distance_slight_l <= 4 || distance_slight_r <= 4){
+                move_backward;
+             }
+             for(i=0; i<= 100; i++){
+                 move_backward;                          //backward more to get space for turn
+             }
+
+            if(distance_slight_l<=4 && distance_slight_r >4){
+                 for(i=0; i<= 650; i++){
+                     turn_right;             
+                 }                 //
+            }else if(distance_slight_r<=4 && distance_slight_l>4){
+                for(i=0; i<= 650; i++){
+                     turn_left;             
+                 }                 //
+             }else if(distance_slight_r>4 && distance_slight_l>4){
+                 if(d_move_direction - pT_drone->d_face_direction > 0){
+                     for (i = 0;i<=650;i++){
+                        turn_right();
+                     } 
+                 }else{   
+                    for (i = 0;i<=650;i++){
+                         turn_left();
+                    }
+                }
+             }
+        }
     }
+
     for(i=0; i<= 100; i++){
         move_forward;                          
     }
 
     return 0; 
-
 }
+
+/*  Case3:
+ *  Only c sensor detecting obstacles. 
+ *
+ * */
+
+
+
 
 
 int GpsNavigationMove(struct T_drone *pT_drone){
