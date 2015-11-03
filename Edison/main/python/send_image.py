@@ -43,7 +43,7 @@ def ThreadTask_get_flag_value():
             break
         get_flag_value("http://fryer.ee.ucla.edu/rest/api/camera/get/")
         print("get flag value success")
-        time.sleep(1)
+        # time.sleep(1)
 
 def ThreadTask_UploadFile():
     while 1:
@@ -56,11 +56,21 @@ def ThreadTask_UploadFile():
 
 #main function
 def main():
-    ThreadTask_t_get_flag_value = threading.Thread(target=ThreadTask_get_flag_value, name='ThreadTask_get_flag_value')
-    ThreadTask_t_get_flag_value.start()
-    ThreadTask_t_get_flag_value.join()
-    ThreadTask_t_UploadFile = threading.Thread(target=ThreadTask_UploadFile, name='ThreadTask_UploadFile')
-    ThreadTask_t_UploadFile.start()
-    ThreadTask_t_UploadFile.join()
+    while 1:
+        if n_image_flag == 0:
+            continue
+        get_flag_value("http://fryer.ee.ucla.edu/rest/api/camera/get/")
+        print("get flag value success")
+        str_filename = get_str_filename()
+        CaptureImage(str_filename)
+        UploadFile(str_filename, "http://fryer.ee.ucla.edu/rest/api/upload/")
+        print("upload file success")
+
+    # ThreadTask_t_get_flag_value = threading.Thread(target=ThreadTask_get_flag_value, name='ThreadTask_get_flag_value')
+    # ThreadTask_t_get_flag_value.start()
+    # ThreadTask_t_get_flag_value.join()
+    # ThreadTask_t_UploadFile = threading.Thread(target=ThreadTask_UploadFile, name='ThreadTask_UploadFile')
+    # ThreadTask_t_UploadFile.start()
+    # ThreadTask_t_UploadFile.join()
 
 main()
