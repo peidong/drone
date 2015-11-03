@@ -233,12 +233,12 @@ int obstacle_case2(){
              }
     }else{
         if(distance_slight_l <= 4 && distance_slight_r > 4){
-            for(i=0; i<= 300; i++){
+            for(i=0; i<= 100; i++){
             turn_right;             
         }                               // turn slightly right
 
         }else if(distance_slight_r <=4 && distance_slight_l > 4){
-            for(i=0; i<= 300; i++){
+            for(i=0; i<= 100; i++){
             turn_left;   
             }          
         }else if(distance_slight_r <=4 && distance_slight_r <= 4){
@@ -270,21 +270,45 @@ int obstacle_case2(){
              }
         }
     }
-
     for(i=0; i<= 100; i++){
         move_forward;                          
     }
-
     return 0; 
 }
 
 /*  Case3:
- *  Only c sensor detecting obstacles. 
+ *  Only c and one of l,t sensor detecting obstacles. 
  *
  * */
+int obstacle_case3(){
+    int i;
 
+    if(distance_l<=4 && distance_r >4){
+        for(i=0; i<= 650; i++){
+        turn_right;             
+        }                 //
+    }else if(distance_r<=4 && distance_l>4){
+        for(i=0; i<= 650; i++){
+        turn_left;             
+        }                 //
+    }else if(distance_r>4 && distance_l>4){
+         if(d_move_direction - pT_drone->d_face_direction > 0){
+            for (i = 0;i<=650;i++){
+                     turn_right();
+                 } 
+        }else{   
+            for (i = 0;i<=650;i++){
+                     turn_left();
+             }
+        }
+              //
+    }
 
-
+    for(i=0; i<= 100; i++){
+        move_forward;                          
+      }
+    return 0;
+}
 
 
 int GpsNavigationMove(struct T_drone *pT_drone){
@@ -309,33 +333,27 @@ int GpsNavigationMove(struct T_drone *pT_drone){
             d_move_direction = 180;
         }
     }
-    printf("drone's location = lat:%f, lon:%f\n", pT_drone->d_current_latitude, pT_drone->d_current_longitude);
-    printf("Destination's location = lat:%f, lon:%f\n", pT_drone->d_destination_latitude, pT_drone->d_destination_longitude);
-    printf("d_move_direction = %f\n", d_move_direction);
+    //printf("drone's location = lat:%f, lon:%f\n", pT_drone->d_current_latitude, pT_drone->d_current_longitude);
+    //printf("Destination's location = lat:%f, lon:%f\n", pT_drone->d_destination_latitude, pT_drone->d_destination_longitude);
+    //printf("d_move_direction = %f\n", d_move_direction);
     double tmp = abs(d_move_direction - pT_drone->d_face_direction);
-    printf("abs(d_move_direction - pT_drone->d_face_direction) = %f\n", tmp);
-    printf("pT_drone->d_face_direction = %f\n", pT_drone->d_face_direction);
+    //printf("abs(d_move_direction - pT_drone->d_face_direction) = %f\n", tmp);
+    //printf("pT_drone->d_face_direction = %f\n", pT_drone->d_face_direction);
     double tmp_distance = sqrt(pow(d_west_to_east_distance, 2) + pow(d_south_to_north_distance, 2));
-    printf("distance = %f\n\n", tmp_distance);
+    //printf("distance = %f\n\n", tmp_distance);
     if (tmp > 10)
     {
         //turn_direction(d_move_direction - pT_drone->d_face_direction);
         if(d_move_direction - pT_drone->d_face_direction > 0){
-            // for (i = 0;i<=180;i++){
-                     turn_right();
-                 // } 
+            turn_right();
         }else
         {   
-            // for (i = 0;i<=180;i++){
-                     turn_left();
-                 // }
+            turn_left();
         }
     }else if (tmp_distance > 10)
     {
-        // for (i = 0; i<=200; i++){
-            printf("move forward\n");
-            move_forward();
-        // }
+        printf("move forward\n");
+        move_forward();
     }
     return 0;
 }
