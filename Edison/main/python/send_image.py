@@ -8,7 +8,8 @@ import threading
 import requests#sudo pip install requests
 
 #global variables
-# global n_image_flag
+global n_image_flag
+global n_video_flag
 n_image_flag = 0
 n_video_flag = 0
 
@@ -34,11 +35,15 @@ def get_json_HTTP(str_url):
     return results
 
 def get_flag_value(str_url):
+    global n_image_flag
+    global n_video_flag
     results = get_json_HTTP(str_url)
     n_image_flag = int(results['data']['image'])
     n_video_flag = int(results['data']['video'])
 
 def ThreadTask_get_flag_value():
+    global n_image_flag
+    global n_video_flag
     while 1:
         if n_image_flag == -1:
             break
@@ -47,6 +52,8 @@ def ThreadTask_get_flag_value():
         # time.sleep(1)
 
 def ThreadTask_UploadFile():
+    global n_image_flag
+    global n_video_flag
     while 1:
         if n_image_flag == 0:
             break
@@ -57,6 +64,8 @@ def ThreadTask_UploadFile():
 
 #main function
 def main():
+    global n_image_flag
+    global n_video_flag
     while 1:
         get_flag_value("http://fryer.ee.ucla.edu/rest/api/camera/get/")
         print("get flag value success")
