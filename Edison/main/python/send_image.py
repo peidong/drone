@@ -2,7 +2,7 @@
 import cv2.cv as cv#opencv for image capture
 import datetime
 import json
-import yaml
+import yaml#pip install pyyaml
 import threading
 
 def capture_image(str_filename):
@@ -10,7 +10,7 @@ def capture_image(str_filename):
     img = cv.QueryFrame(capture)
     cv.SaveImage("files/"+str_filename+".jpg", img)
 
-# capture_image(str(datetime.datetime.now()))
+capture_image(str(datetime.datetime.now()))
 # print datetime.datetime.now()
 
 
