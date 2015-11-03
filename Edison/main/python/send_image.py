@@ -8,6 +8,7 @@ import threading
 import requests#sudo pip install requests
 
 #global variables
+# global n_image_flag
 n_image_flag = 0
 n_video_flag = 0
 
@@ -57,10 +58,10 @@ def ThreadTask_UploadFile():
 #main function
 def main():
     while 1:
-        if n_image_flag == 0:
-            continue
         get_flag_value("http://fryer.ee.ucla.edu/rest/api/camera/get/")
         print("get flag value success")
+        if n_image_flag == 0:
+            continue
         str_filename = get_str_filename()
         CaptureImage(str_filename)
         UploadFile(str_filename, "http://fryer.ee.ucla.edu/rest/api/upload/")
