@@ -62,3 +62,5 @@ def main():
     ThreadTask_t_UploadFile = threading.Thread(target=ThreadTask_UploadFile, name='ThreadTask_UploadFile')
     ThreadTask_t_UploadFile.start()
     ThreadTask_t_UploadFile.join()
+
+main()
