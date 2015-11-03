@@ -16,11 +16,12 @@
 
 #define PWM_PERIOD_NS 20000000//20ms
 //#define PWM_PERIOD_NS 5000000000//5s
-//#define DEBUG_PWM
+//#define PRINT_DEBUG_PWM
 //#define DEBUG_GPIO_PWM
 #define PWM_DEVIDE_RATIO 1
 // #define DEBUG_YAW_PITCH_ROLL
-#define DEBUG_PID
+#define PRINT_DEBUG_PID
+#define PRINT_DEBUG_PID_TUNING
 #define PWM_MANUAL_CHANGE_AMOUNT 0.000025
 #define PWM_MANUAL_CHANGE_AMOUNT_LARGE 0.002000
 
@@ -194,6 +195,19 @@ int update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
     pT_drone->d_kp_yaw = json_object_get_double(*(ppT_json_object_pid_tuning + 6));
     pT_drone->d_ki_yaw = json_object_get_double(*(ppT_json_object_pid_tuning + 7));
     pT_drone->d_kd_yaw = json_object_get_double(*(ppT_json_object_pid_tuning + 8));
+    
+#ifdef PRINT_DEBUG_PID_TUNING
+    printf("kp_pitch = \n", pT_drone->d_kp_pitch);
+    printf("ki_pitch = \n", pT_drone->d_ki_pitch);
+    printf("kd_pitch = \n", pT_drone->d_kd_pitch);
+    printf("kp_roll= \n", pT_drone->d_kp_roll);
+    printf("ki_roll= \n", pT_drone->d_ki_roll);
+    printf("kd_roll= \n", pT_drone->d_kd_roll);
+    printf("kp_yaw = \n", pT_drone->d_kp_yaw);
+    printf("ki_yaw = \n", pT_drone->d_ki_yaw);
+    printf("kd_yaw = \n", pT_drone->d_kd_yaw);
+    printf("\n\n");
+#endif
 
     return 0;
 }
@@ -488,7 +502,7 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
         pT_drone->arrd_current_pwm[1] -= (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
         pT_drone->arrd_current_pwm[3] -= (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
 
-#ifdef  DEBUG_PID
+#ifdef  PRINT_DEBUG_PID
         printf("%f, %f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
 #endif
 		usleep(100000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good. 
@@ -550,7 +564,7 @@ void ThreadTask_update_T_drone_http_pwm_get(struct T_drone *pT_drone){
         }
 
         update_T_drone_http_pwm_get(pT_drone);
-#ifdef DEBUG_PWM
+#ifdef PRINT_DEBUG_PWM
             printf("pwm1 = %f\n", pT_drone->arrd_current_pwm[0]);
             printf("pwm2 = %f\n", pT_drone->arrd_current_pwm[1]);
             printf("pwm3 = %f\n", pT_drone->arrd_current_pwm[2]);
