@@ -20,9 +20,11 @@ int main(){
 	mraa_pwm_write(speed_pwm_in1, 1.0f);
 	mraa_pwm_write(speed_pwm_in2, 1.0f);
 
+     
     threadpool thpool = thpool_init(10);
     thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http_gps, (void*)&g_T_drone_self);
     thpool_add_work(thpool, (void*)ThreadTask_GpsNavigationMove, (void*)&g_T_drone_self);
+    thpool_add_work(thpool, (void*)ThreadTask_GPS_read, (void*)&g_T_drone_self); 
     thpool_wait(thpool);
     thpool_destroy(thpool);
 

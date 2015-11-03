@@ -9,15 +9,81 @@
 #define RIGHTMAX 0.088f
 
 const double EARTH_RADIUS = 6378137;
+long distance_l, distance_c, distance_r;                                       
 
 float f_speed, f_turn;
 mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm;
 
-void GPS_read(){
-
-
+/*
+ *  This is for ultrasonic sensor read
+ *
+ * */
+sig_atomic_t volatile isrunning =1;                                              
+ 
+void do_when_interrupted(int sig) {
+        if (sig == SIGINT)
+            isrunning = 0;
 }
 
+long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
+{ 
+    long distance, time1, time2;
+    mraa_gpio_write(trigger, 0);
+    usleep(10);
+    mraa_gpio_write(trigger, 1);
+    usleep(10);
+    mraa_gpio_write(trigger, 0);
+    while(mraa_gpio_read(echo) == 0){
+        time1 = clock();
+    }
+    while(mraa_gpio_read(echo) == 1){
+        time2 = clock()-time1;
+    }
+    if(time2>0&&time2<30000){
+        distance = time2 / 58.82;
+    }else{ 
+        distance=0;//if get wrong distance
+    }
+    return distance;
+}
+
+void ThreadTask_GPS_read(){
+    //long distance_l, distance_c, distance_r;                                       
+    mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r;              
+ 
+    signal(SIGINT, do_when_interrupted);
+    trig_l = mraa_gpio_init(7);                                              
+    echo_l = mraa_gpio_init(8);                                              
+    trig_c = mraa_gpio_init(10);                                             
+    echo_c = mraa_gpio_init(11);                                             
+    trig_r = mraa_gpio_init(5);                                              
+    echo_r = mraa_gpio_init(6);                                              
+ 
+    if (trig_c == NULL || echo_c == NULL || trig_l == NULL || echo_l == NULLL || trig_r == NULL ||echo_r == NULL){                                            
+       fprintf(stderr, "Failed to initialized.\n");
+       return 1;
+    }
+        mraa_gpio_dir(trig_l, MRAA_GPIO_OUT);                                    
+        mraa_gpio_dir(echo_l, MRAA_GPIO_IN);                                     
+        mraa_gpio_dir(trig_c, MRAA_GPIO_OUT);                                    
+        mraa_gpio_dir(echo_c, MRAA_GPIO_IN);                                     
+        mraa_gpio_dir(trig_r, MRAA_GPIO_OUT);                                    
+        mraa_gpio_dir(echo_r, MRAA_GPIO_IN);                                     
+ 
+   while(isrunning == 1){
+    usleep(20);
+    distance_l = get_distance(trig_l, echo_l);
+    usleep(20);
+    distance_c = get_distance(trig_c, echo_c);
+    usleep(20);
+    distance_r = get_distance(trig_r, echo_r);                     
+    //printf(" c:%d l:%d r:%d\n", distance_c, distance_l, distance_r);}}
+}
+
+
+/*
+ *  This is for speed and drive control
+ * */
 void speed_control(mraa_pwm_context in1, mraa_pwm_context in2, float f_speed) {
 	f_speed = f_speed / 100;                                  
         if (f_speed >= 0) {                                   
