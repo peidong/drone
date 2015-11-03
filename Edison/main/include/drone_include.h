@@ -186,7 +186,7 @@ int update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
     n_json_response = json_object_object_get_ex(pT_json_object_data, "kd_yaw", &ppT_json_object_pid_tuning[8]);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "update_time", &pT_json_object_update_time);
 
-    pT_drone->d_kp_pitch = json_object_get_double(*(ppT_json_object_pid_tuning + 0));
+    pT_drone->d_kp_pitch = json_object_get_double(ppT_json_object_pid_tuning[0]);
     pT_drone->d_ki_pitch = json_object_get_double(*(ppT_json_object_pid_tuning + 1));
     pT_drone->d_kd_pitch = json_object_get_double(*(ppT_json_object_pid_tuning + 2));
     pT_drone->d_kp_roll = json_object_get_double(*(ppT_json_object_pid_tuning + 3));
