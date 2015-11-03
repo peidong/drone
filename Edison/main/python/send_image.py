@@ -1,10 +1,15 @@
 #!/usr/bin/env python
 import cv2.cv as cv#opencv for image capture
 import datetime
+import time
 import json
 import yaml#pip install pyyaml
 import threading
 import requests#sudo pip install requests
+
+#global variables
+n_image_flag = 0
+n_video_flag = 0
 
 def get_str_filename():
     str_filename = str(datetime.datetime.now())
@@ -27,8 +32,33 @@ def get_json_HTTP(str_url):
     results = yaml.safe_load(results_json)
     return results
 
+def get_flag_value(str_url):
+    results = get_json_HTTP(str_url)
+    n_image_flag = int(results['data']['image'])
+    n_video_flag = int(results['data']['video'])
+
+def ThreadTask_get_flag_value():
+    while 1:
+        if n_image_flag == -1:
+            break
+        get_flag_value("http://fryer.ee.ucla.edu/rest/api/camera/get/")
+        print("get flag value success")
+        time.sleep(1)
+
+def ThreadTask_UploadFile():
+    while 1:
+        if n_image_flag == 0:
+            break
+        str_filename = get_str_filename()
+        CaptureImage(str_filename)
+        UploadFile(str_filename, "http://fryer.ee.ucla.edu/rest/api/upload/")
+        print("upload file success")
+
 #main function
-str_filename = get_str_filename()
-CaptureImage(str_filename)
-UploadFile(str_filename, "http://fryer.ee.ucla.edu/rest/api/upload/")
-print(get_json_HTTP("http://fryer.ee.ucla.edu/rest/api/camera/get/"))
+def main():
+    ThreadTask_t_get_flag_value = threading.Thread(target=ThreadTask_get_flag_value, name='ThreadTask_get_flag_value')
+    ThreadTask_t_get_flag_value.start()
+    ThreadTask_t_get_flag_value.join()
+    ThreadTask_t_UploadFile = threading.Thread(target=ThreadTask_UploadFile, name='ThreadTask_UploadFile')
+    ThreadTask_t_UploadFile.start()
+    ThreadTask_t_UploadFile.join()
