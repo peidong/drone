@@ -13,6 +13,11 @@ const double EARTH_RADIUS = 6378137;
 float f_speed, f_turn;
 mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm;
 
+void GPS_read(){
+
+
+}
+
 void speed_control(mraa_pwm_context in1, mraa_pwm_context in2, float f_speed) {
 	f_speed = f_speed / 100;                                  
         if (f_speed >= 0) {                                   
@@ -163,3 +168,5 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
         usleep(50000);
     }
 }
+
+
