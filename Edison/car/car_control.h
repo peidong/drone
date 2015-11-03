@@ -364,7 +364,11 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
         {
             break;
         }
-        GpsNavigationMove(pT_drone);
+        if(distance_l <= 4 && distance_r <=4 && distance_c <=4){
+            obstacle_case1();
+        }else{
+             GpsNavigationMove(pT_drone);
+        }
         usleep(50000);
     }
 }
