@@ -9,7 +9,7 @@
 #define RIGHTMAX 0.088f
 
 const double EARTH_RADIUS = 6378137;
-long distance_l, distance_c, distance_r;                                       
+long distance_l, distance_c, distance_r, direction_c;                                       
 
 float f_speed, f_turn;
 mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm;
@@ -189,12 +189,28 @@ int obstacle_case1(){
     }
     
     if(distance_l<=4 && distance_r >4){
-        for(i-0; i<= 650; i++){
-        turn_right             
+        for(i=0; i<= 650; i++){
+        turn_right;             
         }                 //
+    }else if(distance_r<=4 && distance_l>4){
+        for(i=0; i<= 650; i++){
+        turn_left;             
+        }                 //
+    }else if(distance_r>4 && distance_l>4){
+         if(d_move_direction - pT_drone->d_face_direction > 0){
+            for (i = 0;i<=650;i++){
+                     turn_right();
+                 } 
+        }else
+        {   
+            for (i = 0;i<=650;i++){
+                     turn_left();
+             }
+        }
+              //
     }
-    
-      for(i=0; i<= 100; i++){
+
+    for(i=0; i<= 100; i++){
         move_forward;                          
       }
 }
