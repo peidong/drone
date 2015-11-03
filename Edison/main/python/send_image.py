@@ -47,12 +47,13 @@ def main():
     global n_video_flag
     while 1:
         get_flag_value("http://fryer.ee.ucla.edu/rest/api/camera/get/")
+        sleep(1)
         # print("get flag value success")
         if n_image_flag == 0:
             continue
         str_filename = get_str_filename()
         CaptureImage(str_filename)
         UploadFile(str_filename, "http://fryer.ee.ucla.edu/rest/api/upload/")
-        # print("upload file success")
+        print("upload file success")
 
 main()
