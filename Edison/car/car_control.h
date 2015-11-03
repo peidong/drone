@@ -207,6 +207,7 @@ int obstacle_case1(){
 
 
 
+
 int GpsNavigationMove(struct T_drone *pT_drone){
     int i;
     double d_west_to_east_distance, d_south_to_north_distance, d_move_direction;
