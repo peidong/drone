@@ -186,7 +186,7 @@ int update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
     n_json_response = json_object_object_get_ex(pT_json_object_data, "kd_yaw", &ppT_json_object_pid_tuning[8]);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "update_time", &pT_json_object_update_time);
 
-    pT_drone->d_kp_pitch = json_object_get_double(ppT_json_object_pid_tuning[0]);
+    pT_drone->d_kp_pitch = json_object_get_double(*(ppT_json_object_pid_tuning + 0));
     pT_drone->d_ki_pitch = json_object_get_double(*(ppT_json_object_pid_tuning + 1));
     pT_drone->d_kd_pitch = json_object_get_double(*(ppT_json_object_pid_tuning + 2));
     pT_drone->d_kp_roll = json_object_get_double(*(ppT_json_object_pid_tuning + 3));
@@ -197,15 +197,15 @@ int update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
     pT_drone->d_kd_yaw = json_object_get_double(*(ppT_json_object_pid_tuning + 8));
     
 #ifdef PRINT_DEBUG_PID_TUNING
-    printf("kp_pitch = \n", pT_drone->d_kp_pitch);
-    printf("ki_pitch = \n", pT_drone->d_ki_pitch);
-    printf("kd_pitch = \n", pT_drone->d_kd_pitch);
-    printf("kp_roll= \n", pT_drone->d_kp_roll);
-    printf("ki_roll= \n", pT_drone->d_ki_roll);
-    printf("kd_roll= \n", pT_drone->d_kd_roll);
-    printf("kp_yaw = \n", pT_drone->d_kp_yaw);
-    printf("ki_yaw = \n", pT_drone->d_ki_yaw);
-    printf("kd_yaw = \n", pT_drone->d_kd_yaw);
+    printf("kp_pitch = %f\n", pT_drone->d_kp_pitch);
+    printf("ki_pitch = %f\n", pT_drone->d_ki_pitch);
+    printf("kd_pitch = %f\n", pT_drone->d_kd_pitch);
+    printf("kp_roll = %f\n", pT_drone->d_kp_roll);
+    printf("ki_roll = %f\n", pT_drone->d_ki_roll);
+    printf("kd_roll = %f\n", pT_drone->d_kd_roll);
+    printf("kp_yaw = %f\n", pT_drone->d_kp_yaw);
+    printf("ki_yaw = %f\n", pT_drone->d_ki_yaw);
+    printf("kd_yaw = %f\n", pT_drone->d_kd_yaw);
     printf("\n\n");
 #endif
 
