@@ -523,7 +523,7 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
             pT_drone->arrd_current_pwm[3] = PWM_DEFAULT_VALUE;
         }
 #ifdef  PRINT_DEBUG_PID
-        printf("%f, %f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
+        printf("%f\t%f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
 #endif
 #ifdef PRINT_DEBUG_PID_TUNING
     printf("%f\t", pT_drone->d_kp_pitch);
@@ -534,7 +534,7 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
     printf("%f\t", pT_drone->d_kd_roll);
     printf("%f\t", pT_drone->d_kp_yaw);
     printf("%f\t", pT_drone->d_ki_yaw);
-    printf("%f\t", pT_drone->d_kd_yaw);
+    printf("%f\n", pT_drone->d_kd_yaw);
 #endif
 		usleep(100000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good. 
     }

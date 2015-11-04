@@ -30,7 +30,7 @@ int main(){
     /*tspec_high.tv_nsec = 500000000L;*/
     char *s;
     int a=10, b=11, c=12;
-    sprintf(s, "a=%d, b=%d, c=%d", a, b, c);
+    /*sprintf(s, "a=%d, b=%d, c=%d", a, b, c);*/
     printf("s = %s\n", s);
     T_test1.n1 = 9;
     T_test1.arrn[0] = 19;
@@ -44,5 +44,12 @@ int main(){
     printf("n1 = %d, arrn[0] = %d, arrn[1] = %d", T_test1.n1, T_test1.arrn[0], T_test1.arrn[1]);
     test(&T_test1);
     printf("\nn1 = %d, arrn[0] = %d, arrn[1] = %d", T_test1.n1, T_test1.arrn[0], T_test1.arrn[1]);
+    printf("\n\n");
+    printf("test\t");
+    printf("Peidong\t");
+    printf("Chen\n");
+    printf("help\t");
+    printf("haha\t");
+    printf("Kaiser\n");
     return 0;
 }
