@@ -282,15 +282,15 @@
 
 - (IBAction)sendpid:(id)sender {
     
-    NSNumber *ns_d_pitch = [NSNumber numberWithUnsignedInt:d_d_pitch];
-    NSNumber *ns_d_roll = [NSNumber numberWithUnsignedInt:d_d_roll];
-    NSNumber *ns_d_yaw = [NSNumber numberWithUnsignedInt:d_d_yaw];
-    NSNumber *ns_i_pitch = [NSNumber numberWithUnsignedInt:d_i_pitch];
-    NSNumber *ns_i_roll = [NSNumber numberWithUnsignedInt:d_i_roll];
-    NSNumber *ns_i_yaw = [NSNumber numberWithUnsignedInt:d_i_yaw];
-    NSNumber *ns_p_pitch = [NSNumber numberWithUnsignedInt:d_p_pitch];
-    NSNumber *ns_p_roll = [NSNumber numberWithUnsignedInt:d_p_roll];
-    NSNumber *ns_p_yaw = [NSNumber numberWithUnsignedInt:d_p_yaw];
+    NSNumber *ns_d_pitch = [NSNumber numberWithDouble:d_d_pitch];
+    NSNumber *ns_d_roll = [NSNumber numberWithDouble:d_d_roll];
+    NSNumber *ns_d_yaw = [NSNumber numberWithDouble:d_d_yaw];
+    NSNumber *ns_i_pitch = [NSNumber numberWithDouble:d_i_pitch];
+    NSNumber *ns_i_roll = [NSNumber numberWithDouble:d_i_roll];
+    NSNumber *ns_i_yaw = [NSNumber numberWithDouble:d_i_yaw];
+    NSNumber *ns_p_pitch = [NSNumber numberWithDouble:d_p_pitch];
+    NSNumber *ns_p_roll = [NSNumber numberWithDouble:d_p_roll];
+    NSNumber *ns_p_yaw = [NSNumber numberWithDouble:d_p_yaw];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSDictionary *parameters = @{@"kp_pitch":ns_p_pitch, @"ki_pitch":ns_i_pitch, @"kd_pitch":ns_d_pitch, @"kp_roll":ns_p_roll, @"ki_roll":ns_i_roll, @"kd_roll":ns_d_roll, @"kp_yaw":ns_p_yaw, @"ki_yaw":ns_i_yaw, @"kd_yaw":ns_d_yaw};
