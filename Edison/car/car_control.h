@@ -358,11 +358,61 @@ int GpsNavigationMove(struct T_drone *pT_drone){
     return 0;
 }
 
+void ThreadTask_manual_control(struct T_drone *pT_drone){
+     while(1){
+            if (pT_drone->n_stop_sign == 1)
+              {
+                break;
+            }else if(pT_drone->n_control_type == 1){
+                continue;
+            }
+
+             int control_command; // left is 6; right is 7; moveforward is 4; backward is 5; stop is  
+             control_command =  pT_drone->n_manual_control_command;
+             if (control_command == 6)     
+             {
+                 for (i = 0;i<=180;i++){
+                     turn_left();
+                 }
+             }else if (control_command == 4 )
+             {
+                 for (i = 0;i<=50;i++){
+                     move_forward();
+                 }
+             }               
+             else if (control_command == 7){
+                 for (i = 0;i<=180;i++){
+                     turn_right();
+                 } 
+             }
+             else if(control_command == 10)
+             {
+                  f_turn = CENTER;
+                  mraa_pwm_write(turn_pwm, f_turn);
+                  usleep(10000);
+                  speed_control(speed_pwm_in1, speed_pwm_in2, 0);
+             }
+             else if (control_command = 5){
+                  for (i = 0;i<=50;i++){
+                     move_backward();
+                 }
+             }else{                                 
+                     printf("Wrong turn type!\n");
+              return 1;
+         }
+        
+         sleep(1);
+         speed_control(speed_pwm_in1, speed_pwm_in2, 0.0f);
+     }
+}
+
 void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
     while(1){
         if (pT_drone->n_stop_sign == 1)
         {
             break;
+        }else if(pT_drone->n_control_type == 2){
+            continue;
         }
         if(distance_l <= 4 && distance_r <=4 && distance_c <=4){
             obstacle_case1();
