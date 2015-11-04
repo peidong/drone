@@ -13,10 +13,10 @@ long distance_l, distance_c, distance_r, distance_slight_l, distance_slight_r;
 float f_speed, f_turn;
 mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm;
 
-/*
- *  This is for ultrasonic sensor read
+/**
+ * This is for ultrasonic sensor read
  *
- * */
+ */
 sig_atomic_t volatile isrunning =1;                                              
  
 void do_when_interrupted(int sig) {
