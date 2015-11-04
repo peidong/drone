@@ -374,7 +374,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DxN-cr-JdK">
-                                <rect key="frame" x="444" y="891" width="64" height="30"/>
+                                <rect key="frame" x="309" y="904" width="64" height="30"/>
                                 <animations/>
                                 <state key="normal" title="Send_pid"/>
                                 <connections>
@@ -420,6 +420,20 @@
                                     <action selector="start:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gR5-f0-by3"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1rx-hP-vcU">
+                                <rect key="frame" x="602" y="904" width="51" height="30"/>
+                                <state key="normal" title="Disable"/>
+                                <connections>
+                                    <action selector="disable:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WUf-OJ-rDH"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lV4-vR-t8U">
+                                <rect key="frame" x="476" y="904" width="47" height="30"/>
+                                <state key="normal" title="Enable"/>
+                                <connections>
+                                    <action selector="enable:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dLC-EN-VMb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -432,7 +446,9 @@
                         <outlet property="d_pitch" destination="2sE-7B-5lP" id="xzI-nd-v9U"/>
                         <outlet property="d_roll" destination="rut-ZR-07P" id="sYb-cs-hZC"/>
                         <outlet property="d_yaw" destination="432-Tk-Ilm" id="iEw-RJ-woS"/>
+                        <outlet property="disable" destination="1rx-hP-vcU" id="MHB-GR-hSW"/>
                         <outlet property="down" destination="WYj-ng-WP7" id="rJV-KK-n9a"/>
+                        <outlet property="enable" destination="lV4-vR-t8U" id="G7I-ZR-yOa"/>
                         <outlet property="forward" destination="P12-zN-gbp" id="23y-zI-qev"/>
                         <outlet property="get_pwm1" destination="9lR-mQ-4D3" id="lD4-Sv-Oro"/>
                         <outlet property="get_pwm2" destination="h9r-eX-SEX" id="aka-lJ-9iz"/>

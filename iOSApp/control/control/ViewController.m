@@ -25,6 +25,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *pwm_daplus;
 @property (weak, nonatomic) IBOutlet UIButton *pwm_daminus;
 @property (weak, nonatomic) IBOutlet UIButton *start;
+@property (weak, nonatomic) IBOutlet UIButton *enable;
+@property (weak, nonatomic) IBOutlet UIButton *disable;
+
 
 @property (weak, nonatomic) IBOutlet UITextField *pwm1;
 @property (weak, nonatomic) IBOutlet UITextField *pwm2;
@@ -264,6 +267,16 @@
     manual_control_command = 0;
     [self updateValue];
 }
+- (IBAction)enable:(id)sender {
+    manual_control_command = 16;
+    [self updateValue];
+}
+- (IBAction)disable:(id)sender {
+    manual_control_command = 17;
+    [self updateValue];
+    
+}
+
 
 - (IBAction)updatePid:(id)sender {
     d_d_pitch = [[_d_pitch text] doubleValue];
