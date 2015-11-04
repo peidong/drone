@@ -21,9 +21,10 @@
 #define PWM_DEVIDE_RATIO 1
 // #define DEBUG_YAW_PITCH_ROLL
 // #define PRINT_DEBUG_PID
-#define PRINT_DEBUG_PID_TUNING
+//#define PRINT_DEBUG_PID_TUNING
 #define PWM_MANUAL_CHANGE_AMOUNT 0.000025
 #define PWM_MANUAL_CHANGE_AMOUNT_LARGE 0.002000
+#define PWM_DEFAULT_VALUE 0.01
 
 struct T_drone{
 
@@ -114,6 +115,7 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->d_kp_yaw = 0;
     pT_drone->d_ki_yaw = 0;
     pT_drone->d_kd_yaw = 0;
+    return 0;
 }
 
 /**
@@ -197,20 +199,6 @@ int update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
     pT_drone->d_kp_yaw = json_object_get_double(*(ppT_json_object_pid_tuning + 6));
     pT_drone->d_ki_yaw = json_object_get_double(*(ppT_json_object_pid_tuning + 7));
     pT_drone->d_kd_yaw = json_object_get_double(*(ppT_json_object_pid_tuning + 8));
-    
-#ifdef PRINT_DEBUG_PID_TUNING
-    printf("kp_pitch = %f\n", pT_drone->d_kp_pitch);
-    printf("ki_pitch = %f\n", pT_drone->d_ki_pitch);
-    printf("kd_pitch = %f\n", pT_drone->d_kd_pitch);
-    printf("kp_roll = %f\n", pT_drone->d_kp_roll);
-    printf("ki_roll = %f\n", pT_drone->d_ki_roll);
-    printf("kd_roll = %f\n", pT_drone->d_kd_roll);
-    printf("kp_yaw = %f\n", pT_drone->d_kp_yaw);
-    printf("ki_yaw = %f\n", pT_drone->d_ki_yaw);
-    printf("kd_yaw = %f\n", pT_drone->d_kd_yaw);
-    printf("\n\n");
-#endif
-
     return 0;
 }
 
@@ -265,6 +253,10 @@ int update_T_drone_http(struct T_drone *pT_drone){
     if (pT_drone->n_manual_control_command == 10)
     {
         pT_drone->n_stop_sign = 1;
+        /**
+         * set the manual control command back to server
+         */
+        sz_http_response = http_post(sz_url_post_control, "manual_control_command=15");
     }
 
 /**
@@ -293,10 +285,25 @@ int update_T_drone_http(struct T_drone *pT_drone){
                 pT_drone->arrd_current_pwm[n_index] -= PWM_MANUAL_CHANGE_AMOUNT_LARGE;
             }
         }
+        /**
+         * set the manual control command back to server
+         */
+        sz_http_response = http_post(sz_url_post_control, "manual_control_command=15");
+    }
+
 /**
- * set the manual control command back to server
+ * n_enable_pwm_pid_ultrasound
  */
-        sz_http_response = http_post(sz_url_post_control, "manual_control_command=-1");
+    if(pT_drone->n_manual_control_command == 16 || pT_drone->n_manual_control_command == 17){
+        if(pT_drone->n_manual_control_command == 16){
+            pT_drone->n_enable_pwm_pid_ultrasound = 1;
+        }else if(pT_drone->n_manual_control_command == 17){
+            pT_drone->n_enable_pwm_pid_ultrasound = 0;
+        }
+        /**
+         * set the manual control command back to server
+         */
+        sz_http_response = http_post(sz_url_post_control, "manual_control_command=15");
     }
 
     return 0;
@@ -506,9 +513,28 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
 
         pT_drone->arrd_current_pwm[1] -= (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
         pT_drone->arrd_current_pwm[3] -= (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
-
+        /**
+         * change pwm to PWM_DEFAULT_VALUE if below 0
+         */
+        if(pT_drone->arrd_current_pwm[0] < 0 || pT_drone->arrd_current_pwm[1] < 0 || pT_drone->arrd_current_pwm[2] < 0 || pT_drone->arrd_current_pwm[3] < 0){
+            pT_drone->arrd_current_pwm[0] = PWM_DEFAULT_VALUE;
+            pT_drone->arrd_current_pwm[1] = PWM_DEFAULT_VALUE;
+            pT_drone->arrd_current_pwm[2] = PWM_DEFAULT_VALUE;
+            pT_drone->arrd_current_pwm[3] = PWM_DEFAULT_VALUE;
+        }
 #ifdef  PRINT_DEBUG_PID
         printf("%f, %f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
+#endif
+#ifdef PRINT_DEBUG_PID_TUNING
+    printf("%f\t", pT_drone->d_kp_pitch);
+    printf("%f\t", pT_drone->d_ki_pitch);
+    printf("%f\t", pT_drone->d_kd_pitch);
+    printf("%f\t", pT_drone->d_kp_roll);
+    printf("%f\t", pT_drone->d_ki_roll);
+    printf("%f\t", pT_drone->d_kd_roll);
+    printf("%f\t", pT_drone->d_kp_yaw);
+    printf("%f\t", pT_drone->d_ki_yaw);
+    printf("%f\t", pT_drone->d_kd_yaw);
 #endif
 		usleep(100000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good. 
     }
@@ -516,6 +542,7 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
 }
 
 int GeneratePwm(struct T_drone *pT_drone){
+    int n_pwm_reset_flag = 0;
     mraa_i2c_context pwm12, pwm34;
     pwm12 = mraa_i2c_init(2);
     pwm34 = mraa_i2c_init(6);
@@ -524,43 +551,74 @@ int GeneratePwm(struct T_drone *pT_drone){
     double arrd_current_duty[4];
     uint8_t arri_i2c_output[4] = { 0, 0, 0, 0 };
     while(1){
-
         if (pT_drone->n_stop_sign == 1)
         {
+            if(n_pwm_reset_flag == 0){
+                /**
+                 * Reset PWM to 0
+                 */
+                arri_i2c_output[0] = 0;
+                arri_i2c_output[1] = 0;
+                arri_i2c_output[2] = 0;
+                arri_i2c_output[3] = 0;
+                mraa_i2c_write(pwm12, arri_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
+                mraa_i2c_write(pwm34, arri_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
+                n_pwm_reset_flag = 1;
+            }
             break;
         }else if (pT_drone->n_enable_pwm_pid_ultrasound == 0)
         {
+            if(n_pwm_reset_flag == 0){
+                /**
+                 * Reset PWM to 0
+                 */
+                arri_i2c_output[0] = 0;
+                arri_i2c_output[1] = 0;
+                arri_i2c_output[2] = 0;
+                arri_i2c_output[3] = 0;
+                mraa_i2c_write(pwm12, arri_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
+                mraa_i2c_write(pwm34, arri_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
+                n_pwm_reset_flag = 1;
+            }
             continue;
         }
-
+        /**
+         * set pwm wave
+         */
         arrd_current_duty[0] = pT_drone->arrd_current_pwm[0] * 40000;
         arrd_current_duty[1] = pT_drone->arrd_current_pwm[1] * 40000;
         arrd_current_duty[2] = pT_drone->arrd_current_pwm[2] * 40000;
         arrd_current_duty[3] = pT_drone->arrd_current_pwm[3] * 40000;
-        
+        /**
+         * set pwm1 and pwm2
+         */
         arri_i2c_output[0] = ((int)arrd_current_duty[0]) / 256;
         arri_i2c_output[1] = ((int)arrd_current_duty[0]) % 256;
         arri_i2c_output[2] = ((int)arrd_current_duty[1]) / 256;
         arri_i2c_output[3] = ((int)arrd_current_duty[1]) % 256;
         mraa_i2c_write(pwm12, arri_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
-        
+        /**
+         * set pwm3 and pwm4
+         */
         arri_i2c_output[0] = ((int)arrd_current_duty[2]) / 256;
         arri_i2c_output[1] = ((int)arrd_current_duty[2]) % 256;
         arri_i2c_output[2] = ((int)arrd_current_duty[3]) / 256;
         arri_i2c_output[3] = ((int)arrd_current_duty[3]) % 256;
         mraa_i2c_write(pwm34, arri_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
+        n_pwm_reset_flag = 0;
     }
-
-    /**
-     * Stop
-     */
-    arri_i2c_output[0] = 0;
-    arri_i2c_output[1] = 0;
-    arri_i2c_output[2] = 0;
-    arri_i2c_output[3] = 0;
-    mraa_i2c_write(pwm12, arri_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
-    mraa_i2c_write(pwm34, arri_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
-
+    if(n_pwm_reset_flag == 0){
+        /**
+         * Reset PWM to 0
+         */
+        arri_i2c_output[0] = 0;
+        arri_i2c_output[1] = 0;
+        arri_i2c_output[2] = 0;
+        arri_i2c_output[3] = 0;
+        mraa_i2c_write(pwm12, arri_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
+        mraa_i2c_write(pwm34, arri_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
+        n_pwm_reset_flag = 1;
+    }
     return 0;
 }
 
@@ -570,7 +628,6 @@ void ThreadTask_update_T_drone_http_pwm_get(struct T_drone *pT_drone){
         {
             break;
         }
-
         update_T_drone_http_pwm_get(pT_drone);
 #ifdef PRINT_DEBUG_PWM
             printf("pwm1 = %f\n", pT_drone->arrd_current_pwm[0]);
@@ -589,7 +646,6 @@ void ThreadTask_update_T_drone_http_pwm_post(struct T_drone *pT_drone){
         {
             break;
         }
-
         update_T_drone_http_pwm_post(pT_drone);
         usleep(50000);
     }
@@ -601,7 +657,6 @@ void ThreadTask_update_T_drone_http(struct T_drone *pT_drone){
         {
             break;
         }
-
         update_T_drone_http(pT_drone);
         usleep(50000);
     }
@@ -620,7 +675,6 @@ void ThreadTask_update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
         {
             continue;
         }
-
         update_T_drone_arrn_ultrasound(pT_drone);
     }
 }
@@ -639,7 +693,6 @@ void ThreadTask_update_T_drone_http_gps(struct T_drone *pT_drone){
         {
             break;
         }
-
         update_T_drone_http_gps(pT_drone);
         usleep(50000);
     }
@@ -651,7 +704,6 @@ void ThreadTask_update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
         {
             break;
         }
-
         update_T_drone_http_pid_tuning_get(pT_drone);
         usleep(50000);
     }
