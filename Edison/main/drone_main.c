@@ -17,5 +17,7 @@ int main()
     thpool_wait(thpool);
     thpool_destroy(thpool);
 
+    initialize_struct_T_drone(&g_T_drone_self);
+    printf("The drone program has been stopped.\n");
     return 0;
 }
