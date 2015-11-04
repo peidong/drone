@@ -47,6 +47,9 @@ Database: edison, table: control
 - 12: pwm manual down 0.000025
 - 13: pwm manual up 0.002000
 - 14: pwm manual down 0.002000
+- 15: null
+- 16: enable pwm pid ultrasound
+- 17: disable pwm pid ultrasound
 
 #####suspend_pwm1
 

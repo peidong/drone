@@ -28,6 +28,7 @@
 struct T_drone{
 
     int n_stop_sign;
+    int n_enable_pwm_pid_ultrasound;
 
     //These following are from server
     char *sz_mac_address;
@@ -66,6 +67,7 @@ struct T_drone g_T_drone_self;
 
 int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->n_stop_sign = 0;
+    pT_drone->n_enable_pwm_pid_ultrasound = 0;
     pT_drone->sz_mac_address = "fc:c2:de:3d:7f:af";
 
     pT_drone->n_control_type = -1;
@@ -456,6 +458,9 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
         if (pT_drone->n_stop_sign == 1)
         {
             break;
+        }else if (pT_drone->n_enable_pwm_pid_ultrasound == 0)
+        {
+            continue;
         }
 
         kp_pitch = pT_drone->d_kp_pitch;
@@ -523,6 +528,9 @@ int GeneratePwm(struct T_drone *pT_drone){
         if (pT_drone->n_stop_sign == 1)
         {
             break;
+        }else if (pT_drone->n_enable_pwm_pid_ultrasound == 0)
+        {
+            continue;
         }
 
         arrd_current_duty[0] = pT_drone->arrd_current_pwm[0] * 40000;
@@ -608,6 +616,9 @@ void ThreadTask_update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
         if (pT_drone->n_stop_sign == 1)
         {
             break;
+        }else if (pT_drone->n_enable_pwm_pid_ultrasound == 0)
+        {
+            continue;
         }
 
         update_T_drone_arrn_ultrasound(pT_drone);
