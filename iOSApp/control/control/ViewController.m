@@ -264,7 +264,7 @@
 
 }
 - (IBAction)start:(id)sender {
-    manual_control_command = 0;
+    manual_control_command = 15;
     [self updateValue];
 }
 - (IBAction)enable:(id)sender {
