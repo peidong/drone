@@ -10,8 +10,10 @@ size_t static write_callback(void *buffer, size_t size, size_t nmemb, void *user
     *response_ptr = strndup(buffer, (size_t)(size *nmemb));
     return strlen(*response_ptr);
 }
-
-
+/**
+ * @param the http get url
+ * @return the response
+ */
 char* http_get(char* url)
 {
     CURL *curl;
@@ -49,8 +51,11 @@ char* http_get(char* url)
     }
     return response;
 }
-
-
+/**
+ * @param url
+ * @param post data
+ * @return response
+ */
 char* http_post(char* url, char* post_data)
 {
     CURL *curl;

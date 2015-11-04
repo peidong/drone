@@ -25,34 +25,42 @@
 #define PWM_MANUAL_CHANGE_AMOUNT 0.000025
 #define PWM_MANUAL_CHANGE_AMOUNT_LARGE 0.002000
 #define PWM_DEFAULT_VALUE 0.01
-
+/**
+ * struct drone
+ */
 struct T_drone{
-
-    int n_stop_sign;
-    int n_enable_pwm_pid_ultrasound;
-
-    //These following are from server
+    /**
+     * This is for flag
+     */
+    int nflag_stop_all;
+    int nflag_enable_pwm_pid_ultrasound;
+    /**
+     * These following are from server
+     */
     char *sz_mac_address;
     int n_control_type;
     int n_auto_control_command;
     int n_manual_control_command;
     double arrd_suspend_pwm[4];
-
-    //These following are from the board itself
+    /**
+     * These following are from the board itself
+     */
     double arrd_current_pwm[4];
     //double arrd_last_pwm[4];
     double arrd_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
     double arrd_pid_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
     int arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
-
-    //GPS info
+    /**
+     * GPS info
+     */
     double d_current_latitude;
     double d_current_longitude;
     double d_face_direction;
     double d_destination_latitude;
     double d_destination_longitude;
-
-    //pid variable
+    /**
+     * pid variable
+     */
     double d_kp_pitch;
     double d_ki_pitch;
     double d_kd_pitch;
@@ -63,12 +71,18 @@ struct T_drone{
     double d_ki_yaw;
     double d_kd_yaw;
 };
-
+/**
+ * global struct
+ */
 struct T_drone g_T_drone_self;
-
+/**
+ * @param pointer of struct T_drone
+ * @return 0
+ * initialize the struct
+ */
 int initialize_struct_T_drone(struct T_drone *pT_drone){
-    pT_drone->n_stop_sign = 0;
-    pT_drone->n_enable_pwm_pid_ultrasound = 0;
+    pT_drone->nflag_stop_all = 0;
+    pT_drone->nflag_enable_pwm_pid_ultrasound = 0;
     pT_drone->sz_mac_address = "fc:c2:de:3d:7f:af";
 
     pT_drone->n_control_type = -1;
@@ -117,53 +131,57 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->d_kd_yaw = 0;
     return 0;
 }
-
 /**
- * update the pwm value using by test purpose
+ * manually update the pwm value using by test purpose
  */
 int update_T_drone_http_pwm_get(struct T_drone *pT_drone){
     char *sz_url_get_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/get/";
-    
     char *sz_http_response;
     struct json_object *pT_json_object_whole_response, *ppT_json_object_pwm[4], *pT_json_object_data, *pT_json_object_update_time;
     int n_json_response;
     int n_index=0;
-
+    /**
+     * start http_get
+     */
     sz_http_response = http_get(sz_url_get_pwm);
-
+    /**
+     * store the response in json
+     */
     pT_json_object_whole_response = json_tokener_parse(sz_http_response);
-
+    /**
+     * extract the values in json format
+     */
     n_json_response = json_object_object_get_ex(pT_json_object_whole_response, "data", &pT_json_object_data);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm1", &ppT_json_object_pwm[0]);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm2", &ppT_json_object_pwm[1]);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm3", &ppT_json_object_pwm[2]);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "pwm4", &ppT_json_object_pwm[3]);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "update_time", &pT_json_object_update_time);
-
-    n_index = 0;
+    /**
+     * store the pwm values in the struct array
+     */
     for(n_index = 0; n_index < 4; n_index++)
     {
         pT_drone->arrd_current_pwm[n_index] = (json_object_get_double(*(ppT_json_object_pwm+n_index))) / PWM_DEVIDE_RATIO;
     }
     return 0;
 }
-
 /**
- * 
  * update the pwm value using by test purpose
- * 
  */
 int update_T_drone_http_pwm_post(struct T_drone *pT_drone){
     char *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";
     char arrc_post_data[100];
-
+    /**
+     * store the post data
+     */
     sprintf(arrc_post_data, "pwm1=%f&pwm2=%f&pwm3=%f&pwm4=%f", pT_drone->arrd_current_pwm[0], pT_drone->arrd_current_pwm[1], pT_drone->arrd_current_pwm[2], pT_drone->arrd_current_pwm[3]);
-
+    /**
+     * http post
+     */
     http_post(sz_url_post_pwm, arrc_post_data);
-
     return 0;
 }
-
 /**
  * update the pid_tuning value using by test purpose
  */
@@ -201,7 +219,6 @@ int update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
     pT_drone->d_kd_yaw = json_object_get_double(*(ppT_json_object_pid_tuning + 8));
     return 0;
 }
-
 
 /**
  * update the drone value
@@ -252,7 +269,7 @@ int update_T_drone_http(struct T_drone *pT_drone){
  */
     if (pT_drone->n_manual_control_command == 10)
     {
-        pT_drone->n_stop_sign = 1;
+        pT_drone->nflag_stop_all = 1;
         /**
          * set the manual control command back to server
          */
@@ -292,13 +309,13 @@ int update_T_drone_http(struct T_drone *pT_drone){
     }
 
 /**
- * n_enable_pwm_pid_ultrasound
+ * nflag_enable_pwm_pid_ultrasound
  */
     if(pT_drone->n_manual_control_command == 16 || pT_drone->n_manual_control_command == 17){
         if(pT_drone->n_manual_control_command == 16){
-            pT_drone->n_enable_pwm_pid_ultrasound = 1;
+            pT_drone->nflag_enable_pwm_pid_ultrasound = 1;
         }else if(pT_drone->n_manual_control_command == 17){
-            pT_drone->n_enable_pwm_pid_ultrasound = 0;
+            pT_drone->nflag_enable_pwm_pid_ultrasound = 0;
         }
         /**
          * set the manual control command back to server
@@ -352,7 +369,7 @@ int update_T_drone_http_gps(struct T_drone *pT_drone){
 
     pT_drone->d_destination_latitude = json_object_get_double(pT_json_object_latitude);
     pT_drone->d_destination_longitude = json_object_get_double(pT_json_object_longitude);
-    pT_drone->n_stop_sign = json_object_get_int(pT_json_object_stop_sign);
+    pT_drone->nflag_stop_all = json_object_get_int(pT_json_object_stop_sign);
 
     return 0;
 }
@@ -369,7 +386,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 	MPU_init();
 	while (1)
 	{
-        if (pT_drone->n_stop_sign == 1)
+        if (pT_drone->nflag_stop_all == 1)
         {
             break;
         }
@@ -431,7 +448,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
     return 0;
 }
 
-int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
+int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     pidData_t *pidData_yaw,*pidData_pitch,*pidData_roll;
     pidData_yaw = (pidData_t*) malloc(sizeof(pidData_t));
     pidData_pitch = (pidData_t*) malloc(sizeof(pidData_t));
@@ -462,10 +479,10 @@ int update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
 	Pid_Init(pidData_roll, kp_roll, ki_roll, kd_roll, controllerDir, samplePeriodMs);
    
     while(1){
-        if (pT_drone->n_stop_sign == 1)
+        if (pT_drone->nflag_stop_all == 1)
         {
             break;
-        }else if (pT_drone->n_enable_pwm_pid_ultrasound == 0)
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
         {
             continue;
         }
@@ -551,7 +568,7 @@ int GeneratePwm(struct T_drone *pT_drone){
     double arrd_current_duty[4];
     uint8_t arri_i2c_output[4] = { 0, 0, 0, 0 };
     while(1){
-        if (pT_drone->n_stop_sign == 1)
+        if (pT_drone->nflag_stop_all == 1)
         {
             if(n_pwm_reset_flag == 0){
                 /**
@@ -566,7 +583,7 @@ int GeneratePwm(struct T_drone *pT_drone){
                 n_pwm_reset_flag = 1;
             }
             break;
-        }else if (pT_drone->n_enable_pwm_pid_ultrasound == 0)
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
         {
             if(n_pwm_reset_flag == 0){
                 /**
@@ -624,7 +641,7 @@ int GeneratePwm(struct T_drone *pT_drone){
 
 void ThreadTask_update_T_drone_http_pwm_get(struct T_drone *pT_drone){
     while(1){
-        if (pT_drone->n_stop_sign == 1)
+        if (pT_drone->nflag_stop_all == 1)
         {
             break;
         }
@@ -642,7 +659,7 @@ void ThreadTask_update_T_drone_http_pwm_get(struct T_drone *pT_drone){
 
 void ThreadTask_update_T_drone_http_pwm_post(struct T_drone *pT_drone){
     while(1){
-        if (pT_drone->n_stop_sign == 1)
+        if (pT_drone->nflag_stop_all == 1)
         {
             break;
         }
@@ -653,7 +670,7 @@ void ThreadTask_update_T_drone_http_pwm_post(struct T_drone *pT_drone){
 
 void ThreadTask_update_T_drone_http(struct T_drone *pT_drone){
     while(1){
-        if (pT_drone->n_stop_sign == 1)
+        if (pT_drone->nflag_stop_all == 1)
         {
             break;
         }
@@ -662,16 +679,16 @@ void ThreadTask_update_T_drone_http(struct T_drone *pT_drone){
     }
 }
 
-void ThreadTask_update_T_drone_arrd_pid_yaw_pitch_roll(struct T_drone *pT_drone){
-    update_T_drone_arrd_pid_yaw_pitch_roll(pT_drone);
+void ThreadTask_update_T_drone_arrd_pid(struct T_drone *pT_drone){
+    update_T_drone_arrd_pid(pT_drone);
 }
 
 void ThreadTask_update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
     while(1){
-        if (pT_drone->n_stop_sign == 1)
+        if (pT_drone->nflag_stop_all == 1)
         {
             break;
-        }else if (pT_drone->n_enable_pwm_pid_ultrasound == 0)
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
         {
             continue;
         }
@@ -689,7 +706,7 @@ void ThreadTask_GeneratePwm(struct T_drone *pT_drone){
 
 void ThreadTask_update_T_drone_http_gps(struct T_drone *pT_drone){
     while(1){
-        if (pT_drone->n_stop_sign == 1)
+        if (pT_drone->nflag_stop_all == 1)
         {
             break;
         }
@@ -700,7 +717,7 @@ void ThreadTask_update_T_drone_http_gps(struct T_drone *pT_drone){
 
 void ThreadTask_update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
     while(1){
-        if (pT_drone->n_stop_sign == 1)
+        if (pT_drone->nflag_stop_all == 1)
         {
             break;
         }
