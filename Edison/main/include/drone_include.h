@@ -18,7 +18,7 @@
  */
 // #define PRINT_DEBUG_PWM_HTTP_GET
 // #define PRINT_DEBUG_YAW_PITCH_ROLL
-// #define PRINT_DEBUG_PID
+#define PRINT_DEBUG_PID
 // #define PRINT_DEBUG_PID_TUNING
 
 /**
@@ -467,6 +467,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 	double kp_pitch, ki_pitch, kd_pitch, kp_roll, ki_roll, kd_roll, kp_yaw, ki_yaw, kd_yaw;
 	ctrlDir_t controllerDir;
 	uint32_t samplePeriodMs;
+    int n_index;
 
 	// For the nine values, if we can modify them in IOS app, tests can be easier!
 	kp_pitch = pT_drone->d_kp_pitch;
@@ -553,18 +554,13 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         /**
          * change pwm to PWM_DEFAULT_VALUE if below 0
          */
-        if(pT_drone->arrd_current_pwm[0] < PWM_DEFAULT_MIN || pT_drone->arrd_current_pwm[1] < PWM_DEFAULT_MIN || pT_drone->arrd_current_pwm[2] < PWM_DEFAULT_MIN || pT_drone->arrd_current_pwm[3] < PWM_DEFAULT_MIN){
-            pT_drone->arrd_current_pwm[0] = PWM_DEFAULT_MIN;
-            pT_drone->arrd_current_pwm[1] = PWM_DEFAULT_MIN;
-            pT_drone->arrd_current_pwm[2] = PWM_DEFAULT_MIN;
-            pT_drone->arrd_current_pwm[3] = PWM_DEFAULT_MIN;
-        }
-		if (pT_drone->arrd_current_pwm[0] > PWM_DEFAULT_MAX || pT_drone->arrd_current_pwm[1] > PWM_DEFAULT_MAX || pT_drone->arrd_current_pwm[2] > PWM_DEFAULT_MAX || pT_drone->arrd_current_pwm[3] > PWM_DEFAULT_MAX){
-			pT_drone->arrd_current_pwm[0] = PWM_DEFAULT_MAX;
-			pT_drone->arrd_current_pwm[1] = PWM_DEFAULT_MAX;
-			pT_drone->arrd_current_pwm[2] = PWM_DEFAULT_MAX;
-			pT_drone->arrd_current_pwm[3] = PWM_DEFAULT_MAX;
-		}
+         for(n_index=0;n_index<4;n_index++){
+            if(pT_drone->arrd_current_pwm[n_index] < PWM_DEFAULT_MIN){
+                pT_drone->arrd_current_pwm[n_index] = PWM_DEFAULT_MIN;
+            }else if(pT_drone->arrd_current_pwm[n_index] > PWM_DEFAULT_MAX){
+                pT_drone->arrd_current_pwm[n_index] = PWM_DEFAULT_MAX;
+            }
+         }
 #ifdef  PRINT_DEBUG_PID
         printf("%f\t%f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
 #endif
