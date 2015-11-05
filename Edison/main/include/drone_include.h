@@ -20,7 +20,7 @@
 // #define PRINT_DEBUG_YAW_PITCH_ROLL
 #define PRINT_DEBUG_PID
 #define PRINT_DEBUG_PID_TUNING
-#define PRINT_DEBUG_PWM
+// #define PRINT_DEBUG_PWM
 
 /**
  * define value
