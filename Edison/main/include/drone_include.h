@@ -612,6 +612,7 @@ int GeneratePwm(struct T_drone *pT_drone){
                 arrun_i2c_output[3] = 0;
                 mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
                 mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
+                printf("write 0 pwm\n");
                 nflag_pwm_reset = 1;
             }
             continue;
