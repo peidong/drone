@@ -29,7 +29,8 @@
 #define PWM_DEVIDE_RATIO 1
 #define PWM_MANUAL_CHANGE_AMOUNT 0.000025
 #define PWM_MANUAL_CHANGE_AMOUNT_LARGE 0.002000
-#define PWM_DEFAULT_VALUE 0.01
+#define PWM_DEFAULT_MIN 0.01
+#define PWM_DEFAULT_MAX 0.07
 /**
  * struct drone
  */
@@ -548,12 +549,18 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         /**
          * change pwm to PWM_DEFAULT_VALUE if below 0
          */
-        if(pT_drone->arrd_current_pwm[0] < 0 || pT_drone->arrd_current_pwm[1] < 0 || pT_drone->arrd_current_pwm[2] < 0 || pT_drone->arrd_current_pwm[3] < 0){
-            pT_drone->arrd_current_pwm[0] = PWM_DEFAULT_VALUE;
-            pT_drone->arrd_current_pwm[1] = PWM_DEFAULT_VALUE;
-            pT_drone->arrd_current_pwm[2] = PWM_DEFAULT_VALUE;
-            pT_drone->arrd_current_pwm[3] = PWM_DEFAULT_VALUE;
+        if(pT_drone->arrd_current_pwm[0] < PWM_DEFAULT_MIN || pT_drone->arrd_current_pwm[1] < PWM_DEFAULT_MIN || pT_drone->arrd_current_pwm[2] < PWM_DEFAULT_MIN || pT_drone->arrd_current_pwm[3] < PWM_DEFAULT_MIN){
+            pT_drone->arrd_current_pwm[0] = PWM_DEFAULT_MIN;
+            pT_drone->arrd_current_pwm[1] = PWM_DEFAULT_MIN;
+            pT_drone->arrd_current_pwm[2] = PWM_DEFAULT_MIN;
+            pT_drone->arrd_current_pwm[3] = PWM_DEFAULT_MIN;
         }
+		if (pT_drone->arrd_current_pwm[0] > PWM_DEFAULT_MAX || pT_drone->arrd_current_pwm[1] > PWM_DEFAULT_MAX || pT_drone->arrd_current_pwm[2] > PWM_DEFAULT_MAX || pT_drone->arrd_current_pwm[3] > PWM_DEFAULT_MAX){
+			pT_drone->arrd_current_pwm[0] = PWM_DEFAULT_MAX;
+			pT_drone->arrd_current_pwm[1] = PWM_DEFAULT_MAX;
+			pT_drone->arrd_current_pwm[2] = PWM_DEFAULT_MAX;
+			pT_drone->arrd_current_pwm[3] = PWM_DEFAULT_MAX;
+		}
 #ifdef  PRINT_DEBUG_PID
         printf("%f\t%f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
 #endif
