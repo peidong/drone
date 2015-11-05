@@ -607,6 +607,12 @@ int GeneratePwm(struct T_drone *pT_drone){
     double arrd_current_duty[4];
     uint8_t arrun_i2c_output[4] = { 0, 0, 0, 0 };
     while(1){
+#ifdef PRINT_DEBUG_PWM
+        printf("pwm1 = %f\t", pT_drone->arrd_current_pwm[0]);
+        printf("pwm2 = %f\t", pT_drone->arrd_current_pwm[1]);
+        printf("pwm3 = %f\t", pT_drone->arrd_current_pwm[2]);
+        printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
+#endif
         if (pT_drone->nflag_stop_all == 1)
         {
             /**
@@ -707,12 +713,6 @@ int GeneratePwm(struct T_drone *pT_drone){
         }else{
             mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
         }
-#ifdef PRINT_DEBUG_PWM
-        printf("pwm1 = %f\t", pT_drone->arrd_current_pwm[0]);
-        printf("pwm2 = %f\t", pT_drone->arrd_current_pwm[1]);
-        printf("pwm3 = %f\t", pT_drone->arrd_current_pwm[2]);
-        printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
-#endif
     }
     /**
      * Reset PWM to 0
