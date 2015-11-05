@@ -453,7 +453,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		pT_drone->arrd_yaw_pitch_roll[1] = pitch;
 		pT_drone->arrd_yaw_pitch_roll[2] = roll;
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
-        printf("%.1f\t%.1f\t%.1f\n",yaw, pitch, roll);
+        printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
 #endif
 	}
     return 0;
