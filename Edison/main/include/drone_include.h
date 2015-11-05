@@ -328,7 +328,11 @@ int update_T_drone_http(struct T_drone *pT_drone){
          */
         sz_http_response = http_post(sz_url_post_control, "manual_control_command=15");
     }
-
+    /**
+     * free pointer
+     */
+    free(sz_url_get_control);
+    free(sz_url_post_control);
     return 0;
 }
 
@@ -459,7 +463,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     pidData_yaw = (pidData_t*) malloc(sizeof(pidData_t));
     pidData_pitch = (pidData_t*) malloc(sizeof(pidData_t));
     pidData_roll = (pidData_t*) malloc(sizeof(pidData_t));
-    
+
 	double kp_pitch, ki_pitch, kd_pitch, kp_roll, ki_roll, kd_roll, kp_yaw, ki_yaw, kd_yaw;
 	ctrlDir_t controllerDir;
 	uint32_t samplePeriodMs;
@@ -566,6 +570,12 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 #endif
 		usleep(100000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good. 
     }
+    /**
+     * free pointer
+     */
+    free(pidData_yaw);
+    free(pidData_pitch);
+    free(pidData_roll);
     return 0;
 }
 
