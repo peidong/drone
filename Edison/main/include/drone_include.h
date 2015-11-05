@@ -453,7 +453,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		pT_drone->arrd_yaw_pitch_roll[1] = pitch;
 		pT_drone->arrd_yaw_pitch_roll[2] = roll;
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
-        printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
+        if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0){
+            printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
+        }
 #endif
 	}
     return 0;
@@ -609,13 +611,10 @@ int GeneratePwm(struct T_drone *pT_drone){
     uint8_t arrun_i2c_output[4] = { 0, 0, 0, 0 };
     while(1){
 #ifdef PRINT_DEBUG_PWM
-        if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0){
-            printf("pwm1 = %f\t", pT_drone->arrd_current_pwm[0]);
-            printf("pwm2 = %f\t", pT_drone->arrd_current_pwm[1]);
-            printf("pwm3 = %f\t", pT_drone->arrd_current_pwm[2]);
-            printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
-        }
-        
+        printf("pwm1 = %f\t", pT_drone->arrd_current_pwm[0]);
+        printf("pwm2 = %f\t", pT_drone->arrd_current_pwm[1]);
+        printf("pwm3 = %f\t", pT_drone->arrd_current_pwm[2]);
+        printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
 #endif
         if (pT_drone->nflag_stop_all == 1)
         {
