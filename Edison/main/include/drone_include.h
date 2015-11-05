@@ -19,7 +19,8 @@
 // #define PRINT_DEBUG_PWM_HTTP_GET
 // #define PRINT_DEBUG_YAW_PITCH_ROLL
 #define PRINT_DEBUG_PID
-// #define PRINT_DEBUG_PID_TUNING
+#define PRINT_DEBUG_PID_TUNING
+#define PRINT_DEBUG_PWM
 
 /**
  * define value
@@ -508,15 +509,15 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         ki_yaw  = pT_drone->d_ki_yaw;
         kd_yaw  = pT_drone->d_kd_yaw;
 #ifdef PRINT_DEBUG_PID_TUNING
-        printf("%f\t", pT_drone->d_kp_pitch);
-        printf("%f\t", pT_drone->d_ki_pitch);
-        printf("%f\t", pT_drone->d_kd_pitch);
-        printf("%f\t", pT_drone->d_kp_roll);
-        printf("%f\t", pT_drone->d_ki_roll);
-        printf("%f\t", pT_drone->d_kd_roll);
-        printf("%f\t", pT_drone->d_kp_yaw);
-        printf("%f\t", pT_drone->d_ki_yaw);
-        printf("%f\n", pT_drone->d_kd_yaw);
+        printf("p_pitch = %f\t", pT_drone->d_kp_pitch);
+        printf("i_pitch = %f\t", pT_drone->d_ki_pitch);
+        printf("d_pitch = %f\t", pT_drone->d_kd_pitch);
+        printf("p_roll = %f\t", pT_drone->d_kp_roll);
+        printf("i_roll = %f\t", pT_drone->d_ki_roll);
+        printf("d_roll = %f\t", pT_drone->d_kd_roll);
+        printf("p_yaw = %f\t", pT_drone->d_kp_yaw);
+        printf("i_yaw = %f\t", pT_drone->d_ki_yaw);
+        printf("d_yaw = %f\n", pT_drone->d_kd_yaw);
 #endif
         Pid_SetTunings(pidData_yaw, kp_yaw, ki_yaw, kd_yaw);
         Pid_SetTunings(pidData_pitch, kp_pitch, ki_pitch, kd_pitch);
@@ -534,35 +535,57 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 		Pid_SetSetPoint(pidData_pitch, 0);
         Pid_Run(pidData_pitch, pT_drone->arrd_yaw_pitch_roll[1]);
         pT_drone->arrd_pid_yaw_pitch_roll[1] = pidData_pitch->output;
+        if (pT_drone->nflag_stop_all == 1)
+        {
+            break;
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+        {
+            continue;
+        }else{
+                pT_drone->arrd_current_pwm[0] += (pT_drone->arrd_pid_yaw_pitch_roll[1] / 2);
+                pT_drone->arrd_current_pwm[1] += (pT_drone->arrd_pid_yaw_pitch_roll[1] / 2);
 
-        pT_drone->arrd_current_pwm[0] += (pT_drone->arrd_pid_yaw_pitch_roll[1] / 2);
-        pT_drone->arrd_current_pwm[1] += (pT_drone->arrd_pid_yaw_pitch_roll[1] / 2);
-
-        pT_drone->arrd_current_pwm[2] -= (pT_drone->arrd_pid_yaw_pitch_roll[1] / 2);
-        pT_drone->arrd_current_pwm[3] -= (pT_drone->arrd_pid_yaw_pitch_roll[1] / 2);
+                pT_drone->arrd_current_pwm[2] -= (pT_drone->arrd_pid_yaw_pitch_roll[1] / 2);
+                pT_drone->arrd_current_pwm[3] -= (pT_drone->arrd_pid_yaw_pitch_roll[1] / 2);
+            }
 
 		// For roll, mainly we can use wires to lock the X direction. First divide by 2. Adding to pwm1 and pwm3, substracting to pwm2 and pwm4.
 		Pid_SetSetPoint(pidData_roll, 0); 
         Pid_Run(pidData_roll, pT_drone->arrd_yaw_pitch_roll[2]);
         pT_drone->arrd_pid_yaw_pitch_roll[2] = pidData_roll->output;
+        if (pT_drone->nflag_stop_all == 1)
+        {
+            break;
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+        {
+            continue;
+        }else{
+                pT_drone->arrd_current_pwm[0] -= (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
+                pT_drone->arrd_current_pwm[3] -= (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
 
-        pT_drone->arrd_current_pwm[0] -= (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
-        pT_drone->arrd_current_pwm[3] -= (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
-
-        pT_drone->arrd_current_pwm[1] += (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
-        pT_drone->arrd_current_pwm[2] += (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
+                pT_drone->arrd_current_pwm[1] += (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
+                pT_drone->arrd_current_pwm[2] += (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
+            }
         /**
          * change pwm to PWM_DEFAULT_VALUE if below 0
          */
          for(n_index=0;n_index<4;n_index++){
-            if(pT_drone->arrd_current_pwm[n_index] < PWM_DEFAULT_MIN){
-                pT_drone->arrd_current_pwm[n_index] = PWM_DEFAULT_MIN;
-            }else if(pT_drone->arrd_current_pwm[n_index] > PWM_DEFAULT_MAX){
-                pT_drone->arrd_current_pwm[n_index] = PWM_DEFAULT_MAX;
+            if (pT_drone->nflag_stop_all == 1)
+            {
+                break;
+            }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+            {
+                continue;
+            }else{
+                if(pT_drone->arrd_current_pwm[n_index] < PWM_DEFAULT_MIN){
+                    pT_drone->arrd_current_pwm[n_index] = PWM_DEFAULT_MIN;
+                }else if(pT_drone->arrd_current_pwm[n_index] > PWM_DEFAULT_MAX){
+                    pT_drone->arrd_current_pwm[n_index] = PWM_DEFAULT_MAX;
+                }
             }
          }
 #ifdef  PRINT_DEBUG_PID
-        printf("%f\t%f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
+        printf("pitch = %f\troll = %f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
 #endif
 		usleep(100000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good. 
     }
@@ -576,7 +599,6 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 }
 
 int GeneratePwm(struct T_drone *pT_drone){
-    int nflag_pwm_reset = 0;
     mraa_i2c_context pwm12, pwm34;
     pwm12 = mraa_i2c_init(2);
     pwm34 = mraa_i2c_init(6);
@@ -587,34 +609,27 @@ int GeneratePwm(struct T_drone *pT_drone){
     while(1){
         if (pT_drone->nflag_stop_all == 1)
         {
-            if(nflag_pwm_reset == 0){
-                /**
-                 * Reset PWM to 0
-                 */
-                arrun_i2c_output[0] = 0;
-                arrun_i2c_output[1] = 0;
-                arrun_i2c_output[2] = 0;
-                arrun_i2c_output[3] = 0;
-                mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
-                mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
-                nflag_pwm_reset = 1;
-            }
+            /**
+             * Reset PWM to 0
+             */
+            arrun_i2c_output[0] = 0;
+            arrun_i2c_output[1] = 0;
+            arrun_i2c_output[2] = 0;
+            arrun_i2c_output[3] = 0;
+            mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
+            mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
             break;
         }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
         {
-            if(nflag_pwm_reset == 0){
-                /**
-                 * Reset PWM to 0
-                 */
-                arrun_i2c_output[0] = 0;
-                arrun_i2c_output[1] = 0;
-                arrun_i2c_output[2] = 0;
-                arrun_i2c_output[3] = 0;
-                mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
-                mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
-                printf("write 0 pwm\n");
-                nflag_pwm_reset = 1;
-            }
+            /**
+             * Reset PWM to 0
+             */
+            arrun_i2c_output[0] = 0;
+            arrun_i2c_output[1] = 0;
+            arrun_i2c_output[2] = 0;
+            arrun_i2c_output[3] = 0;
+            mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
+            mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
             continue;
         }
         /**
@@ -631,7 +646,33 @@ int GeneratePwm(struct T_drone *pT_drone){
         arrun_i2c_output[1] = ((int)arrd_current_duty[0]) % 256;
         arrun_i2c_output[2] = ((int)arrd_current_duty[1]) / 256;
         arrun_i2c_output[3] = ((int)arrd_current_duty[1]) % 256;
-        mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
+        if (pT_drone->nflag_stop_all == 1)
+        {
+            /**
+             * Reset PWM to 0
+             */
+            arrun_i2c_output[0] = 0;
+            arrun_i2c_output[1] = 0;
+            arrun_i2c_output[2] = 0;
+            arrun_i2c_output[3] = 0;
+            mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
+            mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
+            break;
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+        {
+            /**
+             * Reset PWM to 0
+             */
+            arrun_i2c_output[0] = 0;
+            arrun_i2c_output[1] = 0;
+            arrun_i2c_output[2] = 0;
+            arrun_i2c_output[3] = 0;
+            mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
+            mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
+            continue;
+        }else{
+                mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
+        }       
         /**
          * set pwm3 and pwm4
          */
@@ -639,21 +680,49 @@ int GeneratePwm(struct T_drone *pT_drone){
         arrun_i2c_output[1] = ((int)arrd_current_duty[2]) % 256;
         arrun_i2c_output[2] = ((int)arrd_current_duty[3]) / 256;
         arrun_i2c_output[3] = ((int)arrd_current_duty[3]) % 256;
-        mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
-        nflag_pwm_reset = 0;
+        if (pT_drone->nflag_stop_all == 1)
+        {
+            /**
+             * Reset PWM to 0
+             */
+            arrun_i2c_output[0] = 0;
+            arrun_i2c_output[1] = 0;
+            arrun_i2c_output[2] = 0;
+            arrun_i2c_output[3] = 0;
+            mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
+            mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
+            break;
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+        {
+            /**
+             * Reset PWM to 0
+             */
+            arrun_i2c_output[0] = 0;
+            arrun_i2c_output[1] = 0;
+            arrun_i2c_output[2] = 0;
+            arrun_i2c_output[3] = 0;
+            mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
+            mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
+            continue;
+        }else{
+            mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
+        }
+#ifdef PRINT_DEBUG_PWM
+        printf("pwm1 = %f\t", pT_drone->arrd_current_pwm[0]);
+        printf("pwm2 = %f\t", pT_drone->arrd_current_pwm[1]);
+        printf("pwm3 = %f\t", pT_drone->arrd_current_pwm[2]);
+        printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
+#endif
     }
-    if(nflag_pwm_reset == 0){
-        /**
-         * Reset PWM to 0
-         */
-        arrun_i2c_output[0] = 0;
-        arrun_i2c_output[1] = 0;
-        arrun_i2c_output[2] = 0;
-        arrun_i2c_output[3] = 0;
-        mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
-        mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
-        nflag_pwm_reset = 1;
-    }
+    /**
+     * Reset PWM to 0
+     */
+    arrun_i2c_output[0] = 0;
+    arrun_i2c_output[1] = 0;
+    arrun_i2c_output[2] = 0;
+    arrun_i2c_output[3] = 0;
+    mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
+    mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
     return 0;
 }
 
