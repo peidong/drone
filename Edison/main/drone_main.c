@@ -12,7 +12,7 @@ int main()
     thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http_pid_tuning_get, (void*)&g_T_drone_self);
     thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_arrd_yaw_pitch_roll, (void*)&g_T_drone_self);
     thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http_pwm_post, (void*)&g_T_drone_self);
-    // thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_arrd_pid, (void*)&g_T_drone_self);
+    thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_arrd_pid, (void*)&g_T_drone_self);
 
     thpool_wait(thpool);
     thpool_destroy(thpool);
