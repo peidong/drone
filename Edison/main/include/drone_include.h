@@ -618,6 +618,10 @@ int GeneratePwm(struct T_drone *pT_drone){
             /**
              * Reset PWM to 0
              */
+            pT_drone->arrd_current_pwm[0] = 0;
+            pT_drone->arrd_current_pwm[1] = 0;
+            pT_drone->arrd_current_pwm[2] = 0;
+            pT_drone->arrd_current_pwm[3] = 0;
             arrun_i2c_output[0] = 0;
             arrun_i2c_output[1] = 0;
             arrun_i2c_output[2] = 0;
@@ -630,6 +634,10 @@ int GeneratePwm(struct T_drone *pT_drone){
             /**
              * Reset PWM to 0
              */
+            pT_drone->arrd_current_pwm[0] = 0;
+            pT_drone->arrd_current_pwm[1] = 0;
+            pT_drone->arrd_current_pwm[2] = 0;
+            pT_drone->arrd_current_pwm[3] = 0;
             arrun_i2c_output[0] = 0;
             arrun_i2c_output[1] = 0;
             arrun_i2c_output[2] = 0;
@@ -657,6 +665,10 @@ int GeneratePwm(struct T_drone *pT_drone){
             /**
              * Reset PWM to 0
              */
+            pT_drone->arrd_current_pwm[0] = 0;
+            pT_drone->arrd_current_pwm[1] = 0;
+            pT_drone->arrd_current_pwm[2] = 0;
+            pT_drone->arrd_current_pwm[3] = 0;
             arrun_i2c_output[0] = 0;
             arrun_i2c_output[1] = 0;
             arrun_i2c_output[2] = 0;
@@ -669,6 +681,10 @@ int GeneratePwm(struct T_drone *pT_drone){
             /**
              * Reset PWM to 0
              */
+            pT_drone->arrd_current_pwm[0] = 0;
+            pT_drone->arrd_current_pwm[1] = 0;
+            pT_drone->arrd_current_pwm[2] = 0;
+            pT_drone->arrd_current_pwm[3] = 0;
             arrun_i2c_output[0] = 0;
             arrun_i2c_output[1] = 0;
             arrun_i2c_output[2] = 0;
@@ -691,6 +707,10 @@ int GeneratePwm(struct T_drone *pT_drone){
             /**
              * Reset PWM to 0
              */
+            pT_drone->arrd_current_pwm[0] = 0;
+            pT_drone->arrd_current_pwm[1] = 0;
+            pT_drone->arrd_current_pwm[2] = 0;
+            pT_drone->arrd_current_pwm[3] = 0;
             arrun_i2c_output[0] = 0;
             arrun_i2c_output[1] = 0;
             arrun_i2c_output[2] = 0;
@@ -703,6 +723,10 @@ int GeneratePwm(struct T_drone *pT_drone){
             /**
              * Reset PWM to 0
              */
+            pT_drone->arrd_current_pwm[0] = 0;
+            pT_drone->arrd_current_pwm[1] = 0;
+            pT_drone->arrd_current_pwm[2] = 0;
+            pT_drone->arrd_current_pwm[3] = 0;
             arrun_i2c_output[0] = 0;
             arrun_i2c_output[1] = 0;
             arrun_i2c_output[2] = 0;
@@ -717,6 +741,10 @@ int GeneratePwm(struct T_drone *pT_drone){
     /**
      * Reset PWM to 0
      */
+    pT_drone->arrd_current_pwm[0] = 0;
+    pT_drone->arrd_current_pwm[1] = 0;
+    pT_drone->arrd_current_pwm[2] = 0;
+    pT_drone->arrd_current_pwm[3] = 0;
     arrun_i2c_output[0] = 0;
     arrun_i2c_output[1] = 0;
     arrun_i2c_output[2] = 0;
