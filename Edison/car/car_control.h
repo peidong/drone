@@ -60,7 +60,7 @@ void ThreadTask_Ultrasonic_read(){
  
     if (trig_c == NULL || echo_c == NULL || trig_l == NULL || echo_l == NULL || trig_r == NULL ||echo_r == NULL){                                            
        fprintf(stderr, "Failed to initialized.\n");
-       return 1;
+       return;
     }
         mraa_gpio_dir(trig_l, MRAA_GPIO_OUT);                                    
         mraa_gpio_dir(echo_l, MRAA_GPIO_IN);                                     
