@@ -31,8 +31,11 @@
 #define PWM_DEVIDE_RATIO 1
 #define PWM_MANUAL_CHANGE_AMOUNT 0.000025
 #define PWM_MANUAL_CHANGE_AMOUNT_LARGE 0.002000
-#define PWM_DEFAULT_MIN 0.057
 #define PWM_DEFAULT_MAX 0.065
+#define PWM_DEFAULT_MIN_PWM0 0.057
+#define PWM_DEFAULT_MIN_PWM1 0.060
+#define PWM_DEFAULT_MIN_PWM2 0.058
+#define PWM_DEFAULT_MIN_PWM3 0.057
 /**
  * struct drone
  */
@@ -609,14 +612,22 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
             }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
             {
                 continue;
-            }else{
-                if(pT_drone->arrd_current_pwm[n_index] < PWM_DEFAULT_MIN){
-                    pT_drone->arrd_current_pwm[n_index] = PWM_DEFAULT_MIN;
-                }else if(pT_drone->arrd_current_pwm[n_index] > PWM_DEFAULT_MAX){
+            }else if(pT_drone->arrd_current_pwm[n_index] > PWM_DEFAULT_MAX){
                     pT_drone->arrd_current_pwm[n_index] = PWM_DEFAULT_MAX;
-                }
             }
          }
+         if(pT_drone->arrd_current_pwm[0] < PWM_DEFAULT_MIN_PWM0){
+                    pT_drone->arrd_current_pwm[0] = PWM_DEFAULT_MIN_PWM0;
+        }
+        if(pT_drone->arrd_current_pwm[1] < PWM_DEFAULT_MIN_PWM1){
+                    pT_drone->arrd_current_pwm[1] = PWM_DEFAULT_MIN_PWM1;
+        }
+        if(pT_drone->arrd_current_pwm[2] < PWM_DEFAULT_MIN_PWM2){
+                    pT_drone->arrd_current_pwm[2] = PWM_DEFAULT_MIN_PWM2;
+        }
+        if(pT_drone->arrd_current_pwm[3] < PWM_DEFAULT_MIN_PWM3){
+                    pT_drone->arrd_current_pwm[3] = PWM_DEFAULT_MIN_PWM3;
+        }
 #ifdef  PRINT_DEBUG_PID_CHANGE
         printf("pitch change= %f\troll change= %f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
 #endif
