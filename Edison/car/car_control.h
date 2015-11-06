@@ -222,15 +222,16 @@ int obstacle_case1(struct T_drone *pT_drone){
 int obstacle_case2(struct T_drone *pT_drone){
     int i;
     if(distance_c <= 60){
-     if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
+        if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
             for (i = 0;i<=650;i++){
                      turn_right();
                  } 
-        }else
-        {   
+        }else{   
             for (i = 0;i<=650;i++){
                      turn_left();
              }
+    }
+    
     }else{
         if(distance_slight_l <= 60 && distance_slight_r > 60){
             for(i=0; i<= 100; i++){
