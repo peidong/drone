@@ -17,11 +17,11 @@
  * print debug
  */
 // #define PRINT_DEBUG_PWM_HTTP_GET
-// #define PRINT_DEBUG_YAW_PITCH_ROLL
+#define PRINT_DEBUG_YAW_PITCH_ROLL
 // #define PRINT_DEBUG_PID_CHANGE
 // #define PRINT_DEBUG_PID_TUNING
 // #define PRINT_DEBUG_PWM
-#define PRINT_DEBUG_THREAD
+// #define PRINT_DEBUG_THREAD
 
 /**
  * define value
@@ -243,8 +243,14 @@ int update_T_drone_http(struct T_drone *pT_drone){
     }
     strcpy(sz_url_get_control, sz_url_get_control_part1);
     strcat(sz_url_get_control, pT_drone->sz_mac_address);
-    
-    char *sz_url_post_control = (char*) malloc(1 + strlen(sz_url_post_control_part1) + strlen(pT_drone->sz_mac_address));
+    /**
+     * post url
+     */
+    char *sz_url_post_control = NULL;
+    if (NULL == sz_url_post_control){
+        sz_url_post_control = (char*) malloc(1 + strlen(sz_url_post_control_part1) + strlen(pT_drone->sz_mac_address));
+    }
+    // char *sz_url_post_control = (char*) malloc(1 + strlen(sz_url_post_control_part1) + strlen(pT_drone->sz_mac_address));
     strcpy(sz_url_post_control, sz_url_post_control_part1);
     strcat(sz_url_post_control, pT_drone->sz_mac_address);
     
@@ -336,8 +342,14 @@ int update_T_drone_http(struct T_drone *pT_drone){
     /**
      * free pointer
      */
-    free(sz_url_get_control);
-    free(sz_url_post_control);
+    if(sz_url_get_control != NULL){
+        free(sz_url_get_control);
+        sz_url_get_control = NULL;
+    }
+    if(sz_url_post_control != NULL){
+        free(sz_url_post_control);
+        sz_url_post_control = NULL;
+    }
     return 0;
 }
 
