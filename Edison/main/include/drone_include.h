@@ -481,9 +481,15 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 
 int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     pidData_t *pidData_yaw = NULL, *pidData_pitch = NULL, *pidData_roll = NULL;
-    pidData_yaw = (pidData_t*) malloc(sizeof(pidData_t));
-    pidData_pitch = (pidData_t*) malloc(sizeof(pidData_t));
-    pidData_roll = (pidData_t*) malloc(sizeof(pidData_t));
+    if(NULL == pidData_yaw){
+        pidData_yaw = (pidData_t*) malloc(sizeof(pidData_t));
+    }
+    if(NULL == pidData_pitch){
+        pidData_pitch = (pidData_t*) malloc(sizeof(pidData_t));
+    }
+    if(NULL == pidData_roll){
+        pidData_roll = (pidData_t*) malloc(sizeof(pidData_t));
+    }
 
 	double kp_pitch, ki_pitch, kd_pitch, kp_roll, ki_roll, kd_roll, kp_yaw, ki_yaw, kd_yaw;
 	ctrlDir_t controllerDir;
@@ -614,9 +620,18 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     /**
      * free pointer
      */
-    free(pidData_yaw);
-    free(pidData_pitch);
-    free(pidData_roll);
+    if(pidData_yaw != NULL){
+        free(pidData_yaw);
+        pidData_yaw = NULL;
+    }
+    if(pidData_pitch != NULL){
+        free(pidData_pitch);
+        pidData_pitch = NULL;
+    }
+    if(pidData_roll != NULL){
+        free(pidData_roll);
+        pidData_roll = NULL;
+    }
     return 0;
 }
 
