@@ -31,7 +31,7 @@
 #define PWM_DEVIDE_RATIO 1
 #define PWM_MANUAL_CHANGE_AMOUNT 0.000025
 #define PWM_MANUAL_CHANGE_AMOUNT_LARGE 0.002000
-#define PWM_DEFAULT_MAX 0.065
+#define PWM_DEFAULT_RANGE 0.010
 #define PWM_DEFAULT_MIN_PWM0 0.055
 #define PWM_DEFAULT_MIN_PWM1 0.061
 #define PWM_DEFAULT_MIN_PWM2 0.059
@@ -605,18 +605,26 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         /**
          * change pwm to PWM_DEFAULT_VALUE if below 0
          */
-         for(n_index=0;n_index<4;n_index++){
-            if (pT_drone->nflag_stop_all == 1)
-            {
-                break;
-            }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
-            {
-                continue;
-            }else if(pT_drone->arrd_current_pwm[n_index] > PWM_DEFAULT_MAX){
-                    pT_drone->arrd_current_pwm[n_index] = PWM_DEFAULT_MAX;
-            }
-         }
-         if(pT_drone->arrd_current_pwm[0] < PWM_DEFAULT_MIN_PWM0){
+        if (pT_drone->nflag_stop_all == 1)
+        {
+            break;
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+        {
+            continue;
+        }
+        if(pT_drone->arrd_current_pwm[0] > (PWM_DEFAULT_MIN_PWM0 + PWM_DEFAULT_RANGE)){
+                pT_drone->arrd_current_pwm[0] = (PWM_DEFAULT_MIN_PWM0 + PWM_DEFAULT_RANGE);
+        }
+        if(pT_drone->arrd_current_pwm[1] > (PWM_DEFAULT_MIN_PWM1 + PWM_DEFAULT_RANGE)){
+                pT_drone->arrd_current_pwm[1] = (PWM_DEFAULT_MIN_PWM1 + PWM_DEFAULT_RANGE);
+        }
+        if(pT_drone->arrd_current_pwm[2] > (PWM_DEFAULT_MIN_PWM2 + PWM_DEFAULT_RANGE)){
+                pT_drone->arrd_current_pwm[2] = (PWM_DEFAULT_MIN_PWM2 + PWM_DEFAULT_RANGE);
+        }
+        if(pT_drone->arrd_current_pwm[3] > (PWM_DEFAULT_MIN_PWM3 + PWM_DEFAULT_RANGE)){
+                pT_drone->arrd_current_pwm[3] = (PWM_DEFAULT_MIN_PWM3 + PWM_DEFAULT_RANGE);
+        }
+        if(pT_drone->arrd_current_pwm[0] < PWM_DEFAULT_MIN_PWM0){
                     pT_drone->arrd_current_pwm[0] = PWM_DEFAULT_MIN_PWM0;
         }
         if(pT_drone->arrd_current_pwm[1] < PWM_DEFAULT_MIN_PWM1){
