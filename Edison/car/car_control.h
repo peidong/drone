@@ -41,7 +41,7 @@ long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
     if(time2>0&&time2<30000){
         distance = time2 / 58.82;
     }else{ 
-        distance=0;//if get wrong distance
+        distance=-1;//if get wrong distance
     }
     return distance;
 }
@@ -55,8 +55,8 @@ void ThreadTask_Ultrasonic_read(){
     echo_l = mraa_gpio_init(8);                                              
     trig_c = mraa_gpio_init(10);                                             
     echo_c = mraa_gpio_init(11);                                             
-    trig_r = mraa_gpio_init(5);                                              
-    echo_r = mraa_gpio_init(6);                                              
+    trig_r = mraa_gpio_init(13);                                              
+    echo_r = mraa_gpio_init(9);                                              
  
     if (trig_c == NULL || echo_c == NULL || trig_l == NULL || echo_l == NULLL || trig_r == NULL ||echo_r == NULL){                                            
        fprintf(stderr, "Failed to initialized.\n");
@@ -180,22 +180,22 @@ double get_longitude_distance(double d_lon1, double d_lon2, double d_lat1)
 
 int obstacle_case1(){
     int i;
-    while(distance_l <= 4 || distance_r <= 4){
+    while(distance_l <= 60 || distance_r <= 60){
         move_backward();
     }
     for(i=0; i<= 100; i++){
         move_backward();                          //backward more to get space for turn
     }
     
-    if(distance_l<=4 && distance_r >4){
+    if(distance_l<=60 && distance_r >60){
         for(i=0; i<= 650; i++){
         turn_right();             
         }                 //
-    }else if(distance_r<=4 && distance_l>4){
+    }else if(distance_r<=60 && distance_l>60){
         for(i=0; i<= 650; i++){
         turn_left();             
         }                 //
-    }else if(distance_r>4 && distance_l>4){
+    }else if(distance_r>60 && distance_l>60){
          if(d_move_direction - pT_drone->d_face_direction > 0){
             for (i = 0;i<=650;i++){
                      turn_right();
@@ -221,7 +221,7 @@ int obstacle_case1(){
  * */
 int obstacle_case2(){
     int i;
-    if(distance_c <= 4){
+    if(distance_c <= 60){
      if(d_move_direction - pT_drone->d_face_direction > 0){
             for (i = 0;i<=650;i++){
                      turn_right();
@@ -232,32 +232,32 @@ int obstacle_case2(){
                      turn_left();
              }
     }else{
-        if(distance_slight_l <= 4 && distance_slight_r > 4){
+        if(distance_slight_l <= 60 && distance_slight_r > 60){
             for(i=0; i<= 100; i++){
             turn_right();             
         }                               // turn slightly right
 
-        }else if(distance_slight_r <=4 && distance_slight_l > 4){
+        }else if(distance_slight_r <= 60 && distance_slight_l > 60){
             for(i=0; i<= 100; i++){
             turn_left();   
             }          
-        }else if(distance_slight_r <=4 && distance_slight_r <= 4){
-             while(distance_slight_l <= 4 || distance_slight_r <= 4){
+        }else if(distance_slight_r <= 60 && distance_slight_r <= 60){
+             while(distance_slight_l <= 60 || distance_slight_r <= 60){
                 move_backward();
              }
              for(i=0; i<= 100; i++){
                  move_backward();                          //backward more to get space for turn
              }
 
-            if(distance_slight_l<=4 && distance_slight_r >4){
+            if(distance_slight_l<= 60 && distance_slight_r > 60){
                  for(i=0; i<= 650; i++){
                      turn_right();             
                  }                 //
-            }else if(distance_slight_r<=4 && distance_slight_l>4){
+            }else if(distance_slight_r<=60 && distance_slight_l> 60){
                 for(i=0; i<= 650; i++){
                      turn_left();             
                  }                 //
-             }else if(distance_slight_r>4 && distance_slight_l>4){
+             }else if(distance_slight_r > 60 && distance_slight_l> 60){
                  if(d_move_direction - pT_drone->d_face_direction > 0){
                      for (i = 0;i<=650;i++){
                         turn_right();
@@ -283,15 +283,15 @@ int obstacle_case2(){
 int obstacle_case3(){
     int i;
 
-    if(distance_l<=4 && distance_r >4){
+    if(distance_l<=60 && distance_r >60){
         for(i=0; i<= 650; i++){
         turn_right();             
         }                 //
-    }else if(distance_r<=4 && distance_l>4){
+    }else if(distance_r<=60 && distance_l>60){
         for(i=0; i<= 650; i++){
         turn_left();             
         }                 //
-    }else if(distance_r>4 && distance_l>4){
+    }else if(distance_r>60 && distance_l>60){
          if(d_move_direction - pT_drone->d_face_direction > 0){
             for (i = 0;i<=650;i++){
                      turn_right();
@@ -414,13 +414,13 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
         }else if(pT_drone->n_control_type == 2){
             continue;
         }
-        if(distance_l <= 4 && distance_r <=4 && distance_c <=4){
+        if(distance_l <= 60 && distance_r <= 60 && distance_c <=60){
             obstacle_case1();
-        }else if(distance_l > 4 && distance >4){
-            if(distance_c <=4 || distance_slight_l <= 4 || distance_slight_r <= 4){
+        }else if(distance_l > 60 && distance > 60){
+            if(distance_c <= 60 || distance_slight_l <= 60 || distance_slight_r <= 60){
                 obstacle_case2;
             }
-        }else if(distance_l <= 4 || distance_r <=4 && distance_c <=4){
+        }else if(distance_l <= 60 || distance_r <= 60 && distance_c <= 60){
             obstacle_case3; 
         }else{
              GpsNavigationMove(pT_drone);
