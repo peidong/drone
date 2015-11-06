@@ -237,6 +237,9 @@ int update_T_drone_http(struct T_drone *pT_drone){
     //sz_mac_address = "fc:c2:de:3d:7f:af";
     char *sz_url_get_control_part1 = "http://fryer.ee.ucla.edu/rest/api/control/get/?mac_address=";
     char *sz_url_post_control_part1 = "http://fryer.ee.ucla.edu/rest/api/control/post/?mac_address=";
+    /**
+     * get url
+     */
     char *sz_url_get_control = NULL;
     if(NULL == sz_url_get_control){
         sz_url_get_control = (char*) malloc(1 + strlen(sz_url_get_control_part1) + strlen(pT_drone->sz_mac_address));
@@ -281,9 +284,9 @@ int update_T_drone_http(struct T_drone *pT_drone){
         pT_drone->arrd_suspend_pwm[n_index] = json_object_get_double(*(ppT_json_object_suspend_pwm + n_index));
     }
 
-/**
- * stop
- */
+    /**
+     * stop
+     */
     if (pT_drone->n_manual_control_command == 10)
     {
         pT_drone->nflag_stop_all = 1;
@@ -293,9 +296,9 @@ int update_T_drone_http(struct T_drone *pT_drone){
         sz_http_response = http_post(sz_url_post_control, "manual_control_command=15");
     }
 
-/**
- * pwm manual change
- */
+    /**
+     * pwm manual change
+     */
     if (pT_drone->n_manual_control_command == 11 || pT_drone->n_manual_control_command == 12 || pT_drone->n_manual_control_command == 13 || pT_drone->n_manual_control_command == 14)
     {
         if (pT_drone->n_manual_control_command == 11)
@@ -325,9 +328,9 @@ int update_T_drone_http(struct T_drone *pT_drone){
         sz_http_response = http_post(sz_url_post_control, "manual_control_command=15");
     }
 
-/**
- * nflag_enable_pwm_pid_ultrasound
- */
+    /**
+     * nflag_enable_pwm_pid_ultrasound
+     */
     if(pT_drone->n_manual_control_command == 16 || pT_drone->n_manual_control_command == 17){
         if(pT_drone->n_manual_control_command == 16){
             pT_drone->nflag_enable_pwm_pid_ultrasound = 1;
