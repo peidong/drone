@@ -360,7 +360,8 @@ int GpsNavigationMove(struct T_drone *pT_drone){
 }
 
 void ThreadTask_manual_control(struct T_drone *pT_drone){
-     while(1){
+    int i; 
+    while(1){
             if (pT_drone->nflag_stop_all == 1)
               {
                 break;
