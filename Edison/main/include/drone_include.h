@@ -480,7 +480,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 }
 
 int update_T_drone_arrd_pid(struct T_drone *pT_drone){
-    pidData_t *pidData_yaw,*pidData_pitch,*pidData_roll;
+    pidData_t *pidData_yaw = NULL, *pidData_pitch = NULL, *pidData_roll = NULL;
     pidData_yaw = (pidData_t*) malloc(sizeof(pidData_t));
     pidData_pitch = (pidData_t*) malloc(sizeof(pidData_t));
     pidData_roll = (pidData_t*) malloc(sizeof(pidData_t));
