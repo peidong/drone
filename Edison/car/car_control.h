@@ -360,7 +360,7 @@ int GpsNavigationMove(struct T_drone *pT_drone){
 
 void ThreadTask_manual_control(struct T_drone *pT_drone){
      while(1){
-            if (pT_drone->n_stop_sign == 1)
+            if (pT_drone->nflag_stop_all == 1)
               {
                 break;
             }else if(pT_drone->n_control_type == 1){
@@ -398,7 +398,7 @@ void ThreadTask_manual_control(struct T_drone *pT_drone){
                  }
              }else{                                 
                      printf("Wrong turn type!\n");
-              return 1;
+              return;
          }
         
          sleep(1);
@@ -408,7 +408,7 @@ void ThreadTask_manual_control(struct T_drone *pT_drone){
 
 void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
     while(1){
-        if (pT_drone->n_stop_sign == 1)
+        if (pT_drone->nflag_stop_all == 1)
         {
             break;
         }else if(pT_drone->n_control_type == 2){
