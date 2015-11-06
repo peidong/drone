@@ -178,7 +178,7 @@ double get_longitude_distance(double d_lon1, double d_lon2, double d_lat1)
  *
  * */
 
-int obstacle_case1(){
+int obstacle_case1(struct T_drone *pT_drone){
     int i;
     while(distance_l <= 60 || distance_r <= 60){
         move_backward();
@@ -219,7 +219,7 @@ int obstacle_case1(){
  *  Only c sensor detecting obstacles. Then the car will turn right/left
  *
  * */
-int obstacle_case2(){
+int obstacle_case2(struct T_drone *pT_drone){
     int i;
     if(distance_c <= 60){
      if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
@@ -280,7 +280,7 @@ int obstacle_case2(){
  *  Only c and one of l,t sensor detecting obstacles. 
  *
  * */
-int obstacle_case3(){
+int obstacle_case3(struct T_drone *pT_drone){
     int i;
 
     if(distance_l<=60 && distance_r >60){
@@ -415,13 +415,13 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
             continue;
         }
         if(distance_l <= 60 && distance_r <= 60 && distance_c <=60){
-            obstacle_case1();
+            obstacle_case1(&g_T_drone_self);
         }else if(distance_l > 60 && distance > 60){
             if(distance_c <= 60 || distance_slight_l <= 60 || distance_slight_r <= 60){
-                obstacle_case2;
+                obstacle_case2(&g_T_drone_self);
             }
         }else if(distance_l <= 60 || distance_r <= 60 && distance_c <= 60){
-            obstacle_case3; 
+            obstacle_case3(&g_T_drone_self); 
         }else{
              GpsNavigationMove(pT_drone);
         }
