@@ -418,7 +418,7 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
         }
         if(distance_l <= 60 && distance_r <= 60 && distance_c <=60){
             obstacle_case1(&g_T_drone_self);
-        }else if(distance_l > 60 && distance > 60){
+        }else if(distance_l > 60 && distance_r > 60){
             if(distance_c <= 60 || distance_slight_l <= 60 || distance_slight_r <= 60){
                 obstacle_case2(&g_T_drone_self);
             }
