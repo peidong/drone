@@ -78,7 +78,7 @@ void ThreadTask_Ultrasonic_read(){
     distance_r = get_distance(trig_r, echo_r);                     
     //printf(" c:%d l:%d r:%d\n", distance_c, distance_l, distance_r);}}
 }
-
+}
 
 /*
  *  This is for speed and drive control
