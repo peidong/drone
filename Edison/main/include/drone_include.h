@@ -17,10 +17,11 @@
  * print debug
  */
 // #define PRINT_DEBUG_PWM_HTTP_GET
-#define PRINT_DEBUG_YAW_PITCH_ROLL
-#define PRINT_DEBUG_PID_CHANGE
+// #define PRINT_DEBUG_YAW_PITCH_ROLL
+// #define PRINT_DEBUG_PID_CHANGE
 // #define PRINT_DEBUG_PID_TUNING
 // #define PRINT_DEBUG_PWM
+#define PRINT_DEBUG_THREAD
 
 /**
  * define value
@@ -236,7 +237,10 @@ int update_T_drone_http(struct T_drone *pT_drone){
     //sz_mac_address = "fc:c2:de:3d:7f:af";
     char *sz_url_get_control_part1 = "http://fryer.ee.ucla.edu/rest/api/control/get/?mac_address=";
     char *sz_url_post_control_part1 = "http://fryer.ee.ucla.edu/rest/api/control/post/?mac_address=";
-    char *sz_url_get_control = (char*) malloc(1 + strlen(sz_url_get_control_part1) + strlen(pT_drone->sz_mac_address));
+    char *sz_url_get_control = NULL;
+    if(NULL == sz_url_get_control){
+        sz_url_get_control = (char*) malloc(1 + strlen(sz_url_get_control_part1) + strlen(pT_drone->sz_mac_address));
+    }
     strcpy(sz_url_get_control, sz_url_get_control_part1);
     strcat(sz_url_get_control, pT_drone->sz_mac_address);
     
@@ -401,7 +405,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
         {
             break;
         }
-
+#ifdef PRINT_DEBUG_THREAD
+        printf("yaw pitch roll\n");
+#endif
 		uint8_t Buf[14];
 		mraa_i2c_read_bytes_data(mpu, 59, Buf, 14);
 		// Accelerometer
@@ -500,7 +506,9 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         {
             continue;
         }
-
+#ifdef PRINT_DEBUG_THREAD
+        printf("Pid Thread\n");
+#endif
         kp_pitch = pT_drone->d_kp_pitch;
         ki_pitch = pT_drone->d_ki_pitch;
         kd_pitch = pT_drone->d_kd_pitch;
@@ -589,7 +597,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 #ifdef  PRINT_DEBUG_PID_CHANGE
         printf("pitch change= %f\troll change= %f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
 #endif
-		usleep(10000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good. 
+		usleep(50000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good. 
     }
     /**
      * free pointer
@@ -610,6 +618,9 @@ int GeneratePwm(struct T_drone *pT_drone){
     double arrd_current_duty[4];
     uint8_t arrun_i2c_output[4] = { 0, 0, 0, 0 };
     while(1){
+#ifdef PRINT_DEBUG_THREAD
+        printf("GeneratePwm\n");
+#endif
 #ifdef PRINT_DEBUG_PWM
         printf("pwm1 = %f\t", pT_drone->arrd_current_pwm[0]);
         printf("pwm2 = %f\t", pT_drone->arrd_current_pwm[1]);
@@ -769,12 +780,15 @@ void ThreadTask_update_T_drone_http_pwm_get(struct T_drone *pT_drone){
         {
             break;
         }
+#ifdef PRINT_DEBUG_THREAD
+        printf("ThreadTask_update_T_drone_http_pwm_get\n");
+#endif
         update_T_drone_http_pwm_get(pT_drone);
 #ifdef PRINT_DEBUG_PWM_HTTP_GET
-            printf("pwm1 = %f\t", pT_drone->arrd_current_pwm[0]);
-            printf("pwm2 = %f\t", pT_drone->arrd_current_pwm[1]);
-            printf("pwm3 = %f\t", pT_drone->arrd_current_pwm[2]);
-            printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
+        printf("pwm1 = %f\t", pT_drone->arrd_current_pwm[0]);
+        printf("pwm2 = %f\t", pT_drone->arrd_current_pwm[1]);
+        printf("pwm3 = %f\t", pT_drone->arrd_current_pwm[2]);
+        printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
 #endif
         usleep(50000);
     }
@@ -786,6 +800,9 @@ void ThreadTask_update_T_drone_http_pwm_post(struct T_drone *pT_drone){
         {
             break;
         }
+#ifdef PRINT_DEBUG_THREAD
+        printf("ThreadTask_update_T_drone_http_pwm_post\n");
+#endif
         update_T_drone_http_pwm_post(pT_drone);
         usleep(50000);
     }
@@ -797,6 +814,9 @@ void ThreadTask_update_T_drone_http(struct T_drone *pT_drone){
         {
             break;
         }
+#ifdef PRINT_DEBUG_THREAD
+        printf("ThreadTask_update_T_drone_http\n");
+#endif
         update_T_drone_http(pT_drone);
         usleep(50000);
     }
@@ -815,6 +835,9 @@ void ThreadTask_update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
         {
             continue;
         }
+#ifdef PRINT_DEBUG_THREAD
+        printf("ThreadTask_update_T_drone_arrn_ultrasound\n");
+#endif
         update_T_drone_arrn_ultrasound(pT_drone);
     }
 }
@@ -833,6 +856,9 @@ void ThreadTask_update_T_drone_http_gps(struct T_drone *pT_drone){
         {
             break;
         }
+#ifdef PRINT_DEBUG_THREAD
+        printf("ThreadTask_update_T_drone_http_gps\n");
+#endif
         update_T_drone_http_gps(pT_drone);
         usleep(50000);
     }
@@ -844,6 +870,9 @@ void ThreadTask_update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
         {
             break;
         }
+        #ifdef PRINT_DEBUG_THREAD
+        printf("ThreadTask_update_T_drone_http_pid_tuning_get\n");
+        #endif
         update_T_drone_http_pid_tuning_get(pT_drone);
         usleep(50000);
     }

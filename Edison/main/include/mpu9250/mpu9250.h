@@ -287,15 +287,15 @@ void MadgwickAHRSupdate(float ax, float ay, float az, float gx, float gy, float 
 
 void writeAK8963(uint8_t targetReg, uint8_t data)
 {
-  mraa_i2c_write_byte_data(mpu, 0x0C, I2C_SLV4_ADDR);
+        mraa_i2c_write_byte_data(mpu, 0x0C, I2C_SLV4_ADDR);
 	mraa_i2c_write_byte_data(mpu, targetReg, I2C_SLV4_REG);
 	mraa_i2c_write_byte_data(mpu, data, I2C_SLV4_DO);
 	mraa_i2c_write_byte_data(mpu, 128, I2C_SLV4_CTRL);
 }
 void readAK8963_setup(uint8_t startReg, int length)
 {
-  //mraa_i2c_write_byte_data(mpu, 0, I2C_SLV0_CTRL);
-  mraa_i2c_write_byte_data(mpu, 0x0C+128, I2C_SLV0_ADDR);
+      //mraa_i2c_write_byte_data(mpu, 0, I2C_SLV0_CTRL);
+        mraa_i2c_write_byte_data(mpu, 0x0C+128, I2C_SLV0_ADDR);
 	mraa_i2c_write_byte_data(mpu, startReg, I2C_SLV0_REG);
 	mraa_i2c_write_byte_data(mpu, 128+length, I2C_SLV0_CTRL);
 }
