@@ -196,7 +196,7 @@ int obstacle_case1(){
         turn_left();             
         }                 //
     }else if(distance_r>60 && distance_l>60){
-         if(d_move_direction - pT_drone->d_face_direction > 0){
+         if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
             for (i = 0;i<=650;i++){
                      turn_right();
                  } 
@@ -222,7 +222,7 @@ int obstacle_case1(){
 int obstacle_case2(){
     int i;
     if(distance_c <= 60){
-     if(d_move_direction - pT_drone->d_face_direction > 0){
+     if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
             for (i = 0;i<=650;i++){
                      turn_right();
                  } 
@@ -258,7 +258,7 @@ int obstacle_case2(){
                      turn_left();             
                  }                 //
              }else if(distance_slight_r > 60 && distance_slight_l> 60){
-                 if(d_move_direction - pT_drone->d_face_direction > 0){
+                 if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
                      for (i = 0;i<=650;i++){
                         turn_right();
                      } 
@@ -292,7 +292,7 @@ int obstacle_case3(){
         turn_left();             
         }                 //
     }else if(distance_r>60 && distance_l>60){
-         if(d_move_direction - pT_drone->d_face_direction > 0){
+         if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
             for (i = 0;i<=650;i++){
                      turn_right();
                  } 
@@ -313,38 +313,38 @@ int obstacle_case3(){
 
 int GpsNavigationMove(struct T_drone *pT_drone){
     int i;
-    double d_west_to_east_distance, d_south_to_north_distance, d_move_direction;
+    double d_west_to_east_distance, d_south_to_north_distance;
     d_west_to_east_distance = get_latitude_distance(pT_drone->d_current_latitude, pT_drone->d_destination_latitude, pT_drone->d_current_longitude);
     d_south_to_north_distance = get_longitude_distance(pT_drone->d_current_longitude, pT_drone->d_destination_longitude, pT_drone->d_current_latitude);
     
     if ((pT_drone->d_destination_longitude - pT_drone->d_current_longitude) > 0)
     {
-        d_move_direction = 90 - atan(d_south_to_north_distance / d_west_to_east_distance);
+        pT_drone->d_move_direction = 90 - atan(d_south_to_north_distance / d_west_to_east_distance);
     }else if ((pT_drone->d_destination_longitude - pT_drone->d_current_longitude) < 0)
     {
-        d_move_direction = 270 - atan(d_south_to_north_distance / d_west_to_east_distance);
+        pT_drone->d_move_direction = 270 - atan(d_south_to_north_distance / d_west_to_east_distance);
     }else if ((pT_drone->d_destination_longitude - pT_drone->d_current_longitude) == 0)
     {
         if ((pT_drone->d_destination_latitude - pT_drone->d_current_latitude) >= 0)
         {
-            d_move_direction = 0;
+            pT_drone->d_move_direction = 0;
         }else if ((pT_drone->d_destination_latitude - pT_drone->d_current_latitude) < 0)
         {
-            d_move_direction = 180;
+            pT_drone->d_move_direction = 180;
         }
     }
     //printf("drone's location = lat:%f, lon:%f\n", pT_drone->d_current_latitude, pT_drone->d_current_longitude);
     //printf("Destination's location = lat:%f, lon:%f\n", pT_drone->d_destination_latitude, pT_drone->d_destination_longitude);
-    //printf("d_move_direction = %f\n", d_move_direction);
-    double tmp = abs(d_move_direction - pT_drone->d_face_direction);
-    //printf("abs(d_move_direction - pT_drone->d_face_direction) = %f\n", tmp);
+    //printf("pT_drone->d_move_direction = %f\n", pT_drone->d_move_direction);
+    double tmp = abs(pT_drone->d_move_direction - pT_drone->d_face_direction);
+    //printf("abs(pT_drone->d_move_direction - pT_drone->d_face_direction) = %f\n", tmp);
     //printf("pT_drone->d_face_direction = %f\n", pT_drone->d_face_direction);
     double tmp_distance = sqrt(pow(d_west_to_east_distance, 2) + pow(d_south_to_north_distance, 2));
     //printf("distance = %f\n\n", tmp_distance);
     if (tmp > 10)
     {
-        //turn_direction(d_move_direction - pT_drone->d_face_direction);
-        if(d_move_direction - pT_drone->d_face_direction > 0){
+        //turn_direction(pT_drone->d_move_direction - pT_drone->d_face_direction);
+        if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
             turn_right();
         }else
         {   

@@ -66,6 +66,7 @@ struct T_drone{
     double d_face_direction;
     double d_destination_latitude;
     double d_destination_longitude;
+    double d_move_direction;
     /**
      * pid variable
      */
@@ -127,6 +128,7 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->d_face_direction = 0;
     pT_drone->d_destination_latitude = 0;
     pT_drone->d_destination_longitude = 0;
+    pT_drone->d_move_direction = 0;
 
     pT_drone->d_kp_pitch = 0;
     pT_drone->d_ki_pitch = 0;
