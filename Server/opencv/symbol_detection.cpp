@@ -124,7 +124,7 @@ int main(){
 
     //-- Show detected matches
     imshow( "Good Matches & Object detection", img_matches );
-    
+
 
     waitKey(0);
     return 0;
