@@ -74,11 +74,13 @@ long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
     usleep(10);
     mraa_gpio_write(trigger, 0);
     printf("get_distance 2\n");
-    while(mraa_gpio_read(echo) == 0){
+    // while(mraa_gpio_read(echo) == 0){
+    if(mraa_gpio_read(echo) == 0){
         time1 = clock();
         printf("get_distance 3\n");
     }
-    while(mraa_gpio_read(echo) == 1){
+    if(mraa_gpio_read(echo) == 1){
+    // while(mraa_gpio_read(echo) == 1){
         time2 = clock()-time1;
         printf("get_distance 4\n");
     }
@@ -89,6 +91,7 @@ long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
         distance=-1;//if get wrong distance
         printf("get_distance 6\n");
     }
+    printf("distance = %ld\n", distance);
     return distance;
 }
 
