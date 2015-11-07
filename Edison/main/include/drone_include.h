@@ -426,7 +426,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
             break;
         }
 #ifdef PRINT_DEBUG_THREAD
-        printf("yaw pitch roll\n");
+        printf("ThreadTask_yaw pitch roll\n");
 #endif
 		uint8_t Buf[14];
 		mraa_i2c_read_bytes_data(mpu, 59, Buf, 14);
