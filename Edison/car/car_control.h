@@ -98,7 +98,15 @@ long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
 void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
     //long pT_drone->ln_distance_left, pT_drone->ln_distance_center, pT_drone->ln_distance_right;                                       
  
-    // signal(SIGINT, do_when_interrupted);                                         
+    // signal(SIGINT, do_when_interrupted);                                                          
+
+   trig_l = mraa_gpio_init(10);                                          
+    echo_l = mraa_gpio_init(11);                                     
+    trig_c = mraa_gpio_init(7);                                             
+    echo_c = mraa_gpio_init(8);                                             
+    trig_r = mraa_gpio_init(12);                                              
+    echo_r = mraa_gpio_init(13);     
+
     if (trig_c == NULL || echo_c == NULL || trig_l == NULL || echo_l == NULL || trig_r == NULL ||echo_r == NULL){                                            
        fprintf(stderr, "Failed to initialized.\n");
        return;
@@ -108,9 +116,9 @@ void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
         mraa_gpio_dir(trig_c, MRAA_GPIO_OUT);                                    
         mraa_gpio_dir(echo_c, MRAA_GPIO_IN);                                     
         mraa_gpio_dir(trig_r, MRAA_GPIO_OUT);                                    
-        mraa_gpio_dir(echo_r, MRAA_GPIO_IN);                                     
- 
-    
+        mraa_gpio_dir(echo_r, MRAA_GPIO_IN);    
+
+ printf("here");
    while(1){
    // while(isrunning == 1){
     if (pT_drone->nflag_stop_all != 0){

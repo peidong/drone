@@ -7,23 +7,7 @@ int main(){
     sonicTurn_pwm = mraa_pwm_init(9);
     initialize_struct_T_drone(&g_T_drone_self);
     
-    trig_l = mraa_gpio_init(10);                                          
-    echo_l = mraa_gpio_init(11);                                     
-    trig_c = mraa_gpio_init(7);                                             
-    echo_c = mraa_gpio_init(8);                                             
-    trig_r = mraa_gpio_init(12);                                              
-    echo_r = mraa_gpio_init(13);     
-
-    if (trig_c == NULL || echo_c == NULL || trig_l == NULL || echo_l == NULL || trig_r == NULL ||echo_r == NULL){                                            
-       fprintf(stderr, "Failed to initialized.\n");
-       return;
-    }
-        mraa_gpio_dir(trig_l, MRAA_GPIO_OUT);                                    
-        mraa_gpio_dir(echo_l, MRAA_GPIO_IN);                                     
-        mraa_gpio_dir(trig_c, MRAA_GPIO_OUT);                                    
-        mraa_gpio_dir(echo_c, MRAA_GPIO_IN);                                     
-        mraa_gpio_dir(trig_r, MRAA_GPIO_OUT);                                    
-        mraa_gpio_dir(echo_r, MRAA_GPIO_IN);    
+   
 
 
     char turn_user_input[MAXBUFSIZ];
