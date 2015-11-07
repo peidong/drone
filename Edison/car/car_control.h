@@ -11,7 +11,7 @@
 const double EARTH_RADIUS = 6378137;
 long distance_l, distance_c, distance_r, distance_slight_l, distance_slight_r;                                                                                   
 float f_speed, f_turn;
-mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm, sonicTrun_pwm;
+mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm, sonicTurn_pwm;
 int degree; 
 
 
@@ -30,28 +30,28 @@ void do_when_interrupted(int sig) {
 void ThreadTask_sonicTurn_pwm(mraa_pwm_context turn_pwm){
     int i;
     float sonic_pwm;
-    mraa_pwm_write(turn_pwm, f_turn);
+    mraa_pwm_write(sonicTurn_pwm, f_turn);
     degree = 0;
     while(1){
         for(i = 0; i <= 10; i++){
-            sonic_pwm = CENTER + i * 0.001
-            mraa_pwm_write(turn_pwm, sonic_pwm);
+            sonic_pwm = CENTER + i * 0.001;
+            mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
             if(i > 3){
                 degree = 1;
             }
 
         }
-        mraa_pwm_write(turn_pwm, f_turn);
+        mraa_pwm_write(sonicTurn_pwm, f_turn);
         degree = 0;
         for(i = 0; i <= 10; i++){
-            sonic_pwm = CENTER - i * 0.001
-            mraa_pwm_write(turn_pwm, sonic_pwm);
+            sonic_pwm = CENTER - i * 0.001;
+            mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
             if(i > 3){
                 degree = -1;
             }
 
         }
-        mraa_pwm_write(turn_pwm, f_turn);
+        mraa_pwm_write(sonicTurn_pwm, f_turn);
         degree = 0;
     }
 
