@@ -18,7 +18,7 @@ int main(){
 	mraa_pwm_period_ms(turn_pwm,20);
    	mraa_pwm_enable(turn_pwm, 1);
     mraa_pwm_period_ms(sonicTurn_pwm,20);
-    mraa_pwm_enable(sonicTurn_pwm,20);
+    mraa_pwm_enable(sonicTurn_pwm,1);
 
     mraa_pwm_write(sonicTurn_pwm, CENTER);
 	mraa_pwm_write(turn_pwm, CENTER);
