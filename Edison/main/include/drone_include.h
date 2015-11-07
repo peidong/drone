@@ -420,6 +420,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 {
     mraa_gpio_context gpio_vcc;
     gpio_vcc = mraa_gpio_init(2);
+    mraa_gpio_mode(gpio_vcc, MRAA_GPIO_STRONG);
     mraa_gpio_dir(gpio_vcc, MRAA_GPIO_OUT);
     mraa_gpio_write(gpio_vcc, 0);
     usleep(100000);
