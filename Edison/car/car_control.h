@@ -17,12 +17,12 @@ mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm, sonicTurn_pwm;
  * This is for ultrasonic sensor read
  *
  */
-sig_atomic_t volatile isrunning =1;                                              
+// sig_atomic_t volatile isrunning =1;                                              
  
-void do_when_interrupted(int sig) {
-        if (sig == SIGINT)
-            isrunning = 0;
-}
+// void do_when_interrupted(int sig) {
+//         if (sig == SIGINT)
+//             isrunning = 0;
+// }
 
 
 void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
@@ -96,7 +96,7 @@ void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
     //long pT_drone->ln_distance_left, pT_drone->ln_distance_center, pT_drone->ln_distance_right;                                       
     mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r;              
  
-    signal(SIGINT, do_when_interrupted);
+    // signal(SIGINT, do_when_interrupted);
     trig_l = mraa_gpio_init(7);                                          
     echo_l = mraa_gpio_init(8);                                     
     trig_c = mraa_gpio_init(10);                                             
@@ -116,7 +116,8 @@ void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
         mraa_gpio_dir(echo_r, MRAA_GPIO_IN);                                     
  
     
-   while(isrunning == 1){
+   while(1){
+   // while(isrunning == 1){
     if (pT_drone->nflag_stop_all != 0){
       break;
     }else if(pT_drone->n_control_type != 1){

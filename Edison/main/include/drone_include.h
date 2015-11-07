@@ -936,6 +936,7 @@ void ThreadTask_update_T_drone_http_gps(struct T_drone *pT_drone){
 #ifdef PRINT_DEBUG_THREAD
         printf("ThreadTask_update_T_drone_http_gps\n");
         printf("pT_drone->nflag_stop_all = %d\n", pT_drone->nflag_stop_all);
+        printf("pT_drone->n_control_type = %d\n", pT_drone->n_control_type);
 #endif
         update_T_drone_http_gps(pT_drone);
         usleep(50000);
