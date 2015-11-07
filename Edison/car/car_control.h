@@ -192,7 +192,7 @@ void move_backward(){
     g_f_turn = CENTER;
     mraa_pwm_write(turn_pwm, g_f_turn);
     usleep(10000);
-    speed_control(speed_pwm_in1, speed_pwm_in2, g_f_speed);
+    speed_control(speed_pwm_in1, speed_pwm_in2, (-g_f_speed));
 }
 
 
@@ -438,7 +438,7 @@ void ThreadTask_manual_control(struct T_drone *pT_drone){
 #endif
       if (pT_drone->n_manual_control_command == 6)     
       {
-         for (i = 0;i<=180;i++){
+         for (i = 0;i<=90;i++){
              turn_left();
          }
       }else if (pT_drone->n_manual_control_command == 4)
@@ -448,7 +448,7 @@ void ThreadTask_manual_control(struct T_drone *pT_drone){
          }
       }               
       else if (pT_drone->n_manual_control_command == 7){
-         for (i = 0;i<=180;i++){
+         for (i = 0;i<=90;i++){
              turn_right();
          } 
       }
