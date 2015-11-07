@@ -7,8 +7,9 @@
 #define RIGHT -0.015f
 #define LEFTMAX 0.048f
 #define RIGHTMAX 0.088f
+#define PRINT_DEBUG_THREAD
 
-const double EARTH_RADIUS = 6378137;
+double EARTH_RADIUS = 6378137;
 float g_f_speed, g_f_turn;
 mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm, sonicTurn_pwm;
 
