@@ -16,7 +16,7 @@
     echo "<br>";
     echo exec('whoami');
     echo "<br>";
-    echo exec('who');
+    print_r(exec('who'));
 
     //$uploadpath = "files/";
     //$filedata = $_FILES['file']['tmp_name'];
