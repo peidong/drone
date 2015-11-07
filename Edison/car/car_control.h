@@ -72,13 +72,15 @@ long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
     mraa_gpio_write(trigger, 1);
     usleep(10);
     mraa_gpio_write(trigger, 0);
-    // while(mraa_gpio_read(echo) == 0){
-    if(mraa_gpio_read(echo) == 0){
+    while(mraa_gpio_read(echo) == 0){
+    //if(mraa_gpio_read(echo) == 0){
         time1 = clock();
     }
-    if(mraa_gpio_read(echo) == 1){
-    // while(mraa_gpio_read(echo) == 1){
+    //if(mraa_gpio_read(echo) == 1){
+    while(mraa_gpio_read(echo) == 1){
+        printf("enter while;");
         time2 = clock()-time1;
+        printf("finish computer");
     }
     if(time2>0&&time2<30000){
         distance = time2 / 58.82;
