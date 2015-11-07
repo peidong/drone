@@ -9,10 +9,8 @@
 #define RIGHTMAX 0.088f
 
 const double EARTH_RADIUS = 6378137;
-long distance_l, distance_c, distance_r, distance_slight_l, distance_slight_r;                                                                                   
 float f_speed, f_turn;
 mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm, sonicTurn_pwm;
-int degree; 
 
 
 /**
@@ -27,33 +25,33 @@ void do_when_interrupted(int sig) {
 }
 
 
-void ThreadTask_sonicTurn_pwm(){
+void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
     int i;
     float sonic_pwm;
     mraa_pwm_write(sonicTurn_pwm, CENTER);
-    degree = 0;
+    pT_drone->n_ultrasonic_degree = 0;
     while(1){
         for(i = 0; i <= 30; i++){
             sonic_pwm = CENTER + i * 0.001;
             mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
             if(i > 3){
-                degree = 1;
+                pT_drone->n_ultrasonic_degree = 1;
             }
             usleep(100000);
         }
         mraa_pwm_write(sonicTurn_pwm, CENTER);
-        degree = 0;
+        pT_drone->n_ultrasonic_degree = 0;
         for(i = 0; i <= 30; i++){
             sonic_pwm = CENTER - i * 0.001;
             mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
             if(i > 3){
-                degree = -1;
+                pT_drone->n_ultrasonic_degree = -1;
             }
 
             usleep(100000);
         }
         mraa_pwm_write(sonicTurn_pwm, CENTER);
-        degree = 0;
+        pT_drone->n_ultrasonic_degree = 0;
         usleep(100000);
     }
 }
@@ -86,8 +84,8 @@ void ThreadTask_Ultrasonic_turn(){
 
 }
 
-void ThreadTask_Ultrasonic_read(){
-    //long distance_l, distance_c, distance_r;                                       
+void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
+    //long pT_drone->ln_distance_left, pT_drone->ln_distance_center, pT_drone->ln_distance_right;                                       
     mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r;              
  
     signal(SIGINT, do_when_interrupted);
@@ -112,18 +110,18 @@ void ThreadTask_Ultrasonic_read(){
     
    while(isrunning == 1){
     usleep(20);
-    distance_l = get_distance(trig_l, echo_l);
+    pT_drone->ln_distance_left = get_distance(trig_l, echo_l);
     usleep(20);
-    if(degree == 0){
-        distance_c = get_distance(trig_c, echo_c);
-    }else if(degree == 1){
-        distance_slight_r = get_distance(trig_c, echo_c);
-    }else if(degree == -1){
-        distance_slight_l = get_distance(trig_c, echo_c);
+    if(pT_drone->n_ultrasonic_degree == 0){
+        pT_drone->ln_distance_center = get_distance(trig_c, echo_c);
+    }else if(pT_drone->n_ultrasonic_degree == 1){
+        pT_drone->ln_distance_slight_right = get_distance(trig_c, echo_c);
+    }else if(pT_drone->n_ultrasonic_degree == -1){
+        pT_drone->ln_distance_slight_left = get_distance(trig_c, echo_c);
     }
     usleep(20);
-    distance_r = get_distance(trig_r, echo_r);                     
-    //printf(" c:%d l:%d r:%d\n", distance_c, distance_l, distance_r);}}
+    pT_drone->ln_distance_right = get_distance(trig_r, echo_r);                     
+    //printf(" c:%d l:%d r:%d\n", pT_drone->ln_distance_center, pT_drone->ln_distance_left, pT_drone->ln_distance_right);}}
     }
 }
 
@@ -227,22 +225,22 @@ double get_longitude_distance(double d_lon1, double d_lon2, double d_lat1)
 
 int obstacle_case1(struct T_drone *pT_drone){
     int i;
-    while(distance_l <= 60 || distance_r <= 60){
+    while(pT_drone->ln_distance_left <= 60 || pT_drone->ln_distance_right <= 60){
         move_backward();
     }
     for(i=0; i<= 100; i++){
         move_backward();                          //backward more to get space for turn
     }
     
-    if(distance_l<=60 && distance_r >60){
+    if(pT_drone->ln_distance_left<=60 && pT_drone->ln_distance_right >60){
         for(i=0; i<= 650; i++){
         turn_right();             
         }                 //
-    }else if(distance_r<=60 && distance_l>60){
+    }else if(pT_drone->ln_distance_right<=60 && pT_drone->ln_distance_left>60){
         for(i=0; i<= 650; i++){
         turn_left();             
         }                 //
-    }else if(distance_r>60 && distance_l>60){
+    }else if(pT_drone->ln_distance_right>60 && pT_drone->ln_distance_left>60){
          if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
             for (i = 0;i<=650;i++){
                      turn_right();
@@ -268,7 +266,7 @@ int obstacle_case1(struct T_drone *pT_drone){
  * */
 int obstacle_case2(struct T_drone *pT_drone){
     int i;
-    if(distance_c <= 60){
+    if(pT_drone->ln_distance_center <= 60){
         if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
             for (i = 0;i<=650;i++){
                      turn_right();
@@ -280,32 +278,32 @@ int obstacle_case2(struct T_drone *pT_drone){
     }
     
     }else{
-        if(distance_slight_l <= 60 && distance_slight_r > 60){
+        if(pT_drone->ln_distance_slight_left <= 60 && pT_drone->ln_distance_slight_right > 60){
             for(i=0; i<= 100; i++){
             turn_right();             
         }                               // turn slightly right
 
-        }else if(distance_slight_r <= 60 && distance_slight_l > 60){
+        }else if(pT_drone->ln_distance_slight_right <= 60 && pT_drone->ln_distance_slight_left > 60){
             for(i=0; i<= 100; i++){
             turn_left();   
             }          
-        }else if(distance_slight_r <= 60 && distance_slight_r <= 60){
-             while(distance_slight_l <= 60 || distance_slight_r <= 60){
+        }else if(pT_drone->ln_distance_slight_right <= 60 && pT_drone->ln_distance_slight_right <= 60){
+             while(pT_drone->ln_distance_slight_left <= 60 || pT_drone->ln_distance_slight_right <= 60){
                 move_backward();
              }
              for(i=0; i<= 100; i++){
                  move_backward();                          //backward more to get space for turn
              }
 
-            if(distance_slight_l<= 60 && distance_slight_r > 60){
+            if(pT_drone->ln_distance_slight_left<= 60 && pT_drone->ln_distance_slight_right > 60){
                  for(i=0; i<= 650; i++){
                      turn_right();             
                  }                 //
-            }else if(distance_slight_r<=60 && distance_slight_l> 60){
+            }else if(pT_drone->ln_distance_slight_right<=60 && pT_drone->ln_distance_slight_left> 60){
                 for(i=0; i<= 650; i++){
                      turn_left();             
                  }                 //
-             }else if(distance_slight_r > 60 && distance_slight_l> 60){
+             }else if(pT_drone->ln_distance_slight_right > 60 && pT_drone->ln_distance_slight_left> 60){
                  if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
                      for (i = 0;i<=650;i++){
                         turn_right();
@@ -331,15 +329,15 @@ int obstacle_case2(struct T_drone *pT_drone){
 int obstacle_case3(struct T_drone *pT_drone){
     int i;
 
-    if(distance_l<=60 && distance_r >60){
+    if(pT_drone->ln_distance_left<=60 && pT_drone->ln_distance_right >60){
         for(i=0; i<= 650; i++){
         turn_right();             
         }                 //
-    }else if(distance_r<=60 && distance_l>60){
+    }else if(pT_drone->ln_distance_right<=60 && pT_drone->ln_distance_left>60){
         for(i=0; i<= 650; i++){
         turn_left();             
         }                 //
-    }else if(distance_r>60 && distance_l>60){
+    }else if(pT_drone->ln_distance_right>60 && pT_drone->ln_distance_left>60){
          if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
             for (i = 0;i<=650;i++){
                      turn_right();
@@ -463,13 +461,13 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
         }else if(pT_drone->n_control_type == 2){
             continue;
         }
-        if(distance_l <= 60 && distance_r <= 60 && distance_c <=60){
+        if(pT_drone->ln_distance_left <= 60 && pT_drone->ln_distance_right <= 60 && pT_drone->ln_distance_center <=60){
             obstacle_case1(&g_T_drone_self);
-        }else if(distance_l > 60 && distance_r > 60){
-            if(distance_c <= 60 || distance_slight_l <= 60 || distance_slight_r <= 60){
+        }else if(pT_drone->ln_distance_left > 60 && pT_drone->ln_distance_right > 60){
+            if(pT_drone->ln_distance_center <= 60 || pT_drone->ln_distance_slight_left <= 60 || pT_drone->ln_distance_slight_right <= 60){
                 obstacle_case2(&g_T_drone_self);
             }
-        }else if(distance_l <= 60 || distance_r <= 60 && distance_c <= 60){
+        }else if(pT_drone->ln_distance_left <= 60 || pT_drone->ln_distance_right <= 60 && pT_drone->ln_distance_center <= 60){
             obstacle_case3(&g_T_drone_self); 
         }else{
              GpsNavigationMove(pT_drone);
