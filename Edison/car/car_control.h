@@ -31,9 +31,9 @@ void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
     mraa_pwm_write(sonicTurn_pwm, CENTER);
     pT_drone->n_ultrasonic_degree = 0;
     while(1){
-      if (pT_drone->nflag_stop_all == 1){
+      if (pT_drone->nflag_stop_all != 0){
           break;
-      }else if(pT_drone->n_control_type == 2){
+      }else if(pT_drone->n_control_type != 1){
           continue;
       }
 #ifdef PRINT_DEBUG_THREAD
@@ -117,9 +117,9 @@ void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
  
     
    while(isrunning == 1){
-    if (pT_drone->nflag_stop_all == 1){
+    if (pT_drone->nflag_stop_all != 0){
       break;
-    }else if(pT_drone->n_control_type == 2){
+    }else if(pT_drone->n_control_type != 1){
       continue;
     }
 #ifdef PRINT_DEBUG_THREAD
@@ -423,9 +423,9 @@ int GpsNavigationMove(struct T_drone *pT_drone){
 void ThreadTask_manual_control(struct T_drone *pT_drone){
     int i; 
     while(1){
-      if (pT_drone->nflag_stop_all == 1){
+      if (pT_drone->nflag_stop_all != 0){
           break;
-      }else if(pT_drone->n_control_type == 1){
+      }else if(pT_drone->n_control_type != 2){
           continue;
       }
 #ifdef PRINT_DEBUG_THREAD
@@ -472,10 +472,10 @@ void ThreadTask_manual_control(struct T_drone *pT_drone){
 
 void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
     while(1){
-        if (pT_drone->nflag_stop_all == 1)
+        if (pT_drone->nflag_stop_all != 0)
         {
             break;
-        }else if(pT_drone->n_control_type == 2){
+        }else if(pT_drone->n_control_type != 1){
             continue;
         }
 #ifdef PRINT_DEBUG_THREAD
@@ -495,5 +495,3 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
         usleep(50000);
     }
 }
-
-
