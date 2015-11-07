@@ -75,6 +75,7 @@ long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
     mraa_gpio_write(trigger, 0);
     printf("echo is mraa %d\n", mraa_gpio_read(echo));
     while(mraa_gpio_read(echo) == 0){
+    printf("echo is mraa %d\n", mraa_gpio_read(echo));
     //if(mraa_gpio_read(echo) == 0){
         time1 = clock();
     }
