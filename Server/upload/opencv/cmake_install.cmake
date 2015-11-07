@@ -1,4 +1,4 @@
-# Install script for directory: /home/webmaster/drone/Server/opencv
+# Install script for directory: /home/webmaster/drone/Server/upload/opencv
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,7 +38,7 @@ ELSE(CMAKE_INSTALL_COMPONENT)
   SET(CMAKE_INSTALL_MANIFEST "install_manifest.txt")
 ENDIF(CMAKE_INSTALL_COMPONENT)
 
-FILE(WRITE "/home/webmaster/drone/Server/opencv/${CMAKE_INSTALL_MANIFEST}" "")
+FILE(WRITE "/home/webmaster/drone/Server/upload/opencv/${CMAKE_INSTALL_MANIFEST}" "")
 FOREACH(file ${CMAKE_INSTALL_MANIFEST_FILES})
-  FILE(APPEND "/home/webmaster/drone/Server/opencv/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
+  FILE(APPEND "/home/webmaster/drone/Server/upload/opencv/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
 ENDFOREACH(file)

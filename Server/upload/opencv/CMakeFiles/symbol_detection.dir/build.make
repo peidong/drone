@@ -35,10 +35,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/webmaster/drone/Server/opencv
+CMAKE_SOURCE_DIR = /home/webmaster/drone/Server/upload/opencv
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/webmaster/drone/Server/opencv
+CMAKE_BINARY_DIR = /home/webmaster/drone/Server/upload/opencv
 
 # Include any dependencies generated for this target.
 include CMakeFiles/symbol_detection.dir/depend.make
@@ -51,17 +51,17 @@ include CMakeFiles/symbol_detection.dir/flags.make
 
 CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o: CMakeFiles/symbol_detection.dir/flags.make
 CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o: symbol_detection.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/webmaster/drone/Server/opencv/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/webmaster/drone/Server/upload/opencv/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o -c /home/webmaster/drone/Server/opencv/symbol_detection.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o -c /home/webmaster/drone/Server/upload/opencv/symbol_detection.cpp
 
 CMakeFiles/symbol_detection.dir/symbol_detection.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/symbol_detection.dir/symbol_detection.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/webmaster/drone/Server/opencv/symbol_detection.cpp > CMakeFiles/symbol_detection.dir/symbol_detection.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/webmaster/drone/Server/upload/opencv/symbol_detection.cpp > CMakeFiles/symbol_detection.dir/symbol_detection.cpp.i
 
 CMakeFiles/symbol_detection.dir/symbol_detection.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/symbol_detection.dir/symbol_detection.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/webmaster/drone/Server/opencv/symbol_detection.cpp -o CMakeFiles/symbol_detection.dir/symbol_detection.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/webmaster/drone/Server/upload/opencv/symbol_detection.cpp -o CMakeFiles/symbol_detection.dir/symbol_detection.cpp.s
 
 CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o.requires:
 .PHONY : CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o.requires
@@ -154,6 +154,6 @@ CMakeFiles/symbol_detection.dir/clean:
 .PHONY : CMakeFiles/symbol_detection.dir/clean
 
 CMakeFiles/symbol_detection.dir/depend:
-	cd /home/webmaster/drone/Server/opencv && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/webmaster/drone/Server/opencv /home/webmaster/drone/Server/opencv /home/webmaster/drone/Server/opencv /home/webmaster/drone/Server/opencv /home/webmaster/drone/Server/opencv/CMakeFiles/symbol_detection.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/webmaster/drone/Server/upload/opencv && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/webmaster/drone/Server/upload/opencv /home/webmaster/drone/Server/upload/opencv /home/webmaster/drone/Server/upload/opencv /home/webmaster/drone/Server/upload/opencv /home/webmaster/drone/Server/upload/opencv/CMakeFiles/symbol_detection.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/symbol_detection.dir/depend
 

@@ -12,7 +12,13 @@
 #include "opencv2/calib3d.hpp"
 #include "opencv2/imgproc.hpp"
 #include <sys/stat.h>
-
+/**
+ * json for cpp
+ * https://github.com/nlohmann/json
+ * set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+ */
+//#include "json/json.hpp"
+//using json = nlohmann::json;
 
 using namespace cv;
 using namespace std;
@@ -46,7 +52,7 @@ struct SURFDetector
 
 int main(){
     //Mat reference_object = imread("reference.jpg", CV_LOAD_IMAGE_GRAYSCALE);
-    Mat reference_object = imread("reference.jpg",1); 
+    Mat reference_object = imread("/home/webmaster/drone/Server/upload/opencv/reference.jpg",1); 
 
     //VideoCapture cap(0); // open the video camera no. 0
     //if (!cap.isOpened())  // if not success, exit program
@@ -57,7 +63,7 @@ int main(){
     Mat image, image_orig;
     //cap.read(image);
     
-    image_orig = imread("1.jpg", 1);
+    image_orig = imread("/home/webmaster/drone/Server/upload/opencv/1.jpg", 1);
 
     image = image_orig;
     //cvtColor(image_orig, image, CV_RGB2GRAY);
@@ -82,8 +88,8 @@ int main(){
         if( dist > max_dist ) max_dist = dist;
     }
 
-    printf("-- Max dist : %f \n", max_dist );
-    printf("-- Min dist : %f \n", min_dist );
+    //printf("-- Max dist : %f \n", max_dist );
+    //printf("-- Min dist : %f \n", min_dist );
     
     std::vector< DMatch > good_matches;
 
@@ -133,16 +139,29 @@ int main(){
     line( image, scene_corners[1] , scene_corners[2] , Scalar( 0, 0, 255), 4 );//blue
     line( image, scene_corners[2] , scene_corners[3] , Scalar( 0, 255, 0), 4 );//green
     line( image, scene_corners[3] , scene_corners[0] , Scalar( 0, 0, 0), 4 );//black
-    cout<<"scene_corners[0] = " << scene_corners[0] << endl;
-    cout<<"scene_corners[1] = " << scene_corners[1] << endl;
-    cout<<"scene_corners[2] = " << scene_corners[2] << endl;
-    cout<<"scene_corners[3] = " << scene_corners[3] << endl;
+    //cout<<"scene_corners[0] = " << scene_corners[0] << endl;
+    //cout<<"scene_corners[1] = " << scene_corners[1] << endl;
+    //cout<<"scene_corners[2] = " << scene_corners[2] << endl;
+    //cout<<"scene_corners[3] = " << scene_corners[3] << endl;
     
 
     //imshow( "Good Matches & Object detection", img_matches );
     //imshow("object in orginal image", image_orig);
 
     waitKey(0);
+
+    /**
+     * for server to receive
+     */
+    //Mat m = Mat(scene_corners[0]);
+    cout<< scene_corners[0].x << endl;
+    cout<< scene_corners[0].y << endl;
+    cout<< scene_corners[1].x << endl;
+    cout<< scene_corners[1].y << endl;
+    cout<< scene_corners[2].x << endl;
+    cout<< scene_corners[2].y << endl;
+    cout<< scene_corners[3].x << endl;
+    cout<< scene_corners[3].y << endl;
     return 0;
 }
 

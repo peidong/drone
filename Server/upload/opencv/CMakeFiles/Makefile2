@@ -47,10 +47,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/webmaster/drone/Server/opencv
+CMAKE_SOURCE_DIR = /home/webmaster/drone/Server/upload/opencv
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/webmaster/drone/Server/opencv
+CMAKE_BINARY_DIR = /home/webmaster/drone/Server/upload/opencv
 
 #=============================================================================
 # Target rules for target CMakeFiles/symbol_detection.dir
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/webmaster/drone/Server/opencv
 CMakeFiles/symbol_detection.dir/all:
 	$(MAKE) -f CMakeFiles/symbol_detection.dir/build.make CMakeFiles/symbol_detection.dir/depend
 	$(MAKE) -f CMakeFiles/symbol_detection.dir/build.make CMakeFiles/symbol_detection.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/webmaster/drone/Server/opencv/CMakeFiles  1
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/webmaster/drone/Server/upload/opencv/CMakeFiles  1
 	@echo "Built target symbol_detection"
 .PHONY : CMakeFiles/symbol_detection.dir/all
 
@@ -69,9 +69,9 @@ all: CMakeFiles/symbol_detection.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/symbol_detection.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/webmaster/drone/Server/opencv/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/webmaster/drone/Server/upload/opencv/CMakeFiles 1
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/symbol_detection.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/webmaster/drone/Server/opencv/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/webmaster/drone/Server/upload/opencv/CMakeFiles 0
 .PHONY : CMakeFiles/symbol_detection.dir/rule
 
 # Convenience name for target.

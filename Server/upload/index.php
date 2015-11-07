@@ -14,7 +14,11 @@
     // close the session
     session_write_close();
     echo "<br><br>";
-    echo exec('echo $PATH');
+    //$command = 'make -C opencv && ./opencv/symbol_detection';
+    $command = './opencv/symbol_detection';
+    exec($command, $out, $status);
+    $scene_borders_1_x = $out[0];
+    print_r($out);
 
     //$uploadpath = "files/";
     //$filedata = $_FILES['file']['tmp_name'];
