@@ -435,6 +435,7 @@ void ThreadTask_manual_control(struct T_drone *pT_drone){
     // left is 6; right is 7; moveforward is 4; backward is 5; stop is  
 #ifdef PRINT_CAR_MANUAL
       printf("pT_drone->n_manual_control_command = %d\n", pT_drone->n_manual_control_command);
+#endif
       if (pT_drone->n_manual_control_command == 6)     
       {
          for (i = 0;i<=180;i++){
