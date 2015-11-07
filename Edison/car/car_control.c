@@ -39,7 +39,7 @@ int main(){
 
     /*int i;*/
     float sonic_pwm;
-    mraa_pwm_write(sonicTurn_pwm, f_turn);
+    mraa_pwm_write(sonicTurn_pwm, CENTER);
     degree = 0;
     while(1){
         for(i = 0; i <= 10; i++){
@@ -50,7 +50,7 @@ int main(){
             }
 
         }
-        mraa_pwm_write(sonicTurn_pwm, f_turn);
+        mraa_pwm_write(sonicTurn_pwm, CENTER);
         degree = 0;
         for(i = 0; i <= 10; i++){
             sonic_pwm = CENTER - i * 0.001;
@@ -60,7 +60,7 @@ int main(){
             }
 
         }
-        mraa_pwm_write(sonicTurn_pwm, f_turn);
+        mraa_pwm_write(sonicTurn_pwm, CENTER);
         degree = 0;
     }
  
