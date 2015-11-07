@@ -42,28 +42,28 @@ int main(){
     mraa_pwm_write(sonicTurn_pwm, CENTER);
     degree = 0;
     while(1){
-        for(i = 0; i <= 20; i++){
+        for(i = 0; i <= 30; i++){
             sonic_pwm = CENTER + i * 0.001;
             mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
             if(i > 3){
                 degree = 1;
             }
-        usleep(10000);
+        usleep(100000);
         }
         mraa_pwm_write(sonicTurn_pwm, CENTER);
         degree = 0;
-        for(i = 0; i <= 20; i++){
+        for(i = 0; i <= 30; i++){
             sonic_pwm = CENTER - i * 0.001;
             mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
             if(i > 3){
                 degree = -1;
             }
 
-        usleep(10000);
+        usleep(100000);
         }
         mraa_pwm_write(sonicTurn_pwm, CENTER);
         degree = 0;
-        usleep(10000);
+        usleep(100000);
     }
  
     f_turn = CENTER;
