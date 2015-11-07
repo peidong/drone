@@ -418,12 +418,10 @@ int update_T_drone_http_gps(struct T_drone *pT_drone){
     n_json_response = json_object_object_get_ex(pT_json_object_data, "face_direction", &pT_json_object_face_direction);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "latitude", &pT_json_object_latitude);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "longitude", &pT_json_object_longitude);
-    n_json_response = json_object_object_get_ex(pT_json_object_data, "stop_sign", &pT_json_object_stop_sign);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "update_time",&pT_json_object_update_time);
 
     pT_drone->d_destination_latitude = json_object_get_double(pT_json_object_latitude);
     pT_drone->d_destination_longitude = json_object_get_double(pT_json_object_longitude);
-    pT_drone->nflag_stop_all = json_object_get_int(pT_json_object_stop_sign);
 
     return 0;
 }

@@ -1,8 +1,6 @@
 #include "car_control.h"
 
 int main(){
-    int i;
-    g_T_drone_self.nflag_stop_all = 0;
     speed_pwm_in1 = mraa_pwm_init(3);
     speed_pwm_in2 = mraa_pwm_init(5);
     turn_pwm = mraa_pwm_init(6);
