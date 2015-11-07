@@ -99,6 +99,7 @@ void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
     //long pT_drone->ln_distance_left, pT_drone->ln_distance_center, pT_drone->ln_distance_right;                                       
  
     // signal(SIGINT, do_when_interrupted);                                                          
+ printf("here1");
 
    trig_l = mraa_gpio_init(10);                                          
     echo_l = mraa_gpio_init(11);                                     
