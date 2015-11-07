@@ -418,6 +418,13 @@ int update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
 
 int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 {
+    mraa_gpio_context gpio_vcc;
+    gpio_vcc = mraa_gpio_init(2);
+    mraa_gpio_dir(gpio_vcc, MRAA_GPIO_OUT);
+    mraa_gpio_write(gpio_vcc, 0);
+    usleep(100000);
+    mraa_gpio_write(gpio_vcc, 1);
+    usleep(100000);
 	MPU_init();
     printf("init mpu\n");
 	while (1)
@@ -488,6 +495,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 #endif
 	}
     mraa_i2c_stop(mpu);
+    mraa_gpio_close(gpio_vcc);
     return 0;
 }
 
