@@ -929,12 +929,13 @@ void ThreadTask_GeneratePwm(struct T_drone *pT_drone){
 
 void ThreadTask_update_T_drone_http_gps(struct T_drone *pT_drone){
     while(1){
-        if (pT_drone->nflag_stop_all == 1)
+        if (pT_drone->nflag_stop_all != 0)
         {
             break;
         }
 #ifdef PRINT_DEBUG_THREAD
         printf("ThreadTask_update_T_drone_http_gps\n");
+        printf("pT_drone->nflag_stop_all = %d\n", pT_drone->nflag_stop_all);
 #endif
         update_T_drone_http_gps(pT_drone);
         usleep(50000);
