@@ -337,6 +337,7 @@ void initAK8963(float * destination)
 void MPU_init()
 {
   // mraa_init();
+  usleep(1000);
   printf("init mpu\n");
 	mpu = mraa_i2c_init(0);
   printf("init 0\n");
