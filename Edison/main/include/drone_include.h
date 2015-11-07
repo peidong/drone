@@ -419,6 +419,7 @@ int update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
 int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 {
 	MPU_init();
+    printf("init mpu\n");
 	while (1)
 	{
         if (pT_drone->nflag_stop_all == 1)
@@ -447,7 +448,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 
         //printf("%6d,%6d,%6d\n",arawx, arawy, arawz);
         //printf("%6d,%6d,%6d\n",grawx, grawy, grawz);    
-
+        printf("int16 init mpu\n");
 		float ax = (float)arawx*aRes;
 		float ay = (float)arawy*aRes;
 		float az = (float)arawz*aRes;
@@ -458,7 +459,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		float my = (float)mrawy*mRes*magCalibration[1] - 95 + 43;
 		float mz = (float)mrawz*mRes*magCalibration[2] + 370 - 72;
         //printf("%.1f,%.1f,%.1f\n",mx,my,mz);
-
+        printf("float mpu\n");
 		//    MadgwickQuaternionUpdate(ax,ay,az,gx*PI/180.0f,gy*PI/180.0f,gz*PI/180.0f,my,mx,mz);
 		MadgwickAHRSupdate(ax, ay, az, gx*PI / 180.0f, gy*PI / 180.0f, gz*PI / 180.0f, my, mx, mz); //my, mx, mz
 		q[0] = q0; q[1] = q1; q[2] = q2; q[3] = q3;
@@ -469,6 +470,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		pitch *= 180.0f / PI;
 		roll *= 180.0f / PI;
 
+        printf("madgwick mpu\n");
 		if (yaw<0) yaw += 360;
 
 		//    yaw   -= 13.8; // Declination at Danville, California is 13 degrees 48 minutes and 47 seconds on 2014-04-04
@@ -478,6 +480,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		pT_drone->arrd_yaw_pitch_roll[0] = yaw;
 		pT_drone->arrd_yaw_pitch_roll[1] = pitch;
 		pT_drone->arrd_yaw_pitch_roll[2] = roll;
+        printf("value out mpu\n");
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
         if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0){
             printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
