@@ -50,9 +50,28 @@ struct SURFDetector
     }
 };
 
-int main(){
+int main(int argc, char** argv){
+    if(argc != 3){
+        cout << "error input the file names" << endl;
+        return 0;
+    }
+
+    const char *sz_reference_file_path_part1 = "/home/webmaster/drone/Server/upload/files/";
+    char *sz_reference_file_path = NULL;
+    if(NULL == sz_reference_file_path){
+        sz_reference_file_path = (char*) malloc(1 + strlen(sz_reference_file_path_part1) + strlen(argv[1]));
+    }
+    strcpy(sz_reference_file_path, sz_reference_file_path_part1);
+    strcat(sz_reference_file_path, argv[1]);
+
     //Mat reference_object = imread("reference.jpg", CV_LOAD_IMAGE_GRAYSCALE);
-    Mat reference_object = imread("/home/webmaster/drone/Server/upload/opencv/reference.jpg",1); 
+    //Mat reference_object = imread("/home/webmaster/drone/Server/upload/files/reference.jpg",1); 
+    Mat reference_object = imread(sz_reference_file_path, 1); 
+
+    if(sz_reference_file_path != NULL){
+        free(sz_reference_file_path);
+        sz_reference_file_path = NULL;
+    }
 
     //VideoCapture cap(0); // open the video camera no. 0
     //if (!cap.isOpened())  // if not success, exit program
@@ -63,7 +82,15 @@ int main(){
     Mat image, image_orig;
     //cap.read(image);
     
-    image_orig = imread("/home/webmaster/drone/Server/upload/opencv/1.jpg", 1);
+    const char *sz_image_file_path_part1 = "/home/webmaster/drone/Server/upload/files/";
+    char *sz_image_file_path = NULL;
+    if(NULL == sz_image_file_path){
+        sz_image_file_path = (char*) malloc(1 + strlen(sz_image_file_path_part1) + strlen(argv[1]));
+    }
+    strcpy(sz_image_file_path, sz_image_file_path_part1);
+    strcat(sz_image_file_path, argv[2]);
+
+    image_orig = imread(sz_image_file_path, 1);
 
     image = image_orig;
     //cvtColor(image_orig, image, CV_RGB2GRAY);
@@ -145,23 +172,21 @@ int main(){
     //cout<<"scene_corners[3] = " << scene_corners[3] << endl;
     
 
-    imshow( "Good Matches & Object detection", img_matches );
-    imshow("object in orginal image", image_orig);
+    //imshow( "Good Matches & Object detection", img_matches );
+    //imshow("object in orginal image", image_orig);
 
     waitKey(0);
 
     /**
      * for server to receive
      */
-    //Mat m = Mat(scene_corners[0]);
-    cout<< scene_corners[0].x << endl;
+    cout<< scene_corners[0].x << endl;//bottom right
     cout<< scene_corners[0].y << endl;
-    cout<< scene_corners[1].x << endl;
+    cout<< scene_corners[1].x << endl;//top right
     cout<< scene_corners[1].y << endl;
-    cout<< scene_corners[2].x << endl;
+    cout<< scene_corners[2].x << endl;//top left
     cout<< scene_corners[2].y << endl;
-    cout<< scene_corners[3].x << endl;
+    cout<< scene_corners[3].x << endl;//bottom left
     cout<< scene_corners[3].y << endl;
     return 0;
 }
-
