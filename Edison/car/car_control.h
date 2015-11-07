@@ -439,7 +439,7 @@ void ThreadTask_manual_control(struct T_drone *pT_drone){
          for (i = 0;i<=180;i++){
              turn_left();
          }
-      }else if (control_command == 4 )
+      }else if (control_command == 4)
       {
          for (i = 0;i<=50;i++){
              move_forward();
@@ -463,7 +463,6 @@ void ThreadTask_manual_control(struct T_drone *pT_drone){
          }
       }else{                                 
              printf("Wrong turn type!\n");
-      return;
      }
   
       sleep(1);
