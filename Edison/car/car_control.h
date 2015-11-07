@@ -27,7 +27,7 @@ void do_when_interrupted(int sig) {
 }
 
 
-void ThreadTask_sonicTurn_pwm(mraa_pwm_context turn_pwm){
+void ThreadTask_sonicTurn_pwm(){
     int i;
     float sonic_pwm;
     mraa_pwm_write(sonicTurn_pwm, f_turn);
