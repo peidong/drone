@@ -21,7 +21,7 @@
 #define PRINT_DEBUG_PID_CHANGE
 // #define PRINT_DEBUG_PID_TUNING
 // #define PRINT_DEBUG_PWM
-// #define PRINT_DEBUG_THREAD
+#define PRINT_DEBUG_THREAD
 
 /**
  * define value
@@ -671,7 +671,7 @@ int GeneratePwm(struct T_drone *pT_drone){
     uint8_t arrun_i2c_output[4] = { 0, 0, 0, 0 };
     while(1){
 #ifdef PRINT_DEBUG_THREAD
-        printf("GeneratePwm\n");
+        printf("ThreadTask_GeneratePwm\n");
 #endif
 #ifdef PRINT_DEBUG_PWM
         printf("pwm1 = %f\t", pT_drone->arrd_current_pwm[0]);
