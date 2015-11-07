@@ -91,11 +91,6 @@ long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
     return distance;
 }
 
-void ThreadTask_Ultrasonic_turn(){
-    int i = 0;
-    
-
-}
 
 void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
     //long pT_drone->ln_distance_left, pT_drone->ln_distance_center, pT_drone->ln_distance_right;                                       
