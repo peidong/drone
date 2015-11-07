@@ -484,6 +484,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
         }
 #endif
 	}
+    mraa_i2c_stop(mpu);
     return 0;
 }
 
