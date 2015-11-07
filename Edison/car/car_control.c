@@ -26,15 +26,43 @@ int main(){
 	mraa_pwm_write(speed_pwm_in2, 1.0f);
 
      
-    threadpool thpool = thpool_init(10);
-    thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http_gps, (void*)&g_T_drone_self);
-    thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http, (void*)&g_T_drone_self);
-    thpool_add_work(thpool, (void*)ThreadTask_sonicTurn_pwm, NULL);
-    /*thpool_add_work(thpool, (void*)ThreadTask_GpsNavigationMove, (void*)&g_T_drone_self);*/
-    /*thpool_add_work(thpool, (void*)ThreadTask_Ultrasonic_read, (void*)&g_T_drone_self);*/
-    /*thpool_add_work(thpool, (void*)ThreadTask_manual_control, (void*)&g_T_drone_self); */
-    thpool_wait(thpool);
-    thpool_destroy(thpool);
+    /*threadpool thpool = thpool_init(10);*/
+    /*thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http_gps, (void*)&g_T_drone_self);*/
+    /*thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http, (void*)&g_T_drone_self);*/
+    /*thpool_add_work(thpool, (void*)ThreadTask_sonicTurn_pwm, NULL);*/
+    /*[>thpool_add_work(thpool, (void*)ThreadTask_GpsNavigationMove, (void*)&g_T_drone_self);<]*/
+    /*[>thpool_add_work(thpool, (void*)ThreadTask_Ultrasonic_read, (void*)&g_T_drone_self);<]*/
+    /*[>thpool_add_work(thpool, (void*)ThreadTask_manual_control, (void*)&g_T_drone_self); <]*/
+    /*thpool_wait(thpool);*/
+    /*thpool_destroy(thpool);*/
+
+
+    /*int i;*/
+    float sonic_pwm;
+    mraa_pwm_write(sonicTurn_pwm, f_turn);
+    degree = 0;
+    while(1){
+        for(i = 0; i <= 10; i++){
+            sonic_pwm = CENTER + i * 0.001;
+            mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
+            if(i > 3){
+                degree = 1;
+            }
+
+        }
+        mraa_pwm_write(sonicTurn_pwm, f_turn);
+        degree = 0;
+        for(i = 0; i <= 10; i++){
+            sonic_pwm = CENTER - i * 0.001;
+            mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
+            if(i > 3){
+                degree = -1;
+            }
+
+        }
+        mraa_pwm_write(sonicTurn_pwm, f_turn);
+        degree = 0;
+    }
  
     f_turn = CENTER;
     mraa_pwm_write(turn_pwm, f_turn);
