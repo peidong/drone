@@ -14,6 +14,17 @@ int main(){
     trig_r = mraa_gpio_init(12);                                              
     echo_r = mraa_gpio_init(13);     
 
+    if (trig_c == NULL || echo_c == NULL || trig_l == NULL || echo_l == NULL || trig_r == NULL ||echo_r == NULL){                                            
+       fprintf(stderr, "Failed to initialized.\n");
+       return;
+    }
+        mraa_gpio_dir(trig_l, MRAA_GPIO_OUT);                                    
+        mraa_gpio_dir(echo_l, MRAA_GPIO_IN);                                     
+        mraa_gpio_dir(trig_c, MRAA_GPIO_OUT);                                    
+        mraa_gpio_dir(echo_c, MRAA_GPIO_IN);                                     
+        mraa_gpio_dir(trig_r, MRAA_GPIO_OUT);                                    
+        mraa_gpio_dir(echo_r, MRAA_GPIO_IN);    
+
 
     char turn_user_input[MAXBUFSIZ];
     g_f_speed = 40;
