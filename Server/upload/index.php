@@ -13,7 +13,7 @@
     }
     // close the session
     session_write_close();
-
+    echo "<br>";
     echo exec('whoami');
 
     //$uploadpath = "files/";
