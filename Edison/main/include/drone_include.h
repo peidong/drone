@@ -491,7 +491,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 #endif
 	}
     mraa_i2c_stop(mpu);
-    mraa_gpio_close(gpio_vcc);
+    // mraa_gpio_close(gpio_vcc);
     return 0;
 }
 
