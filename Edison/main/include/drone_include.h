@@ -311,6 +311,9 @@ int update_T_drone_http(struct T_drone *pT_drone){
     if (pT_drone->n_manual_control_command == 10)
     {
         pT_drone->nflag_stop_all = 1;
+#ifdef PRINT_DEBUG_THREAD
+        printf("nflag_stop_all has been changed to 1\n");
+#endif
         /**
          * set the manual control command back to server
          */
@@ -887,7 +890,7 @@ void ThreadTask_update_T_drone_http_pwm_post(struct T_drone *pT_drone){
 
 void ThreadTask_update_T_drone_http(struct T_drone *pT_drone){
     while(1){
-        if (pT_drone->nflag_stop_all == 1)
+        if (pT_drone->nflag_stop_all != 0)
         {
             break;
         }
@@ -905,7 +908,7 @@ void ThreadTask_update_T_drone_arrd_pid(struct T_drone *pT_drone){
 
 void ThreadTask_update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
     while(1){
-        if (pT_drone->nflag_stop_all == 1)
+        if (pT_drone->nflag_stop_all != 0)
         {
             break;
         }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
@@ -945,7 +948,7 @@ void ThreadTask_update_T_drone_http_gps(struct T_drone *pT_drone){
 
 void ThreadTask_update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
     while(1){
-        if (pT_drone->nflag_stop_all == 1)
+        if (pT_drone->nflag_stop_all != 0)
         {
             break;
         }
