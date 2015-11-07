@@ -337,6 +337,7 @@ void initAK8963(float * destination)
 void MPU_init()
 {
   // mraa_init();
+  printf("init mpu\n");
 	mpu = mraa_i2c_init(0);
 	mraa_i2c_address(mpu, MPU9250_ADDRESS);
 	
@@ -346,7 +347,9 @@ void MPU_init()
 	mraa_i2c_write_byte_data(mpu, GYRO_FULL_SCALE_1000_DPS, GYRO_CONFIG);
   mraa_i2c_write_byte_data(mpu, 32, USER_CTRL);
   
+  printf("write data mpu\n");
   initAK8963(magCalibration);
+  printf("ak8963 mpu\n");
 }
 /*
 void get_freq()
