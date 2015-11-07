@@ -314,6 +314,7 @@ void initAK8963(float * destination)
   writeAK8963(CNTL1, 15);
 //  mraa_i2c_write_byte_data(AK8963_ADDRESS,, 0x0F, CNTL); // Enter Fuse ROM access mode
 //  sleep(0.001);
+  usleep(10000);
   readAK8963_setup(16, 3);
   usleep(10000);
   mraa_i2c_read_bytes_data(mpu, 73, rawData, 3);  // Read the x-, y-, and z-axis calibration values
@@ -337,10 +338,7 @@ void initAK8963(float * destination)
 void MPU_init()
 {
   // mraa_init();
-  usleep(1000);
-  printf("init mpu\n");
-	mpu = mraa_i2c_init(0);
-  printf("init 0\n");
+	mpu = mraa_i2c_init(6);
 	mraa_i2c_address(mpu, MPU9250_ADDRESS);
 	printf("address\n");
 	mraa_i2c_write_byte_data(mpu, 0x01, ACCEL_CONFIG_2);
