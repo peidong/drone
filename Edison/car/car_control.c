@@ -2,7 +2,7 @@
 
 int main(){
     
-    printf("here2");
+    printf("here2 \n");
     speed_pwm_in1 = mraa_pwm_init(3);
     speed_pwm_in2 = mraa_pwm_init(5);
     turn_pwm = mraa_pwm_init(6);
