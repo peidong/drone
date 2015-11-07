@@ -7,7 +7,7 @@
 #define RIGHT -0.015f
 #define LEFTMAX 0.048f
 #define RIGHTMAX 0.088f
-//#define PRINT_DEBUG_THREAD
+#define PRINT_DEBUG_THREAD
 
 double EARTH_RADIUS = 6378137;
 float g_f_speed, g_f_turn;
