@@ -432,32 +432,33 @@ void ThreadTask_manual_control(struct T_drone *pT_drone){
 #ifdef PRINT_DEBUG_THREAD
       printf("ThreadTask_manual_control\n");
 #endif
-      int control_command; // left is 6; right is 7; moveforward is 4; backward is 5; stop is  
-      control_command =  pT_drone->n_manual_control_command;
-      if (control_command == 6)     
+    // left is 6; right is 7; moveforward is 4; backward is 5; stop is  
+#ifdef PRINT_CAR_MANUAL
+      printf("pT_drone->n_manual_control_command = %d\n", pT_drone->n_manual_control_command);
+      if (pT_drone->n_manual_control_command == 6)     
       {
          for (i = 0;i<=180;i++){
              turn_left();
          }
-      }else if (control_command == 4)
+      }else if (pT_drone->n_manual_control_command == 4)
       {
          for (i = 0;i<=50;i++){
              move_forward();
          }
       }               
-      else if (control_command == 7){
+      else if (pT_drone->n_manual_control_command == 7){
          for (i = 0;i<=180;i++){
              turn_right();
          } 
       }
-      else if(control_command == 10)
+      else if(pT_drone->n_manual_control_command == 10)
       {
           g_f_turn = CENTER;
           mraa_pwm_write(turn_pwm, g_f_turn);
           usleep(10000);
           speed_control(speed_pwm_in1, speed_pwm_in2, 0);
       }
-      else if (control_command = 5){
+      else if (pT_drone->n_manual_control_command == 5){
           for (i = 0;i<=50;i++){
              move_backward();
          }
