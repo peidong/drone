@@ -30,31 +30,32 @@ void do_when_interrupted(int sig) {
 void ThreadTask_sonicTurn_pwm(){
     int i;
     float sonic_pwm;
-    mraa_pwm_write(sonicTurn_pwm, f_turn);
+    mraa_pwm_write(sonicTurn_pwm, CENTER);
     degree = 0;
     while(1){
-        for(i = 0; i <= 10; i++){
+        for(i = 0; i <= 30; i++){
             sonic_pwm = CENTER + i * 0.001;
             mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
             if(i > 3){
                 degree = 1;
             }
-
+            usleep(100000);
         }
-        mraa_pwm_write(sonicTurn_pwm, f_turn);
+        mraa_pwm_write(sonicTurn_pwm, CENTER);
         degree = 0;
-        for(i = 0; i <= 10; i++){
+        for(i = 0; i <= 30; i++){
             sonic_pwm = CENTER - i * 0.001;
             mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
             if(i > 3){
                 degree = -1;
             }
 
+            usleep(100000);
         }
-        mraa_pwm_write(sonicTurn_pwm, f_turn);
+        mraa_pwm_write(sonicTurn_pwm, CENTER);
         degree = 0;
+        usleep(100000);
     }
-
 }
 
 long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
