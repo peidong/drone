@@ -7,6 +7,14 @@ int main(){
     sonicTurn_pwm = mraa_pwm_init(9);
     initialize_struct_T_drone(&g_T_drone_self);
     
+    trig_l = mraa_gpio_init(7);                                          
+    echo_l = mraa_gpio_init(8);                                     
+    trig_c = mraa_gpio_init(10);                                             
+    echo_c = mraa_gpio_init(11);                                             
+    trig_r = mraa_gpio_init(13);                                              
+    echo_r = mraa_gpio_init(12);     
+
+
     char turn_user_input[MAXBUFSIZ];
     g_f_speed = 40;
     
@@ -23,6 +31,7 @@ int main(){
 	mraa_pwm_write(turn_pwm, CENTER);
 	mraa_pwm_write(speed_pwm_in1, 0.0f);
 	mraa_pwm_write(speed_pwm_in2, 0.0f);
+
 
     threadpool thpool = thpool_init(10);
     thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http_gps, (void*)&g_T_drone_self);

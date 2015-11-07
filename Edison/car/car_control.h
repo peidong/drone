@@ -12,7 +12,7 @@
 double EARTH_RADIUS = 6378137;
 float g_f_speed, g_f_turn;
 mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm, sonicTurn_pwm;
-
+mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r; 
 
 /**
  * This is for ultrasonic sensor read
@@ -75,9 +75,7 @@ long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
     mraa_gpio_write(trigger, 0);
     while(mraa_gpio_read(echo) == 0){
     //if(mraa_gpio_read(echo) == 0){
-        printf("enter while 1; \n");
         time1 = clock();
-        printf("finish computer 1 \n");
     }
     //if(mraa_gpio_read(echo) == 1){
     while(mraa_gpio_read(echo) == 1){
@@ -97,16 +95,8 @@ long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
 
 void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
     //long pT_drone->ln_distance_left, pT_drone->ln_distance_center, pT_drone->ln_distance_right;                                       
-    mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r;              
  
-    // signal(SIGINT, do_when_interrupted);
-    trig_l = mraa_gpio_init(7);                                          
-    echo_l = mraa_gpio_init(8);                                     
-    trig_c = mraa_gpio_init(10);                                             
-    echo_c = mraa_gpio_init(11);                                             
-    trig_r = mraa_gpio_init(13);                                              
-    echo_r = mraa_gpio_init(12);                                              
- 
+    // signal(SIGINT, do_when_interrupted);                                         
     if (trig_c == NULL || echo_c == NULL || trig_l == NULL || echo_l == NULL || trig_r == NULL ||echo_r == NULL){                                            
        fprintf(stderr, "Failed to initialized.\n");
        return;
