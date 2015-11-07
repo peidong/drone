@@ -14,6 +14,8 @@
     // close the session
     session_write_close();
 
+    echo exec('whoami');
+
     //$uploadpath = "files/";
     //$filedata = $_FILES['file']['tmp_name'];
     //echo "filedata= ".$filedata;
