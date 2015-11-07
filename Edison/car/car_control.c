@@ -10,7 +10,7 @@ int main(){
     initialize_struct_T_drone(&g_T_drone_self);
     
     char turn_user_input[MAXBUFSIZ];
-    f_speed = 40;
+    g_f_speed = 40;
     
     mraa_pwm_period_us(speed_pwm_in1,870); //1150Hz
 	mraa_pwm_enable(speed_pwm_in1, 1);
@@ -37,7 +37,7 @@ int main(){
     thpool_destroy(thpool);
 
  
-    f_turn = CENTER;
+    g_f_turn = CENTER;
     mraa_pwm_write(turn_pwm, f_turn);
     usleep(10000);
     speed_control(speed_pwm_in1, speed_pwm_in2, 0);
