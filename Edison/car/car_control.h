@@ -31,28 +31,33 @@ void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
     mraa_pwm_write(sonicTurn_pwm, CENTER);
     pT_drone->n_ultrasonic_degree = 0;
     while(1){
-        for(i = 0; i <= 30; i++){
-            sonic_pwm = CENTER + i * 0.001;
-            mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
-            if(i > 3){
-                pT_drone->n_ultrasonic_degree = 1;
-            }
-            usleep(100000);
-        }
-        mraa_pwm_write(sonicTurn_pwm, CENTER);
-        pT_drone->n_ultrasonic_degree = 0;
-        for(i = 0; i <= 30; i++){
-            sonic_pwm = CENTER - i * 0.001;
-            mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
-            if(i > 3){
-                pT_drone->n_ultrasonic_degree = -1;
-            }
+      if (pT_drone->nflag_stop_all == 1){
+          break;
+      }else if(pT_drone->n_control_type == 2){
+          continue;
+      }
+      for(i = 0; i <= 30; i++){
+          sonic_pwm = CENTER + i * 0.001;
+          mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
+          if(i > 3){
+              pT_drone->n_ultrasonic_degree = 1;
+          }
+          usleep(100000);
+      }
+      mraa_pwm_write(sonicTurn_pwm, CENTER);
+      pT_drone->n_ultrasonic_degree = 0;
+      for(i = 0; i <= 30; i++){
+          sonic_pwm = CENTER - i * 0.001;
+          mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
+          if(i > 3){
+              pT_drone->n_ultrasonic_degree = -1;
+          }
 
-            usleep(100000);
-        }
-        mraa_pwm_write(sonicTurn_pwm, CENTER);
-        pT_drone->n_ultrasonic_degree = 0;
-        usleep(100000);
+          usleep(100000);
+      }
+      mraa_pwm_write(sonicTurn_pwm, CENTER);
+      pT_drone->n_ultrasonic_degree = 0;
+      usleep(100000);
     }
 }
 
@@ -109,6 +114,11 @@ void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
  
     
    while(isrunning == 1){
+    if (pT_drone->nflag_stop_all == 1){
+      break;
+    }else if(pT_drone->n_control_type == 2){
+      continue;
+    }
     usleep(20);
     pT_drone->ln_distance_left = get_distance(trig_l, echo_l);
     usleep(20);
@@ -407,8 +417,7 @@ int GpsNavigationMove(struct T_drone *pT_drone){
 void ThreadTask_manual_control(struct T_drone *pT_drone){
     int i; 
     while(1){
-            if (pT_drone->nflag_stop_all == 1)
-              {
+            if (pT_drone->nflag_stop_all == 1){
                 break;
             }else if(pT_drone->n_control_type == 1){
                 continue;
