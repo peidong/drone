@@ -425,7 +425,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
     mraa_gpio_write(gpio_vcc, 0);
     usleep(100000);
     mraa_gpio_write(gpio_vcc, 1);
-    usleep(100000);
+    usleep(1000000);
 	MPU_init();
 	while (1)
 	{
