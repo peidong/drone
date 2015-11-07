@@ -36,6 +36,9 @@ void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
       }else if(pT_drone->n_control_type == 2){
           continue;
       }
+#ifdef PRINT_DEBUG_THREAD
+      printf("ThreadTask_sonicTurn_pwm\n");
+#endif
       for(i = 0; i <= 30; i++){
           sonic_pwm = CENTER + i * 0.001;
           mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
@@ -119,6 +122,9 @@ void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
     }else if(pT_drone->n_control_type == 2){
       continue;
     }
+#ifdef PRINT_DEBUG_THREAD
+      printf("ThreadTask_Ultrasonic_read\n");
+#endif
     usleep(20);
     pT_drone->ln_distance_left = get_distance(trig_l, echo_l);
     usleep(20);
@@ -417,49 +423,51 @@ int GpsNavigationMove(struct T_drone *pT_drone){
 void ThreadTask_manual_control(struct T_drone *pT_drone){
     int i; 
     while(1){
-            if (pT_drone->nflag_stop_all == 1){
-                break;
-            }else if(pT_drone->n_control_type == 1){
-                continue;
-            }
-
-             int control_command; // left is 6; right is 7; moveforward is 4; backward is 5; stop is  
-             control_command =  pT_drone->n_manual_control_command;
-             if (control_command == 6)     
-             {
-                 for (i = 0;i<=180;i++){
-                     turn_left();
-                 }
-             }else if (control_command == 4 )
-             {
-                 for (i = 0;i<=50;i++){
-                     move_forward();
-                 }
-             }               
-             else if (control_command == 7){
-                 for (i = 0;i<=180;i++){
-                     turn_right();
-                 } 
-             }
-             else if(control_command == 10)
-             {
-                  g_f_turn = CENTER;
-                  mraa_pwm_write(turn_pwm, g_f_turn);
-                  usleep(10000);
-                  speed_control(speed_pwm_in1, speed_pwm_in2, 0);
-             }
-             else if (control_command = 5){
-                  for (i = 0;i<=50;i++){
-                     move_backward();
-                 }
-             }else{                                 
-                     printf("Wrong turn type!\n");
-              return;
+      if (pT_drone->nflag_stop_all == 1){
+          break;
+      }else if(pT_drone->n_control_type == 1){
+          continue;
+      }
+#ifdef PRINT_DEBUG_THREAD
+      printf("ThreadTask_manual_control\n");
+#endif
+      int control_command; // left is 6; right is 7; moveforward is 4; backward is 5; stop is  
+      control_command =  pT_drone->n_manual_control_command;
+      if (control_command == 6)     
+      {
+         for (i = 0;i<=180;i++){
+             turn_left();
          }
-        
-         sleep(1);
-         speed_control(speed_pwm_in1, speed_pwm_in2, 0.0f);
+      }else if (control_command == 4 )
+      {
+         for (i = 0;i<=50;i++){
+             move_forward();
+         }
+      }               
+      else if (control_command == 7){
+         for (i = 0;i<=180;i++){
+             turn_right();
+         } 
+      }
+      else if(control_command == 10)
+      {
+          g_f_turn = CENTER;
+          mraa_pwm_write(turn_pwm, g_f_turn);
+          usleep(10000);
+          speed_control(speed_pwm_in1, speed_pwm_in2, 0);
+      }
+      else if (control_command = 5){
+          for (i = 0;i<=50;i++){
+             move_backward();
+         }
+      }else{                                 
+             printf("Wrong turn type!\n");
+      return;
      }
+  
+      sleep(1);
+      speed_control(speed_pwm_in1, speed_pwm_in2, 0.0f);
+  }
 }
 
 void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
@@ -470,6 +478,9 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
         }else if(pT_drone->n_control_type == 2){
             continue;
         }
+#ifdef PRINT_DEBUG_THREAD
+      printf("ThreadTask_GpsNavigationMove\n");
+#endif
         if(pT_drone->ln_distance_left <= 60 && pT_drone->ln_distance_right <= 60 && pT_drone->ln_distance_center <=60){
             obstacle_case1(&g_T_drone_self);
         }else if(pT_drone->ln_distance_left > 60 && pT_drone->ln_distance_right > 60){
