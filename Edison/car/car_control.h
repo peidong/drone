@@ -127,7 +127,9 @@ void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
       printf("ThreadTask_Ultrasonic_read\n");
 #endif
     usleep(20);
+    printf("ultrasonic 1\n");
     pT_drone->ln_distance_left = get_distance(trig_l, echo_l);
+    printf("ultrasonic 2\n");
     usleep(20);
     if(pT_drone->n_ultrasonic_degree == 0){
         pT_drone->ln_distance_center = get_distance(trig_c, echo_c);
@@ -136,8 +138,10 @@ void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
     }else if(pT_drone->n_ultrasonic_degree == -1){
         pT_drone->ln_distance_slight_left = get_distance(trig_c, echo_c);
     }
+    printf("ultrasonic 3\n");
     usleep(20);
-    pT_drone->ln_distance_right = get_distance(trig_r, echo_r);                     
+    pT_drone->ln_distance_right = get_distance(trig_r, echo_r);
+    printf("ultrasonic 4\n");                     
     //printf(" c:%d l:%d r:%d\n", pT_drone->ln_distance_center, pT_drone->ln_distance_left, pT_drone->ln_distance_right);}}
     }
 }
