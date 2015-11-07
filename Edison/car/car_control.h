@@ -121,7 +121,7 @@ void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
    while(1){
    // while(isrunning == 1){
    //
-   printf("the value is %d \n"pT_drone->nflag_stop_all);
+   printf("the value is %d \n", pT_drone->nflag_stop_all);
     if (pT_drone->nflag_stop_all != 0){
       break;
     }else if(pT_drone->n_control_type != 1){
