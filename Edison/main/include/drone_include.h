@@ -142,12 +142,12 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->d_destination_longitude = 0;
     pT_drone->d_move_direction = 0;
 
-    ln_distance_left = 0;
-    ln_distance_center = 0;
-    ln_distance_right = 0;
-    ln_distance_slight_left = 0;
-    ln_distance_slight_right = 0;
-    n_ultrasonic_degree = 0;
+    pT_drone->ln_distance_left = 0;
+    pT_drone->ln_distance_center = 0;
+    pT_drone->ln_distance_right = 0;
+    pT_drone->ln_distance_slight_left = 0;
+    pT_drone->ln_distance_slight_right = 0;
+    pT_drone->n_ultrasonic_degree = 0;
 
     pT_drone->d_kp_pitch = 0;
     pT_drone->d_ki_pitch = 0;
