@@ -139,8 +139,8 @@ int main(){
     cout<<"scene_corners[3] = " << scene_corners[3] << endl;
     
 
-    imshow( "Good Matches & Object detection", img_matches );
-    imshow("object in orginal image", image_orig);
+    //imshow( "Good Matches & Object detection", img_matches );
+    //imshow("object in orginal image", image_orig);
 
     waitKey(0);
     return 0;
