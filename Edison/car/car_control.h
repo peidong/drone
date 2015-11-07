@@ -7,7 +7,7 @@
 #define RIGHT -0.015f
 #define LEFTMAX 0.048f
 #define RIGHTMAX 0.088f
-#define PRINT_DEBUG_THREAD
+//#define PRINT_DEBUG_THREAD
 
 double EARTH_RADIUS = 6378137;
 float g_f_speed, g_f_turn;
@@ -75,7 +75,9 @@ long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
     mraa_gpio_write(trigger, 0);
     while(mraa_gpio_read(echo) == 0){
     //if(mraa_gpio_read(echo) == 0){
+        printf("enter while 1; \n");
         time1 = clock();
+        printf("finish computer 1 \n");
     }
     //if(mraa_gpio_read(echo) == 1){
     while(mraa_gpio_read(echo) == 1){
