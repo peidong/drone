@@ -9,7 +9,7 @@
 #define RIGHTMAX 0.088f
 
 const double EARTH_RADIUS = 6378137;
-float f_speed, f_turn;
+float g_f_speed, g_f_turn;
 mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm, sonicTurn_pwm;
 
 
@@ -128,54 +128,54 @@ void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
 /*
  *  This is for speed and drive control
  * */
-void speed_control(mraa_pwm_context in1, mraa_pwm_context in2, float f_speed) {
-	f_speed = f_speed / 100;                                  
-        if (f_speed >= 0) {                                   
+void speed_control(mraa_pwm_context in1, mraa_pwm_context in2, float g_f_speed) {
+	g_f_speed = g_f_speed / 100;                                  
+        if (g_f_speed >= 0) {                                   
             mraa_pwm_write(in2, 1.0f);        
-            mraa_pwm_write(in1, 1.0f - f_speed);
+            mraa_pwm_write(in1, 1.0f - g_f_speed);
         }                                                   
-        else if (f_speed < 0) {                               
+        else if (g_f_speed < 0) {                               
             mraa_pwm_write(in1, 1.0f);        
-            mraa_pwm_write(in2, 1.0f + f_speed);
+            mraa_pwm_write(in2, 1.0f + g_f_speed);
         }    
 }
 
 void turn_left(){
-    f_turn = CENTER - LEFT;
-    mraa_pwm_write(turn_pwm, f_turn);
+    g_f_turn = CENTER - LEFT;
+    mraa_pwm_write(turn_pwm, g_f_turn);
     usleep(10000);
-    speed_control(speed_pwm_in1, speed_pwm_in2, f_speed);
+    speed_control(speed_pwm_in1, speed_pwm_in2, g_f_speed);
     
 }
 
 void turn_right(){
-    f_turn = CENTER - RIGHT;
-    mraa_pwm_write(turn_pwm, f_turn);
+    g_f_turn = CENTER - RIGHT;
+    mraa_pwm_write(turn_pwm, g_f_turn);
     usleep(10000);
-    speed_control(speed_pwm_in1, speed_pwm_in2, f_speed);
+    speed_control(speed_pwm_in1, speed_pwm_in2, g_f_speed);
     
 }
 
 //void turn_direction(double d_degree){
-    //f_turn = CENTER - RIGHT;
-    //mraa_pwm_write(turn_pwm, f_turn);
+    //g_f_turn = CENTER - RIGHT;
+    //mraa_pwm_write(turn_pwm, g_f_turn);
     //usleep(10000);
-    //speed_control(speed_pwm_in1, speed_pwm_in2, f_speed);
+    //speed_control(speed_pwm_in1, speed_pwm_in2, g_f_speed);
 //}
 
 void move_forward(){
-    f_turn = CENTER;
-    mraa_pwm_write(turn_pwm, f_turn);
+    g_f_turn = CENTER;
+    mraa_pwm_write(turn_pwm, g_f_turn);
     usleep(10000);
-    speed_control(speed_pwm_in1, speed_pwm_in2, f_speed);
+    speed_control(speed_pwm_in1, speed_pwm_in2, g_f_speed);
     
 }
 
 void move_backward(){
-    f_turn = CENTER;
-    mraa_pwm_write(turn_pwm, f_turn);
+    g_f_turn = CENTER;
+    mraa_pwm_write(turn_pwm, g_f_turn);
     usleep(10000);
-    speed_control(speed_pwm_in1, speed_pwm_in2, f_speed);
+    speed_control(speed_pwm_in1, speed_pwm_in2, g_f_speed);
 }
 
 
@@ -434,8 +434,8 @@ void ThreadTask_manual_control(struct T_drone *pT_drone){
              }
              else if(control_command == 10)
              {
-                  f_turn = CENTER;
-                  mraa_pwm_write(turn_pwm, f_turn);
+                  g_f_turn = CENTER;
+                  mraa_pwm_write(turn_pwm, g_f_turn);
                   usleep(10000);
                   speed_control(speed_pwm_in1, speed_pwm_in2, 0);
              }
