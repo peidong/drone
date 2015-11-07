@@ -13,10 +13,8 @@
     }
     // close the session
     session_write_close();
-    echo "<br>";
+    echo "<br><br>";
     echo exec('whoami');
-    echo "<br>";
-    print_r(exec('who'));
 
     //$uploadpath = "files/";
     //$filedata = $_FILES['file']['tmp_name'];
