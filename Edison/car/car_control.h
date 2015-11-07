@@ -438,19 +438,19 @@ void ThreadTask_manual_control(struct T_drone *pT_drone){
 #endif
       if (pT_drone->n_manual_control_command == 6)     
       {
-         // for (i = 0;i<=180;i++){
+         for (i = 0;i<=180;i++){
              turn_left();
-         // }
+         }
       }else if (pT_drone->n_manual_control_command == 4)
       {
-         // for (i = 0;i<=50;i++){
+         for (i = 0;i<=50;i++){
              move_forward();
-         // }
+         }
       }               
       else if (pT_drone->n_manual_control_command == 7){
-         // for (i = 0;i<=180;i++){
+         for (i = 0;i<=180;i++){
              turn_right();
-         // } 
+         } 
       }
       else if(pT_drone->n_manual_control_command == 10)
       {
@@ -460,9 +460,9 @@ void ThreadTask_manual_control(struct T_drone *pT_drone){
           speed_control(speed_pwm_in1, speed_pwm_in2, 0);
       }
       else if (pT_drone->n_manual_control_command == 5){
-          // for (i = 0;i<=50;i++){
+          for (i = 0;i<=50;i++){
              move_backward();
-         // }
+         }
       }else{                                 
              printf("Wrong turn type!\n");
      }
