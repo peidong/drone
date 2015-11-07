@@ -129,10 +129,10 @@ int main(){
     //-- Show detected matches
     
     //-- Drow lines on original corners
-    line( image, scene_corners[0] , scene_corners[1] , Scalar(255, 0, 0), 4 );
-    line( image, scene_corners[1] , scene_corners[2] , Scalar( 0, 0, 255), 4 );
-    line( image, scene_corners[2] , scene_corners[3] , Scalar( 0, 255, 0), 4 );
-    line( image, scene_corners[3] , scene_corners[0] , Scalar( 255, 255, 255), 4 );
+    line( image, scene_corners[0] , scene_corners[1] , Scalar(255, 0, 0), 4 );//red
+    line( image, scene_corners[1] , scene_corners[2] , Scalar( 0, 0, 255), 4 );//blue
+    line( image, scene_corners[2] , scene_corners[3] , Scalar( 0, 255, 0), 4 );//green
+    line( image, scene_corners[3] , scene_corners[0] , Scalar( 0, 0, 0), 4 );//black
     cout<<"scene_corners[0] = " << scene_corners[0] << endl;
     cout<<"scene_corners[1] = " << scene_corners[1] << endl;
     cout<<"scene_corners[2] = " << scene_corners[2] << endl;
