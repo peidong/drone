@@ -45,7 +45,8 @@ struct SURFDetector
 };
 
 int main(){
-    Mat reference_object = imread("reference.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+    //Mat reference_object = imread("reference.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+    Mat reference_object = imread("reference.jpg",1); 
 
     //VideoCapture cap(0); // open the video camera no. 0
     //if (!cap.isOpened())  // if not success, exit program
@@ -53,10 +54,13 @@ int main(){
         //cout << "Cannot open the video cam" << endl;
         //return -1;
     //}
-    Mat image;
+    Mat image, image_orig;
     //cap.read(image);
     
-    image = imread("1.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+    image_orig = imread("1.jpg", 1);
+
+    image = image_orig;
+    //cvtColor(image_orig, image, CV_RGB2GRAY);
 
     Mat des1, des2;
     SURFDetector surf; 
@@ -123,8 +127,16 @@ int main(){
     line( img_matches, scene_corners[3] + Point2f( reference_object.cols, 0), scene_corners[0] + Point2f( reference_object.cols, 0), Scalar( 0, 255, 0), 4 );
 
     //-- Show detected matches
-    imshow( "Good Matches & Object detection", img_matches );
+    
+    //-- Drow lines on original corners
+    line( image, scene_corners[0] , scene_corners[1] , Scalar(0, 255, 0), 4 );
+    line( image, scene_corners[1] , scene_corners[2] , Scalar( 0, 255, 0), 4 );
+    line( image, scene_corners[2] , scene_corners[3] , Scalar( 0, 255, 0), 4 );
+    line( image, scene_corners[3] , scene_corners[0] , Scalar( 0, 255, 0), 4 );
+    
 
+    imshow( "Good Matches & Object detection", img_matches );
+    imshow("object in orginal image", image_orig);
 
     waitKey(0);
     return 0;

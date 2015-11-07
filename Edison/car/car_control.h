@@ -11,7 +11,9 @@
 const double EARTH_RADIUS = 6378137;
 long distance_l, distance_c, distance_r, distance_slight_l, distance_slight_r;                                                                                   
 float f_speed, f_turn;
-mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm;
+mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm, sonicTrun_pwm;
+int degree; 
+
 
 /**
  * This is for ultrasonic sensor read
@@ -22,6 +24,37 @@ sig_atomic_t volatile isrunning =1;
 void do_when_interrupted(int sig) {
         if (sig == SIGINT)
             isrunning = 0;
+}
+
+
+void ThreadTask_sonicTurn_pwm(mraa_pwm_context turn_pwm){
+    int i;
+    float sonic_pwm;
+    mraa_pwm_write(turn_pwm, f_turn);
+    degree = 0;
+    while(1){
+        for(i = 0; i <= 10; i++){
+            sonic_pwm = CENTER + i * 0.001
+            mraa_pwm_write(turn_pwm, sonic_pwm);
+            if(i > 3){
+                degree = 1;
+            }
+
+        }
+        mraa_pwm_write(turn_pwm, f_turn);
+        degree = 0;
+        for(i = 0; i <= 10; i++){
+            sonic_pwm = CENTER - i * 0.001
+            mraa_pwm_write(turn_pwm, sonic_pwm);
+            if(i > 3){
+                degree = -1;
+            }
+
+        }
+        mraa_pwm_write(turn_pwm, f_turn);
+        degree = 0;
+    }
+
 }
 
 long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
@@ -46,17 +79,23 @@ long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
     return distance;
 }
 
+void ThreadTask_Ultrasonic_turn(){
+    int i = 0;
+    
+
+}
+
 void ThreadTask_Ultrasonic_read(){
     //long distance_l, distance_c, distance_r;                                       
     mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r;              
  
     signal(SIGINT, do_when_interrupted);
-    trig_l = mraa_gpio_init(7);                                              
-    echo_l = mraa_gpio_init(8);                                              
+    trig_l = mraa_gpio_init(7);                                          
+    echo_l = mraa_gpio_init(8);                                     
     trig_c = mraa_gpio_init(10);                                             
     echo_c = mraa_gpio_init(11);                                             
     trig_r = mraa_gpio_init(13);                                              
-    echo_r = mraa_gpio_init(9);                                              
+    echo_r = mraa_gpio_init(12);                                              
  
     if (trig_c == NULL || echo_c == NULL || trig_l == NULL || echo_l == NULL || trig_r == NULL ||echo_r == NULL){                                            
        fprintf(stderr, "Failed to initialized.\n");
@@ -69,15 +108,22 @@ void ThreadTask_Ultrasonic_read(){
         mraa_gpio_dir(trig_r, MRAA_GPIO_OUT);                                    
         mraa_gpio_dir(echo_r, MRAA_GPIO_IN);                                     
  
+    
    while(isrunning == 1){
     usleep(20);
     distance_l = get_distance(trig_l, echo_l);
     usleep(20);
-    distance_c = get_distance(trig_c, echo_c);
+    if(degree = 0){
+        distance_c = get_distance(trig_c, echo_c);
+    }else if(degree == 1){
+        distance_slight_r = get_distance(trig_c, echo_c);
+    }else if(degree == -1){
+        distance_slight_l = get_distance(trig_c, echo_c);
+    }
     usleep(20);
     distance_r = get_distance(trig_r, echo_r);                     
     //printf(" c:%d l:%d r:%d\n", distance_c, distance_l, distance_r);}}
-}
+    }
 }
 
 /*
