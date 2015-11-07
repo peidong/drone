@@ -1,6 +1,8 @@
 #include "car_control.h"
 
 int main(){
+    
+    printf("here2");
     speed_pwm_in1 = mraa_pwm_init(3);
     speed_pwm_in2 = mraa_pwm_init(5);
     turn_pwm = mraa_pwm_init(6);
@@ -8,11 +10,9 @@ int main(){
     initialize_struct_T_drone(&g_T_drone_self);
     
 
-    printf("here2");
     char turn_user_input[MAXBUFSIZ];
     g_f_speed = 40;
     
-    printf("here3");
     mraa_pwm_period_us(speed_pwm_in1,870); //1150Hz
 	mraa_pwm_enable(speed_pwm_in1, 1);
 	mraa_pwm_period_us(speed_pwm_in2,870);
@@ -22,7 +22,6 @@ int main(){
     mraa_pwm_period_ms(sonicTurn_pwm,20);
     mraa_pwm_enable(sonicTurn_pwm,1);
 
-    printf("here4");
     mraa_pwm_write(sonicTurn_pwm, CENTER);
 	mraa_pwm_write(turn_pwm, CENTER);
 	mraa_pwm_write(speed_pwm_in1, 0.0f);
