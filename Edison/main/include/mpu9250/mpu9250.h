@@ -339,7 +339,7 @@ void MPU_init()
 {
   // mraa_init();
 	mpu = mraa_i2c_init(6);
-  mraa_i2c_frequency(mpu, MRAA_I2C_STD);
+  mraa_i2c_frequency(mpu, MRAA_I2C_FAST);
 	mraa_i2c_address(mpu, MPU9250_ADDRESS);
 	printf("address\n");
 	mraa_i2c_write_byte_data(mpu, 0x01, ACCEL_CONFIG_2);
