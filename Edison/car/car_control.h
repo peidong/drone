@@ -99,7 +99,6 @@ void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
     //long pT_drone->ln_distance_left, pT_drone->ln_distance_center, pT_drone->ln_distance_right;                                       
  
     // signal(SIGINT, do_when_interrupted);                                                          
- printf("here1 \n");
 
    trig_l = mraa_gpio_init(10);                                          
     echo_l = mraa_gpio_init(11);                                     
@@ -119,7 +118,6 @@ void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
         mraa_gpio_dir(trig_r, MRAA_GPIO_OUT);                                    
         mraa_gpio_dir(echo_r, MRAA_GPIO_IN);    
 
- printf("here \n");
    while(1){
    // while(isrunning == 1){
     if (pT_drone->nflag_stop_all != 0){
@@ -131,7 +129,7 @@ void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
       printf("ThreadTask_Ultrasonic_read\n");
 #endif
     usleep(20);
-    // printf("ultrasonic 1\n");
+    printf("ultrasonic 1\n");
     pT_drone->ln_distance_left = get_distance(trig_l, echo_l);
     // printf("ultrasonic 2\n");
     usleep(20);
