@@ -344,6 +344,7 @@ void MPU_init()
 	printf("address\n");
 	mraa_i2c_write_byte_data(mpu, 0x01, ACCEL_CONFIG_2);
 	mraa_i2c_write_byte_data(mpu, 0x01, CONFIG);
+  printf("0x01 CONFIG\n");
 	mraa_i2c_write_byte_data(mpu, ACC_FULL_SCALE_2_G, ACCEL_CONFIG);
 	mraa_i2c_write_byte_data(mpu, GYRO_FULL_SCALE_1000_DPS, GYRO_CONFIG);
   mraa_i2c_write_byte_data(mpu, 32, USER_CTRL);
