@@ -21,8 +21,8 @@
 #define PRINT_DEBUG_PID_CHANGE
 // #define PRINT_DEBUG_PID_TUNING
 // #define PRINT_DEBUG_PWM
-// #define PRINT_DEBUG_THREAD
-#define PRINT_CAR_MANUAL
+#define PRINT_DEBUG_THREAD
+// #define PRINT_CAR_MANUAL
 
 /**
  * define value
