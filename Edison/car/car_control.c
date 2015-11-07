@@ -7,12 +7,12 @@ int main(){
     sonicTurn_pwm = mraa_pwm_init(9);
     initialize_struct_T_drone(&g_T_drone_self);
     
-   
 
-
+    printf("here2");
     char turn_user_input[MAXBUFSIZ];
     g_f_speed = 40;
     
+    printf("here3");
     mraa_pwm_period_us(speed_pwm_in1,870); //1150Hz
 	mraa_pwm_enable(speed_pwm_in1, 1);
 	mraa_pwm_period_us(speed_pwm_in2,870);
@@ -22,6 +22,7 @@ int main(){
     mraa_pwm_period_ms(sonicTurn_pwm,20);
     mraa_pwm_enable(sonicTurn_pwm,1);
 
+    printf("here4");
     mraa_pwm_write(sonicTurn_pwm, CENTER);
 	mraa_pwm_write(turn_pwm, CENTER);
 	mraa_pwm_write(speed_pwm_in1, 0.0f);
@@ -29,7 +30,6 @@ int main(){
 
 
     threadpool thpool = thpool_init(10);
-    printf("here2");
     /*thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http_gps, (void*)&g_T_drone_self);*/
     /*thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http, (void*)&g_T_drone_self);*/
     /*thpool_add_work(thpool, (void*)ThreadTask_sonicTurn_pwm, (void*)&g_T_drone_self);*/
