@@ -114,7 +114,7 @@ void ThreadTask_Ultrasonic_read(){
     usleep(20);
     distance_l = get_distance(trig_l, echo_l);
     usleep(20);
-    if(degree = 0){
+    if(degree == 0){
         distance_c = get_distance(trig_c, echo_c);
     }else if(degree == 1){
         distance_slight_r = get_distance(trig_c, echo_c);
