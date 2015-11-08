@@ -9,6 +9,15 @@
 #define RIGHTMAX 0.088f
 // #define PRINT_DEBUG_THREAD
 
+float speed, turn;
+char speed_user_input[MAXBUFSIZ];
+char turn_user_input[MAXBUFSIZ];
+int i, case_num, averageTimes = 3, speed_flag = 1;
+double distance_l, distance_c, distance_r, distance_up_l, distance_up_r;
+mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r, trig_up_l, echo_up_l, trig_up_r, echo_up_r;
+mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm;
+ 
+
 
 
 double EARTH_RADIUS = 6378137;
