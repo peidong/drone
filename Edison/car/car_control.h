@@ -62,41 +62,69 @@ void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
     }
 }
 
-long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo, struct T_drone *pT_drone)
+// long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo, struct T_drone *pT_drone)
+// {
+//   long distance, time1, time2;
+//   usleep(2);
+//   mraa_gpio_write(trigger, 0);
+//   usleep(2);
+//   mraa_gpio_write(trigger, 1);
+//   usleep(10);
+//   mraa_gpio_write(trigger, 0);
+//   while(mraa_gpio_read(echo) == 0&&isrunning ==1){
+//     if (pT_drone->nflag_stop_all != 0){
+//       break;
+//     }else if(pT_drone->n_control_type != 1){
+//       continue;
+//     }
+//     // time1 = clock();
+//     // printf("echo 0\n");
+//   }
+//     time1 = clock();
+//   while(mraa_gpio_read(echo) == 1&&isrunning ==1){
+//     if (pT_drone->nflag_stop_all != 0){
+//       break;
+//     }else if(pT_drone->n_control_type != 1){
+//       continue;
+//     }
+//     // printf("echo 1\n");
+//     // time2 = clock()-time1;
+//   }
+//     time2 = clock()-time1;
+
+//   if(time2>0&&time2<30000){
+//     distance = time2 / 58.82;
+//   }
+//   else distance=-1;//if get wrong distance
+//   return distance;
+// }
+
+double get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
 {
-  long distance, time1, time2;
-  usleep(2);
-  mraa_gpio_write(trigger, 0);
-  usleep(2);
-  mraa_gpio_write(trigger, 1);
-  usleep(10);
-  mraa_gpio_write(trigger, 0);
-  while(mraa_gpio_read(echo) == 0&&isrunning ==1){
-    if (pT_drone->nflag_stop_all != 0){
-      break;
-    }else if(pT_drone->n_control_type != 1){
-      continue;
-    }
-    // time1 = clock();
-    // printf("echo 0\n");
-  }
-    time1 = clock();
-  while(mraa_gpio_read(echo) == 1&&isrunning ==1){
-    if (pT_drone->nflag_stop_all != 0){
-      break;
-    }else if(pT_drone->n_control_type != 1){
-      continue;
-    }
-    // printf("echo 1\n");
-    // time2 = clock()-time1;
-  }
-    time2 = clock()-time1;
+  struct timeval startTime, endTime;
+        double time_taken;
+  double distance;
+
+        mraa_gpio_write(trigger, 0);
+        usleep(5);
+        mraa_gpio_write(trigger, 1);
+        usleep(11);
+        mraa_gpio_write(trigger, 0);
   
-  if(time2>0&&time2<30000){
-    distance = time2 / 58.82;
+  while (mraa_gpio_read(echo) == 0);
+  gettimeofday(&startTime, NULL);
+  
+  while (mraa_gpio_read(echo) == 1);
+  gettimeofday(&endTime, NULL);
+        
+  time_taken = 1000000.0 * (endTime.tv_sec - startTime.tv_sec) + endTime.tv_usec - startTime.tv_usec;
+        distance = (time_taken + 0.00) / 58.82;
+  while (time_taken < 30000 && time_taken > 0){
+    gettimeofday(&endTime, NULL);
+    time_taken = 1000000.0 * (endTime.tv_sec - startTime.tv_sec) + endTime.tv_usec - startTime.tv_usec;
   }
-  else distance=-1;//if get wrong distance
-  return distance;
+  printf("distance = %f\n", distance);
+        return distance;
 }
 
 
@@ -126,7 +154,7 @@ void ThreadTask_Ultrasonic_read_left(struct T_drone *pT_drone){
       usleep(20);
       pT_drone->ln_distance_left = get_distance(trig_l, echo_l, pT_drone); 
     }
-    printf("left = %d cm\n", pT_drone->ln_distance_left);
+    printf("left = %f cm\n", pT_drone->ln_distance_left);
 }
 }
 
@@ -156,7 +184,7 @@ void ThreadTask_Ultrasonic_read_right(struct T_drone *pT_drone){
       usleep(20);
       pT_drone->ln_distance_right = get_distance(trig_r, echo_r, pT_drone);
     }
-    printf("right = %d cm\n", pT_drone->ln_distance_right);
+    printf("right = %f cm\n", pT_drone->ln_distance_right);
     }
 }
 
@@ -200,7 +228,7 @@ void ThreadTask_Ultrasonic_read_center(struct T_drone *pT_drone){
       pT_drone->ln_distance_center = get_distance(trig_c, echo_c, pT_drone); 
     }
     }
-    printf("center = %d cm\n", pT_drone->ln_distance_center);
+    printf("center = %f cm\n", pT_drone->ln_distance_center);
     }
 }
 
