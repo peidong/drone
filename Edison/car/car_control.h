@@ -161,8 +161,8 @@ void ThreadTask_Ultrasonic_read_left(struct T_drone *pT_drone){
 void ThreadTask_Ultrasonic_read_right(struct T_drone *pT_drone){
     signal(SIGINT, do_when_interrupted);                                                          
 
-    trig_r = mraa_gpio_init(12);                                              
-    echo_r = mraa_gpio_init(13);     
+    trig_r = mraa_gpio_init(3);                                              
+    echo_r = mraa_gpio_init(4);     
 
     if (trig_r == NULL ||echo_r == NULL){                                            
        fprintf(stderr, "Failed to initialized.\n");
