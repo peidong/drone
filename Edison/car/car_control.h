@@ -115,7 +115,7 @@ void ThreadTask_Ultrasonic_read_left(struct T_drone *pT_drone){
       continue;
     }
 #ifdef PRINT_DEBUG_THREAD
-      printf("ThreadTask_Ultrasonic_read\n");
+      printf("ThreadTask_Ultrasonic_read_left\n");
 #endif
     if(get_distance(trig_l, echo_l, pT_drone) != -1){
       usleep(20);
@@ -145,7 +145,7 @@ void ThreadTask_Ultrasonic_read_right(struct T_drone *pT_drone){
       continue;
     }
 #ifdef PRINT_DEBUG_THREAD
-      printf("ThreadTask_Ultrasonic_read\n");
+      printf("ThreadTask_Ultrasonic_read_right\n");
 #endif
     if(get_distance(trig_r, echo_r, pT_drone) != -1){
       usleep(20);
@@ -175,7 +175,7 @@ void ThreadTask_Ultrasonic_read_center(struct T_drone *pT_drone){
       continue;
     }
 #ifdef PRINT_DEBUG_THREAD
-      printf("ThreadTask_Ultrasonic_read\n");
+      printf("ThreadTask_Ultrasonic_read_center\n");
 #endif
     
     
