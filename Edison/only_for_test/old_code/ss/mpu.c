@@ -390,7 +390,7 @@ void main()
 //    for(i=0;i<100000;i++);
 		// printf("%6d,%6d,%6d\n",arawx, arawy, arawz);
 
-		printf("%6d,%6d,%6d\n",grawx, grawy, grawz);
+		// printf("%6d,%6d,%6d\n",grawx, grawy, grawz);
 //    x+=grawx;y+=grawy;z+=grawz;
     
     float ax = (float)arawx*aRes;
@@ -405,7 +405,7 @@ void main()
     
     
     
-//    printf("%.1f,%.1f,%.1f\n",mx,my,mz);
+   printf("%.1f,%.1f,%.1f\n",mx,my,mz);
     /*
     if(sample<10){
           now = clock();
