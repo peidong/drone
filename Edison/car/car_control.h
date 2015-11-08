@@ -579,7 +579,7 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 	echo_r = mraa_gpio_init(13);
 	
 	if  (trig_c == NULL || echo_c == NULL || trig_l == NULL || echo_l == NULL || trig_r == NULL || echo_r == NULL) {
-		//fprintf(stderr, "Failed to initialized.\n");
+		fprintf(stderr, "Failed to initialized.\n");
 	}
 
 	mraa_gpio_dir(trig_l, MRAA_GPIO_OUT);                                   
@@ -589,14 +589,7 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 	mraa_gpio_dir(trig_r, MRAA_GPIO_OUT);
 	mraa_gpio_dir(echo_r, MRAA_GPIO_IN);
 
-	//At the start, the car will not move and the steering will be at center.
-	speed_control(speed_pwm_in1, speed_pwm_in2, 0.0f);
-	mraa_pwm_write(turn_pwm, 0.067f);
-
-	usleep(100000);
-	
-	speed_control(speed_pwm_in1, speed_pwm_in2, 100.0f);
-   
+	//At the start, the car will not move and the steering will be at center.   
     while(1){
 
         if (pT_drone->nflag_stop_all != 0)
