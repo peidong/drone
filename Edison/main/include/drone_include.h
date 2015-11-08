@@ -701,7 +701,7 @@ int GeneratePwm(struct T_drone *pT_drone){
 #ifdef PRINT_DEBUG_PWM
 
 #endif
-		if (pT_drone->nflag_stop_all == 1)
+		if (pT_drone->nflag_stop_all != 0)
 		{
 			/**
 			* Reset PWM to 0
@@ -714,7 +714,7 @@ int GeneratePwm(struct T_drone *pT_drone){
 			mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
 			break;
 		}
-		else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+		else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1)
 		{
 			/**
 			* Reset PWM to 0
@@ -787,7 +787,7 @@ int GeneratePwm(struct T_drone *pT_drone){
 	    /**
          * write pwm into serial bus
          */
-	    if (pT_drone->nflag_stop_all == 1)
+	    if (pT_drone->nflag_stop_all != 0)
         {
             /**
              * Reset PWM to 0
@@ -799,7 +799,7 @@ int GeneratePwm(struct T_drone *pT_drone){
             memset(arrch_uart_output,'0', 20);
             mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
             break;
-        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1)
         {
             /**
              * Reset PWM to 0
@@ -828,8 +828,6 @@ int GeneratePwm(struct T_drone *pT_drone){
     mraa_uart_stop(pwm_uart);
     return 0;
 }
-
-
 
 int GeneratePwm_old(struct T_drone *pT_drone){
     usleep(1000000);
