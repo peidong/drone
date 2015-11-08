@@ -78,7 +78,7 @@ long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo, struct T_dr
       continue;
     }
     // time1 = clock();
-    printf("echo 0\n");
+    // printf("echo 0\n");
   }
     time1 = clock();
   while(mraa_gpio_read(echo) == 1&&isrunning ==1){
@@ -87,7 +87,7 @@ long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo, struct T_dr
     }else if(pT_drone->n_control_type != 1){
       continue;
     }
-    printf("echo 1\n");
+    // printf("echo 1\n");
     // time2 = clock()-time1;
   }
     time2 = clock()-time1;
