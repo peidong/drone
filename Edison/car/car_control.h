@@ -582,10 +582,6 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 		fprintf(stderr, "Failed to initialized.\n");
 	}
 
-    mraa_gpio_dir(trig_up_l, MRAA_GPIO_OUT);
-	mraa_gpio_dir(echo_up_l, MRAA_GPIO_IN);                                                                        
-	mraa_gpio_dir(trig_up_r, MRAA_GPIO_OUT);
-	mraa_gpio_dir(echo_up_r, MRAA_GPIO_IN);
 	mraa_gpio_dir(trig_l, MRAA_GPIO_OUT);                                   
 	mraa_gpio_dir(echo_l, MRAA_GPIO_IN);
 	mraa_gpio_dir(trig_c, MRAA_GPIO_OUT);
