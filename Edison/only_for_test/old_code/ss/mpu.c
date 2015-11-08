@@ -63,7 +63,8 @@ clock_t now=0,past=0;
 float beta=1.5f;  // compute beta
 
 float pitch, yaw, roll;
-float deltat = 0.0015f;                             // integration interval for both filter schemes
+float deltat = 0.001f;                             // integration interval for both filter schemes
+// float deltat = 0.0015f;                             // integration interval for both filter schemes
 int lastUpdate = 0, firstUpdate = 0, Now = 0;    // used to calculate integration interval                               // used to calculate integration interval
 float q[4] = {1.0f, 0.0f, 0.0f, 0.0f};           // vector to hold quaternion
 //--------------------------------
