@@ -617,7 +617,7 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 		distance_l = get_distance(trig_l, echo_l);	
 		distance_r = get_distance(trig_r, echo_r);
 
-        printf("lefet distance = %f", distance_l);
+        printf("lefet distance ");
 #ifdef PRINT_DEBUG_THREAD
       printf("ThreadTask_GpsNavigationMove\n");
 #endif
