@@ -579,7 +579,7 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 	echo_r = mraa_gpio_init(13);
 	
 	if  (trig_c == NULL || echo_c == NULL || trig_l == NULL || echo_l == NULL || trig_r == NULL || echo_r == NULL) {
-		fprintf(stderr, "Failed to initialized.\n");
+		//fprintf(stderr, "Failed to initialized.\n");
 	}
 
 	mraa_gpio_dir(trig_l, MRAA_GPIO_OUT);                                   
@@ -617,7 +617,7 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 		distance_l = get_distance(trig_l, echo_l);	
 		distance_r = get_distance(trig_r, echo_r);
 
-        printf("lefet distance ");
+        printf("lefet distance = %f \n", distance_l);
 #ifdef PRINT_DEBUG_THREAD
       printf("ThreadTask_GpsNavigationMove\n");
 #endif
