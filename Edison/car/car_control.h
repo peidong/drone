@@ -573,10 +573,10 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 
 	signal(SIGINT, &do_when_interrupted);
 
-    trig_l = mraa_gpio_init(8);                                                     
-	echo_l = mraa_gpio_init(9);
-	trig_c = mraa_gpio_init(10);
-	echo_c = mraa_gpio_init(11);
+    trig_l = mraa_gpio_init(10);                                                     
+	echo_l = mraa_gpio_init(11);
+	trig_c = mraa_gpio_init(7);
+	echo_c = mraa_gpio_init(8);
 	trig_r = mraa_gpio_init(12);
 	echo_r = mraa_gpio_init(13);
 	
