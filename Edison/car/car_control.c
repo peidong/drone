@@ -16,7 +16,7 @@ int main(){
     initialize_struct_T_drone(&g_T_drone_self);
     
 
-	if(trig_c == NULL || echo_c == NULL || trig_l == NULL || echo_l == NULL || trig_r == NULL || echo_r == NULL || speed_pwm_in1 == NULL || speed_pwm_in2 == NULL || turn_pwm == NULL) {
+	if(sonicTurn_pwm == NULL ||trig_c == NULL || echo_c == NULL || trig_l == NULL || echo_l == NULL || trig_r == NULL || echo_r == NULL || speed_pwm_in1 == NULL || speed_pwm_in2 == NULL || turn_pwm == NULL) {
 		fprintf(stderr, "Failed to initialized.\n");
 		return 1;
 	}
@@ -40,10 +40,10 @@ int main(){
     
     mraa_pwm_enable(sonicTurn_pwm,1);
 
-    mraa_pwm_write(sonicTurn_pwm, CENTER);
 	//At the start, the car will not move and the steering will be at center.
 	speed_control(speed_pwm_in1, speed_pwm_in2, 0.0f);
 	mraa_pwm_write(turn_pwm, 0.067f);
+    mraa_pwm_write(sonicTurn_pwm, 0.067f);
 
 	sleep(1);
 	
@@ -53,7 +53,7 @@ int main(){
     threadpool thpool = thpool_init(10);
     thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http_gps, (void*)&g_T_drone_self);
     thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http, (void*)&g_T_drone_self);
-    thpool_add_work(thpool, (void*)ThreadTask_sonicTurn_pwm, (void*)&g_T_drone_self);
+    /*thpool_add_work(thpool, (void*)ThreadTask_sonicTurn_pwm, (void*)&g_T_drone_self);*/
     thpool_add_work(thpool, (void*)ThreadTask_GpsNavigationMove, (void*)&g_T_drone_self);
     thpool_add_work(thpool, (void*)ThreadTask_manual_control, (void*)&g_T_drone_self);
     thpool_wait(thpool);

@@ -22,7 +22,6 @@ mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm, sonicTurn_pwm;
 
 double EARTH_RADIUS = 6378137;
 float g_f_speed, g_f_turn;
-mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm, sonicTurn_pwm;
 //mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r; 
 double n_ultrasonic_degree;
 /**
