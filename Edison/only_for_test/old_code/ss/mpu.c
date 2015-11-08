@@ -399,8 +399,8 @@ void main()
     float gx = (float)grawx*gRes;
     float gy = (float)grawy*gRes;
     float gz = (float)grawz*gRes;
-    float mx = (float)mrawx*mRes*magCalibration[0] - 406 - 49 - 165;  // get actual magnetometer value, this depends on scale being set
-    float my = (float)mrawy*mRes*magCalibration[1] - 95 + 43 + 10;  
+    float mx = (float)mrawx*mRes*magCalibration[0] - 406 - 49 - 150;  // get actual magnetometer value, this depends on scale being set
+    float my = (float)mrawy*mRes*magCalibration[1] - 95 + 43 + 15;  
     float mz = (float)mrawz*mRes*magCalibration[2] + 370 - 72 + 403;
     
     
