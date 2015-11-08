@@ -64,10 +64,10 @@ void loop() {
       decoder(result);
       Serial.write(result);
       
-      if(pwm_9<=40000&&iter==4){
+      if(pwm_9<=40000&&(iter==4||iter==0)){
         analogWrite16(9, pwm_9);
       }
-      if(pwm_10<=40000&&iter==9){
+      if(pwm_10<=40000&&(iter==9||iter==0)){
         analogWrite16(10, pwm_10);
       }
     }

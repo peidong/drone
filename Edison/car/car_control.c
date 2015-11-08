@@ -43,7 +43,7 @@ int main(){
 	//At the start, the car will not move and the steering will be at center.
 	speed_control(speed_pwm_in1, speed_pwm_in2, 0.0f);
 	mraa_pwm_write(turn_pwm, 0.067f);
-    mraa_pwm_write(sonicTurn_pwm, 0.067f);
+    mraa_pwm_write(sonicTurn_pwm, 0.054f);
 
 	sleep(1);
 	
