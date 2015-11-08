@@ -10,7 +10,9 @@ int main(){
 	speed_pwm_in1 = mraa_pwm_init(3);
 	speed_pwm_in2 = mraa_pwm_init(5);
 	turn_pwm = mraa_pwm_init(6);
-	
+    initialize_struct_T_drone(&g_T_drone_self);
+    
+
 	if(trig_c == NULL || echo_c == NULL || trig_l == NULL || echo_l == NULL || trig_r == NULL || echo_r == NULL || speed_pwm_in1 == NULL || speed_pwm_in2 == NULL || turn_pwm == NULL) {
 		fprintf(stderr, "Failed to initialized.\n");
 		return 1;
