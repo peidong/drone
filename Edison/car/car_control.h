@@ -12,8 +12,8 @@
 double EARTH_RADIUS = 6378137;
 float g_f_speed, g_f_turn;
 mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm, sonicTurn_pwm;
-mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r; 
-
+//mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r; 
+double n_ultrasonic_degree;
 /**
  * This is for ultrasonic sensor read
  */
@@ -128,109 +128,109 @@ double get_distance(mraa_gpio_context trigger, mraa_gpio_context echo, struct T_
 }
 
 
-void ThreadTask_Ultrasonic_read_left(struct T_drone *pT_drone){
-  signal(SIGINT, do_when_interrupted);                                                          
+//void ThreadTask_Ultrasonic_read_left(struct T_drone *pT_drone){
+  //signal(SIGINT, do_when_interrupted);                                                          
 
-    trig_l = mraa_gpio_init(10);                                          
-    echo_l = mraa_gpio_init(11);                                     
+    //trig_l = mraa_gpio_init(10);                                          
+    //echo_l = mraa_gpio_init(11);                                     
 
-    if (trig_l == NULL || echo_l == NULL){                                            
-       fprintf(stderr, "Failed to initialized.\n");
-       return;
-    }
-        mraa_gpio_dir(trig_l, MRAA_GPIO_OUT);                                    
-        mraa_gpio_dir(echo_l, MRAA_GPIO_IN);                                     
+    //if (trig_l == NULL || echo_l == NULL){                                            
+       //fprintf(stderr, "Failed to initialized.\n");
+       //return;
+    //}
+        //mraa_gpio_dir(trig_l, MRAA_GPIO_OUT);                                    
+        //mraa_gpio_dir(echo_l, MRAA_GPIO_IN);                                     
 
-  while(isrunning == 1){
-    if (pT_drone->nflag_stop_all != 0){
-      break;
-    }else if(pT_drone->n_control_type != 1){
-      continue;
-    }
-#ifdef PRINT_DEBUG_THREAD
-      printf("ThreadTask_Ultrasonic_read_left\n");
-#endif
-    if(get_distance(trig_l, echo_l, pT_drone) != -1.0){
-      usleep(20);
-      pT_drone->ln_distance_left = get_distance(trig_l, echo_l, pT_drone); 
-    }
-    printf("left = %f cm\n", pT_drone->ln_distance_left);
-}
-}
+  //while(isrunning == 1){
+    //if (pT_drone->nflag_stop_all != 0){
+      //break;
+    //}else if(pT_drone->n_control_type != 1){
+      //continue;
+    //}
+//#ifdef PRINT_DEBUG_THREAD
+      //printf("ThreadTask_Ultrasonic_read_left\n");
+//#endif
+    //if(get_distance(trig_l, echo_l, pT_drone) != -1.0){
+      //usleep(20);
+      //pT_drone->ln_distance_left = get_distance(trig_l, echo_l, pT_drone); 
+    //}
+    //printf("left = %f cm\n", pT_drone->ln_distance_left);
+//}
+//}
 
-void ThreadTask_Ultrasonic_read_right(struct T_drone *pT_drone){
-    signal(SIGINT, do_when_interrupted);                                                          
+//void ThreadTask_Ultrasonic_read_right(struct T_drone *pT_drone){
+    //signal(SIGINT, do_when_interrupted);                                                          
 
-    trig_r = mraa_gpio_init(3);                                              
-    echo_r = mraa_gpio_init(4);     
+    //trig_r = mraa_gpio_init(3);                                              
+    //echo_r = mraa_gpio_init(4);     
 
-    if (trig_r == NULL ||echo_r == NULL){                                            
-       fprintf(stderr, "Failed to initialized.\n");
-       return;
-    }
-        mraa_gpio_dir(trig_r, MRAA_GPIO_OUT);                                    
-        mraa_gpio_dir(echo_r, MRAA_GPIO_IN);    
+    //if (trig_r == NULL ||echo_r == NULL){                                            
+       //fprintf(stderr, "Failed to initialized.\n");
+       //return;
+    //}
+        //mraa_gpio_dir(trig_r, MRAA_GPIO_OUT);                                    
+        //mraa_gpio_dir(echo_r, MRAA_GPIO_IN);    
 
-  while(isrunning == 1){
-    if (pT_drone->nflag_stop_all != 0){
-      break;
-    }else if(pT_drone->n_control_type != 1){
-      continue;
-    }
-#ifdef PRINT_DEBUG_THREAD
-      printf("ThreadTask_Ultrasonic_read_right\n");
-#endif
-    if(get_distance(trig_r, echo_r, pT_drone) != -1.0){
-      usleep(20);
-      pT_drone->ln_distance_right = get_distance(trig_r, echo_r, pT_drone);
-    }
-    printf("right = %f cm\n", pT_drone->ln_distance_right);
-    }
-}
+  //while(isrunning == 1){
+    //if (pT_drone->nflag_stop_all != 0){
+      //break;
+    //}else if(pT_drone->n_control_type != 1){
+      //continue;
+    //}
+//#ifdef PRINT_DEBUG_THREAD
+      //printf("ThreadTask_Ultrasonic_read_right\n");
+//#endif
+    //if(get_distance(trig_r, echo_r, pT_drone) != -1.0){
+      //usleep(20);
+      //pT_drone->ln_distance_right = get_distance(trig_r, echo_r, pT_drone);
+    //}
+    //printf("right = %f cm\n", pT_drone->ln_distance_right);
+    //}
+//}
 
-void ThreadTask_Ultrasonic_read_center(struct T_drone *pT_drone){
-  signal(SIGINT, do_when_interrupted);                                                          
+//void ThreadTask_Ultrasonic_read_center(struct T_drone *pT_drone){
+  //signal(SIGINT, do_when_interrupted);                                                          
 
-    trig_c = mraa_gpio_init(7);                                             
-    echo_c = mraa_gpio_init(8);                                             
+    //trig_c = mraa_gpio_init(7);                                             
+    //echo_c = mraa_gpio_init(8);                                             
 
-    if (trig_c == NULL || echo_c == NULL){                                            
-       fprintf(stderr, "Failed to initialized.\n");
-       return;
-    }
-        mraa_gpio_dir(trig_c, MRAA_GPIO_OUT);                                    
-        mraa_gpio_dir(echo_c, MRAA_GPIO_IN);                                     
+    //if (trig_c == NULL || echo_c == NULL){                                            
+       //fprintf(stderr, "Failed to initialized.\n");
+       //return;
+    //}
+        //mraa_gpio_dir(trig_c, MRAA_GPIO_OUT);                                    
+        //mraa_gpio_dir(echo_c, MRAA_GPIO_IN);                                     
 
-  while(isrunning == 1){
-    if (pT_drone->nflag_stop_all != 0){
-      break;
-    }else if(pT_drone->n_control_type != 1){
-      continue;
-    }
-#ifdef PRINT_DEBUG_THREAD
-      printf("ThreadTask_Ultrasonic_read_center\n");
-#endif
+  //while(isrunning == 1){
+    //if (pT_drone->nflag_stop_all != 0){
+      //break;
+    //}else if(pT_drone->n_control_type != 1){
+      //continue;
+    //}
+//#ifdef PRINT_DEBUG_THREAD
+      //printf("ThreadTask_Ultrasonic_read_center\n");
+//#endif
     
     
-    if(pT_drone->n_ultrasonic_degree == 0){
-      if(get_distance(trig_c, echo_c, pT_drone) != -1.0){
-      usleep(20);
-      pT_drone->ln_distance_center = get_distance(trig_c, echo_c, pT_drone); 
-    }
-    }else if(pT_drone->n_ultrasonic_degree == 1){
-        if(get_distance(trig_c, echo_c, pT_drone) != -1.0){
-      usleep(20);
-      pT_drone->ln_distance_center = get_distance(trig_c, echo_c, pT_drone); 
-    }
-    }else if(pT_drone->n_ultrasonic_degree == -1){
-        if(get_distance(trig_c, echo_c, pT_drone) != -1.0){
-      usleep(20);
-      pT_drone->ln_distance_center = get_distance(trig_c, echo_c, pT_drone); 
-    }
-    }
-    printf("center = %f cm\n", pT_drone->ln_distance_center);
-    }
-}
+    //if(pT_drone->n_ultrasonic_degree == 0){
+      //if(get_distance(trig_c, echo_c, pT_drone) != -1.0){
+      //usleep(20);
+      //pT_drone->ln_distance_center = get_distance(trig_c, echo_c, pT_drone); 
+    //}
+    //}else if(pT_drone->n_ultrasonic_degree == 1){
+        //if(get_distance(trig_c, echo_c, pT_drone) != -1.0){
+      //usleep(20);
+      //pT_drone->ln_distance_center = get_distance(trig_c, echo_c, pT_drone); 
+    //}
+    //}else if(pT_drone->n_ultrasonic_degree == -1){
+        //if(get_distance(trig_c, echo_c, pT_drone) != -1.0){
+      //usleep(20);
+      //pT_drone->ln_distance_center = get_distance(trig_c, echo_c, pT_drone); 
+    //}
+    //}
+    //printf("center = %f cm\n", pT_drone->ln_distance_center);
+    //}
+//}
 
 /*
  *  This is for speed and drive control
@@ -330,24 +330,24 @@ double get_longitude_distance(double d_lon1, double d_lon2, double d_lat1)
  *
  * */
 
-int obstacle_case1(struct T_drone *pT_drone){
+int obstacle_case1(double distance_l, double distance_slight_l, double distance_c, double distance_slight_r, double distance_r){
     int i;
-    while(pT_drone->ln_distance_left <= 60 || pT_drone->ln_distance_right <= 60){
+    while(distance_l <= 60 || distance_r <= 60){
         move_backward();
     }
     for(i=0; i<= 100; i++){
         move_backward();                          //backward more to get space for turn
     }
     
-    if(pT_drone->ln_distance_left<=60 && pT_drone->ln_distance_right >60){
+    if(distance_l<=60 && distance_r >60){
         for(i=0; i<= 650; i++){
         turn_right();             
         }                 //
-    }else if(pT_drone->ln_distance_right<=60 && pT_drone->ln_distance_left>60){
+    }else if(distance_r<=60 && distance_l>60){
         for(i=0; i<= 650; i++){
         turn_left();             
         }                 //
-    }else if(pT_drone->ln_distance_right>60 && pT_drone->ln_distance_left>60){
+    }else if(distance_right>60 && distance_l>60){
          if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
             for (i = 0;i<=650;i++){
                      turn_right();
@@ -371,9 +371,9 @@ int obstacle_case1(struct T_drone *pT_drone){
  *  Only c sensor detecting obstacles. Then the car will turn right/left
  *
  * */
-int obstacle_case2(struct T_drone *pT_drone){
+int obstacle_case2(double distance_l, double distance_slight_l, double distance_c, double distance_slight_r, double distance_r){
     int i;
-    if(pT_drone->ln_distance_center <= 60){
+    if(distance_c <= 60){
         if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
             for (i = 0;i<=650;i++){
                      turn_right();
@@ -385,16 +385,16 @@ int obstacle_case2(struct T_drone *pT_drone){
     }
     
     }else{
-        if(pT_drone->ln_distance_slight_left <= 60 && pT_drone->ln_distance_slight_right > 60){
+        if(distance_slight_l <= 60 && distance_slight_r > 60){
             for(i=0; i<= 100; i++){
             turn_right();             
         }                               // turn slightly right
 
-        }else if(pT_drone->ln_distance_slight_right <= 60 && pT_drone->ln_distance_slight_left > 60){
+        }else if(distance_slight_r <= 60 && distance_slight_l > 60){
             for(i=0; i<= 100; i++){
             turn_left();   
             }          
-        }else if(pT_drone->ln_distance_slight_right <= 60 && pT_drone->ln_distance_slight_right <= 60){
+        }else if(distance_slight_r <= 60 && distance_slight_r <= 60){
              while(pT_drone->ln_distance_slight_left <= 60 || pT_drone->ln_distance_slight_right <= 60){
                 move_backward();
              }
@@ -402,15 +402,15 @@ int obstacle_case2(struct T_drone *pT_drone){
                  move_backward();                          //backward more to get space for turn
              }
 
-            if(pT_drone->ln_distance_slight_left<= 60 && pT_drone->ln_distance_slight_right > 60){
+            if(distance_slight_l<= 60 && distance_slight_r > 60){
                  for(i=0; i<= 650; i++){
                      turn_right();             
                  }                 //
-            }else if(pT_drone->ln_distance_slight_right<=60 && pT_drone->ln_distance_slight_left> 60){
+            }else if(distance_slight_r<=60 && distance_slight_l> 60){
                 for(i=0; i<= 650; i++){
                      turn_left();             
                  }                 //
-             }else if(pT_drone->ln_distance_slight_right > 60 && pT_drone->ln_distance_slight_left> 60){
+             }else if(distance_slight_r > 60 && distance_slight_l> 60){
                  if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
                      for (i = 0;i<=650;i++){
                         turn_right();
@@ -436,15 +436,15 @@ int obstacle_case2(struct T_drone *pT_drone){
 int obstacle_case3(struct T_drone *pT_drone){
     int i;
 
-    if(pT_drone->ln_distance_left<=60 && pT_drone->ln_distance_right >60){
+    if(distance_l<=60 && distance_r >60){
         for(i=0; i<= 650; i++){
         turn_right();             
         }                 //
-    }else if(pT_drone->ln_distance_right<=60 && pT_drone->ln_distance_left>60){
+    }else if(distance_r<=60 && distance_l>60){
         for(i=0; i<= 650; i++){
         turn_left();             
         }                 //
-    }else if(pT_drone->ln_distance_right>60 && pT_drone->ln_distance_left>60){
+    }else if(distance_r>60 && distance_l>60){
          if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
             for (i = 0;i<=650;i++){
                      turn_right();
@@ -563,23 +563,79 @@ void ThreadTask_manual_control(struct T_drone *pT_drone){
 }
 
 void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
+    float speed, turn;
+	char speed_user_input[MAXBUFSIZ];
+	char turn_user_input[MAXBUFSIZ];
+	int i, case_num, averageTimes = 3, speed_flag = 1;
+	double distance_l, distance_c, distance_r, distance_slight_l, distance_slight_r;
+	mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r, trig_up_l, echo_up_l, trig_up_r, echo_up_r;
+	mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm;
+
+	signal(SIGINT, &do_when_interrupted);
+
+    trig_l = mraa_gpio_init(8);                                                     
+	echo_l = mraa_gpio_init(9);
+	trig_c = mraa_gpio_init(10);
+	echo_c = mraa_gpio_init(11);
+	trig_r = mraa_gpio_init(12);
+	echo_r = mraa_gpio_init(13);
+	
+	if  trig_c == NULL || echo_c == NULL || trig_l == NULL || echo_l == NULL || trig_r == NULL || echo_r == NULL ||) {
+		fprintf(stderr, "Failed to initialized.\n");
+		return 1;
+	}
+
+    mraa_gpio_dir(trig_up_l, MRAA_GPIO_OUT);
+	mraa_gpio_dir(echo_up_l, MRAA_GPIO_IN);                                                                        
+	mraa_gpio_dir(trig_up_r, MRAA_GPIO_OUT);
+	mraa_gpio_dir(echo_up_r, MRAA_GPIO_IN);
+	mraa_gpio_dir(trig_l, MRAA_GPIO_OUT);                                   
+	mraa_gpio_dir(echo_l, MRAA_GPIO_IN);
+	mraa_gpio_dir(trig_c, MRAA_GPIO_OUT);
+	mraa_gpio_dir(echo_c, MRAA_GPIO_IN);
+	mraa_gpio_dir(trig_r, MRAA_GPIO_OUT);
+	mraa_gpio_dir(echo_r, MRAA_GPIO_IN);
+
+	//At the start, the car will not move and the steering will be at center.
+	speed_control(speed_pwm_in1, speed_pwm_in2, 0.0f);
+	mraa_pwm_write(turn_pwm, 0.067f);
+
+	usleep(100000);
+	
+	speed_control(speed_pwm_in1, speed_pwm_in2, 100.0f);
+   
     while(1){
+
         if (pT_drone->nflag_stop_all != 0)
         {
             break;
         }else if(pT_drone->n_control_type != 1){
             continue;
         }
+        
+        if(n_ultrasonic_degree == 0){
+		    distance_c = get_distance(trig_c, echo_c);
+
+        }else if(n_ultrasonic_degree == -1){
+            distance_slight_l = get_distance(trig_up_l, echo_up_l);
+        }else if(n_ultrasonic_degree == 1){ 
+		    distance_slight_r = get_distance(trig_up_r, echo_up_r);
+        }
+		distance_l = get_distance(trig_l, echo_l);	
+		distance_r = get_distance(trig_r, echo_r);
+
+        printf("lefet distance = %f, center distance = %f, right distance = %f\n", distance_l, distance_c, distance_r);
 #ifdef PRINT_DEBUG_THREAD
       printf("ThreadTask_GpsNavigationMove\n");
 #endif
-        if(pT_drone->ln_distance_left <= 60 && pT_drone->ln_distance_right <= 60 && pT_drone->ln_distance_center <=60){
+              
+        if(distance_l <= 60 && distance_r <= 60 && distance_c <=60){
             obstacle_case1(&g_T_drone_self);
-        }else if(pT_drone->ln_distance_left > 60 && pT_drone->ln_distance_right > 60){
-            if(pT_drone->ln_distance_center <= 60 || pT_drone->ln_distance_slight_left <= 60 || pT_drone->ln_distance_slight_right <= 60){
+        }else if(distance_l > 60 && distance_r > 60){
+            if(distance_c <= 60 || distance_slight_l <= 60 || distance_slight_r <= 60){
                 obstacle_case2(&g_T_drone_self);
             }
-        }else if(pT_drone->ln_distance_left <= 60 || pT_drone->ln_distance_right <= 60 && pT_drone->ln_distance_center <= 60){
+        }else if(distance_l <= 60 || distance_r <= 60 && distance_c <= 60){
             obstacle_case3(&g_T_drone_self); 
         }else{
              GpsNavigationMove(pT_drone);
