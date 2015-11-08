@@ -699,6 +699,7 @@ int GeneratePwm(struct T_drone *pT_drone){
     char pwm4_c[6];
 	mraa_uart_context pwm_uart;
 	pwm_uart = mraa_uart_init(0);
+    mraa_uart_set_baudrate(pwm_uart,115200);
 	while (1){
 #ifdef PRINT_DEBUG_THREAD
 		printf("ThreadTask_GeneratePwm\n");
@@ -735,6 +736,7 @@ int GeneratePwm(struct T_drone *pT_drone){
 			mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
 			continue;
 		}
+        usleep(2000);//2ms motor modulation frequency max = 490Hz
 		/**
 		* set pwm wave
 		*/

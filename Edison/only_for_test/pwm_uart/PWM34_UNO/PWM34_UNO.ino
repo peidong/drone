@@ -1,8 +1,3 @@
-//#include <Wire.h>
-#include <SoftwareSerial.h>
-//#include <String.h>
-
-SoftwareSerial mySerial(5, 4); // RX, TX
 uint16_t tmp3,tmp4;
 int iter=0;
 uint16_t pwm_9 = 0;
@@ -52,19 +47,15 @@ void decoder(char r)
 
 void setup() {
     while(!Serial);
-    Serial.begin(9600);
-   // Serial.println("hello");
-    mySerial.begin(19200);
-    //mySerial.println("Hello, world?");
+    Serial.begin(115200);
     setupPWM16();
 }
 void loop() {
-    if(mySerial.available())
+    if(Serial.available())
     {
-      result = mySerial.read();
+      result = Serial.read();
       decoder(result);
       
-      Serial.print(result);
       if(pwm_9<=40000&&(iter==14||iter==0)){
         analogWrite16(9, pwm_9);
         //analogWrite16(9, pwm_9);
