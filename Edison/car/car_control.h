@@ -35,7 +35,7 @@ sig_atomic_t volatile isrunning =1;
 void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
     int i;
     float sonic_pwm;
-    mraa_pwm_write(sonicTurn_pwm, 0.054f);
+    mraa_pwm_write(sonicTurn_pwm, 0.050f);
     pT_drone->n_ultrasonic_degree = 0;
     while(1){
       if (pT_drone->nflag_stop_all != 0){
@@ -54,7 +54,7 @@ void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
           }
           usleep(100000);
       }
-      mraa_pwm_write(sonicTurn_pwm, 0.054f);
+      mraa_pwm_write(sonicTurn_pwm, 0.050f);
       pT_drone->n_ultrasonic_degree = 0;
       for(i = 0; i <= 38; i++){
           sonic_pwm = CENTER - i * 0.001;
@@ -65,7 +65,7 @@ void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
 
           usleep(100000);
       }
-      mraa_pwm_write(sonicTurn_pwm, 0.054f);
+      mraa_pwm_write(sonicTurn_pwm, 0.050f);
       pT_drone->n_ultrasonic_degree = 0;
       usleep(100000);
     }
