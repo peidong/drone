@@ -74,11 +74,11 @@ struct T_drone{
     /**
      * ultrasonic info
      */
-    double ld_distance_left;
-    double ld_distance_center;
-    double ld_distance_right;
-    double ld_distance_slight_left;
-    double ld_distance_slight_right;
+    double d_distance_left;
+    double d_distance_center;
+    double d_distance_right;
+    double d_distance_slight_left;
+    double d_distance_slight_right;
     int n_ultrasonic_degree;
     /**
      * pid variable
@@ -143,11 +143,11 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->d_destination_longitude = 0;
     pT_drone->d_move_direction = 0;
 
-    pT_drone->ld_distance_left = 0;
-    pT_drone->ld_distance_center = 0;
-    pT_drone->ld_distance_right = 0;
-    pT_drone->ld_distance_slight_left = 0;
-    pT_drone->ld_distance_slight_right = 0;
+    pT_drone->d_distance_left = 0;
+    pT_drone->d_distance_center = 0;
+    pT_drone->d_distance_right = 0;
+    pT_drone->d_distance_slight_left = 0;
+    pT_drone->d_distance_slight_right = 0;
     pT_drone->n_ultrasonic_degree = 0;
 
     pT_drone->d_kp_pitch = 0;
