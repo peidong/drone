@@ -365,7 +365,7 @@ void ThreadTask_manual_control(struct T_drone *pT_drone){
 }
 
 void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
-	while (isrunning == 1){
+	while (1){
 
     if (pT_drone->nflag_stop_all != 0)
         {
