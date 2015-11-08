@@ -13,7 +13,7 @@ float speed, turn;
 char speed_user_input[MAXBUFSIZ];
 char turn_user_input[MAXBUFSIZ];
 int i, case_num, averageTimes = 3, speed_flag = 1;
-double distance_l, distance_c, distance_r, distance_up_l, distance_up_r;
+double distance_l, distance_c, distance_r, distance_s_l, distance_s_r;
 mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r, trig_up_l, echo_up_l, trig_up_r, echo_up_r;
 mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm;
  
@@ -73,42 +73,6 @@ void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
     }
 }
 
-// long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo, struct T_drone *pT_drone)
-// {
-//   long distance, time1, time2;
-//   usleep(2);
-//   mraa_gpio_write(trigger, 0);
-//   usleep(2);
-//   mraa_gpio_write(trigger, 1);
-//   usleep(10);
-//   mraa_gpio_write(trigger, 0);
-//   while(mraa_gpio_read(echo) == 0&&isrunning ==1){
-//     if (pT_drone->nflag_stop_all != 0){
-//       break;
-//     }else if(pT_drone->n_control_type != 1){
-//       continue;
-//     }
-//     // time1 = clock();
-//     // printf("echo 0\n");
-//   }
-//     time1 = clock();
-//   while(mraa_gpio_read(echo) == 1&&isrunning ==1){
-//     if (pT_drone->nflag_stop_all != 0){
-//       break;
-//     }else if(pT_drone->n_control_type != 1){
-//       continue;
-//     }
-//     // printf("echo 1\n");
-//     // time2 = clock()-time1;
-//   }
-//     time2 = clock()-time1;
-
-//   if(time2>0&&time2<30000){
-//     distance = time2 / 58.82;
-//   }
-//   else distance=-1;//if get wrong distance
-//   return distance;
-// }
 
 double get_distance(mraa_gpio_context trigger, mraa_gpio_context echo) 
 {
@@ -320,13 +284,13 @@ void do_case_7(mraa_pwm_context in1, mraa_pwm_context in2, mraa_pwm_context turn
 	}
 }
 
-int case_detection(double upLeft, double upRight, double left, double Center, double right){
+int case_detection(double s_left, double s_right, double left, double Center, double right){
 	int returnVal;
-	if (upLeft < 40 && upRight < 40 && upRight > 10)
+	if (s_left < 40 && s_right < 40 && s_right > 10)
 		return 6;
-	else if (upLeft < 40 && upRight > 50)
+	else if (s_left < 40 && s_right > 50)
 		return 4;
-	else if (upLeft > 50 && upRight < 40 && upRight > 10)
+	else if (s_left > 50 && s_right < 40 && s_right > 10)
 		return 5;
 	if (Center <= 40 && left > 50 && right > 50)
 		returnVal = 1;
@@ -373,16 +337,13 @@ void u_turn(mraa_pwm_context in1, mraa_pwm_context in2, mraa_pwm_context turn) {
     	usleep(100000);                                                                   
     	speed_control(in1, in2, 100);                                                     
     	sleep(1);                                                                         
-                                                                                          
     	mraa_pwm_write(in1, 1.0f);                                                        
     	mraa_pwm_write(in2, 1.0f);                                                        
     	usleep(100000);                                                                   
-                                                                                          
     	mraa_pwm_write(turn, 0.050f);                                                     
     	usleep(100000);                                                                   
     	speed_control(in1, in2, -57);                                                    
     	sleep(1);                                                                         
-                                                                                          
     	mraa_pwm_write(in1, 1.0f);                                                        
     	mraa_pwm_write(in2, 1.0f);                                                        
     	usleep(100000);  	
@@ -416,14 +377,8 @@ int GpsNavigationMove(struct T_drone *pT_drone){
             pT_drone->d_move_direction = 180;
         }
     }
-    //printf("drone's location = lat:%f, lon:%f\n", pT_drone->d_current_latitude, pT_drone->d_current_longitude);
-    //printf("Destination's location = lat:%f, lon:%f\n", pT_drone->d_destination_latitude, pT_drone->d_destination_longitude);
-    //printf("pT_drone->d_move_direction = %f\n", pT_drone->d_move_direction);
     double tmp = abs(pT_drone->d_move_direction - pT_drone->d_face_direction);
-    //printf("abs(pT_drone->d_move_direction - pT_drone->d_face_direction) = %f\n", tmp);
-    //printf("pT_drone->d_face_direction = %f\n", pT_drone->d_face_direction);
     double tmp_distance = sqrt(pow(d_west_to_east_distance, 2) + pow(d_south_to_north_distance, 2));
-    //printf("distance = %f\n\n", tmp_distance);
     if (tmp > 10)
     {
         //turn_direction(pT_drone->d_move_direction - pT_drone->d_face_direction);
@@ -494,22 +449,31 @@ void ThreadTask_manual_control(struct T_drone *pT_drone){
 
 void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 	while (isrunning == 1){
-		distance_up_l = get_distance(trig_c, echo_c);
-		distance_up_r = get_distance(trig_c, echo_c);
+
+    if (pT_drone->nflag_stop_all != 0)
+        {
+            break;
+        }else if(pT_drone->n_control_type != 1){
+            continue;
+        }
+    
+
+		distance_s_l = get_distance(trig_c, echo_c);
+		distance_s_r = get_distance(trig_c, echo_c);
 		distance_l = get_distance(trig_l, echo_l);	
 		distance_c = get_distance(trig_c, echo_c);
 		distance_r = get_distance(trig_r, echo_r);
 	
         printf("left distance is %f \n", distance_l);
 		//slow down when there is an obstacle near by.		
-		if (distance_up_l < 70 || (distance_up_r < 70 && distance_up_r > 10)|| distance_l < 50 || distance_c < 50 || distance_r < 50){
+		if (distance_s_l < 70 || (distance_s_r < 70 && distance_s_r > 10)|| distance_l < 50 || distance_c < 50 || distance_r < 50){
 			speed_flag = 0;
 			speed_control(speed_pwm_in1, speed_pwm_in2, 70);
 		}
 
-		//printf("%lf %lf %lf %lf %lf\n", distance_up_l, distance_up_r, distance_l, distance_c, distance_r);
+		//printf("%lf %lf %lf %lf %lf\n", distance_s_l, distance_s_r, distance_l, distance_c, distance_r);
 			
-		case_num = case_detection(distance_up_l, distance_up_r, distance_l, distance_c, distance_r);
+		case_num = case_detection(distance_s_l, distance_s_r, distance_l, distance_c, distance_r);
 		//printf("case is %d\n", case_num);
 			
 		switch(case_num){
@@ -535,7 +499,7 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 				do_case_7(speed_pwm_in1, speed_pwm_in2, turn_pwm, speed_flag);
 				break;
 		}
-	}//end of while
+	}
 
 
     }
