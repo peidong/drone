@@ -189,33 +189,81 @@ double get_longitude_distance(double d_lon1, double d_lon2, double d_lat1)
     return s;  
 }
 
-void do_case_1(double left, double right, mraa_pwm_context turn, mraa_pwm_context in1, mraa_pwm_context in2){
-	speed_control(in1, in2, -100);
-	sleep(1);
-	speed_control(in1, in2, 100);
-	if ((left - right) > 0.00001)
-		mraa_pwm_write(turn, LEFT);
-	else
-		mraa_pwm_write(turn, RIGHT);
-	sleep(1);
-	usleep(500000);
+void do_case_1(){
+	int i;
+    for(i=0; i<=200; i++){
+        move_backward();
+    }
+    if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
+            for (i = 0;i<=550;i++){
+                     turn_right();
+                 } 
+    }else{   
+            for (i = 0;i<=550;i++){
+                     turn_left();
+             }
+    }
+    for(i=0; i<= 100; i++){
+        move_forward();                          
+      }
 }
 
+void do_case_2(){
+    int i;
+    for(i=0; i<=550; i++){
+        turn_right();
+    }
+
+}
+
+void do_case_3(){
+    int i;
+    for(i=0; i<=550; i++){
+        turn_left();
+    }
+}
+
+void do_case_4(){
+    int i;
+    if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
+            for (i = 0;i<=550;i++){
+                     turn_right();
+                 } 
+    }else{   
+            for (i = 0;i<=550;i++){
+                     turn_left();
+             }
+    }
+}
+
+void do_case_5(){
+  for(i=0; i<=350; i++){
+        turn_right();
+    }
+
+}
+
+void do_case_6(){
+  for(i=0; i<=350; i++){
+        turn_left();
+    }
+
+}
 
 int case_detection(double s_left, double s_right, double Center){
 	int returnVal;
-	if (Center <= 40 && left > 50 && right > 50)
-		returnVal = 1;
-	else if (Center > 50 && left <= 30 && right > 50)
-		returnVal = 2;
-	else if (Center > 50 && left > 50 && right <= 30)
-		returnVal = 3;
-	else if (Center <= 50 && left <= 50 && right <= 50)
-		returnVal = 6;
-	else if (Center <= 50 && left <= 50 && right > 50)
-		returnVal = 4;
-	else if (Center <= 50 && left > 50 && right <= 50)
-		returnVal = 5;
+	if (Center <= 50 && s_left <= 50 && s_right <= 50)
+		returnVal = 1;      //go back
+    else if(Center <=50 && s_left <=50 && s_right >50)
+        returnVal = 2;     //turn right
+    else if(Center <= 50 && s_left >50 && s_right <=50)
+        returnVal = 3;      //turn left
+    else if(Center <= 50 && s_left >50 && s_right > 50)
+        returnVal = 4;      //turn destination direction
+    else if(Center > 50 && s_left <=40)
+        returnVal = 5;      //turn slightly right
+    else if(Center > 50 && s_right <= 40)
+        returnVal = 6;      //turn slightly left
 	else
 		returnVal = 7;
 	return returnVal;
@@ -348,19 +396,25 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
             
         switch(case_num){
             case 1:
-                do_case_1(distance_l, distance_r, turn_pwm, speed_pwm_in1, speed_pwm_in2);
+                do_case_1();
                 break;
             case 2:
-                do_case_2(distance_l, turn_pwm, trig_l, echo_l); 
+                do_case_2(); 
                 break;
             case 3:
-                do_case_3(distance_r, turn_pwm, trig_r, echo_r);
+                do_case_3();
                 break;
             case 4:
-                do_case_4(turn_pwm, trig_l, echo_l);
-                break; 
+                do_case_4();
+                break;
+            case 5:
+                do_case_5();
+                break;
+            case 6:
+                do_case_6(); 
+                break;
             default: 
-                do_case_7(speed_pwm_in1, speed_pwm_in2, turn_pwm, speed_flag);
+                GpsNavigationMove(pT_drone);
                 break;
         }
 	}
