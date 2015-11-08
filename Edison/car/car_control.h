@@ -23,7 +23,6 @@ mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm, sonicTurn_pwm;
 double EARTH_RADIUS = 6378137;
 float g_f_speed, g_f_turn;
 //mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r; 
-double n_ultrasonic_degree;
 /**
  * This is for ultrasonic sensor read
  */
@@ -456,11 +455,11 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
             continue;
         }
     
-        if(n_ultrasonic_degree == 0){
+        if(pT_drone->n_ultrasonic_degree == 0){
 		    distance_c = get_distance(trig_c, echo_c);
-        }else if(n_ultrasonic_degree == -1){
+        }else if(pT_drone->n_ultrasonic_degree == -1){
 		distance_s_l = get_distance(trig_c, echo_c);
-        }else if(n_ultrasonic_degree == 1){
+        }else if(pT_drone->n_ultrasonic_degree == 1){
 		distance_s_r = get_distance(trig_c, echo_c);
         }
 		distance_c = get_distance(trig_c, echo_c);
@@ -472,7 +471,7 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 			speed_control(speed_pwm_in1, speed_pwm_in2, 70);
 		}
 
-		printf("%lf %lf %lf %lf %lf\n", distance_s_l, distance_s_r, distance_l, distance_c, distance_r);
+        printf("%lf %lf %lf %lf %lf\n", distance_s_l, distance_s_r, distance_l, distance_c, distance_r);
 			
 		case_num = case_detection(distance_s_l, distance_s_r, distance_l, distance_c, distance_r);
 		//printf("case is %d\n", case_num);
