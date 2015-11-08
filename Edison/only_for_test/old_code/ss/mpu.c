@@ -60,7 +60,7 @@ float gRes = 1000.0/32768.0;
 #define PI 3.14159254
 clock_t now=0,past=0;
 
-float beta=4.5f;  // compute beta
+float beta=1.5f;  // compute beta
 
 float pitch, yaw, roll;
 float deltat = 0.0005;                             // integration interval for both filter schemes
