@@ -682,7 +682,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     return 0;
 }
 
-int GeneratePwm(struct T_drone *pT_drone){
+int GeneratePwm_old(struct T_drone *pT_drone){
     usleep(1000000);
     mraa_i2c_context pwm12, pwm34;
     pwm12 = mraa_i2c_init(2);

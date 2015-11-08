@@ -16,15 +16,12 @@ mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r;
 
 /**
  * This is for ultrasonic sensor read
- *
  */
-// sig_atomic_t volatile isrunning =1;                                              
- 
-// void do_when_interrupted(int sig) {
-//         if (sig == SIGINT)
-//             isrunning = 0;
-// }
-
+sig_atomic_t volatile isrunning =1;                                                                 
+void do_when_interrupted(int sig){
+  if (sig == SIGINT)
+    isrunning ==0;
+}
 
 void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
     int i;
@@ -65,42 +62,71 @@ void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
     }
 }
 
-long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
-{ 
-    long distance, time1, time2;
-    mraa_gpio_write(trigger, 0);
-    usleep(10);
-    mraa_gpio_write(trigger, 1);
-    usleep(10);
-    mraa_gpio_write(trigger, 0);
-    printf("echo is mraa %d\n", mraa_gpio_read(echo));
-    while(mraa_gpio_read(echo) == 0){
-    printf("echo is mraa %d\n", mraa_gpio_read(echo));
-    //if(mraa_gpio_read(echo) == 0){
-        time1 = clock();
+long get_distance(mraa_gpio_context trigger, mraa_gpio_context echo, struct T_drone *pT_drone)
+{
+  long distance, time1, time2;
+  usleep(2);
+  mraa_gpio_write(trigger, 0);
+  usleep(2);
+  mraa_gpio_write(trigger, 1);
+  usleep(10);
+  mraa_gpio_write(trigger, 0);
+  while(mraa_gpio_read(echo) == 0&&isrunning ==1){
+    if (pT_drone->nflag_stop_all != 0){
+      break;
+    }else if(pT_drone->n_control_type != 1){
+      continue;
     }
-    //if(mraa_gpio_read(echo) == 1){
-    while(mraa_gpio_read(echo) == 1){
-        printf("enter while; \n");
-        time2 = clock()-time1;
-        printf("finish computer \n");
+    time1 = clock();
+  }
+  while(mraa_gpio_read(echo) == 1&&isrunning ==1){
+    if (pT_drone->nflag_stop_all != 0){
+      break;
+    }else if(pT_drone->n_control_type != 1){
+      continue;
     }
-    if(time2>0&&time2<30000){
-        distance = time2 / 58.82;
-    }else{ 
-        distance=-1;//if get wrong distance
-    }
-    printf("distance = %ld\n", distance);
-    return distance;
+    time2 = clock()-time1;
+  }
+  if(time2>0&&time2<30000){
+    distance = time2 / 58.82;
+  }
+  else distance=-1;//if get wrong distance
+  return distance;
 }
 
 
-void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
-    //long pT_drone->ln_distance_left, pT_drone->ln_distance_center, pT_drone->ln_distance_right;                                       
- 
-    // signal(SIGINT, do_when_interrupted);                                                          
+void ThreadTask_Ultrasonic_read_left(struct T_drone *pT_drone){
+  signal(SIGINT, do_when_interrupted);                                                          
 
-   trig_l = mraa_gpio_init(10);                                          
+    trig_l = mraa_gpio_init(10);                                          
+    echo_l = mraa_gpio_init(11);                                     
+
+    if (trig_l == NULL || echo_l == NULL){                                            
+       fprintf(stderr, "Failed to initialized.\n");
+       return;
+    }
+        mraa_gpio_dir(trig_l, MRAA_GPIO_OUT);                                    
+        mraa_gpio_dir(echo_l, MRAA_GPIO_IN);                                     
+
+  while(isrunning == 1){
+    if (pT_drone->nflag_stop_all != 0){
+      break;
+    }else if(pT_drone->n_control_type != 1){
+      continue;
+    }
+#ifdef PRINT_DEBUG_THREAD
+      printf("ThreadTask_Ultrasonic_read\n");
+#endif
+    if(get_distance(trig_l, echo_l) != -1){
+      usleep(20);
+      pT_drone->ln_distance_left = get_distance(trig_l, echo_l); 
+    }    
+}
+
+void ThreadTask_Ultrasonic_read_right(struct T_drone *pT_drone){
+  signal(SIGINT, do_when_interrupted);                                                          
+
+    trig_l = mraa_gpio_init(10);                                          
     echo_l = mraa_gpio_init(11);                                     
     trig_c = mraa_gpio_init(7);                                             
     echo_c = mraa_gpio_init(8);                                             
@@ -118,10 +144,7 @@ void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
         mraa_gpio_dir(trig_r, MRAA_GPIO_OUT);                                    
         mraa_gpio_dir(echo_r, MRAA_GPIO_IN);    
 
-   while(1){
-   // while(isrunning == 1){
-   //
-   printf("the value is %d \n", pT_drone->nflag_stop_all);
+  while(isrunning == 1){
     if (pT_drone->nflag_stop_all != 0){
       break;
     }else if(pT_drone->n_control_type != 1){
@@ -130,11 +153,11 @@ void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
 #ifdef PRINT_DEBUG_THREAD
       printf("ThreadTask_Ultrasonic_read\n");
 #endif
-    usleep(20);
-    printf("ultrasonic 1\n");
-    pT_drone->ln_distance_left = get_distance(trig_l, echo_l);
-    // printf("ultrasonic 2\n");
-    usleep(20);
+    if(get_distance(trig_l, echo_l) != -1){
+      usleep(20);
+      pT_drone->ln_distance_left = get_distance(trig_l, echo_l); 
+    }
+    
     if(pT_drone->n_ultrasonic_degree == 0){
         pT_drone->ln_distance_center = get_distance(trig_c, echo_c);
     }else if(pT_drone->n_ultrasonic_degree == 1){
@@ -142,11 +165,53 @@ void ThreadTask_Ultrasonic_read(struct T_drone *pT_drone){
     }else if(pT_drone->n_ultrasonic_degree == -1){
         pT_drone->ln_distance_slight_left = get_distance(trig_c, echo_c);
     }
-    // printf("ultrasonic 3\n");
-    usleep(20);
     pT_drone->ln_distance_right = get_distance(trig_r, echo_r);
-    // printf("ultrasonic 4\n");                     
-    //printf(" c:%d l:%d r:%d\n", pT_drone->ln_distance_center, pT_drone->ln_distance_left, pT_drone->ln_distance_right);}}
+    }
+}
+
+void ThreadTask_Ultrasonic_read_center(struct T_drone *pT_drone){
+  signal(SIGINT, do_when_interrupted);                                                          
+
+    trig_l = mraa_gpio_init(10);                                          
+    echo_l = mraa_gpio_init(11);                                     
+    trig_c = mraa_gpio_init(7);                                             
+    echo_c = mraa_gpio_init(8);                                             
+    trig_r = mraa_gpio_init(12);                                              
+    echo_r = mraa_gpio_init(13);     
+
+    if (trig_c == NULL || echo_c == NULL || trig_l == NULL || echo_l == NULL || trig_r == NULL ||echo_r == NULL){                                            
+       fprintf(stderr, "Failed to initialized.\n");
+       return;
+    }
+        mraa_gpio_dir(trig_l, MRAA_GPIO_OUT);                                    
+        mraa_gpio_dir(echo_l, MRAA_GPIO_IN);                                     
+        mraa_gpio_dir(trig_c, MRAA_GPIO_OUT);                                    
+        mraa_gpio_dir(echo_c, MRAA_GPIO_IN);                                     
+        mraa_gpio_dir(trig_r, MRAA_GPIO_OUT);                                    
+        mraa_gpio_dir(echo_r, MRAA_GPIO_IN);    
+
+  while(isrunning == 1){
+    if (pT_drone->nflag_stop_all != 0){
+      break;
+    }else if(pT_drone->n_control_type != 1){
+      continue;
+    }
+#ifdef PRINT_DEBUG_THREAD
+      printf("ThreadTask_Ultrasonic_read\n");
+#endif
+    if(get_distance(trig_l, echo_l) != -1){
+      usleep(20);
+      pT_drone->ln_distance_left = get_distance(trig_l, echo_l); 
+    }
+    
+    if(pT_drone->n_ultrasonic_degree == 0){
+        pT_drone->ln_distance_center = get_distance(trig_c, echo_c);
+    }else if(pT_drone->n_ultrasonic_degree == 1){
+        pT_drone->ln_distance_slight_right = get_distance(trig_c, echo_c);
+    }else if(pT_drone->n_ultrasonic_degree == -1){
+        pT_drone->ln_distance_slight_left = get_distance(trig_c, echo_c);
+    }
+    pT_drone->ln_distance_right = get_distance(trig_r, echo_r);
     }
 }
 
