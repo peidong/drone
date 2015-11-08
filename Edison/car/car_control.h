@@ -2,7 +2,7 @@
 
 
 #define MAXBUFSIZ 1024
-#define CENTER 0.068f
+#define CENTER 0.067f
 #define LEFT 0.015f
 #define RIGHT -0.015f
 #define LEFTMAX 0.058f
@@ -46,7 +46,7 @@ void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
 #ifdef PRINT_DEBUG_THREAD
       printf("ThreadTask_sonicTurn_pwm\n");
 #endif
-      for(i = 0; i <= 40; i++){
+      for(i = 0; i <= 38; i++){
           sonic_pwm = CENTER + i * 0.001;
           mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
           if(i > 3){
@@ -56,7 +56,7 @@ void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
       }
       mraa_pwm_write(sonicTurn_pwm, CENTER);
       pT_drone->n_ultrasonic_degree = 0;
-      for(i = 0; i <= 40; i++){
+      for(i = 0; i <= 38; i++){
           sonic_pwm = CENTER - i * 0.001;
           mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
           if(i > 3){
