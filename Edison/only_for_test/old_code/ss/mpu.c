@@ -436,12 +436,12 @@ void main()
     result[sample][1] = my;
     result[sample][2] = mz;    
     
-//    printf("%.1f, %.1f, %.1f\n",yaw, pitch, roll);
+   printf("%.1f, %.1f, %.1f\n",yaw, pitch, roll);
     
     
 //    printf("%f,%f,%f,%f\n",SEq_1,SEq_2,SEq_3,SEq_4);
 //    usleep(2000);
-   sample+=1;
+   // sample+=1;
 //    printf("%8.6f,%8.6f,%8.6f,%8.6f,%8.6f,%8.6f,%8.6f,%8.6f,%8.6f\n",ax,ay,az,gx,gy,gz,mx,my,mz);
 
 	}
