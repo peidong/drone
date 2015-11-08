@@ -521,7 +521,7 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
         distance_l = get_distance(trig_l, echo_l);
         distance_r = get_distance(trig_r, echo_r);
 	
-        slow down when there is an obstacle near by.		
+//        slow down when there is an obstacle near by.		
         if (distance_s_l < 70 || (distance_s_r < 70 && distance_s_r > 10)|| distance_l < 50 || distance_c < 50 || distance_r < 50){
             speed_flag = 0;
             speed_control(speed_pwm_in1, speed_pwm_in2, 70);
