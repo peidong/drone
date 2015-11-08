@@ -456,21 +456,23 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
             continue;
         }
     
-
+        if(n_ultrasonic_degree == 0){
+		    distance_c = get_distance(trig_c, echo_c);
+        }else if(n_ultrasonic_degree == -1){
 		distance_s_l = get_distance(trig_c, echo_c);
+        }else if(n_ultrasonic_degree == 1){
 		distance_s_r = get_distance(trig_c, echo_c);
-		distance_l = get_distance(trig_l, echo_l);	
+        }
 		distance_c = get_distance(trig_c, echo_c);
 		distance_r = get_distance(trig_r, echo_r);
 	
-        printf("left distance is %f \n", distance_l);
 		//slow down when there is an obstacle near by.		
 		if (distance_s_l < 70 || (distance_s_r < 70 && distance_s_r > 10)|| distance_l < 50 || distance_c < 50 || distance_r < 50){
 			speed_flag = 0;
 			speed_control(speed_pwm_in1, speed_pwm_in2, 70);
 		}
 
-		//printf("%lf %lf %lf %lf %lf\n", distance_s_l, distance_s_r, distance_l, distance_c, distance_r);
+		printf("%lf %lf %lf %lf %lf\n", distance_s_l, distance_s_r, distance_l, distance_c, distance_r);
 			
 		case_num = case_detection(distance_s_l, distance_s_r, distance_l, distance_c, distance_r);
 		//printf("case is %d\n", case_num);
