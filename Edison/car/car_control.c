@@ -1,8 +1,8 @@
 #include "car_control.h"
 
 int main(){
-	trig_l = mraa_gpio_init(10);                                                     
-	echo_l = mraa_gpio_init(11);
+	//trig_l = mraa_gpio_init(10);                                                     
+	//echo_l = mraa_gpio_init(11);
 	trig_c = mraa_gpio_init(7);
 	echo_c = mraa_gpio_init(8);
 	trig_r = mraa_gpio_init(12);
@@ -21,8 +21,8 @@ int main(){
 		return 1;
 	}
 
-	mraa_gpio_dir(trig_l, MRAA_GPIO_OUT);                                   
-	mraa_gpio_dir(echo_l, MRAA_GPIO_IN);
+	//mraa_gpio_dir(trig_l, MRAA_GPIO_OUT);                                   
+	//mraa_gpio_dir(echo_l, MRAA_GPIO_IN);
 	mraa_gpio_dir(trig_c, MRAA_GPIO_OUT);
 	mraa_gpio_dir(echo_c, MRAA_GPIO_IN);
 	mraa_gpio_dir(trig_r, MRAA_GPIO_OUT);

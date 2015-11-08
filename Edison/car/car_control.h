@@ -13,8 +13,10 @@ float speed, turn;
 char speed_user_input[MAXBUFSIZ];
 char turn_user_input[MAXBUFSIZ];
 int i, case_num, averageTimes = 3, speed_flag = 1;
-double distance_l, distance_c, distance_r, distance_s_l, distance_s_r;
-mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r, trig_up_l, echo_up_l, trig_up_r, echo_up_r;
+//double distance_l, distance_c, distance_r, distance_s_l, distance_s_r;
+double distance_c, distance_s_l, distance_s_r;
+//mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r, trig_up_l, echo_up_l, trig_up_r, echo_up_r;
+mraa_gpio_context trig_c, echo_c;
 mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm, sonicTurn_pwm;
  
 
@@ -520,8 +522,8 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
         }else if(pT_drone->n_ultrasonic_degree == 1){
 		distance_s_r = get_distance(trig_c, echo_c);
         }
-        distance_l = get_distance(trig_l, echo_l);
-        distance_r = get_distance(trig_r, echo_r);
+        //distance_l = get_distance(trig_l, echo_l);
+        //distance_r = get_distance(trig_r, echo_r);
 	
 //        slow down when there is an obstacle near by.		
         if (distance_s_l < 70 || (distance_s_r < 70 && distance_s_r > 10)|| distance_l < 50 || distance_c < 50 || distance_r < 50){
