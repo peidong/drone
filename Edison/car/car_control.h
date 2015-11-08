@@ -7,7 +7,7 @@
 #define RIGHT -0.015f
 #define LEFTMAX 0.058f
 #define RIGHTMAX 0.078f
-#define PRINT_DEBUG_THREAD
+//#define PRINT_DEBUG_THREAD
 
 float speed, turn;
 char speed_user_input[MAXBUFSIZ];
@@ -528,7 +528,7 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 		//}
 
         //printf("%lf %lf %lf %lf %lf\n", distance_s_l, distance_s_r, distance_l, distance_c, distance_r);
-        printf("%lf\t%lf\t%lf\n", distance_s_l, distance_s_r, distance_c);
+        //printf("%lf\t%lf\t%lf\n", distance_s_l, distance_s_r, distance_c);
 			
 		//case_num = case_detection(distance_s_l, distance_s_r, distance_l, distance_c, distance_r);
 		//printf("case is %d\n", case_num);
