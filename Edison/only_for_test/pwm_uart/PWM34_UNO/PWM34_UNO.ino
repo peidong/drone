@@ -53,9 +53,8 @@ void decoder(char r)
 void setup() {
     while(!Serial);
     Serial.begin(9600);
-    Serial.println("Goodnight moon!");
-    Serial.println("Serial setup finish!");
-    mySerial.begin(9600);
+   // Serial.println("hello");
+    mySerial.begin(19200);
     //mySerial.println("Hello, world?");
     setupPWM16();
 }
@@ -63,13 +62,16 @@ void loop() {
     if(mySerial.available())
     {
       result = mySerial.read();
-      
       decoder(result);
-      sprintf(result,0);
+      
       Serial.print(result);
-      if(pwm_9<=40000&&pwm_10<=40000){
+      if(pwm_9<=40000&&(iter==14||iter==0)){
         analogWrite16(9, pwm_9);
+        //analogWrite16(9, pwm_9);
+      }
+      if(pwm_10<=40000&&(iter==19||iter==0)){
         analogWrite16(10, pwm_10);
+       // analogWrite16(10, pwm_10);
       }
     }
 
