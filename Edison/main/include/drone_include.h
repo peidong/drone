@@ -103,10 +103,15 @@ struct T_drone g_T_drone_self;
  * initialize the struct
  */
 int initialize_struct_T_drone(struct T_drone *pT_drone){
+    /**
+     * This is for flag
+     */
     pT_drone->nflag_stop_all = 0;
     pT_drone->nflag_enable_pwm_pid_ultrasound = 0;
+    /**
+     * These following are from server
+     */
     pT_drone->sz_mac_address = "fc:c2:de:3d:7f:af";
-
     pT_drone->n_control_type = -1;
     pT_drone->n_auto_control_command = -1;
     pT_drone->n_manual_control_command = -1;
