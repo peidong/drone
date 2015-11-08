@@ -52,8 +52,8 @@ void decoder(char r)
 
 void setup() {
     while(!Serial);
-    Serial.begin(57600);
-    mySerial.begin(57600);
+    Serial.begin(19200);
+    mySerial.begin(19200);
     //mySerial.println("Hello, world?");
     setupPWM16();
 }
