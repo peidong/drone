@@ -682,6 +682,155 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     return 0;
 }
 
+
+
+int GeneratePwm(struct T_drone *pT_drone){
+
+	int arrn_current_duty[4];
+	char arrch_uart_output[21];
+	char pwm1_c[6];
+    char pwm2_c[6];
+    char pwm3_c[6];
+    char pwm4_c[6];
+	mraa_uart_context pwm_uart;
+	pwm_uart = mraa_uart_init(0);
+	while (1){
+#ifdef PRINT_DEBUG_THREAD
+		printf("ThreadTask_GeneratePwm\n");
+#endif
+#ifdef PRINT_DEBUG_PWM
+
+#endif
+		if (pT_drone->nflag_stop_all == 1)
+		{
+			/**
+			* Reset PWM to 0
+			*/
+			pT_drone->arrd_current_pwm[0] = 0;
+			pT_drone->arrd_current_pwm[1] = 0;
+			pT_drone->arrd_current_pwm[2] = 0;
+			pT_drone->arrd_current_pwm[3] = 0;
+			memset(arrch_uart_output,'0', 20);
+			mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
+			break;
+		}
+		else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+		{
+			/**
+			* Reset PWM to 0
+			*/
+			pT_drone->arrd_current_pwm[0] = 0;
+			pT_drone->arrd_current_pwm[1] = 0;
+			pT_drone->arrd_current_pwm[2] = 0;
+			pT_drone->arrd_current_pwm[3] = 0;
+			memset(arrch_uart_output,'0', 20);
+			mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
+			continue;
+		}
+		/**
+		* set pwm wave
+		*/
+		arrn_current_duty[0] = (int)(pT_drone->arrd_current_pwm[0] * 40000);
+		arrn_current_duty[1] = (int)(pT_drone->arrd_current_pwm[1] * 40000);
+		arrn_current_duty[2] = (int)(pT_drone->arrd_current_pwm[2] * 40000);
+		arrn_current_duty[3] = (int)(pT_drone->arrd_current_pwm[3] * 40000);
+
+		/**
+		* combine four pwm values into one string
+		*/
+		if(arrn_current_duty[0]/10==0)
+	         sprintf(pwm1_c,"0000%d",arrn_current_duty[0]);
+	    else if(arrn_current_duty[0]/100==0)
+	         sprintf(pwm1_c,"000%d",arrn_current_duty[0]);
+	    else if(arrn_current_duty[0]/1000==0)
+	         sprintf(pwm1_c,"00%d",arrn_current_duty[0]);
+	    else if(arrn_current_duty[0]/10000==0)
+	         sprintf(pwm1_c,"0%d",arrn_current_duty[0]);
+	    else
+	         sprintf(pwm1_c,"%d",arrn_current_duty[0]);
+	    
+		if(arrn_current_duty[1]/10==0)
+	         sprintf(pwm2_c,"0000%d",arrn_current_duty[1]);
+	    else if(arrn_current_duty[1]/100==0)
+	         sprintf(pwm2_c,"000%d",arrn_current_duty[1]);
+	    else if(arrn_current_duty[1]/1000==0)
+	         sprintf(pwm2_c,"00%d",arrn_current_duty[1]);
+	    else if(arrn_current_duty[1]/10000==0)
+	         sprintf(pwm2_c,"0%d",arrn_current_duty[1]);
+	    else
+	         sprintf(pwm2_c,"%d",arrn_current_duty[1]);
+	    
+	    if(arrn_current_duty[2]/10==0)
+	         sprintf(pwm3_c,"0000%d",arrn_current_duty[2]);
+	    else if(arrn_current_duty[2]/100==0)
+	         sprintf(pwm3_c,"000%d",arrn_current_duty[2]);
+	    else if(arrn_current_duty[2]/1000==0)
+	         sprintf(pwm3_c,"00%d",arrn_current_duty[2]);
+	    else if(arrn_current_duty[2]/10000==0)
+	         sprintf(pwm3_c,"0%d",arrn_current_duty[2]);
+	    else
+	         sprintf(pwm3_c,"%d",arrn_current_duty[2]);
+	    
+	    if(arrn_current_duty[3]/10==0)
+	         sprintf(pwm4_c,"0000%d",arrn_current_duty[3]);
+	    else if(arrn_current_duty[3]/100==0)
+	         sprintf(pwm4_c,"000%d",arrn_current_duty[3]);
+	    else if(arrn_current_duty[3]/1000==0)
+	         sprintf(pwm4_c,"00%d",arrn_current_duty[3]);
+	    else if(arrn_current_duty[3]/10000==0)
+	         sprintf(pwm4_c,"0%d",arrn_current_duty[3]);
+	    else
+	         sprintf(pwm4_c,"%d",arrn_current_duty[3]);
+	    
+	    sprintf(arrch_uart_output,"%s%s%s%s",pwm1_c,pwm2_c,pwm3_c,pwm4_c);
+	    
+	    /**
+         * write pwm into serial bus
+         */
+	    if (pT_drone->nflag_stop_all == 1)
+        {
+            /**
+             * Reset PWM to 0
+             */
+            pT_drone->arrd_current_pwm[0] = 0;
+            pT_drone->arrd_current_pwm[1] = 0;
+            pT_drone->arrd_current_pwm[2] = 0;
+            pT_drone->arrd_current_pwm[3] = 0;
+            memset(arrch_uart_output,'0', 20);
+            mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
+            break;
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+        {
+            /**
+             * Reset PWM to 0
+             */
+            pT_drone->arrd_current_pwm[0] = 0;
+            pT_drone->arrd_current_pwm[1] = 0;
+            pT_drone->arrd_current_pwm[2] = 0;
+            pT_drone->arrd_current_pwm[3] = 0;
+            memset(arrch_uart_output,'0', 20);
+            mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
+            continue;
+        }else{
+                mraa_uart_write(pwm_uart, arrch_uart_output, 21);
+        }
+
+    }
+    /**
+     * Reset PWM to 0
+     */
+    pT_drone->arrd_current_pwm[0] = 0;
+    pT_drone->arrd_current_pwm[1] = 0;
+    pT_drone->arrd_current_pwm[2] = 0;
+    pT_drone->arrd_current_pwm[3] = 0;
+    memset(arrch_uart_output,'0', 20);
+    mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
+    mraa_uart_stop(pwm_uart);
+    return 0;
+}
+
+
+
 int GeneratePwm_old(struct T_drone *pT_drone){
     usleep(1000000);
     mraa_i2c_context pwm12, pwm34;
