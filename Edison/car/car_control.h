@@ -46,7 +46,7 @@ void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
 #ifdef PRINT_DEBUG_THREAD
       printf("ThreadTask_sonicTurn_pwm\n");
 #endif
-      for(i = 0; i <= 45; i++){
+      for(i = 0; i <= 40; i++){
           sonic_pwm = CENTER + i * 0.001;
           mraa_pwm_write(sonicTurn_pwm, sonic_pwm);
           if(i > 3){
