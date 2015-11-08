@@ -500,6 +500,4 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 				break;
 		}
 	}
-
-
-    }
+}
