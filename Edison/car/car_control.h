@@ -588,7 +588,9 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 	mraa_gpio_dir(echo_c, MRAA_GPIO_IN);
 	mraa_gpio_dir(trig_r, MRAA_GPIO_OUT);
 	mraa_gpio_dir(echo_r, MRAA_GPIO_IN);
-
+    
+    n_ultrasonic_degree = 0;
+    
 	//At the start, the car will not move and the steering will be at center.   
     while(1){
 
