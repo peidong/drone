@@ -189,7 +189,7 @@ double get_longitude_distance(double d_lon1, double d_lon2, double d_lat1)
     return s;  
 }
 
-void do_case_1(){
+void do_case_1(struct T_drone *pT_drone ){
 	int i;
     for(i=0; i<=200; i++){
         move_backward();
@@ -223,7 +223,7 @@ void do_case_3(){
     }
 }
 
-void do_case_4(){
+void do_case_4( struct T_drone *pT_drone){
     int i;
     if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
             for (i = 0;i<=550;i++){
@@ -396,7 +396,7 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
             
         switch(case_num){
             case 1:
-                do_case_1();
+                do_case_1(pT_drone);
                 break;
             case 2:
                 do_case_2(); 
@@ -405,7 +405,7 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
                 do_case_3();
                 break;
             case 4:
-                do_case_4();
+                do_case_4(pT_drone);
                 break;
             case 5:
                 do_case_5();
