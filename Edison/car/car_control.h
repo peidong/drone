@@ -201,99 +201,9 @@ void do_case_1(double left, double right, mraa_pwm_context turn, mraa_pwm_contex
 	usleep(500000);
 }
 
-void do_case_2(double left, mraa_pwm_context turn, mraa_gpio_context trig, mraa_gpio_context echo){
-	int counter = 0;
-	double previous = 1.0, current = 0, dutyCycle;
-	while (counter < 3){
-		while (current <= previous){
-			counter = 0;
-			previous = get_distance(trig, echo);
-			dutyCycle = mraa_pwm_read(turn);
-			dutyCycle += 0.005f;
-			if (dutyCycle < RIGHTMAX)
-				mraa_pwm_write(turn, dutyCycle);
-			usleep(200000);
-			current = get_distance(trig, echo);
-			if (current > 80) break;
-		}
-		previous = current;
-		usleep(150000);
-		current = get_distance(trig, echo);
-		if (current > 80)
-			break;
-		if (current > previous)
-			counter += 1;
-	}
-	mraa_pwm_write(turn, CENTER);
-}
 
-void do_case_3(double right, mraa_pwm_context turn, mraa_gpio_context trig, mraa_gpio_context echo){
-	int counter = 0;
-	double previous = 0, current, dutyCycle;
-	current = right;
-	while (counter < 3){
-		while (current <= previous){
-			counter = 0;
-			previous = get_distance(trig, echo);
-			dutyCycle = mraa_pwm_read(turn);
-			dutyCycle -= 0.005f;
-			if (dutyCycle > LEFTMAX){
-				mraa_pwm_write(turn, dutyCycle);
-			}
-			usleep(200000);
-			current = get_distance(trig, echo);
-			if (current > 80) break;
-		}
-		previous = current;
-		usleep(150000);
-		current = get_distance(trig, echo);
-		if (current > 80)
-			break;
-		if (current > previous)
-			counter += 1;
-	}
-	mraa_pwm_write(turn, CENTER);
-}
-
-void do_case_4(mraa_pwm_context turn, mraa_gpio_context trig_l, mraa_gpio_context echo_l){
-	mraa_pwm_write(turn, RIGHT);
-	usleep(600000);
-	//sleep(1);
-	double left = get_distance(trig_l, echo_l);
-	do_case_2(left, turn, trig_l, echo_l);
-}
-
-void do_case_5(mraa_pwm_context turn, mraa_gpio_context trig_r, mraa_gpio_context echo_r){
-	mraa_pwm_write(turn, LEFT);
-	usleep(600000);
-	//sleep(1);
-	double right = get_distance(trig_r, echo_r);
-	do_case_3(right, turn, trig_r, echo_r);
-}
-
-void do_case_6(mraa_pwm_context in1, mraa_pwm_context in2, mraa_pwm_context turn){
-	mraa_pwm_write(turn, CENTER);
-	speed_control(in1, in2, -100.0f);
-	sleep(2);
-	u_turn(in1, in2, turn);
-}
-
-void do_case_7(mraa_pwm_context in1, mraa_pwm_context in2, mraa_pwm_context turn, int speed_flag){
-	if (speed_flag == 0){
-		speed_flag = 1;
-		mraa_pwm_write(turn, CENTER);
-		speed_control(in1, in2, 100.0f);
-	}
-}
-
-int case_detection(double s_left, double s_right, double left, double Center, double right){
+int case_detection(double s_left, double s_right, double Center){
 	int returnVal;
-	if (s_left < 40 && s_right < 40 && s_right > 10)
-		return 6;
-	else if (s_left < 40 && s_right > 50)
-		return 4;
-	else if (s_left > 50 && s_right < 40 && s_right > 10)
-		return 5;
 	if (Center <= 40 && left > 50 && right > 50)
 		returnVal = 1;
 	else if (Center > 50 && left <= 30 && right > 50)
@@ -311,49 +221,6 @@ int case_detection(double s_left, double s_right, double left, double Center, do
 	return returnVal;
 }
 
-void u_turn(mraa_pwm_context in1, mraa_pwm_context in2, mraa_pwm_context turn) {
-	mraa_pwm_write(turn, 0.058f);
-	usleep(100000);
-	speed_control(in1, in2, -70);
-	sleep(1);
-
-	mraa_pwm_write(turn, 0.074f);
-	usleep(100000);
-	speed_control(in1, in2, 100);
-	sleep(1);
-
-    	mraa_pwm_write(in1, 1.0f);                                                        
-    	mraa_pwm_write(in2, 1.0f); 
-	usleep(100000);
-
-	mraa_pwm_write(turn, 0.058f);
-	usleep(100000);
-	speed_control(in1, in2, -100);
-	sleep(1);
-
-	mraa_pwm_write(in1, 1.0f);                                    
-    	mraa_pwm_write(in2, 1.0f); 
-	usleep(100000);	
-
-	mraa_pwm_write(turn, 0.074f);                                                     
-    	usleep(100000);                                                                   
-    	speed_control(in1, in2, 100);                                                     
-    	sleep(1);                                                                         
-    	mraa_pwm_write(in1, 1.0f);                                                        
-    	mraa_pwm_write(in2, 1.0f);                                                        
-    	usleep(100000);                                                                   
-    	mraa_pwm_write(turn, 0.058f);                                                     
-    	usleep(100000);                                                                   
-    	speed_control(in1, in2, -57);                                                    
-    	sleep(1);                                                                         
-    	mraa_pwm_write(in1, 1.0f);                                                        
-    	mraa_pwm_write(in2, 1.0f);                                                        
-    	usleep(100000);  	
-
-	mraa_pwm_write(turn, CENTER);
-	speed_control(in1, in2, 100);
-	usleep(100000);	
-}
 
 
 
@@ -449,62 +316,6 @@ void ThreadTask_manual_control(struct T_drone *pT_drone){
   }
 }
 
-//void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
-	//while (isrunning == 1){
-
-    //if (pT_drone->nflag_stop_all != 0)
-        //{
-            //break;
-        //}else if(pT_drone->n_control_type != 1){
-            //continue;
-        //}
-    
-        //if(pT_drone->n_ultrasonic_degree == 0){
-			//distance_c = get_distance(trig_c, echo_c);
-        //}else if(pT_drone->n_ultrasonic_degree == -1){
-		//distance_s_l = get_distance(trig_c, echo_c);
-        //}else if(pT_drone->n_ultrasonic_degree == 1){
-		//distance_s_r = get_distance(trig_c, echo_c);
-        //}
-		//distance_c = get_distance(trig_c, echo_c);
-		//distance_r = get_distance(trig_r, echo_r);
-	
-		////slow down when there is an obstacle near by.		
-		//if (distance_s_l < 70 || (distance_s_r < 70 && distance_s_r > 10)|| distance_l < 50 || distance_c < 50 || distance_r < 50){
-			//speed_flag = 0;
-			//speed_control(speed_pwm_in1, speed_pwm_in2, 70);
-		//}
-
-        //printf("%lf %lf %lf %lf %lf\n", distance_s_l, distance_s_r, distance_l, distance_c, distance_r);
-			
-		//case_num = case_detection(distance_s_l, distance_s_r, distance_l, distance_c, distance_r);
-		////printf("case is %d\n", case_num);
-			
-		//switch(case_num){
-			//case 1:
-				//do_case_1(distance_l, distance_r, turn_pwm, speed_pwm_in1, speed_pwm_in2);
-				//break;
-			//case 2:
-				//do_case_2(distance_l, turn_pwm, trig_l, echo_l); 
-				//break;
-			//case 3:
-				//do_case_3(distance_r, turn_pwm, trig_r, echo_r);
-				//break;
-			//case 4:
-				//do_case_4(turn_pwm, trig_l, echo_l);
-				//break;
-			//case 5:
-				//do_case_5(turn_pwm, trig_r, echo_r);
-				//break;
-			//case 6:
-				//do_case_6(speed_pwm_in1, speed_pwm_in2, turn_pwm);
-				//break;
-			//default: 
-				//do_case_7(speed_pwm_in1, speed_pwm_in2, turn_pwm, speed_flag);
-				//break;
-		//}
-	//}
-//}
 void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 	while (isrunning == 1){
 
@@ -522,43 +333,35 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
         }else if(pT_drone->n_ultrasonic_degree == 1){
 		distance_s_r = get_distance(trig_c, echo_c);
         }
-        //distance_l = get_distance(trig_l, echo_l);
-        //distance_r = get_distance(trig_r, echo_r);
 	
 //        slow down when there is an obstacle near by.		
-        if (distance_s_l < 70 || (distance_s_r < 70 && distance_s_r > 10)|| distance_l < 50 || distance_c < 50 || distance_r < 50){
+        if (distance_s_l < 70 || distance_s_r < 70 ||  distance_c < 50 ){
             speed_flag = 0;
             speed_control(speed_pwm_in1, speed_pwm_in2, 70);
         }
 
-        printf("%lf %lf %lf %lf %lf\n", distance_s_l, distance_s_r, distance_l, distance_c, distance_r);
-        //printf("%lf\t%lf\t%lf\n", distance_s_l, distance_s_r, distance_c);
-			
-		//case_num = case_detection(distance_s_l, distance_s_r, distance_l, distance_c, distance_r);
-		//printf("case is %d\n", case_num);
-			
-		//switch(case_num){
-			//case 1:
-				//do_case_1(distance_l, distance_r, turn_pwm, speed_pwm_in1, speed_pwm_in2);
-				//break;
-			//case 2:
-				//do_case_2(distance_l, turn_pwm, trig_l, echo_l); 
-				//break;
-			//case 3:
-				//do_case_3(distance_r, turn_pwm, trig_r, echo_r);
-				//break;
-			//case 4:
-				//do_case_4(turn_pwm, trig_l, echo_l);
-				//break;
-			//case 5:
-				//do_case_5(turn_pwm, trig_r, echo_r);
-				//break;
-			//case 6:
-				//do_case_6(speed_pwm_in1, speed_pwm_in2, turn_pwm);
-				//break;
-			//default: 
-				//do_case_7(speed_pwm_in1, speed_pwm_in2, turn_pwm, speed_flag);
-				//break;
-		//}
+        //printf("%lf %lf %lf %lf %lf\n", distance_s_l, distance_s_r, distance_l, distance_c, distance_r);
+        printf("%lf\t%lf\t%lf\n", distance_s_l, distance_s_r, distance_c);
+            
+        case_num = case_detection(distance_s_l, distance_s_r, distance_c);
+        printf("case is %d\n", case_num);
+            
+        switch(case_num){
+            case 1:
+                do_case_1(distance_l, distance_r, turn_pwm, speed_pwm_in1, speed_pwm_in2);
+                break;
+            case 2:
+                do_case_2(distance_l, turn_pwm, trig_l, echo_l); 
+                break;
+            case 3:
+                do_case_3(distance_r, turn_pwm, trig_r, echo_r);
+                break;
+            case 4:
+                do_case_4(turn_pwm, trig_l, echo_l);
+                break; 
+            default: 
+                do_case_7(speed_pwm_in1, speed_pwm_in2, turn_pwm, speed_flag);
+                break;
+        }
 	}
 }
