@@ -21,7 +21,7 @@
 #define PRINT_DEBUG_PID_CHANGE
 // #define PRINT_DEBUG_PID_TUNING
 // #define PRINT_DEBUG_PWM
-// #define PRINT_DEBUG_THREAD
+#define PRINT_DEBUG_THREAD
 // #define PRINT_CAR_MANUAL
 
 /**
@@ -699,7 +699,10 @@ int GeneratePwm(struct T_drone *pT_drone){
 		printf("ThreadTask_GeneratePwm\n");
 #endif
 #ifdef PRINT_DEBUG_PWM
-
+        printf("pwm1 = %f\t", pT_drone->arrd_current_pwm[0]);
+        printf("pwm2 = %f\t", pT_drone->arrd_current_pwm[1]);
+        printf("pwm3 = %f\t", pT_drone->arrd_current_pwm[2]);
+        printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
 #endif
 		if (pT_drone->nflag_stop_all != 0)
 		{
