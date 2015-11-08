@@ -603,9 +603,9 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 		    distance_c = get_distance(trig_c, echo_c);
 
         }else if(n_ultrasonic_degree == -1){
-            distance_slight_l = get_distance(trig_up_c, echo_up_c);
+            distance_slight_l = get_distance(trig_c, echo_c);
         }else if(n_ultrasonic_degree == 1){ 
-		    distance_slight_r = get_distance(trig_up_c, echo_up_c);
+		    distance_slight_r = get_distance(trig_c, echo_c);
         }
 		distance_l = get_distance(trig_l, echo_l);	
 		distance_r = get_distance(trig_r, echo_r);
