@@ -99,7 +99,7 @@ void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
 //   return distance;
 // }
 
-double get_distance(mraa_gpio_context trigger, mraa_gpio_context echo, struct T_drone *pT_drone)
+double get_distance(mraa_gpio_context trigger, mraa_gpio_context echo) 
 {
   struct timeval startTime, endTime;
         double time_taken;
@@ -395,7 +395,7 @@ int obstacle_case2(struct T_drone *pT_drone, double distance_l, double distance_
             turn_left();   
             }          
         }else if(distance_slight_r <= 60 && distance_slight_r <= 60){
-             while(pT_drone->ln_distance_slight_left <= 60 || pT_drone->ln_distance_slight_right <= 60){
+             while(distance_slight_l <= 60 || distance_slight_r <= 60){
                 move_backward();
              }
              for(i=0; i<= 100; i++){
@@ -580,9 +580,8 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 	trig_r = mraa_gpio_init(12);
 	echo_r = mraa_gpio_init(13);
 	
-	if  trig_c == NULL || echo_c == NULL || trig_l == NULL || echo_l == NULL || trig_r == NULL || echo_r == NULL ||) {
+	if  (trig_c == NULL || echo_c == NULL || trig_l == NULL || echo_l == NULL || trig_r == NULL || echo_r == NULL ||) {
 		fprintf(stderr, "Failed to initialized.\n");
-		return 1;
 	}
 
     mraa_gpio_dir(trig_up_l, MRAA_GPIO_OUT);
