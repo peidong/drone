@@ -35,7 +35,7 @@ int main(){
     thpool_add_work(thpool, (void*)ThreadTask_Ultrasonic_read_left, (void*)&g_T_drone_self);
     thpool_add_work(thpool, (void*)ThreadTask_Ultrasonic_read_right, (void*)&g_T_drone_self);
     thpool_add_work(thpool, (void*)ThreadTask_Ultrasonic_read_center, (void*)&g_T_drone_self);
-    thpool_add_work(thpool, (void*)ThreadTask_manual_control, (void*)&g_T_drone_self);
+    // thpool_add_work(thpool, (void*)ThreadTask_manual_control, (void*)&g_T_drone_self);
     thpool_wait(thpool);
     thpool_destroy(thpool);
 
