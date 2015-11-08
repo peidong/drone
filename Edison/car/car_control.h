@@ -309,12 +309,12 @@ int case_detection(double s_left, double s_right, double left, double Center, do
 }
 
 void u_turn(mraa_pwm_context in1, mraa_pwm_context in2, mraa_pwm_context turn) {
-	mraa_pwm_write(turn, 0.050f);
+	mraa_pwm_write(turn, 0.058f);
 	usleep(100000);
 	speed_control(in1, in2, -70);
 	sleep(1);
 
-	mraa_pwm_write(turn, 0.084f);
+	mraa_pwm_write(turn, 0.074f);
 	usleep(100000);
 	speed_control(in1, in2, 100);
 	sleep(1);
@@ -323,7 +323,7 @@ void u_turn(mraa_pwm_context in1, mraa_pwm_context in2, mraa_pwm_context turn) {
     	mraa_pwm_write(in2, 1.0f); 
 	usleep(100000);
 
-	mraa_pwm_write(turn, 0.050f);
+	mraa_pwm_write(turn, 0.058f);
 	usleep(100000);
 	speed_control(in1, in2, -100);
 	sleep(1);
@@ -332,14 +332,14 @@ void u_turn(mraa_pwm_context in1, mraa_pwm_context in2, mraa_pwm_context turn) {
     	mraa_pwm_write(in2, 1.0f); 
 	usleep(100000);	
 
-	mraa_pwm_write(turn, 0.084f);                                                     
+	mraa_pwm_write(turn, 0.074f);                                                     
     	usleep(100000);                                                                   
     	speed_control(in1, in2, 100);                                                     
     	sleep(1);                                                                         
     	mraa_pwm_write(in1, 1.0f);                                                        
     	mraa_pwm_write(in2, 1.0f);                                                        
     	usleep(100000);                                                                   
-    	mraa_pwm_write(turn, 0.050f);                                                     
+    	mraa_pwm_write(turn, 0.058f);                                                     
     	usleep(100000);                                                                   
     	speed_control(in1, in2, -57);                                                    
     	sleep(1);                                                                         
