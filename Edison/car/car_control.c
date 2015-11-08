@@ -1,18 +1,10 @@
 #include "car_control.h"
 
 int main(){
-	float speed, turn;
-	char speed_user_input[MAXBUFSIZ];
-	char turn_user_input[MAXBUFSIZ];
-	int i, case_num, averageTimes = 3, speed_flag = 1;
-	double distance_l, distance_c, distance_r, distance_up_l, distance_up_r;
-	mraa_gpio_context trig_l, echo_l, trig_c, echo_c, trig_r, echo_r, trig_up_l, echo_up_l, trig_up_r, echo_up_r;
-	mraa_pwm_context speed_pwm_in1, speed_pwm_in2, turn_pwm;
- 
-	trig_l = mraa_gpio_init(8);                                                     
-	echo_l = mraa_gpio_init(9);
-	trig_c = mraa_gpio_init(10);
-	echo_c = mraa_gpio_init(11);
+	trig_l = mraa_gpio_init(10);                                                     
+	echo_l = mraa_gpio_init(11);
+	trig_c = mraa_gpio_init(7);
+	echo_c = mraa_gpio_init(8);
 	trig_r = mraa_gpio_init(12);
 	echo_r = mraa_gpio_init(13);
 	speed_pwm_in1 = mraa_pwm_init(3);
