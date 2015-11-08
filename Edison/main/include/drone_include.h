@@ -74,11 +74,11 @@ struct T_drone{
     /**
      * ultrasonic info
      */
-    long ln_distance_left;
-    long ln_distance_center;
-    long ln_distance_right;
-    long ln_distance_slight_left;
-    long ln_distance_slight_right;
+    double ln_distance_left;
+    double ln_distance_center;
+    double ln_distance_right;
+    double ln_distance_slight_left;
+    double ln_distance_slight_right;
     int n_ultrasonic_degree;
     /**
      * pid variable
@@ -682,7 +682,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     return 0;
 }
 
-int GeneratePwm(struct T_drone *pT_drone){
+int GeneratePwm_old(struct T_drone *pT_drone){
     usleep(1000000);
     mraa_i2c_context pwm12, pwm34;
     pwm12 = mraa_i2c_init(2);
