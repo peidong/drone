@@ -330,7 +330,7 @@ double get_longitude_distance(double d_lon1, double d_lon2, double d_lat1)
  *
  * */
 
-int obstacle_case1(double distance_l, double distance_slight_l, double distance_c, double distance_slight_r, double distance_r){
+int obstacle_case1(struct T_drone *pT_drone, double distance_l, double distance_slight_l, double distance_c, double distance_slight_r, double distance_r){
     int i;
     while(distance_l <= 60 || distance_r <= 60){
         move_backward();
@@ -347,7 +347,7 @@ int obstacle_case1(double distance_l, double distance_slight_l, double distance_
         for(i=0; i<= 650; i++){
         turn_left();             
         }                 //
-    }else if(distance_right>60 && distance_l>60){
+    }else if(distance_r>60 && distance_l>60){
          if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
             for (i = 0;i<=650;i++){
                      turn_right();
@@ -371,7 +371,7 @@ int obstacle_case1(double distance_l, double distance_slight_l, double distance_
  *  Only c sensor detecting obstacles. Then the car will turn right/left
  *
  * */
-int obstacle_case2(double distance_l, double distance_slight_l, double distance_c, double distance_slight_r, double distance_r){
+int obstacle_case2(struct T_drone *pT_drone, double distance_l, double distance_slight_l, double distance_c, double distance_slight_r, double distance_r){
     int i;
     if(distance_c <= 60){
         if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
@@ -433,7 +433,7 @@ int obstacle_case2(double distance_l, double distance_slight_l, double distance_
  *  Only c and one of l,t sensor detecting obstacles. 
  *
  * */
-int obstacle_case3(struct T_drone *pT_drone){
+int obstacle_case3(struct T_drone *pT_drone, double distance_l, double distance_slight_l, double distance_c, double distance_slight_r, double distance_r){
     int i;
 
     if(distance_l<=60 && distance_r >60){
@@ -630,13 +630,13 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 #endif
               
         if(distance_l <= 60 && distance_r <= 60 && distance_c <=60){
-            obstacle_case1(&g_T_drone_self);
+            obstacle_case1(&g_T_drone_self, distance_l, distance_slight_l, distance_c, distance_slight_r, distance_r);
         }else if(distance_l > 60 && distance_r > 60){
             if(distance_c <= 60 || distance_slight_l <= 60 || distance_slight_r <= 60){
-                obstacle_case2(&g_T_drone_self);
+                obstacle_case2(&g_T_drone_self, distance_l, distance_slight_l, distance_c, distance_slight_r, distance_r);
             }
         }else if(distance_l <= 60 || distance_r <= 60 && distance_c <= 60){
-            obstacle_case3(&g_T_drone_self); 
+            obstacle_case3(&g_T_drone_self, distance_l, distance_slight_l, distance_c, distance_slight_r, distance_r); 
         }else{
              GpsNavigationMove(pT_drone);
         }
