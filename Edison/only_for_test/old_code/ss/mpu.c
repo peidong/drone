@@ -405,7 +405,7 @@ void main()
     
     
     
-   printf("%.1f,%.1f,%.1f\n",mx,my,mz);
+   printf("%.1f\t%.1f\t%.1f\n",mx,my,mz);
     /*
     if(sample<10){
           now = clock();
