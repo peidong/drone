@@ -92,3 +92,5 @@ To check your Edison board ip address, please go to this link [http://fryer.ee.u
 - 1. First we install with the extra source [http://docs.opencv.org/3.0-last-rst/doc/tutorials/introduction/linux_install/linux_install.html](http://docs.opencv.org/3.0-last-rst/doc/tutorials/introduction/linux_install/linux_install.html)
 
 extra source []()
+
+###Code Style
