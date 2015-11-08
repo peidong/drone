@@ -31,7 +31,7 @@ int main(){
     // thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http_gps, (void*)&g_T_drone_self);
     thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http, (void*)&g_T_drone_self);
     // thpool_add_work(thpool, (void*)ThreadTask_sonicTurn_pwm, (void*)&g_T_drone_self);
-    // thpool_add_work(thpool, (void*)ThreadTask_GpsNavigationMove, (void*)&g_T_drone_self);
+     thpool_add_work(thpool, (void*)ThreadTask_GpsNavigationMove, (void*)&g_T_drone_self);
     /*thpool_add_work(thpool, (void*)ThreadTask_Ultrasonic_read_left, (void*)&g_T_drone_self);*/
     // thpool_add_work(thpool, (void*)ThreadTask_Ultrasonic_read_right, (void*)&g_T_drone_self);
     /*thpool_add_work(thpool, (void*)ThreadTask_Ultrasonic_read_center, (void*)&g_T_drone_self);*/
