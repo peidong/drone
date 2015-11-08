@@ -10,6 +10,9 @@ int main(){
 	speed_pwm_in1 = mraa_pwm_init(3);
 	speed_pwm_in2 = mraa_pwm_init(5);
 	turn_pwm = mraa_pwm_init(6);
+
+    sonicTurn_pwm = mraa_pwm_init(9);
+
     initialize_struct_T_drone(&g_T_drone_self);
     
 
@@ -34,7 +37,10 @@ int main(){
 	//Servo configuration
 	mraa_pwm_period_ms(turn_pwm, 20);
    	mraa_pwm_enable(turn_pwm, 1);
+    
+    mraa_pwm_enable(sonicTurn_pwm,1);
 
+    mraa_pwm_write(sonicTurn_pwm, CENTER);
 	//At the start, the car will not move and the steering will be at center.
 	speed_control(speed_pwm_in1, speed_pwm_in2, 0.0f);
 	mraa_pwm_write(turn_pwm, 0.067f);
