@@ -37,8 +37,9 @@ int main(){
 	mraa_pwm_write(turn_pwm, 0.067f);
     mraa_pwm_write(sonicTurn_pwm, 0.050f);
 
-	usleep(100000);
-	
+    sleep(1);
+
+
 	speed_control(speed_pwm_in1, speed_pwm_in2, 100.0f);
 
 
