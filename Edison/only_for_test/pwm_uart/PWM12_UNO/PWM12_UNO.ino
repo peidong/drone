@@ -62,10 +62,13 @@ void loop() {
     {
       result = mySerial.read();
       decoder(result);
-      //Serial.println(pwm_9);
       
-      if(pwm_9<=40000&&pwm_10<=40000){
+      
+      if(pwm_9<=40000&&iter==4){
         analogWrite16(9, pwm_9);
+        Serial.println(pwm_9);
+      }
+      if(pwm_10<=40000&&iter==9){
         analogWrite16(10, pwm_10);
       }
     }

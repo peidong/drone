@@ -449,7 +449,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 	MPU_init();
 	while (1)
 	{
-        if (pT_drone->nflag_stop_all == 1)
+        if (pT_drone->nflag_stop_all != 0)
         {
             break;
         }
@@ -505,7 +505,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		pT_drone->arrd_yaw_pitch_roll[1] = pitch;
 		pT_drone->arrd_yaw_pitch_roll[2] = roll;
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
-        if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0){
+        if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
             printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
         }
 #endif
@@ -553,10 +553,10 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 	Pid_Init(pidData_roll, kp_roll, ki_roll, kd_roll, controllerDir, samplePeriodMs);
    
     while(1){
-        if (pT_drone->nflag_stop_all == 1)
+        if (pT_drone->nflag_stop_all != 0)
         {
             break;
-        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1)
         {
             continue;
         }
@@ -599,10 +599,10 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 		Pid_SetSetPoint(pidData_pitch, 0);
         Pid_Run(pidData_pitch, pT_drone->arrd_yaw_pitch_roll[1]);
         pT_drone->arrd_pid_yaw_pitch_roll[1] = pidData_pitch->output;
-        if (pT_drone->nflag_stop_all == 1)
+        if (pT_drone->nflag_stop_all != 0)
         {
             break;
-        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1)
         {
             continue;
         }else{
@@ -617,10 +617,10 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 		Pid_SetSetPoint(pidData_roll, 0); 
         Pid_Run(pidData_roll, pT_drone->arrd_yaw_pitch_roll[2]);
         pT_drone->arrd_pid_yaw_pitch_roll[2] = pidData_roll->output;
-        if (pT_drone->nflag_stop_all == 1)
+        if (pT_drone->nflag_stop_all != 0)
         {
             break;
-        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1)
         {
             continue;
         }else{
@@ -633,10 +633,10 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         /**
          * change pwm to PWM_DEFAULT_VALUE if below 0
          */
-        if (pT_drone->nflag_stop_all == 1)
+        if (pT_drone->nflag_stop_all != 0)
         {
             break;
-        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1)
         {
             continue;
         }
@@ -856,7 +856,7 @@ int GeneratePwm_old(struct T_drone *pT_drone){
         printf("pwm3 = %f\t", pT_drone->arrd_current_pwm[2]);
         printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
 #endif
-        if (pT_drone->nflag_stop_all == 1)
+        if (pT_drone->nflag_stop_all != 0)
         {
             /**
              * Reset PWM to 0
@@ -872,7 +872,7 @@ int GeneratePwm_old(struct T_drone *pT_drone){
             mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
             mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
             break;
-        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1)
         {
             /**
              * Reset PWM to 0
@@ -903,7 +903,7 @@ int GeneratePwm_old(struct T_drone *pT_drone){
         arrun_i2c_output[1] = ((int)arrd_current_duty[0]) % 256;
         arrun_i2c_output[2] = ((int)arrd_current_duty[1]) / 256;
         arrun_i2c_output[3] = ((int)arrd_current_duty[1]) % 256;
-        if (pT_drone->nflag_stop_all == 1)
+        if (pT_drone->nflag_stop_all != 0)
         {
             /**
              * Reset PWM to 0
@@ -919,7 +919,7 @@ int GeneratePwm_old(struct T_drone *pT_drone){
             mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
             mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
             break;
-        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1)
         {
             /**
              * Reset PWM to 0
@@ -945,7 +945,7 @@ int GeneratePwm_old(struct T_drone *pT_drone){
         arrun_i2c_output[1] = ((int)arrd_current_duty[2]) % 256;
         arrun_i2c_output[2] = ((int)arrd_current_duty[3]) / 256;
         arrun_i2c_output[3] = ((int)arrd_current_duty[3]) % 256;
-        if (pT_drone->nflag_stop_all == 1)
+        if (pT_drone->nflag_stop_all != 0)
         {
             /**
              * Reset PWM to 0
@@ -961,7 +961,7 @@ int GeneratePwm_old(struct T_drone *pT_drone){
             mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
             mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
             break;
-        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1)
         {
             /**
              * Reset PWM to 0
@@ -1007,7 +1007,7 @@ int GeneratePwm_old(struct T_drone *pT_drone){
 
 void ThreadTask_update_T_drone_http_pwm_get(struct T_drone *pT_drone){
     while(1){
-        if (pT_drone->nflag_stop_all == 1)
+        if (pT_drone->nflag_stop_all != 0)
         {
             break;
         }
@@ -1027,7 +1027,7 @@ void ThreadTask_update_T_drone_http_pwm_get(struct T_drone *pT_drone){
 
 void ThreadTask_update_T_drone_http_pwm_post(struct T_drone *pT_drone){
     while(1){
-        if (pT_drone->nflag_stop_all == 1)
+        if (pT_drone->nflag_stop_all != 0)
         {
             break;
         }
@@ -1062,7 +1062,7 @@ void ThreadTask_update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
         if (pT_drone->nflag_stop_all != 0)
         {
             break;
-        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound == 0)
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 0)
         {
             continue;
         }
