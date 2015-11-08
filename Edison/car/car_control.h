@@ -485,12 +485,13 @@ void ThreadTask_manual_control(struct T_drone *pT_drone){
 
 void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
 	while (isrunning == 1){
-		distance_up_l = get_distance(trig_up_l, echo_up_l);
-		distance_up_r = get_distance(trig_up_r, echo_up_r);
+		distance_up_l = get_distance(trig_c, echo_c);
+		distance_up_r = get_distance(trig_c, echo_c);
 		distance_l = get_distance(trig_l, echo_l);	
 		distance_c = get_distance(trig_c, echo_c);
 		distance_r = get_distance(trig_r, echo_r);
 	
+        printf("left distance is %f \n", distance_l);
 		//slow down when there is an obstacle near by.		
 		if (distance_up_l < 70 || (distance_up_r < 70 && distance_up_r > 10)|| distance_l < 50 || distance_c < 50 || distance_r < 50){
 			speed_flag = 0;
