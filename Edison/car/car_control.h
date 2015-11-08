@@ -117,9 +117,9 @@ void ThreadTask_Ultrasonic_read_left(struct T_drone *pT_drone){
 #ifdef PRINT_DEBUG_THREAD
       printf("ThreadTask_Ultrasonic_read\n");
 #endif
-    if(get_distance(trig_l, echo_l) != -1){
+    if(get_distance(trig_l, echo_l, pT_drone) != -1){
       usleep(20);
-      pT_drone->ln_distance_left = get_distance(trig_l, echo_l); 
+      pT_drone->ln_distance_left = get_distance(trig_l, echo_l, pT_drone); 
     }
     printf("left = %d cm\n", pT_drone->ln_distance_left);
 }
@@ -147,9 +147,9 @@ void ThreadTask_Ultrasonic_read_right(struct T_drone *pT_drone){
 #ifdef PRINT_DEBUG_THREAD
       printf("ThreadTask_Ultrasonic_read\n");
 #endif
-    if(get_distance(trig_r, echo_r) != -1){
+    if(get_distance(trig_r, echo_r, pT_drone) != -1){
       usleep(20);
-      pT_drone->ln_distance_right = get_distance(trig_r, echo_r);
+      pT_drone->ln_distance_right = get_distance(trig_r, echo_r, pT_drone);
     }
     printf("right = %d cm\n", pT_drone->ln_distance_right);
     }
@@ -180,19 +180,19 @@ void ThreadTask_Ultrasonic_read_center(struct T_drone *pT_drone){
     
     
     if(pT_drone->n_ultrasonic_degree == 0){
-      if(get_distance(trig_c, echo_c) != -1){
+      if(get_distance(trig_c, echo_c, pT_drone) != -1){
       usleep(20);
-      pT_drone->ln_distance_center = get_distance(trig_c, echo_c); 
+      pT_drone->ln_distance_center = get_distance(trig_c, echo_c, pT_drone); 
     }
     }else if(pT_drone->n_ultrasonic_degree == 1){
-        if(get_distance(trig_c, echo_c) != -1){
+        if(get_distance(trig_c, echo_c, pT_drone) != -1){
       usleep(20);
-      pT_drone->ln_distance_center = get_distance(trig_c, echo_c); 
+      pT_drone->ln_distance_center = get_distance(trig_c, echo_c, pT_drone); 
     }
     }else if(pT_drone->n_ultrasonic_degree == -1){
-        if(get_distance(trig_c, echo_c) != -1){
+        if(get_distance(trig_c, echo_c, pT_drone) != -1){
       usleep(20);
-      pT_drone->ln_distance_center = get_distance(trig_c, echo_c); 
+      pT_drone->ln_distance_center = get_distance(trig_c, echo_c, pT_drone); 
     }
     }
     printf("center = %d cm\n", pT_drone->ln_distance_center);
