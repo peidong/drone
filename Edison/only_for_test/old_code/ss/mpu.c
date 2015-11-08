@@ -399,7 +399,7 @@ void main()
     float gx = (float)grawx*gRes;
     float gy = (float)grawy*gRes;
     float gz = (float)grawz*gRes;
-    float mx = (float)mrawx*mRes*magCalibration[0] - 406 - 49 - 151;  // get actual magnetometer value, this depends on scale being set
+    float mx = (float)mrawx*mRes*magCalibration[0] - 406 - 49 - 165;  // get actual magnetometer value, this depends on scale being set
     float my = (float)mrawy*mRes*magCalibration[1] - 95 + 43 + 10;  
     float mz = (float)mrawz*mRes*magCalibration[2] + 370 - 72 + 403;
     
@@ -441,7 +441,7 @@ void main()
     
 //    printf("%f,%f,%f,%f\n",SEq_1,SEq_2,SEq_3,SEq_4);
 //    usleep(2000);
-   sample+=1;
+   // sample+=1;
 //    printf("%8.6f,%8.6f,%8.6f,%8.6f,%8.6f,%8.6f,%8.6f,%8.6f,%8.6f\n",ax,ay,az,gx,gy,gz,mx,my,mz);
 
 	}
