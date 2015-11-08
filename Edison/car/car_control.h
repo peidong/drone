@@ -5,8 +5,8 @@
 #define CENTER 0.068f
 #define LEFT 0.015f
 #define RIGHT -0.015f
-#define LEFTMAX 0.048f
-#define RIGHTMAX 0.088f
+#define LEFTMAX 0.058f
+#define RIGHTMAX 0.078f
 // #define PRINT_DEBUG_THREAD
 
 float speed, turn;
