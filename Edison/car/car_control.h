@@ -83,9 +83,9 @@ double get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
   double distance;
 
         mraa_gpio_write(trigger, 0);
-        usleep(5);
+        usleep(10);
         mraa_gpio_write(trigger, 1);
-        usleep(11);
+        usleep(20);
         mraa_gpio_write(trigger, 0);
   int count_while = 0;
   while (mraa_gpio_read(echo) == 0){
