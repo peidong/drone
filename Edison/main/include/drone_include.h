@@ -38,6 +38,8 @@
 #define PWM_DEFAULT_MIN_PWM2 0.000025*800
 #define PWM_DEFAULT_MIN_PWM3 0.000025*800
 #define PWM_DEFAULT_INITIAL 0.000025*4
+#define PWM_DEFAULT_PWM_MIN 0.000025*4
+#define PWM_DEFAULT_PWM_MAX 0.000025*1000
 /**
  * struct drone
  */
@@ -660,6 +662,12 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
             }
             if(pT_drone->arrd_current_pwm[n_index] < pT_drone->arrd_current_pwm_min[n_index]){
                 pT_drone->arrd_current_pwm[n_index] = pT_drone->arrd_current_pwm_min[n_index];
+            }
+            if(pT_drone->arrd_current_pwm[n_index] > (PWM_DEFAULT_PWM_MAX)){
+                pT_drone->arrd_current_pwm[n_index] = (PWM_DEFAULT_PWM_MAX);
+            }
+            if(pT_drone->arrd_current_pwm[n_index] < PWM_DEFAULT_PWM_MIN){
+                pT_drone->arrd_current_pwm[n_index] = PWM_DEFAULT_PWM_MIN;
             }
         }
         // if(pT_drone->arrd_current_pwm[0] > (PWM_DEFAULT_MIN_PWM0 + PWM_DEFAULT_RANGE)){
