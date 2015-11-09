@@ -743,6 +743,10 @@ int GeneratePwm(struct T_drone *pT_drone){
 			pT_drone->arrd_current_pwm[3] = 0;
 			memset(arrch_uart_output,'0', 20);
 			mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
+            pT_drone->arrd_current_pwm_min[0] = 0.000025*4;
+            pT_drone->arrd_current_pwm_min[1] = 0.000025*4;
+            pT_drone->arrd_current_pwm_min[2] = 0.000025*4;
+            pT_drone->arrd_current_pwm_min[3] = 0.000025*4;
 			break;
 		}
 		else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1)
@@ -756,6 +760,10 @@ int GeneratePwm(struct T_drone *pT_drone){
 			pT_drone->arrd_current_pwm[3] = 0;
 			memset(arrch_uart_output,'0', 20);
 			mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
+            pT_drone->arrd_current_pwm_min[0] = 0.000025*4;
+            pT_drone->arrd_current_pwm_min[1] = 0.000025*4;
+            pT_drone->arrd_current_pwm_min[2] = 0.000025*4;
+            pT_drone->arrd_current_pwm_min[3] = 0.000025*4;
 			continue;
 		}
         usleep(2000);//2ms motor modulation frequency max = 490Hz
@@ -830,6 +838,10 @@ int GeneratePwm(struct T_drone *pT_drone){
             pT_drone->arrd_current_pwm[3] = 0;
             memset(arrch_uart_output,'0', 20);
             mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
+            pT_drone->arrd_current_pwm_min[0] = 0.000025*4;
+            pT_drone->arrd_current_pwm_min[1] = 0.000025*4;
+            pT_drone->arrd_current_pwm_min[2] = 0.000025*4;
+            pT_drone->arrd_current_pwm_min[3] = 0.000025*4;
             break;
         }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1)
         {
@@ -842,6 +854,10 @@ int GeneratePwm(struct T_drone *pT_drone){
             pT_drone->arrd_current_pwm[3] = 0;
             memset(arrch_uart_output,'0', 20);
             mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
+            pT_drone->arrd_current_pwm_min[0] = 0.000025*4;
+            pT_drone->arrd_current_pwm_min[1] = 0.000025*4;
+            pT_drone->arrd_current_pwm_min[2] = 0.000025*4;
+            pT_drone->arrd_current_pwm_min[3] = 0.000025*4;
             continue;
         }else{
                 mraa_uart_write(pwm_uart, arrch_uart_output, 21);
@@ -858,6 +874,10 @@ int GeneratePwm(struct T_drone *pT_drone){
     memset(arrch_uart_output,'0', 20);
     mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
     mraa_uart_stop(pwm_uart);
+    pT_drone->arrd_current_pwm_min[0] = 0.000025*4;
+    pT_drone->arrd_current_pwm_min[1] = 0.000025*4;
+    pT_drone->arrd_current_pwm_min[2] = 0.000025*4;
+    pT_drone->arrd_current_pwm_min[3] = 0.000025*4;
     return 0;
 }
 
