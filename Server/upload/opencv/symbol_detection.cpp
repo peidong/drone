@@ -115,8 +115,8 @@ int main(int argc, char** argv){
         if( dist > max_dist ) max_dist = dist;
     }
 
-    //printf("-- Max dist : %f \n", max_dist );
-    //printf("-- Min dist : %f \n", min_dist );
+    printf("-- Max dist : %f \n", max_dist );
+    printf("-- Min dist : %f \n", min_dist );
     
     std::vector< DMatch > good_matches;
 
