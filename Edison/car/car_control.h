@@ -316,12 +316,12 @@ int GpsNavigationMove(struct T_drone *pT_drone){
     }
     double tmp = abs(pT_drone->d_move_direction - pT_drone->d_face_direction);
     double tmp_distance = sqrt(pow(d_west_to_east_distance, 2) + pow(d_south_to_north_distance, 2));
-    if (tmp > 10)
+    if (tmp > 15)
     {
         //turn_direction(pT_drone->d_move_direction - pT_drone->d_face_direction);
         if(pT_drone->d_move_direction - pT_drone->d_face_direction > 0){
             turn_right();
-        }else if(pT_drone->d_move_direction - pT_drone->d_face_direction < -0)
+        }else if(pT_drone->d_move_direction - pT_drone->d_face_direction < 0)
         {   
             turn_left();
         }
