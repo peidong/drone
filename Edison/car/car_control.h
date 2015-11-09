@@ -272,17 +272,17 @@ void do_case_6(){
 
 int case_detection(double s_left, double s_right, double Center){
 	int returnVal;
-	if (Center > 10 && Center <= 30 && s_left > 10 && s_left <= 30 && s_right > 10 && s_right <= 30)
+	if (Center > 10 && Center <= 40 && s_left > 10 && s_left <= 40 && s_right > 10 && s_right <= 40)
 		returnVal = 10;      //go back
-    else if(Center > 10 && Center <=30 && s_left > 10 && s_left <=30 && s_right >30)
+    else if(Center > 10 && Center <=40 && s_left > 10 && s_left <=40 && s_right >10)
         returnVal = 2;     //turn right
-    else if(Center > 10 && Center <= 30 && s_left >30 && s_right >10 && s_right <=30)
+    else if(Center > 10 && Center <= 40 && s_left >10 && s_right >10 && s_right <=40)
         returnVal = 3;      //turn left
-    else if(Center > 10 && Center <= 30 && s_left >30 && s_right > 30)
+    else if(Center > 10 && Center <= 40 && s_left >10 && s_right > 10)
         returnVal = 4;      //turn destination direction
-    else if(Center > 30 && s_left <=30 && s_left > 10)
+    else if(Center > 10 && s_left <=40 && s_left > 10)
         returnVal = 5;      //turn slightly right
-    else if(Center > 30 && s_right <= 30 && s_right > 10)
+    else if(Center > 10 && s_right <= 40 && s_right > 10)
         returnVal = 6;      //turn slightly left
 	else
 		returnVal = 7;
