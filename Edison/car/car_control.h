@@ -87,9 +87,14 @@ double get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
         mraa_gpio_write(trigger, 1);
         usleep(11);
         mraa_gpio_write(trigger, 0);
-  
+  int count_while = 0;
   while (mraa_gpio_read(echo) == 0){
     printf("while 1\n");
+    count_while++;
+    if (count_while > 655)
+    {
+      break;
+    }
   }
   gettimeofday(&startTime, NULL);
   
