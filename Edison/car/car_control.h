@@ -410,29 +410,28 @@ void ThreadTask_GpsNavigationMove(struct T_drone *pT_drone){
         case_num = case_detection(distance_s_l, distance_s_r, distance_c);
         printf("case is %d\n", case_num);
             
-        // switch(case_num){
-        //     case 1:
-        //         do_case_1(pT_drone);
-        //         break;
-        //     case 2:
-        //         do_case_2(); 
-        //         break;
-        //     case 3:
-        //         do_case_3();
-        //         break;
-        //     case 4:
-        //         do_case_4(pT_drone);
-        //         break;
-        //     case 5:
-        //         do_case_5();
-        //         break;
-        //     case 6:
-        //         do_case_6(); 
-        //         break;
-        //     default: 
-        //         GpsNavigationMove(pT_drone);
-        //         break;
-        // }
-        GpsNavigationMove(pT_drone);
+        switch(case_num){
+            case 1:
+                do_case_1(pT_drone);
+                break;
+            case 2:
+                do_case_2(); 
+                break;
+            case 3:
+                do_case_3();
+                break;
+            case 4:
+                do_case_4(pT_drone);
+                break;
+            case 5:
+                do_case_5();
+                break;
+            case 6:
+                do_case_6(); 
+                break;
+            default: 
+                GpsNavigationMove(pT_drone);
+                break;
+        }
 	}
 }
