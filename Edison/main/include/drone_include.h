@@ -654,7 +654,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
             continue;
         }
         int n_index;
-        for(n_index = 0, n_index < 4, n_index++){
+        for(n_index = 0; n_index < 4; n_index++){
             if(pT_drone->arrd_current_pwm[n_index] > (pT_drone->arrd_current_pwm_min[n_index] + PWM_DEFAULT_RANGE)){
                 pT_drone->arrd_current_pwm[n_index] = (pT_drone->arrd_current_pwm_min[n_index] + PWM_DEFAULT_RANGE);
             }
