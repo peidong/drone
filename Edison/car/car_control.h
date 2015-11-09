@@ -90,7 +90,7 @@ double get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
   int count_while = 0;
   while (mraa_gpio_read(echo) == 0){
     count_while++;
-    if (count_while > 655)
+    if (count_while > 355)
     {
       break;
     }
@@ -100,7 +100,7 @@ double get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
   count_while = 0;
   while (mraa_gpio_read(echo) == 1){
     count_while++;
-    if (count_while > 655)
+    if (count_while > 355)
     {
       break;
     }
@@ -109,9 +109,16 @@ double get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
         
   time_taken = 1000000.0 * (endTime.tv_sec - startTime.tv_sec) + endTime.tv_usec - startTime.tv_usec;
         distance = (time_taken + 0.00) / 58.82;
+        count_while = 0;
   while (time_taken < 30000 && time_taken > 0){
     gettimeofday(&endTime, NULL);
     time_taken = 1000000.0 * (endTime.tv_sec - startTime.tv_sec) + endTime.tv_usec - startTime.tv_usec;
+    count_while++;
+    if (count_while > 355)
+    {
+      break;
+    }
+
   }
   // printf("distance = %f\n", distance);
         return distance;
