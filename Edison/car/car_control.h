@@ -55,7 +55,7 @@ void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
               pT_drone->n_ultrasonic_degree = 1;
           }
           //usleep(100000);
-          usleep(10000);
+          usleep(20000);
       }
       mraa_pwm_write(sonicTurn_pwm, 0.050f);
       pT_drone->n_ultrasonic_degree = 0;
@@ -66,12 +66,12 @@ void ThreadTask_sonicTurn_pwm(struct T_drone *pT_drone){
               pT_drone->n_ultrasonic_degree = -1;
           }
 
-          usleep(10000);
+          usleep(20000);
           //usleep(100000);
       }
       mraa_pwm_write(sonicTurn_pwm, 0.050f);
       pT_drone->n_ultrasonic_degree = 0;
-      usleep(10000);
+      usleep(20000);
     }
 }
 
