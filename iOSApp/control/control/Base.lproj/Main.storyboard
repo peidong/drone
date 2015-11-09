@@ -44,7 +44,7 @@
                                 <color key="tintColor" red="0.99637566779999998" green="0.99188705310000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Forward"/>
                                 <connections>
-                                    <action selector="forward_4:" destination="BYZ-38-t0r" eventType="touchDragInside" id="Wq3-QL-Ck9"/>
+                                    <action selector="forward_4:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RMV-Td-qeq"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JOu-ct-oS7">
