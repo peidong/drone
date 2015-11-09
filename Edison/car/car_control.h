@@ -319,9 +319,9 @@ int GpsNavigationMove(struct T_drone *pT_drone){
     if (tmp > 10)
     {
         //turn_direction(pT_drone->d_move_direction - pT_drone->d_face_direction);
-        if(pT_drone->d_move_direction - pT_drone->d_face_direction > 5){
+        if(pT_drone->d_move_direction - pT_drone->d_face_direction > 15){
             turn_right();
-        }else if(pT_drone->d_move_direction - pT_drone->d_face_direction < -5)
+        }else if(pT_drone->d_move_direction - pT_drone->d_face_direction < -15)
         {   
             turn_left();
         }
