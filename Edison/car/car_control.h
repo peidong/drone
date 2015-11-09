@@ -90,7 +90,7 @@ double get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
   int count_while = 0;
   while (mraa_gpio_read(echo) == 0){
     count_while++;
-    if (count_while > 200)
+    if (count_while > 20)
     {
       break;
     }
@@ -100,7 +100,7 @@ double get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
   count_while = 0;
   while (mraa_gpio_read(echo) == 1){
     count_while++;
-    if (count_while > 200)
+    if (count_while > 20)
     {
       break;
     }
@@ -114,7 +114,7 @@ double get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
     gettimeofday(&endTime, NULL);
     time_taken = 1000000.0 * (endTime.tv_sec - startTime.tv_sec) + endTime.tv_usec - startTime.tv_usec;
     count_while++;
-    if (count_while > 200)
+    if (count_while > 20)
     {
       break;
     }
@@ -272,17 +272,17 @@ void do_case_6(){
 
 int case_detection(double s_left, double s_right, double Center){
 	int returnVal;
-	if (Center > 1 && Center <= 30 && s_left > 1 && s_left <= 30 && s_right > 1 && s_right <= 30)
-		returnVal = 1;      //go back
-    else if(Center > 1 && Center <=30 && s_left > 1 && s_left <=30 && s_right >30)
+	if (Center > 10 && Center <= 30 && s_left > 10 && s_left <= 30 && s_right > 10 && s_right <= 30)
+		returnVal = 10;      //go back
+    else if(Center > 10 && Center <=30 && s_left > 10 && s_left <=30 && s_right >30)
         returnVal = 2;     //turn right
-    else if(Center > 1 && Center <= 30 && s_left >30 && s_right >1 && s_right <=30)
+    else if(Center > 10 && Center <= 30 && s_left >30 && s_right >10 && s_right <=30)
         returnVal = 3;      //turn left
-    else if(Center > 1 && Center <= 30 && s_left >30 && s_right > 30)
+    else if(Center > 10 && Center <= 30 && s_left >30 && s_right > 30)
         returnVal = 4;      //turn destination direction
-    else if(Center > 30 && s_left <=30 && s_left > 1)
+    else if(Center > 30 && s_left <=30 && s_left > 10)
         returnVal = 5;      //turn slightly right
-    else if(Center > 30 && s_right <= 30 && s_right > 1)
+    else if(Center > 30 && s_right <= 30 && s_right > 10)
         returnVal = 6;      //turn slightly left
 	else
 		returnVal = 7;
