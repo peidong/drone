@@ -39,7 +39,7 @@ int main(){
 
     sleep(1);
 
-
+    g_f_speed = 40.0f;
 	speed_control(speed_pwm_in1, speed_pwm_in2, 100.0f);
 
 
