@@ -543,7 +543,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 	ki_yaw  = pT_drone->d_ki_yaw;
 	kd_yaw  = pT_drone->d_kd_yaw;
     
-    samplePeriodMs = 40; //need to be setup
+    samplePeriodMs = 20; //need to be setup
     // samplePeriodMs = 100; //need to be setup
     controllerDir = PID_DIRECT; //Direct control not reverse.
 
@@ -668,7 +668,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 #ifdef  PRINT_DEBUG_PID_CHANGE
         printf("pitch change= %f\troll change= %f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
 #endif
-		usleep(40000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good. 
+		usleep(20000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good. 
     }
     /**
      * free pointer
