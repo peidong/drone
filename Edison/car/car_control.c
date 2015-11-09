@@ -1,6 +1,7 @@
 #include "car_control.h"
 
 int main(){
+	g_f_speed = 60.0f;
 	trig_c = mraa_gpio_init(7);
 	echo_c = mraa_gpio_init(8);
 	speed_pwm_in1 = mraa_pwm_init(3);
@@ -39,7 +40,6 @@ int main(){
 
     sleep(1);
 
-    g_f_speed = 40.0f;
 	speed_control(speed_pwm_in1, speed_pwm_in2, 100.0f);
 
 
