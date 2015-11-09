@@ -114,10 +114,10 @@ double get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
     gettimeofday(&endTime, NULL);
     time_taken = 1000000.0 * (endTime.tv_sec - startTime.tv_sec) + endTime.tv_usec - startTime.tv_usec;
     count_while++;
-    if (count_while > 100)
-    {
-      break;
-    }
+    // if (count_while > 100)
+    // {
+    //   break;
+    // }
 
   }
   // printf("distance = %f\n", distance);
