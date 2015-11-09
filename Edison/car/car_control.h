@@ -90,7 +90,7 @@ double get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
   int count_while = 0;
   while (mraa_gpio_read(echo) == 0){
     count_while++;
-    if (count_while > 100)
+    if (count_while > 200)
     {
       break;
     }
@@ -100,7 +100,7 @@ double get_distance(mraa_gpio_context trigger, mraa_gpio_context echo)
   count_while = 0;
   while (mraa_gpio_read(echo) == 1){
     count_while++;
-    if (count_while > 100)
+    if (count_while > 200)
     {
       break;
     }
