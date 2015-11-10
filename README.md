@@ -94,3 +94,12 @@ To check your Edison board ip address, please go to this link [http://fryer.ee.u
 extra source []()
 
 ###Code Style
+
+###Add opkg support
+        vi /etc/opkg/base-feeds.conf
+
+And write this following line at the bottom of the file
+
+        src/gz all http://repo.opkg.net/edison/repo/all
+        src/gz edison http://repo.opkg.net/edison/repo/edison
+        src/gz core2-32 http://repo.opkg.net/edison/repo/core2-32
