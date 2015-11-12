@@ -47,7 +47,7 @@
 #define    acc_offset_z              215
 
 
-mr2c_context mpu;
+mraa_i2c_context mpu;
 float magCalibration[3] = {0, 0, 0};
 float mRes = 10.*4912./32760.0;
 float aRes = 2.0/32768.0;
