@@ -135,7 +135,6 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->arrd_current_pwm_min[2] = 0.000025*4;
     pT_drone->arrd_current_pwm_min[3] = 0.000025*4;
 
-
     pT_drone->arrd_yaw_pitch_roll[0] = 0;
     pT_drone->arrd_yaw_pitch_roll[1] = 0;
     pT_drone->arrd_yaw_pitch_roll[2] = 0;
