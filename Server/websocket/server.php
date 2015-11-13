@@ -2,7 +2,7 @@
 // 建立server端socket
 $tcp = getprotobyname("tcp");
 $socket = socket_create(AF_INET, SOCK_STREAM, $tcp);
-socket_bind($socket, 'fryer.ee.ucla.edu', 10008);       //绑定要监听的端口
+socket_bind($socket, 'fryer.ee.ucla.edu', 10007);       //绑定要监听的端口
 socket_listen($socket);       //监听端口
 
 //初始化一个数据，和客户端通信
