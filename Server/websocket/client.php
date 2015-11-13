@@ -1,7 +1,8 @@
 <?php
 // 建立客户端的socet连接
 $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-$connection = socket_connect($socket, 'fryer.ee.ucla.edu', 10008);    //连接服务器端socket
+$connection = socket_connect($socket, 'http://fryer.ee.ucla.edu/rest/api/websocket/server.php', 10008);    //连接服务器端socket
+//$connection = socket_connect($socket, 'fryer.ee.ucla.edu', 10008);    //连接服务器端socket
 
 while ($buffer = @socket_read($socket, 1024, PHP_NORMAL_READ)) {
     //服务端告诉客户端，自己的状态
