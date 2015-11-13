@@ -259,17 +259,18 @@ void MadgwickAHRSupdate(float ax, float ay, float az, float gx, float gy, float 
 
 
 
-void MPU_init()
+void acc_init()
 {
-  mraa_init();
-	acc = mraa_i2c_init(6);
-	mraa_i2c_address(acc, ADXL345_ADDRESS);
-  mraa_i2c_write_byte_data(acc, 0x0F, 0x2C);  
-  mraa_i2c_write_byte_data(acc, 0x08, 0x2D);  
-  mraa_i2c_write_byte_data(acc, 0x00, 0x31);  
-	
-	
-  
+    
+    acc = mraa_i2c_init(6);
+    mraa_i2c_address(acc, ADXL345_ADDRESS);
+    mraa_i2c_write_byte_data(acc, 0x0F, 0x2C);  
+    mraa_i2c_write_byte_data(acc, 0x08, 0x2D);  
+    mraa_i2c_write_byte_data(acc, 0x04, 0x31);
+}
+void acc_stop()
+{
+    mraa_i2c_stop(acc);
 }
 /*
 void get_freq()
@@ -282,22 +283,25 @@ void get_freq()
 */
 void main()
 {
-	MPU_init();
+	mraa_init();
 
 	int sample = 0;
-  int i,j;
+    int i,j;
 
-  float result[20000][3];
-  float x=0,y=0,z=0;
+    float result[20000][3];
+    float x=0,y=0,z=0;
 	while(sample<20000)
 	{
-    uint8_t Buf[6];
+        acc_init();
+        uint8_t Buf[6];
 		mraa_i2c_read_bytes_data(acc, 0x32, Buf, 6);
     //printf("%d\n",Buf[1]);
 		// Accelerometer
-		int16_t arawx = -(Buf[1] << 8 | Buf[0]);
-		int16_t arawy = -(Buf[3] << 8 | Buf[2]);
-		int16_t arawz = Buf[5] << 8 | Buf[4];
+		int16_t arawx = (Buf[1]) << 8 | Buf[0];
+		int16_t arawy = (Buf[3]) << 8 | Buf[2];
+		int16_t arawz = (Buf[5]) << 8 | Buf[4];
+        acc_stop();
+        
 		// Gyroscope
 		// int16_t grawx = (Buf[8] << 8 | Buf[9])-25; 
 		// int16_t grawy = (Buf[10] << 8 | Buf[11]) - 2;
