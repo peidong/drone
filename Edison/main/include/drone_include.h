@@ -40,6 +40,9 @@
 #define PWM_DEFAULT_INITIAL 0.000025*4
 #define PWM_DEFAULT_PWM_MIN 0.000025*4
 #define PWM_DEFAULT_PWM_MAX 0.000025*1000
+
+int n_index_yaw_pitch_roll = 0;
+
 /**
  * struct drone
  */
@@ -519,7 +522,11 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		pT_drone->arrd_yaw_pitch_roll[2] = roll;
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
         if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
-            printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
+            n_index_yaw_pitch_roll++;
+            n_index_yaw_pitch_roll = n_index_yaw_pitch_roll%10;
+            if(n_index_yaw_pitch_roll == 0){
+                printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
+            }
         }
 #endif
 	}
@@ -601,11 +608,11 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         Pid_SetTunings(pidData_pitch, kp_pitch, ki_pitch, kd_pitch);
         Pid_SetTunings(pidData_roll, kp_roll, ki_roll, kd_roll);
 
-		//"0" is the setpoint or the destination of the final attitude, representing hovering or suspending. 
+		//"0" is the setpoint or the destination of the final attitude, representing hovering or suspending.
 		//Replace "0" by HTTP request parameters later.
 
 		// It can be tested after tests for pitch and roll are finished.
-		Pid_SetSetPoint(pidData_yaw, 0);						
+		Pid_SetSetPoint(pidData_yaw, 0);
         Pid_Run(pidData_yaw, (int)pT_drone->arrd_yaw_pitch_roll[0]);
         pT_drone->arrd_pid_yaw_pitch_roll[0] = pidData_yaw->output;
 
