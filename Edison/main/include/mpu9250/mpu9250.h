@@ -339,13 +339,13 @@ void initAK8963(float * destination)
 void MPU_init()
 {
   // mraa_init();
-	mpu = mraa_i2c_init(1);
+	mpu = mraa_i2c_init(6);
 	mraa_i2c_address(mpu, MPU9250_ADDRESS);
-	mraa_i2c_write_byte_data(mpu, 0x01, ACCEL_CONFIG_2);
-	mraa_i2c_write_byte_data(mpu, 0x01, CONFIG);
+	//mraa_i2c_write_byte_data(mpu, 0x01, ACCEL_CONFIG_2);
+	//mraa_i2c_write_byte_data(mpu, 0x01, CONFIG);
 	mraa_i2c_write_byte_data(mpu, ACC_FULL_SCALE_2_G, ACCEL_CONFIG);
-	mraa_i2c_write_byte_data(mpu, GYRO_FULL_SCALE_1000_DPS, GYRO_CONFIG);
-  mraa_i2c_write_byte_data(mpu, 32, USER_CTRL);
+	mraa_i2c_write_byte_data(mpu, GYRO_FULL_SCALE_1000_DPS + 0x03, GYRO_CONFIG);
+    mraa_i2c_write_byte_data(mpu, 32, USER_CTRL);
   
   initAK8963(magCalibration);
 }
