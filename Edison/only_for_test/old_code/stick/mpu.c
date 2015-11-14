@@ -6,6 +6,9 @@
 
 
 #define    ADXL345_ADDRESS            0x53
+#define    ITG3200_ADDRESS            0x68
+#define    HMC5883L_ADDRESS           0x1E
+
 
 #define    GYRO_FULL_SCALE_250_DPS    0x00  
 #define    GYRO_FULL_SCALE_500_DPS    0x08
@@ -20,10 +23,13 @@
 
 
 mraa_i2c_context acc;
+mraa_i2c_context gyro;
+mraa_i2c_context mag;
+
 float magCalibration[3] = {0, 0, 0};
 float mRes = 10.*4912./32760.0;
 float aRes = 2.0/32768.0;
-float gRes = 1000.0/32768.0;
+float gRes = 2000.0/32768.0;
 
 
 
@@ -36,25 +42,25 @@ clock_t now=0,past=0;
 float beta=2.0f;  // compute beta
 
 float pitch, yaw, roll;
-float deltat = 0.002f;                             // integration interval for both filter schemes
+float deltat = 0.001f;                             // integration interval for both filter schemes
 // float deltat = 0.0015f;                             // integration interval for both filter schemes
 int lastUpdate = 0, f005stUpdate = 0, Now = 0;    // used to calculate integration interval                               // used to calculate integration interval
 float q[4] = {1.0f, 0.005, 0.0f, 0.0f};           // vector to hold quaternion
 //---------------------054---------
-float q0 = 1.0f, q1 = 0.0f, q2 = 0.0f, q3 = 0.0f;	// quaternion of sensor frame relative to auxiliary frame
+float q0 = 1.0f, q1 = 0.0f, q2 = 0.0f, q3 = 0.0f;   // quaternion of sensor frame relative to auxiliary frame
 
 //---------------------------------------------------------------------------------------------------
 // Fast inverse square-root
 // See: http://en.wikipedia.org/wiki/Fast_inverse_square_root
 
 float invSqrt(float x) {
-	float halfx = 0.5f * x;
-	float y = x;
-	long i = *(long*)&y;
-	i = 0x5f3759df - (i>>1);
-	y = *(float*)&i;
-	y = y * (1.5f - (halfx * y * y));
-	return y;
+    float halfx = 0.5f * x;
+    float y = x;
+    long i = *(long*)&y;
+    i = 0x5f3759df - (i>>1);
+    y = *(float*)&i;
+    y = y * (1.5f - (halfx * y * y));
+    return y;
 }
 
 //====================================================================================================
@@ -161,95 +167,95 @@ float invSqrt(float x) {
 //====================================================================================================
 
 void MadgwickAHRSupdate(float ax, float ay, float az, float gx, float gy, float gz, float mx, float my, float mz) {
-	float recipNorm;
-	float s0, s1, s2, s3;
-	float qDot1, qDot2, qDot3, qDot4;
-	float hx, hy;
-	float _2q0mx, _2q0my, _2q0mz, _2q1mx, _2bx, _2bz, _4bx, _4bz, _2q0, _2q1, _2q2, _2q3, _2q0q2, _2q2q3, q0q0, q0q1, q0q2, q0q3, q1q1, q1q2, q1q3, q2q2, q2q3, q3q3;
+    float recipNorm;
+    float s0, s1, s2, s3;
+    float qDot1, qDot2, qDot3, qDot4;
+    float hx, hy;
+    float _2q0mx, _2q0my, _2q0mz, _2q1mx, _2bx, _2bz, _4bx, _4bz, _2q0, _2q1, _2q2, _2q3, _2q0q2, _2q2q3, q0q0, q0q1, q0q2, q0q3, q1q1, q1q2, q1q3, q2q2, q2q3, q3q3;
 
 
 
-	// Rate of change of quaternion from gyroscope
-	qDot1 = 0.5f * (-q1 * gx - q2 * gy - q3 * gz);
-	qDot2 = 0.5f * (q0 * gx + q2 * gz - q3 * gy);
-	qDot3 = 0.5f * (q0 * gy - q1 * gz + q3 * gx);
-	qDot4 = 0.5f * (q0 * gz + q1 * gy - q2 * gx);
+    // Rate of change of quaternion from gyroscope
+    qDot1 = 0.5f * (-q1 * gx - q2 * gy - q3 * gz);
+    qDot2 = 0.5f * (q0 * gx + q2 * gz - q3 * gy);
+    qDot3 = 0.5f * (q0 * gy - q1 * gz + q3 * gx);
+    qDot4 = 0.5f * (q0 * gz + q1 * gy - q2 * gx);
 
-	// Compute feedback only if accelerometer measurement valid (avoids NaN in accelerometer normalisation)
-	if(!((ax == 0.0f) && (ay == 0.0f) && (az == 0.0f))) {
+    // Compute feedback only if accelerometer measurement valid (avoids NaN in accelerometer normalisation)
+    if(!((ax == 0.0f) && (ay == 0.0f) && (az == 0.0f))) {
 
-		// Normalise accelerometer measurement
-		recipNorm = invSqrt(ax * ax + ay * ay + az * az);
-		ax *= recipNorm;
-		ay *= recipNorm;
-		az *= recipNorm;   
+        // Normalise accelerometer measurement
+        recipNorm = invSqrt(ax * ax + ay * ay + az * az);
+        ax *= recipNorm;
+        ay *= recipNorm;
+        az *= recipNorm;   
 
-		// Normalise magnetometer measurement
-		recipNorm = invSqrt(mx * mx + my * my + mz * mz);
-		mx *= recipNorm;
-		my *= recipNorm;
-		mz *= recipNorm;
+        // Normalise magnetometer measurement
+        recipNorm = invSqrt(mx * mx + my * my + mz * mz);
+        mx *= recipNorm;
+        my *= recipNorm;
+        mz *= recipNorm;
 
-		// Auxiliary variables to avoid repeated arithmetic
-		_2q0mx = 2.0f * q0 * mx;
-		_2q0my = 2.0f * q0 * my;
-		_2q0mz = 2.0f * q0 * mz;
-		_2q1mx = 2.0f * q1 * mx;
-		_2q0 = 2.0f * q0;
-		_2q1 = 2.0f * q1;
-		_2q2 = 2.0f * q2;
-		_2q3 = 2.0f * q3;
-		_2q0q2 = 2.0f * q0 * q2;
-		_2q2q3 = 2.0f * q2 * q3;
-		q0q0 = q0 * q0;
-		q0q1 = q0 * q1;
-		q0q2 = q0 * q2;
-		q0q3 = q0 * q3;
-		q1q1 = q1 * q1;
-		q1q2 = q1 * q2;
-		q1q3 = q1 * q3;
-		q2q2 = q2 * q2;
-		q2q3 = q2 * q3;
-		q3q3 = q3 * q3;
+        // Auxiliary variables to avoid repeated arithmetic
+        _2q0mx = 2.0f * q0 * mx;
+        _2q0my = 2.0f * q0 * my;
+        _2q0mz = 2.0f * q0 * mz;
+        _2q1mx = 2.0f * q1 * mx;
+        _2q0 = 2.0f * q0;
+        _2q1 = 2.0f * q1;
+        _2q2 = 2.0f * q2;
+        _2q3 = 2.0f * q3;
+        _2q0q2 = 2.0f * q0 * q2;
+        _2q2q3 = 2.0f * q2 * q3;
+        q0q0 = q0 * q0;
+        q0q1 = q0 * q1;
+        q0q2 = q0 * q2;
+        q0q3 = q0 * q3;
+        q1q1 = q1 * q1;
+        q1q2 = q1 * q2;
+        q1q3 = q1 * q3;
+        q2q2 = q2 * q2;
+        q2q3 = q2 * q3;
+        q3q3 = q3 * q3;
 
-		// Reference direction of Earth's magnetic field
-		hx = mx * q0q0 - _2q0my * q3 + _2q0mz * q2 + mx * q1q1 + _2q1 * my * q2 + _2q1 * mz * q3 - mx * q2q2 - mx * q3q3;
-		hy = _2q0mx * q3 + my * q0q0 - _2q0mz * q1 + _2q1mx * q2 - my * q1q1 + my * q2q2 + _2q2 * mz * q3 - my * q3q3;
-		_2bx = sqrt(hx * hx + hy * hy);
-		_2bz = -_2q0mx * q2 + _2q0my * q1 + mz * q0q0 + _2q1mx * q3 - mz * q1q1 + _2q2 * my * q3 - mz * q2q2 + mz * q3q3;
-		_4bx = 2.0f * _2bx;
-		_4bz = 2.0f * _2bz;
+        // Reference direction of Earth's magnetic field
+        hx = mx * q0q0 - _2q0my * q3 + _2q0mz * q2 + mx * q1q1 + _2q1 * my * q2 + _2q1 * mz * q3 - mx * q2q2 - mx * q3q3;
+        hy = _2q0mx * q3 + my * q0q0 - _2q0mz * q1 + _2q1mx * q2 - my * q1q1 + my * q2q2 + _2q2 * mz * q3 - my * q3q3;
+        _2bx = sqrt(hx * hx + hy * hy);
+        _2bz = -_2q0mx * q2 + _2q0my * q1 + mz * q0q0 + _2q1mx * q3 - mz * q1q1 + _2q2 * my * q3 - mz * q2q2 + mz * q3q3;
+        _4bx = 2.0f * _2bx;
+        _4bz = 2.0f * _2bz;
 
-		// Gradient decent algorithm corrective step
-		s0 = -_2q2 * (2.0f * q1q3 - _2q0q2 - ax) + _2q1 * (2.0f * q0q1 + _2q2q3 - ay) - _2bz * q2 * (_2bx * (0.5f - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - mx) + (-_2bx * q3 + _2bz * q1) * (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - my) + _2bx * q2 * (_2bx * (q0q2 + q1q3) + _2bz * (0.5f - q1q1 - q2q2) - mz);
-		s1 = _2q3 * (2.0f * q1q3 - _2q0q2 - ax) + _2q0 * (2.0f * q0q1 + _2q2q3 - ay) - 4.0f * q1 * (1 - 2.0f * q1q1 - 2.0f * q2q2 - az) + _2bz * q3 * (_2bx * (0.5f - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - mx) + (_2bx * q2 + _2bz * q0) * (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - my) + (_2bx * q3 - _4bz * q1) * (_2bx * (q0q2 + q1q3) + _2bz * (0.5f - q1q1 - q2q2) - mz);
-		s2 = -_2q0 * (2.0f * q1q3 - _2q0q2 - ax) + _2q3 * (2.0f * q0q1 + _2q2q3 - ay) - 4.0f * q2 * (1 - 2.0f * q1q1 - 2.0f * q2q2 - az) + (-_4bx * q2 - _2bz * q0) * (_2bx * (0.5f - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - mx) + (_2bx * q1 + _2bz * q3) * (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - my) + (_2bx * q0 - _4bz * q2) * (_2bx * (q0q2 + q1q3) + _2bz * (0.5f - q1q1 - q2q2) - mz);
-		s3 = _2q1 * (2.0f * q1q3 - _2q0q2 - ax) + _2q2 * (2.0f * q0q1 + _2q2q3 - ay) + (-_4bx * q3 + _2bz * q1) * (_2bx * (0.5f - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - mx) + (-_2bx * q0 + _2bz * q2) * (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - my) + _2bx * q1 * (_2bx * (q0q2 + q1q3) + _2bz * (0.5f - q1q1 - q2q2) - mz);
-		recipNorm = invSqrt(s0 * s0 + s1 * s1 + s2 * s2 + s3 * s3); // normalise step magnitude
-		s0 *= recipNorm;
-		s1 *= recipNorm;
-		s2 *= recipNorm;
-		s3 *= recipNorm;
+        // Gradient decent algorithm corrective step
+        s0 = -_2q2 * (2.0f * q1q3 - _2q0q2 - ax) + _2q1 * (2.0f * q0q1 + _2q2q3 - ay) - _2bz * q2 * (_2bx * (0.5f - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - mx) + (-_2bx * q3 + _2bz * q1) * (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - my) + _2bx * q2 * (_2bx * (q0q2 + q1q3) + _2bz * (0.5f - q1q1 - q2q2) - mz);
+        s1 = _2q3 * (2.0f * q1q3 - _2q0q2 - ax) + _2q0 * (2.0f * q0q1 + _2q2q3 - ay) - 4.0f * q1 * (1 - 2.0f * q1q1 - 2.0f * q2q2 - az) + _2bz * q3 * (_2bx * (0.5f - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - mx) + (_2bx * q2 + _2bz * q0) * (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - my) + (_2bx * q3 - _4bz * q1) * (_2bx * (q0q2 + q1q3) + _2bz * (0.5f - q1q1 - q2q2) - mz);
+        s2 = -_2q0 * (2.0f * q1q3 - _2q0q2 - ax) + _2q3 * (2.0f * q0q1 + _2q2q3 - ay) - 4.0f * q2 * (1 - 2.0f * q1q1 - 2.0f * q2q2 - az) + (-_4bx * q2 - _2bz * q0) * (_2bx * (0.5f - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - mx) + (_2bx * q1 + _2bz * q3) * (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - my) + (_2bx * q0 - _4bz * q2) * (_2bx * (q0q2 + q1q3) + _2bz * (0.5f - q1q1 - q2q2) - mz);
+        s3 = _2q1 * (2.0f * q1q3 - _2q0q2 - ax) + _2q2 * (2.0f * q0q1 + _2q2q3 - ay) + (-_4bx * q3 + _2bz * q1) * (_2bx * (0.5f - q2q2 - q3q3) + _2bz * (q1q3 - q0q2) - mx) + (-_2bx * q0 + _2bz * q2) * (_2bx * (q1q2 - q0q3) + _2bz * (q0q1 + q2q3) - my) + _2bx * q1 * (_2bx * (q0q2 + q1q3) + _2bz * (0.5f - q1q1 - q2q2) - mz);
+        recipNorm = invSqrt(s0 * s0 + s1 * s1 + s2 * s2 + s3 * s3); // normalise step magnitude
+        s0 *= recipNorm;
+        s1 *= recipNorm;
+        s2 *= recipNorm;
+        s3 *= recipNorm;
 
-		// Apply feedback step
-		qDot1 -= beta * s0;
-		qDot2 -= beta * s1;
-		qDot3 -= beta * s2;
-		qDot4 -= beta * s3;
-	}
+        // Apply feedback step
+        qDot1 -= beta * s0;
+        qDot2 -= beta * s1;
+        qDot3 -= beta * s2;
+        qDot4 -= beta * s3;
+    }
 
-	// Integrate rate of change of quaternion to yield quaternion
-	q0 += qDot1 * deltat;
+    // Integrate rate of change of quaternion to yield quaternion
+    q0 += qDot1 * deltat;
   q1 += qDot2 * deltat;
   q2 += qDot3 * deltat;
   q3 += qDot4 * deltat;
 
-	// Normalise quaternion
-	recipNorm = invSqrt(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3);
-	q0 *= recipNorm;
-	q1 *= recipNorm;
-	q2 *= recipNorm;
-	q3 *= recipNorm;
+    // Normalise quaternion
+    recipNorm = invSqrt(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3);
+    q0 *= recipNorm;
+    q1 *= recipNorm;
+    q2 *= recipNorm;
+    q3 *= recipNorm;
 }
 //====================================================================================================
 // END OF AHRS
@@ -259,19 +265,26 @@ void MadgwickAHRSupdate(float ax, float ay, float az, float gx, float gy, float 
 
 
 
-void acc_init()
+void mpu_init()
 {
-    
     acc = mraa_i2c_init(6);
+    mraa_i2c_stop(acc);   
     mraa_i2c_address(acc, ADXL345_ADDRESS);
-    mraa_i2c_write_byte_data(acc, 0x0F, 0x2C);  
+    mraa_i2c_write_byte_data(acc, 0x0B, 0x2C);  
     mraa_i2c_write_byte_data(acc, 0x08, 0x2D);  
     mraa_i2c_write_byte_data(acc, 0x04, 0x31);
+
+    gyro = mraa_i2c_init(6);
+    mraa_i2c_address(gyro, ITG3200_ADDRESS);    
+    mraa_i2c_write_byte_data(gyro, 0x18+1, 0x16);  
+
+    mag = mraa_i2c_init(6);
+    mraa_i2c_address(mag, HMC5883L_ADDRESS); 
+    mraa_i2c_write_byte_data(mag, 0x1C, 0x00);
+    mraa_i2c_write_byte_data(mag, 0x00, 0x02);
 }
-void acc_stop()
-{
-    mraa_i2c_stop(acc);
-}
+
+
 /*
 void get_freq()
 {
@@ -283,53 +296,57 @@ void get_freq()
 */
 void main()
 {
-	mraa_init();
-
-	int sample = 0;
+    // mraa_init();
+    mpu_init();
+    int sample = 0;
     int i,j;
 
     float result[20000][3];
     float x=0,y=0,z=0;
-	while(sample<20000)
-	{
-        acc_init();
-        uint8_t Buf[6];
-		mraa_i2c_read_bytes_data(acc, 0x32, Buf, 6);
-    //printf("%d\n",Buf[1]);
-		// Accelerometer
-		int16_t arawx = (Buf[1]) << 8 | Buf[0];
-		int16_t arawy = (Buf[3]) << 8 | Buf[2];
-		int16_t arawz = (Buf[5]) << 8 | Buf[4];
-        acc_stop();
+    uint8_t Buf0[6],Buf1[6],Buf2[6];
+    while(sample<20000)
+    {
         
-		// Gyroscope
-		// int16_t grawx = (Buf[8] << 8 | Buf[9])-25; 
-		// int16_t grawy = (Buf[10] << 8 | Buf[11]) - 2;
-		// int16_t grawz = (Buf[12] << 8 | Buf[13]) + 9;
-    
-		// Magnetometer  
-		// mraa_i2c_read_bytes_data(acc, 73, Buf, 6);
-		// int16_t mrawx = (Buf[1] << 8 | Buf[0]);//-213;// + mag_offset_x;
-		// int16_t mrawy = (Buf[3] << 8 | Buf[2]);//-92;// + mag_offset_y;
-		// int16_t mrawz = (Buf[5] << 8 | Buf[4]);//+200;// + mag_offset_z;
-		// int result_agm[9] = {arawx, arawy, arawz, grawx, grawy, grawz, mrawx, mrawy, mrawz};
+        Buf0[6]=0;
+        Buf1[6]=0;
+        Buf2[6]=0;
+        
+        //Accelerometer
+        mraa_i2c_read_bytes_data(acc, 0x32, Buf0, 6);
+        int16_t arawx = -((Buf0[1] << 8 | Buf0[0])-1000);
+        int16_t arawy = (Buf0[3] << 8 | Buf0[2])+300;
+        int16_t arawz = -(Buf0[5] << 8 | Buf0[4]);
+        // Gyroscope
+        mraa_i2c_read_bytes_data(gyro, 0x1D, Buf1, 6);
+        int16_t grawx = -((Buf1[0] << 8 | Buf1[1])-23); 
+        int16_t grawy = -((Buf1[2] << 8 | Buf1[3])-52);
+        int16_t grawz = Buf1[4] << 8 | Buf1[5];
+        //Magnetometer  
+        mraa_i2c_read_bytes_data(mag, 0x03, Buf2, 6);
+        int16_t mrawx = Buf2[0] << 8 | Buf2[1];//-213;// + mag_offset_x;
+        int16_t mrawy = Buf2[2] << 8 | Buf2[3];//-92;// + mag_offset_y;
+        int16_t mrawz = Buf2[4] << 8 | Buf2[5];//+200;// + mag_offset_z;
+        // int result_agm[9] = {arawx, arawy, arawz, grawx, grawy, grawz, mrawx, mrawy, mrawz};
 
 //    for(i=0;i<100000;i++);
-		printf("%6d,%6d,%6d\n",arawx, arawy, arawz);
+        // printf("%d\t,%d\t,%d\n",arawx, arawy, arawz);
 
-		// printf("%6d,%6d,%6d\n",grawx, grawy, grawz);
+        printf("%d\t,%d\t,%d\n",grawx, grawy, grawz);
+        // printf("%d\t,%d\t,%d\n",mrawx, mrawy, mrawz);
+        // printf("%d\t,%d\t,%d\t,%d\t,%d\t,%d\t,%d\t,%d\t,%d\n",arawx, arawy, arawz, grawx, grawy, grawz, mrawx, mrawy, mrawz);
 //    x+=grawx;y+=grawy;z+=grawz;
     
     float ax = (float)arawx*aRes;
     float ay = (float)arawy*aRes;
     float az = (float)arawz*aRes;
-    // float gx = (float)grawx*gRes;
-    // float gy = (float)grawy*gRes;
-    // float gz = (float)grawz*gRes;
-    // float mx = (float)mrawx*mRes*magCalibration[0] - 406 - 49 - 150;  // get actual magnetometer value, this depends on scale being set
-    // float my = (float)mrawy*mRes*magCalibration[1] - 95 + 43 + 15;  
-    // float mz = (float)mrawz*mRes*magCalibration[2] + 370 - 72 + 403;
-    
+    float gx = (float)grawx*gRes;
+    float gy = (float)grawy*gRes;
+    float gz = (float)grawz*gRes;
+    float mx = (float)mrawx*mRes - 36;  // get actual magnetometer value, this depends on scale being set
+    float my = (float)mrawy*mRes - 47;  
+    float mz = (float)mrawz*mRes - 28;
+
+    // printf("%8.6f\t,%8.6f\t,%8.6f\t,%8.6f\t,%8.6f\t,%8.6f\t,%8.6f\t,%8.6f\t,%8.6f\n",ax,ay,az,gx,gy,gz,mx,my,mz);
     
     
    // printf("%.1f\t%.1f\t%.1f\n",mx,my,mz);
@@ -343,7 +360,7 @@ void main()
     */
 
 //    MadgwickQuaternionUpdate(ax,ay,az,gx*PI/180.0f,gy*PI/180.0f,gz*PI/180.0f,my,mx,mz);
-/*    MadgwickAHRSupdate(ax, ay, az, gx*PI/180.0f,gy*PI/180.0f,gz*PI/180.0f, my, mx, mz); //my, mx, mz
+    MadgwickAHRSupdate(ay, ax, az, gy*PI/180.0f,gx*PI/180.0f,gz*PI/180.0f, mx, mz, my); //my, mx, mz
     q[0]=q0;q[1]=q1;q[2]=q2;q[3]=q3;
     float yaw   = atan2(2.0f * (q[1] * q[2] + q[0] * q[3]), q[0] * q[0] + q[1] * q[1] - q[2] * q[2] - q[3] * q[3]);
     float pitch = -asin(2.0f * (q[1] * q[3] - q[0] * q[2]));   
@@ -363,17 +380,17 @@ void main()
     result[sample][1] = my;
     result[sample][2] = mz;    
     
-   printf("%.1f\t%.1f\t%.1f\n",yaw, pitch, roll);
- */   
+   // printf("%.1f\t%.1f\t%.1f\n",yaw, pitch, roll);
+  
     
 //    printf("%f,%f,%f,%f\n",SEq_1,SEq_2,SEq_3,SEq_4);
-//    usleep(2000);
+   // usleep(20000);
    // sample+=1;
 //    printf("%8.6f,%8.6f,%8.6f,%8.6f,%8.6f,%8.6f,%8.6f,%8.6f,%8.6f\n",ax,ay,az,gx,gy,gz,mx,my,mz);
 
-	}
+    }
 //  printf("%f,%f,%f",x/10000,y/10000,z/10000);
-/*  
+ 
   FILE* fp;
   fp = fopen("demo.txt", "w");
   for (i = 0; i < 20000; i++)
@@ -385,10 +402,5 @@ void main()
         fputc('\n', fp);
     }
     fclose(fp);
-  */
+  
 }
-
-
-/*
-
-*/
