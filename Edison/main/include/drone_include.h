@@ -538,6 +538,9 @@ timer_start(&g_timer);
             //if(n_index_yaw_pitch_roll == 0){
                 //printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
             //}
+            int i = 0;
+            for(i=0;i<100;i++){
+            }
         }
 #ifdef TIMER
         timer_pause(&g_timer);
