@@ -45,6 +45,7 @@
 int n_index_yaw_pitch_roll = 0;
 #ifdef TIMER
 custom_timer_t g_timer;
+long g_last_time_us;
 #endif
 
 /**
@@ -458,6 +459,9 @@ int update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
 
 int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 {
+#ifdef TIMER
+timer_start(&g_timer);
+#endif
     // mraa_gpio_context gpio_vcc;
     // gpio_vcc = mraa_gpio_init(2);
     // mraa_gpio_mode(gpio_vcc, MRAA_GPIO_PULLDOWN);
@@ -526,7 +530,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 		pT_drone->arrd_yaw_pitch_roll[2] = roll;
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
 #ifdef TIMER
-        timer_start(&g_timer);
+        timer_unpause(&g_timer);
 #endif
         if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
             n_index_yaw_pitch_roll++;
@@ -538,6 +542,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 #ifdef TIMER
         timer_pause(&g_timer);
         printf("Delta (us): %ld\n", timer_delta_us(&g_timer));
+        g_last_time_us = timer_delta_us(&g_timer);
 #endif
 #endif
 	}
