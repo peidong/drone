@@ -531,9 +531,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
         if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
             n_index_yaw_pitch_roll++;
             n_index_yaw_pitch_roll = n_index_yaw_pitch_roll%10;
-            if(n_index_yaw_pitch_roll == 0){
+            //if(n_index_yaw_pitch_roll == 0){
                 printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
-            }
+            //}
         }
 #ifdef TIMER
         timer_pause(&g_timer);
