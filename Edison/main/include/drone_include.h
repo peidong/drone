@@ -24,6 +24,8 @@
 // #define PRINT_DEBUG_THREAD
 // #define PRINT_CAR_MANUAL
 #define TIMER
+//#define TIMER_YAW_PITCH_ROLL
+#define TIMER_PID
 
 /**
  * define value
@@ -459,7 +461,7 @@ int update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
 
 int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 {
-#ifdef TIMER
+#ifdef TIMER_
 timer_start(&g_timer);
 #endif
     // mraa_gpio_context gpio_vcc;
@@ -473,7 +475,7 @@ timer_start(&g_timer);
 	MPU_init();
 	while (1)
 	{
-#ifdef TIMER
+#ifdef TIMER_YAW_PITCH_ROLL
         g_last_time_us = timer_delta_us(&g_timer);
         timer_unpause(&g_timer);
 #endif
@@ -540,7 +542,7 @@ timer_start(&g_timer);
                 printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
             //}
         }
-#ifdef TIMER
+#ifdef TIMER_YAW_PITCH_ROLL
         timer_pause(&g_timer);
         printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
 #endif
@@ -590,6 +592,10 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 	Pid_Init(pidData_roll, kp_roll, ki_roll, kd_roll, controllerDir, samplePeriodMs);
    
     while(1){
+#ifdef TIMER_PID
+        g_last_time_us = timer_delta_us(&g_timer);
+        timer_unpause(&g_timer);
+#endif
         if (pT_drone->nflag_stop_all != 0)
         {
             break;
@@ -718,6 +724,10 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         // }
 #ifdef  PRINT_DEBUG_PID_CHANGE
         printf("pitch change= %f\troll change= %f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
+#endif
+#ifdef TIMER_PID
+        timer_pause(&g_timer);
+        printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
 #endif
 		usleep(20000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good. 
     }
