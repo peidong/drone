@@ -461,7 +461,7 @@ int update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
 
 int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone)
 {
-#ifdef TIMER_
+#ifdef TIMER_YAW_PITCH_ROLL
 timer_start(&g_timer);
 #endif
     // mraa_gpio_context gpio_vcc;
@@ -554,6 +554,9 @@ timer_start(&g_timer);
 }
 
 int update_T_drone_arrd_pid(struct T_drone *pT_drone){
+#ifdef TIMER_PID
+    timer_start(&g_timer);
+#endif
     pidData_t *pidData_yaw = NULL, *pidData_pitch = NULL, *pidData_roll = NULL;
     if(NULL == pidData_yaw){
         pidData_yaw = (pidData_t*) malloc(sizeof(pidData_t));
