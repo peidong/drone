@@ -539,7 +539,7 @@ timer_start(&g_timer);
                 //printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
             //}
             int i = 0;
-            for(i=0;i<100;i++){
+            for(i=0;i<1000;i++){
             }
         }
 #ifdef TIMER
