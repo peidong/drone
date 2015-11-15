@@ -45,7 +45,7 @@
 int n_index_yaw_pitch_roll = 0;
 #ifdef TIMER
 custom_timer_t g_timer;
-long g_last_time_us;
+long g_last_time_us = 0;
 #endif
 
 /**
@@ -541,7 +541,7 @@ timer_start(&g_timer);
         }
 #ifdef TIMER
         timer_pause(&g_timer);
-        printf("Delta (us): %ld\n", timer_delta_us(&g_timer));
+        printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
         g_last_time_us = timer_delta_us(&g_timer);
 #endif
 #endif
