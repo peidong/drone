@@ -473,6 +473,10 @@ timer_start(&g_timer);
 	MPU_init();
 	while (1)
 	{
+#ifdef TIMER
+        g_last_time_us = timer_delta_us(&g_timer);
+        timer_unpause(&g_timer);
+#endif
         if (pT_drone->nflag_stop_all != 0)
         {
             break;
@@ -529,11 +533,6 @@ timer_start(&g_timer);
 		pT_drone->arrd_yaw_pitch_roll[1] = pitch;
 		pT_drone->arrd_yaw_pitch_roll[2] = roll;
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
-#ifdef TIMER
-        g_last_time_us = timer_delta_us(&g_timer);
-        timer_unpause(&g_timer);
-#endif
-        usleep(3000);
         //if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
             //n_index_yaw_pitch_roll++;
             //n_index_yaw_pitch_roll = n_index_yaw_pitch_roll%10;
