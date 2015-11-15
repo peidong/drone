@@ -530,22 +530,20 @@ timer_start(&g_timer);
 		pT_drone->arrd_yaw_pitch_roll[2] = roll;
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
 #ifdef TIMER
+        g_last_time_us = timer_delta_us(&g_timer);
         timer_unpause(&g_timer);
 #endif
-        if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
-            n_index_yaw_pitch_roll++;
-            n_index_yaw_pitch_roll = n_index_yaw_pitch_roll%10;
+        usleep(300);
+        //if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+            //n_index_yaw_pitch_roll++;
+            //n_index_yaw_pitch_roll = n_index_yaw_pitch_roll%10;
             //if(n_index_yaw_pitch_roll == 0){
                 //printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
             //}
-            int i = 0;
-            for(i=0;i<1000;i++){
-            }
-        }
+        //}
 #ifdef TIMER
         timer_pause(&g_timer);
         printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
-        g_last_time_us = timer_delta_us(&g_timer);
 #endif
 #endif
 	}
