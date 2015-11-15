@@ -44,7 +44,7 @@
 
 int n_index_yaw_pitch_roll = 0;
 #ifdef TIMER
-timer_t g_timer;
+custom_timer_t g_timer;
 #endif
 
 /**
