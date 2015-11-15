@@ -533,7 +533,7 @@ timer_start(&g_timer);
         g_last_time_us = timer_delta_us(&g_timer);
         timer_unpause(&g_timer);
 #endif
-        usleep(300);
+        usleep(3000);
         //if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
             //n_index_yaw_pitch_roll++;
             //n_index_yaw_pitch_roll = n_index_yaw_pitch_roll%10;
