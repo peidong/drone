@@ -38,10 +38,6 @@
 #define PWM_DEFAULT_INITIAL 0.000025*4
 #define PWM_DEFAULT_PWM_MIN 0.000025*4
 #define PWM_DEFAULT_RANGE 0.000025*200
-#define PWM_DEFAULT_MIN_PWM0 0.000025*800
-#define PWM_DEFAULT_MIN_PWM1 0.000025*800
-#define PWM_DEFAULT_MIN_PWM2 0.000025*800
-#define PWM_DEFAULT_MIN_PWM3 0.000025*800
 
 int n_index_yaw_pitch_roll = 0;
 #ifdef TIMER
@@ -351,8 +347,12 @@ int update_T_drone_http(struct T_drone *pT_drone){
             for(n_index=0; n_index<4; n_index++){
                 pT_drone->arrd_current_pwm[n_index] += PWM_MANUAL_CHANGE_AMOUNT;
                 pT_drone->arrd_current_pwm_min[n_index] += PWM_MANUAL_CHANGE_AMOUNT;
-                if(pT_drone->arrd_current_pwm_min[n_index] > PWM_DEFAULT_PWM_MIN + PWM_DEFAULT_RANGE){
-                   pT_drone->arrd_current_pwm_min[n_index] = PWM_DEFAULT_PWM_MIN + PWM_DEFAULT_RANGE;
+                //limit the value range
+                if(pT_drone->arrd_current_pwm[n_index] > PWM_DEFAULT_PWM_MIN + PWM_DEFAULT_RANGE){
+                   pT_drone->arrd_current_pwm[n_index] = PWM_DEFAULT_PWM_MIN + PWM_DEFAULT_RANGE;
+                }
+                if(pT_drone->arrd_current_pwm_min[n_index] > PWM_DEFAULT_PWM_MIN){
+                    pT_drone->arrd_current_pwm_min[n_index] = PWM_DEFAULT_PWM_MIN;
                 }
             }
         }else if (pT_drone->n_manual_control_command == 12)
@@ -360,16 +360,37 @@ int update_T_drone_http(struct T_drone *pT_drone){
             for(n_index=0; n_index<4; n_index++){
                 pT_drone->arrd_current_pwm[n_index] -= PWM_MANUAL_CHANGE_AMOUNT;
                 pT_drone->arrd_current_pwm_min[n_index] -= PWM_MANUAL_CHANGE_AMOUNT;
+                //limit the value range
+                if(pT_drone->arrd_current_pwm[n_index] < PWM_DEFAULT_PWM_MIN){
+                    pT_drone->arrd_current_pwm[n_index] = PWM_DEFAULT_PWM_MIN;
+                }
+                if(pT_drone->arrd_current_pwm_min[n_index] < PWM_DEFAULT_PWM_MIN){
+                    pT_drone->arrd_current_pwm_min[n_index] = PWM_DEFAULT_PWM_MIN;
+                }
             }
         }else if (pT_drone->n_manual_control_command == 13)
         {
             for(n_index=0; n_index<4; n_index++){
+                //limit the value range
+                if(pT_drone->arrd_current_pwm[n_index] > PWM_DEFAULT_PWM_MIN + PWM_DEFAULT_RANGE){
+                    pT_drone->arrd_current_pwm[n_index] = PWM_DEFAULT_PWM_MIN + PWM_DEFAULT_RANGE;
+                }
+                if(pT_drone->arrd_current_pwm_min[n_index] > PWM_DEFAULT_PWM_MIN){
+                    pT_drone->arrd_current_pwm_min[n_index] = PWM_DEFAULT_PWM_MIN;
+                }
                 pT_drone->arrd_current_pwm[n_index] += PWM_MANUAL_CHANGE_AMOUNT_LARGE;
                 pT_drone->arrd_current_pwm_min[n_index] += PWM_MANUAL_CHANGE_AMOUNT_LARGE;
             }
         }else if (pT_drone->n_manual_control_command == 14)
         {
             for(n_index=0; n_index<4; n_index++){
+                //limit the value range
+                if(pT_drone->arrd_current_pwm[n_index] < PWM_DEFAULT_PWM_MIN){
+                    pT_drone->arrd_current_pwm[n_index] = PWM_DEFAULT_PWM_MIN;
+                }
+                if(pT_drone->arrd_current_pwm_min[n_index] < PWM_DEFAULT_PWM_MIN){
+                    pT_drone->arrd_current_pwm_min[n_index] = PWM_DEFAULT_PWM_MIN;
+                }
                 pT_drone->arrd_current_pwm[n_index] -= PWM_MANUAL_CHANGE_AMOUNT_LARGE;
                 pT_drone->arrd_current_pwm_min[n_index] -= PWM_MANUAL_CHANGE_AMOUNT_LARGE;
             }
@@ -706,7 +727,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 #ifdef  PRINT_DEBUG_PID_CHANGE
         printf("pitch change= %f\troll change= %f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
 #endif
-		usleep(20000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good. 
+		usleep(20000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good.
 #ifdef TIMER_PID
         timer_pause(&g_timer);
         printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
@@ -1001,8 +1022,8 @@ int GeneratePwm_old(struct T_drone *pT_drone){
             mraa_i2c_write(pwm34, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 3 and 4
             continue;
         }else{
-                mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
-        }       
+            mraa_i2c_write(pwm12, arrun_i2c_output, 4); //4 bytes duty data of i2c output for pwm 1 and 2
+        }
         /**
          * set pwm3 and pwm4
          */
