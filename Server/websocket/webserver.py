@@ -25,7 +25,7 @@ print 'Serving HTTP on port %s ...' % PORT
 
 #### When connection is accepted, start to receive data messages
 client_connection, client_address = listen_socket.accept()
-print'Connected by', client_address, client_connection
+print'Connected by', client_address
 request = client_connection.recv(1024)
 print request
 ####
@@ -56,10 +56,10 @@ print request
 ####
 
 #### Prepare messages to send back to client, send, close connection
-http_response = """First time test\n"""
+http_response = """client to server 1 time"""
 client_connection.sendall(http_response)
 
-http_response = """Second time test\n"""
+http_response = """client to server 2 time"""
 client_connection.sendall(http_response)
 
 client_connection.close()
