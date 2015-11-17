@@ -12,7 +12,7 @@ HOST, PORT = 'fryer.ee.ucla.edu', 5000
 listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 listen_socket.bind((HOST, PORT))
-listen_socket.listen(5)
+listen_socket.listen(100)
 print 'Serving HTTP on port %s ...' % PORT
 ####
 
@@ -20,7 +20,7 @@ print 'Serving HTTP on port %s ...' % PORT
 #### Connect to database
 # db=MySQLdb.connect(host="localhost",user="ucla",db="ee202c_BT")
 # db.autocommit(True)
-# cur = db.cursor() 
+# cur = db.cursor()
 ####
 
 #### When connection is accepted, start to receive data messages
