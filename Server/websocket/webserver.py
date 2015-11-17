@@ -26,9 +26,8 @@ print 'Serving HTTP on port %s ...' % PORT
 #### When connection is accepted, start to receive data messages
 client_connection, client_address = listen_socket.accept()
 print'Connected by', client_address
-while 1:
-    request = client_connection.recv(1024)
-    print request
+request = client_connection.recv(1024)
+print request
 ####
 
 #### Decode message to json format and assign to variables
