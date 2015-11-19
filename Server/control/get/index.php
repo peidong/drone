@@ -11,7 +11,7 @@
 
     $conn = mysql_connect('localhost', 'webmaster', '');
     mysql_select_db('edison', $conn);
-    
+
     $query = "SELECT *
         FROM control
         WHERE mac_address = '$mac_address'";
