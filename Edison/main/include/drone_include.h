@@ -23,8 +23,8 @@
 // #define PRINT_DEBUG_PWM
 // #define PRINT_DEBUG_THREAD
 // #define PRINT_CAR_MANUAL
-//#define TIMER
-//#define TIMER_YAW_PITCH_ROLL
+#define TIMER
+#define TIMER_YAW_PITCH_ROLL
 //#define TIMER_PID
 
 /**
@@ -439,10 +439,10 @@ int update_T_drone_http_gps(struct T_drone *pT_drone){
     //http://stackoverflow.com/questions/18468229/how-to-concat-two-char-string-in-c-program
     char *sz_url_get_gps_destination = "http://fryer.ee.ucla.edu/rest/api/gps/get/?location_type=0";//get destination gps
     char *sz_url_get_gps_iPhone = "http://fryer.ee.ucla.edu/rest/api/gps/get/?location_type=1";//get iPhone(Edison board) current gps
-    char *sz_url_post_gps = "http://fryer.ee.ucla.edu/rest/api/gps/post/?location_type=1";
+    //char *sz_url_post_gps = "http://fryer.ee.ucla.edu/rest/api/gps/post/?location_type=1";
     
     char *sz_http_response;
-    struct json_object *pT_json_object_whole_response, *pT_json_object_data, *pT_json_object_update_time, *pT_json_object_face_direction, *pT_json_object_latitude, *pT_json_object_longitude, *pT_json_object_stop_sign;
+    struct json_object *pT_json_object_whole_response, *pT_json_object_data, *pT_json_object_update_time, *pT_json_object_face_direction, *pT_json_object_latitude, *pT_json_object_longitude/* ,*pT_json_object_stop_sign */;
     int n_json_response;
 
     sz_http_response = http_get(sz_url_get_gps_iPhone);
@@ -502,10 +502,6 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     usleep(1000);
     while(1)
     {
-#ifdef TIMER_YAW_PITCH_ROLL
-        g_last_time_us = timer_delta_us(&g_timer);
-        timer_unpause(&g_timer);
-#endif
         if (pT_drone->nflag_stop_all != 0)
         {
             break;
@@ -517,6 +513,10 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         mraa_uart_read(uno,read,1);
         if(read[0]==' ')   // ' ' is the beginning of the data package. Once detecting the header, reading begins!!!
         {
+#ifdef TIMER_YAW_PITCH_ROLL
+            g_last_time_us = timer_delta_us(&g_timer);
+            timer_unpause(&g_timer);
+#endif
             mraa_uart_read(uno,read,36);
 
             arawx = (myatoi(read[0])<<4|myatoi(read[1]))<<8|(myatoi(read[2])<<4|myatoi(read[3]));
@@ -558,19 +558,19 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             pT_drone->arrd_yaw_pitch_roll[0] = yaw;
             pT_drone->arrd_yaw_pitch_roll[1] = pitch;
             pT_drone->arrd_yaw_pitch_roll[2] = roll;
+#ifdef TIMER_YAW_PITCH_ROLL
+            timer_pause(&g_timer);
+            printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
+#endif
 
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
-        if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
-            n_index_yaw_pitch_roll++;
-            n_index_yaw_pitch_roll = n_index_yaw_pitch_roll%10;
-            if(n_index_yaw_pitch_roll == 0){
-                printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
+            if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+                n_index_yaw_pitch_roll++;
+                n_index_yaw_pitch_roll = n_index_yaw_pitch_roll%10;
+                if(n_index_yaw_pitch_roll == 0){
+                    printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
+                }
             }
-        }
-#ifdef TIMER_YAW_PITCH_ROLL
-        timer_pause(&g_timer);
-        printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
-#endif
 #endif
         }
     }
@@ -690,7 +690,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     double kp_pitch, ki_pitch, kd_pitch, kp_roll, ki_roll, kd_roll, kp_yaw, ki_yaw, kd_yaw;
     ctrlDir_t controllerDir;
     uint32_t samplePeriodMs;
-    int n_index;
+    //int n_index;
 
     // For the nine values, if we can modify them in IOS app, tests can be easier!
     kp_pitch = pT_drone->d_kp_pitch;
