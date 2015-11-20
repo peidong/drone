@@ -440,7 +440,7 @@ int update_T_drone_http_gps(struct T_drone *pT_drone){
     char *sz_url_get_gps_destination = "http://fryer.ee.ucla.edu/rest/api/gps/get/?location_type=0";//get destination gps
     char *sz_url_get_gps_iPhone = "http://fryer.ee.ucla.edu/rest/api/gps/get/?location_type=1";//get iPhone(Edison board) current gps
     //char *sz_url_post_gps = "http://fryer.ee.ucla.edu/rest/api/gps/post/?location_type=1";
-    
+
     char *sz_http_response;
     struct json_object *pT_json_object_whole_response, *pT_json_object_data, *pT_json_object_update_time, *pT_json_object_face_direction, *pT_json_object_latitude, *pT_json_object_longitude/* ,*pT_json_object_stop_sign */;
     int n_json_response;
