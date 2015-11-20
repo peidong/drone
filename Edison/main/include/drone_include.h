@@ -17,14 +17,14 @@
  * print debug
  */
 // #define PRINT_DEBUG_PWM_HTTP_GET
-#define PRINT_DEBUG_YAW_PITCH_ROLL
-#define PRINT_DEBUG_PID_CHANGE
+//#define PRINT_DEBUG_YAW_PITCH_ROLL
+//#define PRINT_DEBUG_PID_CHANGE
 // #define PRINT_DEBUG_PID_TUNING
 // #define PRINT_DEBUG_PWM
 // #define PRINT_DEBUG_THREAD
 // #define PRINT_CAR_MANUAL
-//#define TIMER
-//#define TIMER_YAW_PITCH_ROLL
+#define TIMER
+#define TIMER_YAW_PITCH_ROLL
 //#define TIMER_PID
 
 /**
@@ -497,8 +497,8 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 
     mraa_uart_set_baudrate(uno, 115200);    // Really have no idea why higher baud does not work! And if 230400, the whole terminal crashes!
 
-    char read[37];
-    // char flag;
+    char read[36];
+    char flag[1];
     usleep(1000);
     while(1)
     {
@@ -510,18 +510,20 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         printf("ThreadTask_yaw pitch roll\n");
 #endif
         // printf("%s\n",mraa_get_version());
-        mraa_uart_read(uno,read,1);
-        if(read[0]==' ')   // ' ' is the beginning of the data package. Once detecting the header, reading begins!!!
-        {
 #ifdef TIMER_YAW_PITCH_ROLL
             g_last_time_us = timer_delta_us(&g_timer);
             timer_unpause(&g_timer);
 #endif
-            mraa_uart_read(uno,read,36);
+        mraa_uart_read(uno,flag,1);
 #ifdef TIMER_YAW_PITCH_ROLL
             timer_pause(&g_timer);
             printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
 #endif
+
+        if(flag[0]==' ')   // ' ' is the beginning of the data package. Once detecting the header, reading begins!!!
+        {
+
+            mraa_uart_read(uno,read,36);
 
             arawx = (myatoi(read[0])<<4|myatoi(read[1]))<<8|(myatoi(read[2])<<4|myatoi(read[3]));
             arawy = (myatoi(read[4])<<4|myatoi(read[5]))<<8|(myatoi(read[6])<<4|myatoi(read[7]));
