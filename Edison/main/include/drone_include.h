@@ -502,10 +502,6 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     usleep(1000);
     while(1)
     {
-#ifdef TIMER_YAW_PITCH_ROLL
-            g_last_time_us = timer_delta_us(&g_timer);
-            timer_unpause(&g_timer);
-#endif
         if (pT_drone->nflag_stop_all != 0)
         {
             break;
@@ -515,6 +511,10 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 #endif
         // printf("%s\n",mraa_get_version());
         mraa_uart_read(uno,flag,1);
+#ifdef TIMER_YAW_PITCH_ROLL
+            g_last_time_us = timer_delta_us(&g_timer);
+            timer_unpause(&g_timer);
+#endif
 
         if(flag[0]==' ')   // ' ' is the beginning of the data package. Once detecting the header, reading begins!!!
         {
