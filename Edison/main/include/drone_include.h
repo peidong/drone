@@ -484,6 +484,9 @@ int update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
 }
 
 int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
+#ifdef TIMER_YAW_PITCH_ROLL
+    timer_start(&g_timer);
+#endif
     mraa_uart_context uart;
 
     uart = mraa_uart_init(0);
@@ -492,6 +495,17 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     usleep(1000);
     while(1)
     {
+#ifdef TIMER_YAW_PITCH_ROLL
+        g_last_time_us = timer_delta_us(&g_timer);
+        timer_unpause(&g_timer);
+#endif
+        if (pT_drone->nflag_stop_all != 0)
+        {
+            break;
+        }
+#ifdef PRINT_DEBUG_THREAD
+        printf("ThreadTask_yaw pitch roll\n");
+#endif
         mraa_uart_read(uart,g,1);
         if(g[0]==' ')
         {
@@ -511,6 +525,19 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             // printf("%d\n",myatoi(g[0]));
             // printf("%c\n",g[1]);
         }
+#ifdef PRINT_DEBUG_YAW_PITCH_ROLL
+        if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+            n_index_yaw_pitch_roll++;
+            n_index_yaw_pitch_roll = n_index_yaw_pitch_roll%10;
+            if(n_index_yaw_pitch_roll == 0){
+                printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
+            }
+        }
+#ifdef TIMER_YAW_PITCH_ROLL
+        timer_pause(&g_timer);
+        printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
+#endif
+#endif
     }
     return 0;
 }
