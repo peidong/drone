@@ -558,10 +558,6 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             pT_drone->arrd_yaw_pitch_roll[0] = yaw;
             pT_drone->arrd_yaw_pitch_roll[1] = pitch;
             pT_drone->arrd_yaw_pitch_roll[2] = roll;
-#ifdef TIMER_YAW_PITCH_ROLL
-            timer_pause(&g_timer);
-            printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
-#endif
 
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
             if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
@@ -571,6 +567,10 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
                     printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
                 }
             }
+#endif
+#ifdef TIMER_YAW_PITCH_ROLL
+            timer_pause(&g_timer);
+            printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
 #endif
         }
     }
