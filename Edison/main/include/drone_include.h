@@ -8,8 +8,7 @@
 #include <unistd.h>/*usleep*/
 #include <math.h>//round
 #include <time.h>//nanosleep
-#include "mpu9250/mpu9250.h"  //include pid file
-#include "mpu9250/edison_rx_uno.h"
+#include "mpu9250/mpu9250_uart.h"  //include pid file
 #include "pid/pid.h"  //include pid file
 #include "timer/timer.h" //timer
 #include <mraa.h>
@@ -487,11 +486,19 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 #ifdef TIMER_YAW_PITCH_ROLL
     timer_start(&g_timer);
 #endif
-    mraa_uart_context uart;
+    int16_t arawx,arawy,arawz;
+    int16_t grawx,grawy,grawz;
+    int16_t mrawx,mrawy,mrawz;
+    float ax,ay,az,gx,gy,gz,mx,my,mz;
+    float yaw, pitch, roll;
 
-    uart = mraa_uart_init(0);
-    mraa_uart_set_baudrate(uart, 115200);
-    char g[37];
+    mraa_uart_context uno;
+    uno = mraa_uart_init(0);
+
+    mraa_uart_set_baudrate(uno, 115200);    // Really have no idea why higher baud does not work! And if 230400, the whole terminal crashes!
+
+    char read[37];
+    // char flag;
     usleep(1000);
     while(1)
     {
@@ -506,25 +513,52 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 #ifdef PRINT_DEBUG_THREAD
         printf("ThreadTask_yaw pitch roll\n");
 #endif
-        mraa_uart_read(uart,g,1);
-        if(g[0]==' ')
+        // printf("%s\n",mraa_get_version());
+        mraa_uart_read(uno,read,1);
+        if(read[0]==' ')   // ' ' is the beginning of the data package. Once detecting the header, reading begins!!!
         {
-            mraa_uart_read(uart,g,36);
-            acc_x = (myatoi(g[0])<<4|myatoi(g[1]))<<8|(myatoi(g[2])<<4|myatoi(g[3]));
-            acc_y = (myatoi(g[4])<<4|myatoi(g[5]))<<8|(myatoi(g[6])<<4|myatoi(g[7]));
-            acc_z = (myatoi(g[8])<<4|myatoi(g[9]))<<8|(myatoi(g[10])<<4|myatoi(g[11]));
+            mraa_uart_read(uno,read,36);
 
-            gyro_x = (myatoi(g[12])<<4|myatoi(g[13]))<<8|(myatoi(g[14])<<4|myatoi(g[15]));
-            gyro_y = (myatoi(g[16])<<4|myatoi(g[17]))<<8|(myatoi(g[18])<<4|myatoi(g[19]));
-            gyro_z = (myatoi(g[20])<<4|myatoi(g[21]))<<8|(myatoi(g[22])<<4|myatoi(g[23]));
+            arawx = (myatoi(read[0])<<4|myatoi(read[1]))<<8|(myatoi(read[2])<<4|myatoi(read[3]));
+            arawy = (myatoi(read[4])<<4|myatoi(read[5]))<<8|(myatoi(read[6])<<4|myatoi(read[7]));
+            arawz = (myatoi(read[8])<<4|myatoi(read[9]))<<8|(myatoi(read[10])<<4|myatoi(read[11]));
 
-            mag_x = (myatoi(g[26])<<4|myatoi(g[27]))<<8|(myatoi(g[24])<<4|myatoi(g[25]));
-            mag_y = (myatoi(g[30])<<4|myatoi(g[31]))<<8|(myatoi(g[28])<<4|myatoi(g[29]));
-            mag_z = (myatoi(g[34])<<4|myatoi(g[35]))<<8|(myatoi(g[32])<<4|myatoi(g[33]));
-            printf("%d\t,%d\t,%d\t,%d\t,%d\t,%d\t,%d\t,%d\t,%d\t\n",acc_x,acc_y,acc_z,gyro_x,gyro_y,gyro_z,mag_x,mag_y,mag_z);
-            // printf("%d\n",myatoi(g[0]));
-            // printf("%c\n",g[1]);
-        }
+            grawx = (myatoi(read[12])<<4|myatoi(read[13]))<<8|(myatoi(read[14])<<4|myatoi(read[15]));
+            grawy = (myatoi(read[16])<<4|myatoi(read[17]))<<8|(myatoi(read[18])<<4|myatoi(read[19]));
+            grawz = (myatoi(read[20])<<4|myatoi(read[21]))<<8|(myatoi(read[22])<<4|myatoi(read[23]));
+
+            mrawx = (myatoi(read[26])<<4|myatoi(read[27]))<<8|(myatoi(read[24])<<4|myatoi(read[25]));
+            mrawy = (myatoi(read[30])<<4|myatoi(read[31]))<<8|(myatoi(read[28])<<4|myatoi(read[29]));
+            mrawz = (myatoi(read[34])<<4|myatoi(read[35]))<<8|(myatoi(read[32])<<4|myatoi(read[33]));
+
+            // printf("%d\t,%d\t,%d\t,%d\t,%d\t,%d\t,%d\t,%d\t,%d\t\n",arawx,arawy,arawz,grawx,grawy,grawz,mrawx,mrawy,mrawz);
+
+            ax = (float)arawx*aRes;
+            ay = (float)arawy*aRes;
+            az = (float)arawz*aRes;
+            gx = (float)grawx*gRes;
+            gy = (float)grawy*gRes;
+            gz = (float)grawz*gRes;
+            mx = (float)mrawx*mRes*magxCalibration - 406 - 49 - 150;  // get actual magnetometer value, this depends on scale being set
+            my = (float)mrawy*mRes*magyCalibration - 95 + 43 + 15;
+            mz = (float)mrawz*mRes*magzCalibration + 370 - 72 + 403;
+            // AHRS
+            MadgwickAHRSupdate(ax, ay, az, gx*PI / 180.0f, gy*PI / 180.0f, gz*PI / 180.0f, my, mx, mz); //my, mx, mz
+            // Calculate yaw pitch roll
+            yaw = atan2(2.0f * (q1 * q2 + q0 * q3), q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3);
+            pitch = -asin(2.0f * (q1 * q3 - q0 * q2));
+            roll = atan2(2.0f * (q0 * q1 + q2 * q3), q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3);
+            yaw *= 180.0f / PI;
+            pitch *= 180.0f / PI;
+            roll *= 180.0f / PI;
+            if (yaw<0) yaw += 360;
+
+            //usleep(1000);
+
+            pT_drone->arrd_yaw_pitch_roll[0] = yaw;
+            pT_drone->arrd_yaw_pitch_roll[1] = pitch;
+            pT_drone->arrd_yaw_pitch_roll[2] = roll;
+
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
         if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
             n_index_yaw_pitch_roll++;
@@ -538,10 +572,12 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
 #endif
 #endif
+        }
     }
+    mraa_uart_stop(uno);
     return 0;
 }
-
+/*
 int update_T_drone_arrd_yaw_pitch_roll_old_i2c(struct T_drone *pT_drone)
 {
 #ifdef TIMER_YAW_PITCH_ROLL
@@ -555,9 +591,9 @@ timer_start(&g_timer);
     // usleep(100000);
     // mraa_gpio_write(gpio_vcc, 0);
     // usleep(1000000);
-	MPU_init();
-	while (1)
-	{
+    MPU_init();
+    while (1)
+    {
 #ifdef TIMER_YAW_PITCH_ROLL
         g_last_time_us = timer_delta_us(&g_timer);
         timer_unpause(&g_timer);
@@ -569,22 +605,22 @@ timer_start(&g_timer);
 #ifdef PRINT_DEBUG_THREAD
         printf("ThreadTask_yaw pitch roll\n");
 #endif
-		uint8_t Buf[14];
-		mraa_i2c_read_bytes_data(mpu, 59, Buf, 14);
-		// Accelerometer
-		int16_t arawx = -(Buf[0] << 8 | Buf[1]) - 170 + 250;
-		int16_t arawy = -(Buf[2] << 8 | Buf[3]) + 600 - 300;
-		int16_t arawz = Buf[4] << 8 | Buf[5];
-		// Gyroscope
-		int16_t grawx = (Buf[8] << 8 | Buf[9]) - 25;
-		int16_t grawy = (Buf[10] << 8 | Buf[11]) - 2;
-		int16_t grawz = (Buf[12] << 8 | Buf[13]) + 9;
-		// Magnetometer
-		mraa_i2c_read_bytes_data(mpu, 73, Buf, 6);
-		int16_t mrawx = (Buf[1] << 8 | Buf[0]);//-213;// + mag_offset_x;
-		int16_t mrawy = (Buf[3] << 8 | Buf[2]);//-92;// + mag_offset_y;
-		int16_t mrawz = (Buf[5] << 8 | Buf[4]);//+200;// + mag_offset_z;
-		//int result_agm[9] = { arawx, arawy, arawz, grawx, grawy, grawz, mrawx, mrawy, mrawz };
+        uint8_t Buf[14];
+        mraa_i2c_read_bytes_data(mpu, 59, Buf, 14);
+        // Accelerometer
+        int16_t arawx = -(Buf[0] << 8 | Buf[1]) - 170 + 250;
+        int16_t arawy = -(Buf[2] << 8 | Buf[3]) + 600 - 300;
+        int16_t arawz = Buf[4] << 8 | Buf[5];
+        // Gyroscope
+        int16_t grawx = (Buf[8] << 8 | Buf[9]) - 25;
+        int16_t grawy = (Buf[10] << 8 | Buf[11]) - 2;
+        int16_t grawz = (Buf[12] << 8 | Buf[13]) + 9;
+        // Magnetometer
+        mraa_i2c_read_bytes_data(mpu, 73, Buf, 6);
+        int16_t mrawx = (Buf[1] << 8 | Buf[0]);//-213;// + mag_offset_x;
+        int16_t mrawy = (Buf[3] << 8 | Buf[2]);//-92;// + mag_offset_y;
+        int16_t mrawz = (Buf[5] << 8 | Buf[4]);//+200;// + mag_offset_z;
+        //int result_agm[9] = { arawx, arawy, arawz, grawx, grawy, grawz, mrawx, mrawy, mrawz };
 
         //printf("%6d,%6d,%6d\n",arawx, arawy, arawz);
         //printf("%6d,%6d,%6d\n",grawx, grawy, grawz);
@@ -630,12 +666,12 @@ timer_start(&g_timer);
         printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
 #endif
 #endif
-	}
+    }
     mraa_i2c_stop(mpu);
     // mraa_gpio_close(gpio_vcc);
     return 0;
 }
-
+*/
 int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 #ifdef TIMER_PID
     timer_start(&g_timer);
@@ -651,32 +687,32 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         pidData_roll = (pidData_t*) malloc(sizeof(pidData_t));
     }
 
-	double kp_pitch, ki_pitch, kd_pitch, kp_roll, ki_roll, kd_roll, kp_yaw, ki_yaw, kd_yaw;
-	ctrlDir_t controllerDir;
-	uint32_t samplePeriodMs;
+    double kp_pitch, ki_pitch, kd_pitch, kp_roll, ki_roll, kd_roll, kp_yaw, ki_yaw, kd_yaw;
+    ctrlDir_t controllerDir;
+    uint32_t samplePeriodMs;
     int n_index;
 
-	// For the nine values, if we can modify them in IOS app, tests can be easier!
-	kp_pitch = pT_drone->d_kp_pitch;
-	ki_pitch = pT_drone->d_ki_pitch;
-	kd_pitch = pT_drone->d_kd_pitch;
-	kp_roll = pT_drone->d_kp_roll;
-	ki_roll = pT_drone->d_ki_roll;
-	kd_roll = pT_drone->d_kd_roll;
-	kp_yaw  = pT_drone->d_kp_yaw;
-	ki_yaw  = pT_drone->d_ki_yaw;
-	kd_yaw  = pT_drone->d_kd_yaw;
+    // For the nine values, if we can modify them in IOS app, tests can be easier!
+    kp_pitch = pT_drone->d_kp_pitch;
+    ki_pitch = pT_drone->d_ki_pitch;
+    kd_pitch = pT_drone->d_kd_pitch;
+    kp_roll = pT_drone->d_kp_roll;
+    ki_roll = pT_drone->d_ki_roll;
+    kd_roll = pT_drone->d_kd_roll;
+    kp_yaw  = pT_drone->d_kp_yaw;
+    ki_yaw  = pT_drone->d_ki_yaw;
+    kd_yaw  = pT_drone->d_kd_yaw;
     
     samplePeriodMs = 20; //need to be setup
     // samplePeriodMs = 100; //need to be setup
     controllerDir = PID_DIRECT; //Direct control not reverse.
 
-	Pid_Init(pidData_yaw, kp_yaw, ki_yaw, kd_yaw, controllerDir, samplePeriodMs);
-    
-	Pid_Init(pidData_pitch, kp_pitch, ki_pitch, kd_pitch, controllerDir, samplePeriodMs);
-    
-	Pid_Init(pidData_roll, kp_roll, ki_roll, kd_roll, controllerDir, samplePeriodMs);
-   
+    Pid_Init(pidData_yaw, kp_yaw, ki_yaw, kd_yaw, controllerDir, samplePeriodMs);
+
+    Pid_Init(pidData_pitch, kp_pitch, ki_pitch, kd_pitch, controllerDir, samplePeriodMs);
+
+    Pid_Init(pidData_roll, kp_roll, ki_roll, kd_roll, controllerDir, samplePeriodMs);
+
     while(1){
 #ifdef TIMER_PID
         g_last_time_us = timer_delta_us(&g_timer);
@@ -716,16 +752,16 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         Pid_SetTunings(pidData_pitch, kp_pitch, ki_pitch, kd_pitch);
         Pid_SetTunings(pidData_roll, kp_roll, ki_roll, kd_roll);
 
-		//"0" is the setpoint or the destination of the final attitude, representing hovering or suspending.
-		//Replace "0" by HTTP request parameters later.
+        //"0" is the setpoint or the destination of the final attitude, representing hovering or suspending.
+        //Replace "0" by HTTP request parameters later.
 
-		// It can be tested after tests for pitch and roll are finished.
-		Pid_SetSetPoint(pidData_yaw, 0);
+        // It can be tested after tests for pitch and roll are finished.
+        Pid_SetSetPoint(pidData_yaw, 0);
         Pid_Run(pidData_yaw, (int)pT_drone->arrd_yaw_pitch_roll[0]);
         pT_drone->arrd_pid_yaw_pitch_roll[0] = pidData_yaw->output;
 
-		// For pitch, mainly we can use wires to lock the Y direction. First divide by 2. Adding to pwm1 and pwm2, substracting to pwm3 and pwm4.
-		Pid_SetSetPoint(pidData_pitch, 0);
+        // For pitch, mainly we can use wires to lock the Y direction. First divide by 2. Adding to pwm1 and pwm2, substracting to pwm3 and pwm4.
+        Pid_SetSetPoint(pidData_pitch, 0);
         Pid_Run(pidData_pitch, (int)pT_drone->arrd_yaw_pitch_roll[1]);
         pT_drone->arrd_pid_yaw_pitch_roll[1] = pidData_pitch->output;
         if (pT_drone->nflag_stop_all != 0)
@@ -742,8 +778,8 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
                 pT_drone->arrd_current_pwm[3] -= (pT_drone->arrd_pid_yaw_pitch_roll[1] / 2);
             }
 
-		// For roll, mainly we can use wires to lock the X direction. First divide by 2. Adding to pwm1 and pwm3, substracting to pwm2 and pwm4.
-		Pid_SetSetPoint(pidData_roll, 0); 
+        // For roll, mainly we can use wires to lock the X direction. First divide by 2. Adding to pwm1 and pwm3, substracting to pwm2 and pwm4.
+        Pid_SetSetPoint(pidData_roll, 0);
         Pid_Run(pidData_roll, (int)pT_drone->arrd_yaw_pitch_roll[2]);
         pT_drone->arrd_pid_yaw_pitch_roll[2] = pidData_roll->output;
         if (pT_drone->nflag_stop_all != 0)
@@ -781,7 +817,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 #ifdef  PRINT_DEBUG_PID_CHANGE
         printf("pitch change= %f\troll change= %f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
 #endif
-		usleep(20000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good.
+        usleep(20000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good.
 #ifdef TIMER_PID
         timer_pause(&g_timer);
         printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
@@ -809,18 +845,18 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 
 int GeneratePwm(struct T_drone *pT_drone){
 
-	int arrn_current_duty[4];
-	char arrch_uart_output[21];
-	char pwm1_c[6];
+    int arrn_current_duty[4];
+    char arrch_uart_output[21];
+    char pwm1_c[6];
     char pwm2_c[6];
     char pwm3_c[6];
     char pwm4_c[6];
-	mraa_uart_context pwm_uart;
-	pwm_uart = mraa_uart_init(0);
-    mraa_uart_set_baudrate(pwm_uart,115200);
-	while (1){
+    mraa_uart_context uno;
+    uno = mraa_uart_init(0);
+    mraa_uart_set_baudrate(uno,115200);
+    while (1){
 #ifdef PRINT_DEBUG_THREAD
-		printf("ThreadTask_GeneratePwm\n");
+        printf("ThreadTask_GeneratePwm\n");
 #endif
 #ifdef PRINT_DEBUG_PWM
         printf("pwm1 = %f\t", pT_drone->arrd_current_pwm[0]);
@@ -828,102 +864,102 @@ int GeneratePwm(struct T_drone *pT_drone){
         printf("pwm3 = %f\t", pT_drone->arrd_current_pwm[2]);
         printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
 #endif
-		if (pT_drone->nflag_stop_all != 0)
-		{
-			/**
-			* Reset PWM to 0
-			*/
-			pT_drone->arrd_current_pwm[0] = 0;
-			pT_drone->arrd_current_pwm[1] = 0;
-			pT_drone->arrd_current_pwm[2] = 0;
-			pT_drone->arrd_current_pwm[3] = 0;
-			memset(arrch_uart_output,'0', 20);
-			mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
+        if (pT_drone->nflag_stop_all != 0)
+        {
+            /**
+            * Reset PWM to 0
+            */
+            pT_drone->arrd_current_pwm[0] = 0;
+            pT_drone->arrd_current_pwm[1] = 0;
+            pT_drone->arrd_current_pwm[2] = 0;
+            pT_drone->arrd_current_pwm[3] = 0;
+            memset(arrch_uart_output,'0', 20);
+            mraa_uart_write(uno, arrch_uart_output, 21); // write 21 characters uart data
             pT_drone->arrd_current_pwm_min[0] = 0.000025*4;
             pT_drone->arrd_current_pwm_min[1] = 0.000025*4;
             pT_drone->arrd_current_pwm_min[2] = 0.000025*4;
             pT_drone->arrd_current_pwm_min[3] = 0.000025*4;
-			break;
-		}
-		else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1)
-		{
-			/**
-			* Reset PWM to 0
-			*/
-			pT_drone->arrd_current_pwm[0] = 0;
-			pT_drone->arrd_current_pwm[1] = 0;
-			pT_drone->arrd_current_pwm[2] = 0;
-			pT_drone->arrd_current_pwm[3] = 0;
-			memset(arrch_uart_output,'0', 20);
-			mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
+            break;
+        }
+        else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1)
+        {
+            /**
+            * Reset PWM to 0
+            */
+            pT_drone->arrd_current_pwm[0] = 0;
+            pT_drone->arrd_current_pwm[1] = 0;
+            pT_drone->arrd_current_pwm[2] = 0;
+            pT_drone->arrd_current_pwm[3] = 0;
+            memset(arrch_uart_output,'0', 20);
+            mraa_uart_write(uno, arrch_uart_output, 21); // write 21 characters uart data
             pT_drone->arrd_current_pwm_min[0] = 0.000025*4;
             pT_drone->arrd_current_pwm_min[1] = 0.000025*4;
             pT_drone->arrd_current_pwm_min[2] = 0.000025*4;
             pT_drone->arrd_current_pwm_min[3] = 0.000025*4;
-			continue;
-		}
+            continue;
+        }
         usleep(2000);//2ms motor modulation frequency max = 490Hz
-		/**
-		* set pwm wave
-		*/
-		arrn_current_duty[0] = (int)(pT_drone->arrd_current_pwm[0] * 40000);
-		arrn_current_duty[1] = (int)(pT_drone->arrd_current_pwm[1] * 40000);
-		arrn_current_duty[2] = (int)(pT_drone->arrd_current_pwm[2] * 40000);
-		arrn_current_duty[3] = (int)(pT_drone->arrd_current_pwm[3] * 40000);
+        /**
+        * set pwm wave
+        */
+        arrn_current_duty[0] = (int)(pT_drone->arrd_current_pwm[0] * 40000);
+        arrn_current_duty[1] = (int)(pT_drone->arrd_current_pwm[1] * 40000);
+        arrn_current_duty[2] = (int)(pT_drone->arrd_current_pwm[2] * 40000);
+        arrn_current_duty[3] = (int)(pT_drone->arrd_current_pwm[3] * 40000);
 
-		/**
-		* combine four pwm values into one string
-		*/
-		if(arrn_current_duty[0]/10==0)
-	         sprintf(pwm1_c,"0000%d",arrn_current_duty[0]);
-	    else if(arrn_current_duty[0]/100==0)
-	         sprintf(pwm1_c,"000%d",arrn_current_duty[0]);
-	    else if(arrn_current_duty[0]/1000==0)
-	         sprintf(pwm1_c,"00%d",arrn_current_duty[0]);
-	    else if(arrn_current_duty[0]/10000==0)
-	         sprintf(pwm1_c,"0%d",arrn_current_duty[0]);
-	    else
-	         sprintf(pwm1_c,"%d",arrn_current_duty[0]);
-	    
-		if(arrn_current_duty[1]/10==0)
-	         sprintf(pwm2_c,"0000%d",arrn_current_duty[1]);
-	    else if(arrn_current_duty[1]/100==0)
-	         sprintf(pwm2_c,"000%d",arrn_current_duty[1]);
-	    else if(arrn_current_duty[1]/1000==0)
-	         sprintf(pwm2_c,"00%d",arrn_current_duty[1]);
-	    else if(arrn_current_duty[1]/10000==0)
-	         sprintf(pwm2_c,"0%d",arrn_current_duty[1]);
-	    else
-	         sprintf(pwm2_c,"%d",arrn_current_duty[1]);
-	    
-	    if(arrn_current_duty[2]/10==0)
-	         sprintf(pwm3_c,"0000%d",arrn_current_duty[2]);
-	    else if(arrn_current_duty[2]/100==0)
-	         sprintf(pwm3_c,"000%d",arrn_current_duty[2]);
-	    else if(arrn_current_duty[2]/1000==0)
-	         sprintf(pwm3_c,"00%d",arrn_current_duty[2]);
-	    else if(arrn_current_duty[2]/10000==0)
-	         sprintf(pwm3_c,"0%d",arrn_current_duty[2]);
-	    else
-	         sprintf(pwm3_c,"%d",arrn_current_duty[2]);
-	    
-	    if(arrn_current_duty[3]/10==0)
-	         sprintf(pwm4_c,"0000%d",arrn_current_duty[3]);
-	    else if(arrn_current_duty[3]/100==0)
-	         sprintf(pwm4_c,"000%d",arrn_current_duty[3]);
-	    else if(arrn_current_duty[3]/1000==0)
-	         sprintf(pwm4_c,"00%d",arrn_current_duty[3]);
-	    else if(arrn_current_duty[3]/10000==0)
-	         sprintf(pwm4_c,"0%d",arrn_current_duty[3]);
-	    else
-	         sprintf(pwm4_c,"%d",arrn_current_duty[3]);
-	    
-	    sprintf(arrch_uart_output,"%s%s%s%s",pwm1_c,pwm2_c,pwm3_c,pwm4_c);
-	    
-	    /**
+        /**
+        * combine four pwm values into one string
+        */
+        if(arrn_current_duty[0]/10==0)
+             sprintf(pwm1_c,"0000%d",arrn_current_duty[0]);
+        else if(arrn_current_duty[0]/100==0)
+             sprintf(pwm1_c,"000%d",arrn_current_duty[0]);
+        else if(arrn_current_duty[0]/1000==0)
+             sprintf(pwm1_c,"00%d",arrn_current_duty[0]);
+        else if(arrn_current_duty[0]/10000==0)
+             sprintf(pwm1_c,"0%d",arrn_current_duty[0]);
+        else
+             sprintf(pwm1_c,"%d",arrn_current_duty[0]);
+        
+        if(arrn_current_duty[1]/10==0)
+             sprintf(pwm2_c,"0000%d",arrn_current_duty[1]);
+        else if(arrn_current_duty[1]/100==0)
+             sprintf(pwm2_c,"000%d",arrn_current_duty[1]);
+        else if(arrn_current_duty[1]/1000==0)
+             sprintf(pwm2_c,"00%d",arrn_current_duty[1]);
+        else if(arrn_current_duty[1]/10000==0)
+             sprintf(pwm2_c,"0%d",arrn_current_duty[1]);
+        else
+             sprintf(pwm2_c,"%d",arrn_current_duty[1]);
+        
+        if(arrn_current_duty[2]/10==0)
+             sprintf(pwm3_c,"0000%d",arrn_current_duty[2]);
+        else if(arrn_current_duty[2]/100==0)
+             sprintf(pwm3_c,"000%d",arrn_current_duty[2]);
+        else if(arrn_current_duty[2]/1000==0)
+             sprintf(pwm3_c,"00%d",arrn_current_duty[2]);
+        else if(arrn_current_duty[2]/10000==0)
+             sprintf(pwm3_c,"0%d",arrn_current_duty[2]);
+        else
+             sprintf(pwm3_c,"%d",arrn_current_duty[2]);
+        
+        if(arrn_current_duty[3]/10==0)
+             sprintf(pwm4_c,"0000%d",arrn_current_duty[3]);
+        else if(arrn_current_duty[3]/100==0)
+             sprintf(pwm4_c,"000%d",arrn_current_duty[3]);
+        else if(arrn_current_duty[3]/1000==0)
+             sprintf(pwm4_c,"00%d",arrn_current_duty[3]);
+        else if(arrn_current_duty[3]/10000==0)
+             sprintf(pwm4_c,"0%d",arrn_current_duty[3]);
+        else
+             sprintf(pwm4_c,"%d",arrn_current_duty[3]);
+        
+        sprintf(arrch_uart_output,"%s%s%s%s",pwm1_c,pwm2_c,pwm3_c,pwm4_c);
+        
+        /**
          * write pwm into serial bus
          */
-	    if (pT_drone->nflag_stop_all != 0)
+        if (pT_drone->nflag_stop_all != 0)
         {
             /**
              * Reset PWM to 0
@@ -933,7 +969,7 @@ int GeneratePwm(struct T_drone *pT_drone){
             pT_drone->arrd_current_pwm[2] = 0;
             pT_drone->arrd_current_pwm[3] = 0;
             memset(arrch_uart_output,'0', 20);
-            mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
+            mraa_uart_write(uno, arrch_uart_output, 21); // write 21 characters uart data
             pT_drone->arrd_current_pwm_min[0] = 0.000025*4;
             pT_drone->arrd_current_pwm_min[1] = 0.000025*4;
             pT_drone->arrd_current_pwm_min[2] = 0.000025*4;
@@ -949,14 +985,14 @@ int GeneratePwm(struct T_drone *pT_drone){
             pT_drone->arrd_current_pwm[2] = 0;
             pT_drone->arrd_current_pwm[3] = 0;
             memset(arrch_uart_output,'0', 20);
-            mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
+            mraa_uart_write(uno, arrch_uart_output, 21); // write 21 characters uart data
             pT_drone->arrd_current_pwm_min[0] = 0.000025*4;
             pT_drone->arrd_current_pwm_min[1] = 0.000025*4;
             pT_drone->arrd_current_pwm_min[2] = 0.000025*4;
             pT_drone->arrd_current_pwm_min[3] = 0.000025*4;
             continue;
         }else{
-                mraa_uart_write(pwm_uart, arrch_uart_output, 21);
+                mraa_uart_write(uno, arrch_uart_output, 21);
         }
 
     }
@@ -968,8 +1004,8 @@ int GeneratePwm(struct T_drone *pT_drone){
     pT_drone->arrd_current_pwm[2] = 0;
     pT_drone->arrd_current_pwm[3] = 0;
     memset(arrch_uart_output,'0', 20);
-    mraa_uart_write(pwm_uart, arrch_uart_output, 21); // write 21 characters uart data
-    mraa_uart_stop(pwm_uart);
+    mraa_uart_write(uno, arrch_uart_output, 21); // write 21 characters uart data
+    mraa_uart_stop(uno);
     pT_drone->arrd_current_pwm_min[0] = 0.000025*4;
     pT_drone->arrd_current_pwm_min[1] = 0.000025*4;
     pT_drone->arrd_current_pwm_min[2] = 0.000025*4;
