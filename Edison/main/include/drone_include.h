@@ -501,6 +501,7 @@ void output_file(float x, float y, float z, int sample)
 	{
 		printf("Outputing data of mag!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 		FILE* fp;
+		int i,j;
 		fp = fopen("demo.txt", "w");
 		for (i = 0; i < 20000; i++)
 		{
