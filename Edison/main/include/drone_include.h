@@ -364,7 +364,7 @@ int update_T_drone_http(struct T_drone *pT_drone){
                     pT_drone->arrd_current_pwm_min[n_index] = PWM_MIN;
                 }
                 if(pT_drone->arrd_current_pwm[n_index] > pT_drone->arrd_current_pwm_min[n_index] + PWM_RANGE){
-                   pT_drone->arrd_current_pwm[n_index] = pT_drone->arrd_current_pwm_min[n_index] + PWM_RANGE;
+                    pT_drone->arrd_current_pwm[n_index] = pT_drone->arrd_current_pwm_min[n_index] + PWM_RANGE;
                 }
             }
         }else if (pT_drone->n_manual_control_command == 12)
@@ -524,8 +524,8 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         // printf("%s\n",mraa_get_version());
         mraa_uart_read(uno,flag,1);
 #ifdef TIMER_YAW_PITCH_ROLL
-            g_last_time_us = timer_delta_us(&g_timer);
-            timer_unpause(&g_timer);
+        g_last_time_us = timer_delta_us(&g_timer);
+        timer_unpause(&g_timer);
 #endif
 
         if(flag[0]==' ')   // ' ' is the beginning of the data package. Once detecting the header, reading begins!!!
@@ -584,8 +584,8 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 #endif
         }
 #ifdef TIMER_YAW_PITCH_ROLL
-            timer_pause(&g_timer);
-            printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
+        timer_pause(&g_timer);
+        printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
 #endif
     }
     mraa_uart_stop(uno);
@@ -805,8 +805,8 @@ int GeneratePwm(struct T_drone *pT_drone){
         if (pT_drone->nflag_stop_all != 0)
         {
             /**
-            * Reset PWM to 0
-            */
+             * Reset PWM to 0
+             */
             initialize_pwm_value(pT_drone);
             memset(arrch_uart_output,'0', 20);
             mraa_uart_write(uno, arrch_uart_output, 21); // write 21 characters uart data
@@ -815,8 +815,8 @@ int GeneratePwm(struct T_drone *pT_drone){
         else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1)
         {
             /**
-            * Reset PWM to 0
-            */
+             * Reset PWM to 0
+             */
             initialize_pwm_value(pT_drone);
             memset(arrch_uart_output,'0', 20);
             mraa_uart_write(uno, arrch_uart_output, 21); // write 21 characters uart data
@@ -824,59 +824,59 @@ int GeneratePwm(struct T_drone *pT_drone){
         }
         usleep(2000);//2ms motor modulation frequency max = 490Hz
         /**
-        * set pwm wave
-        */
+         * set pwm wave
+         */
         arrn_current_duty[0] = (int)(pT_drone->arrd_current_pwm[0] * 40000);
         arrn_current_duty[1] = (int)(pT_drone->arrd_current_pwm[1] * 40000);
         arrn_current_duty[2] = (int)(pT_drone->arrd_current_pwm[2] * 40000);
         arrn_current_duty[3] = (int)(pT_drone->arrd_current_pwm[3] * 40000);
 
         /**
-        * combine four pwm values into one string
-        */
+         * combine four pwm values into one string
+         */
         if(arrn_current_duty[0]/10==0)
-             sprintf(pwm1_c,"0000%d",arrn_current_duty[0]);
+            sprintf(pwm1_c,"0000%d",arrn_current_duty[0]);
         else if(arrn_current_duty[0]/100==0)
-             sprintf(pwm1_c,"000%d",arrn_current_duty[0]);
+            sprintf(pwm1_c,"000%d",arrn_current_duty[0]);
         else if(arrn_current_duty[0]/1000==0)
-             sprintf(pwm1_c,"00%d",arrn_current_duty[0]);
+            sprintf(pwm1_c,"00%d",arrn_current_duty[0]);
         else if(arrn_current_duty[0]/10000==0)
-             sprintf(pwm1_c,"0%d",arrn_current_duty[0]);
+            sprintf(pwm1_c,"0%d",arrn_current_duty[0]);
         else if(arrn_current_duty[0]/100000==0)
-             sprintf(pwm1_c,"%d",arrn_current_duty[0]);
+            sprintf(pwm1_c,"%d",arrn_current_duty[0]);
 
         if(arrn_current_duty[1]/10==0)
-             sprintf(pwm2_c,"0000%d",arrn_current_duty[1]);
+            sprintf(pwm2_c,"0000%d",arrn_current_duty[1]);
         else if(arrn_current_duty[1]/100==0)
-             sprintf(pwm2_c,"000%d",arrn_current_duty[1]);
+            sprintf(pwm2_c,"000%d",arrn_current_duty[1]);
         else if(arrn_current_duty[1]/1000==0)
-             sprintf(pwm2_c,"00%d",arrn_current_duty[1]);
+            sprintf(pwm2_c,"00%d",arrn_current_duty[1]);
         else if(arrn_current_duty[1]/10000==0)
-             sprintf(pwm2_c,"0%d",arrn_current_duty[1]);
+            sprintf(pwm2_c,"0%d",arrn_current_duty[1]);
         else if(arrn_current_duty[1]/100000==0)
-             sprintf(pwm2_c,"%d",arrn_current_duty[1]);
+            sprintf(pwm2_c,"%d",arrn_current_duty[1]);
 
         if(arrn_current_duty[2]/10==0)
-             sprintf(pwm3_c,"0000%d",arrn_current_duty[2]);
+            sprintf(pwm3_c,"0000%d",arrn_current_duty[2]);
         else if(arrn_current_duty[2]/100==0)
-             sprintf(pwm3_c,"000%d",arrn_current_duty[2]);
+            sprintf(pwm3_c,"000%d",arrn_current_duty[2]);
         else if(arrn_current_duty[2]/1000==0)
-             sprintf(pwm3_c,"00%d",arrn_current_duty[2]);
+            sprintf(pwm3_c,"00%d",arrn_current_duty[2]);
         else if(arrn_current_duty[2]/10000==0)
-             sprintf(pwm3_c,"0%d",arrn_current_duty[2]);
+            sprintf(pwm3_c,"0%d",arrn_current_duty[2]);
         else if(arrn_current_duty[2]/100000==0)
-             sprintf(pwm3_c,"%d",arrn_current_duty[2]);
+            sprintf(pwm3_c,"%d",arrn_current_duty[2]);
 
         if(arrn_current_duty[3]/10==0)
-             sprintf(pwm4_c,"0000%d",arrn_current_duty[3]);
+            sprintf(pwm4_c,"0000%d",arrn_current_duty[3]);
         else if(arrn_current_duty[3]/100==0)
-             sprintf(pwm4_c,"000%d",arrn_current_duty[3]);
+            sprintf(pwm4_c,"000%d",arrn_current_duty[3]);
         else if(arrn_current_duty[3]/1000==0)
-             sprintf(pwm4_c,"00%d",arrn_current_duty[3]);
+            sprintf(pwm4_c,"00%d",arrn_current_duty[3]);
         else if(arrn_current_duty[3]/10000==0)
-             sprintf(pwm4_c,"0%d",arrn_current_duty[3]);
+            sprintf(pwm4_c,"0%d",arrn_current_duty[3]);
         else if(arrn_current_duty[3]/100000==0)
-             sprintf(pwm4_c,"%d",arrn_current_duty[3]);
+            sprintf(pwm4_c,"%d",arrn_current_duty[3]);
 
         sprintf(arrch_uart_output,"%s%s%s%s",pwm1_c,pwm2_c,pwm3_c,pwm4_c);
 
@@ -1016,9 +1016,9 @@ void ThreadTask_update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
         {
             break;
         }
-        #ifdef PRINT_DEBUG_THREAD
+#ifdef PRINT_DEBUG_THREAD
         printf("ThreadTask_update_T_drone_http_pid_tuning_get\n");
-        #endif
+#endif
         update_T_drone_http_pid_tuning_get(pT_drone);
         usleep(50000);
     }
