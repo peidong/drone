@@ -488,35 +488,6 @@ int update_T_drone_http_gps(struct T_drone *pT_drone){
 }
 
 
-void output_file(float x, float y, float z, int sample)
-{
-	if(sample != 20000)
-	{
-		result[sample][0] = x;
-    	result[sample][1] = y;
-    	result[sample][2] = z;
-    	sample++;
-	}
-	else
-	{
-		printf("Outputing data of mag!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-		FILE* fp;
-		int i,j;
-		fp = fopen("demo.txt", "w");
-		for (i = 0; i < 20000; i++)
-		{
-		    for (j = 0; j < 3; j++)
-		    {
-		        fprintf(fp, "%.1f ", result[i][j]);
-		    }
-		    fputc('\n', fp);
-		}
-		fclose(fp);
-		printf("Finish!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-		sample = 0;
-	}
-
-}
 
 /**
  * 0:up 1:down 2:left 3:right 4:forward 5:backward
@@ -590,7 +561,33 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             my = (float)mrawy*mRes*magyCalibration - 95 + 43 + 15;
             mz = (float)mrawz*mRes*magzCalibration + 370 - 72 + 403;
 
-            output_file(mx,my,mz,sample);
+            
+if(sample != 20000)
+	{
+		result[sample][0] = mx;
+    	result[sample][1] = my;
+    	result[sample][2] = mz;
+    	sample++;
+	}
+	else
+	{
+		printf("Outputing data of mag!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		FILE* fp;
+		int i,j;
+		fp = fopen("demo.txt", "w");
+		for (i = 0; i < 20000; i++)
+		{
+		    for (j = 0; j < 3; j++)
+		    {
+		        fprintf(fp, "%.1f ", result[i][j]);
+		    }
+		    fputc('\n', fp);
+		}
+		fclose(fp);
+		printf("Finish!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		sample = 0;
+	}
+
 
             // AHRS
             MadgwickAHRSupdate(ax, ay, az, gx*PI / 180.0f, gy*PI / 180.0f, gz*PI / 180.0f, my, mx, mz); //my, mx, mz
