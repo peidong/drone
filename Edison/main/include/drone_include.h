@@ -561,7 +561,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             my = (float)mrawy*mRes*magyCalibration - 95 + 43 + 15;
             mz = (float)mrawz*mRes*magzCalibration + 370 - 72 + 403;
 
-            printf("%d\t,%d\t,%d\n", mx, my, mz);
+            printf("%f.1\t,%f.1\t,%f.1\n", mx, my, mz);
             
 if(sample != 20000)
 	{
