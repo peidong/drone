@@ -563,20 +563,20 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 
             printf("%.1f\t%.1f\t%.1f\n", mx, my, mz);
             
-if(sample < 200)
+if(sample < 20000)
 	{
 		result[sample][0] = mx;
     	result[sample][1] = my;
     	result[sample][2] = mz;
     	sample++;
 	}
-	else
+if(sampe == 20000)
 	{
 		printf("Outputing data of mag!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		FILE* fp;
 		int i,j;
 		fp = fopen("demo.txt", "w");
-		for (i = 0; i < 200; i++)
+		for (i = 0; i < 20000; i++)
 		{
 		    for (j = 0; j < 3; j++)
 		    {
@@ -586,7 +586,7 @@ if(sample < 200)
 		}
 		fclose(fp);
 		printf("Finish!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		sample = 0;
+		sample = 20001;
 	}
 
 
