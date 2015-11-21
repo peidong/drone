@@ -505,7 +505,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     int16_t mrawx,mrawy,mrawz;
     float ax,ay,az,gx,gy,gz,mx,my,mz;
     float yaw, pitch, roll;
-	float result[20000][3]; 
+	float result[200][3]; 
 	int sample = 0;
 
     mraa_uart_context uno;
@@ -561,9 +561,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             my = (float)mrawy*mRes*magyCalibration - 95 + 43 + 15;
             mz = (float)mrawz*mRes*magzCalibration + 370 - 72 + 403;
 
-            printf("%.1f\t,%.1f\t,%.1f\n", mx, my, mz);
+            printf("%.1f\t%.1f\t%.1f\n", mx, my, mz);
             
-if(sample != 20000)
+if(sample < 200)
 	{
 		result[sample][0] = mx;
     	result[sample][1] = my;
@@ -576,7 +576,7 @@ if(sample != 20000)
 		FILE* fp;
 		int i,j;
 		fp = fopen("demo.txt", "w");
-		for (i = 0; i < 20000; i++)
+		for (i = 0; i < 200; i++)
 		{
 		    for (j = 0; j < 3; j++)
 		    {
