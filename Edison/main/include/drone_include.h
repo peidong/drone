@@ -505,7 +505,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     int16_t mrawx,mrawy,mrawz;
     float ax,ay,az,gx,gy,gz,mx,my,mz;
     float yaw, pitch, roll;
-	float result[5001][3]; 
+	float result[2001][4]; 
 	int sample = 0;
 
     mraa_uart_context uno;
@@ -560,35 +560,18 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             mx = (float)mrawx*mRes*magxCalibration - 406 - 49 - 150 + 72 - 13;  // get actual magnetometer value, this depends on scale being set
             my = (float)mrawy*mRes*magyCalibration - 95 + 43 + 15 - 178 + 87;
             mz = (float)mrawz*mRes*magzCalibration + 370 - 72 + 403 - 447 + 207;
-/*
-            printf("%.1f\t%.1f\t%.1f\n", mx, my, mz);
+
+            // printf("%.1f\t%.1f\t%.1f\n", mx, my, mz);
             
-if(sample < 5000)
+if(sample < 2000)
 	{
-		result[sample][0] = mx;
-    	result[sample][1] = my;
-    	result[sample][2] = mz;
-    	sample++;
+		result[sample][0] = ax;
+    	result[sample][1] = ay;
+    	result[sample][2] = az;
+    	// sample++;
 	}
-if(sample == 5000)
-	{
-		printf("Outputing data of mag!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		FILE* fp;
-		int i,j;
-		fp = fopen("demo.txt", "w");
-		for (i = 0; i < 5000; i++)
-		{
-		    for (j = 0; j < 3; j++)
-		    {
-		        fprintf(fp, "%.1f ", result[i][j]);
-		    }
-		    fputc('\n', fp);
-		}
-		fclose(fp);
-		printf("Finish!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-		sample = 5001;
-	}
-*/
+
+
 
             // AHRS
             MadgwickAHRSupdate(ax, ay, az, gx*PI / 180.0f, gy*PI / 180.0f, gz*PI / 180.0f, my, mx, mz); //my, mx, mz
@@ -600,6 +583,33 @@ if(sample == 5000)
             pitch *= 180.0f / PI;
             roll *= 180.0f / PI;
             if (yaw<0) yaw += 360;
+
+if(sample < 2000)
+	{
+		result[sample][3] = roll;
+    	// result[sample][1] = ay;
+    	// result[sample][2] = az;
+    	sample++;
+	}
+
+if(sample == 2000)
+	{
+		printf("Outputing data of mag!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		FILE* fp;
+		int i,j;
+		fp = fopen("demo.txt", "w");
+		for (i = 0; i < 2000; i++)
+		{
+		    for (j = 0; j < 4; j++)
+		    {
+		        fprintf(fp, "%.1f ", result[i][j]);
+		    }
+		    fputc('\n', fp);
+		}
+		fclose(fp);
+		printf("Finish!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+		sample = 2001;
+	}
 
             //usleep(1000);
 
