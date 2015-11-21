@@ -4,7 +4,7 @@
 
 float mRes = 10.*4912./32760.0;
 float aRes = 2.0/32768.0;
-float gRes = 1000.0/32768.0;
+float gRes = 500.0/32768.0;
 
 float magxCalibration = 1.1836;//(175 - 128)/256. + 1.
 float magyCalibration = 1.1914;//(177 - 128)/256. + 1.
