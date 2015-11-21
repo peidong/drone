@@ -611,9 +611,9 @@ if(sample == 5000)
             if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
                 n_index_yaw_pitch_roll++;
                 n_index_yaw_pitch_roll = n_index_yaw_pitch_roll%10;
-                if(n_index_yaw_pitch_roll == 0){
+                //if(n_index_yaw_pitch_roll == 0){
                     printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
-                }
+                //}
             }
 #endif
         }
