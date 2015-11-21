@@ -514,6 +514,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     usleep(1000);
     while(1)
     {
+        printf("1\n");
         if (pT_drone->nflag_stop_all != 0)
         {
             break;
@@ -527,12 +528,14 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             g_last_time_us = timer_delta_us(&g_timer);
             timer_unpause(&g_timer);
 #endif
+        printf("2\n");
 
         if(flag[0]==' ')   // ' ' is the beginning of the data package. Once detecting the header, reading begins!!!
         {
 
             mraa_uart_read(uno,read,36);
 
+        printf("3\n");
             arawx = (myatoi(read[0])<<4|myatoi(read[1]))<<8|(myatoi(read[2])<<4|myatoi(read[3]));
             arawy = (myatoi(read[4])<<4|myatoi(read[5]))<<8|(myatoi(read[6])<<4|myatoi(read[7]));
             arawz = (myatoi(read[8])<<4|myatoi(read[9]))<<8|(myatoi(read[10])<<4|myatoi(read[11]));
@@ -545,6 +548,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             mrawy = (myatoi(read[30])<<4|myatoi(read[31]))<<8|(myatoi(read[28])<<4|myatoi(read[29]));
             mrawz = (myatoi(read[34])<<4|myatoi(read[35]))<<8|(myatoi(read[32])<<4|myatoi(read[33]));
 
+        printf("4\n");
             // printf("%d\t,%d\t,%d\t,%d\t,%d\t,%d\t,%d\t,%d\t,%d\t\n",arawx,arawy,arawz,grawx,grawy,grawz,mrawx,mrawy,mrawz);
 
             ax = (float)arawx*aRes;
