@@ -565,9 +565,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             
 if(sample < 2000)
 	{
-		result[sample][0] = arawx/1000;
-    	result[sample][1] = arawy/1000;
-    	result[sample][2] = arawz/1000;
+		result[sample][0] = (float)arawx/1000;
+    	result[sample][1] = (float)arawy/1000;
+    	result[sample][2] = (float)arawz/1000;
     	// sample++;
 	}
 
