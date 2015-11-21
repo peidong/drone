@@ -562,7 +562,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             mz = (float)mrawz*mRes*magzCalibration + 370 - 72 + 403 - 447 + 207;
 
             // printf("%.1f\t%.1f\t%.1f\n", mx, my, mz);
-            
+/*            
 if(sample < 2000)
 	{
 		result[sample][0] = (float)(arawx)/1000;
@@ -570,7 +570,7 @@ if(sample < 2000)
     	result[sample][2] = (float)(arawz)/1000;
     	// sample++;
 	}
-
+*/
 
 
             // AHRS
@@ -583,7 +583,7 @@ if(sample < 2000)
             pitch *= 180.0f / PI;
             roll *= 180.0f / PI;
             if (yaw<0) yaw += 360;
-
+/*
 if(sample < 2000)
 	{
 		result[sample][3] = roll;
@@ -610,7 +610,7 @@ if(sample == 2000)
 		printf("Finish!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 		sample = 2001;
 	}
-
+*/
             //usleep(1000);
 
             pT_drone->arrd_yaw_pitch_roll[0] = yaw;
