@@ -505,7 +505,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     int16_t mrawx,mrawy,mrawz;
     float ax,ay,az,gx,gy,gz,mx,my,mz;
     float yaw, pitch, roll;
-	float result[200][3]; 
+	float result[20000][3]; 
 	int sample = 0;
 
     mraa_uart_context uno;
