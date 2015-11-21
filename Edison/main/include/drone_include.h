@@ -565,9 +565,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             
 if(sample < 2000)
 	{
-		result[sample][0] = ax;
-    	result[sample][1] = ay;
-    	result[sample][2] = az;
+		result[sample][0] = arawx;
+    	result[sample][1] = arawy;
+    	result[sample][2] = arawz;
     	// sample++;
 	}
 
