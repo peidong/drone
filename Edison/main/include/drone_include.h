@@ -570,7 +570,7 @@ if(sample < 20000)
     	result[sample][2] = mz;
     	sample++;
 	}
-if(sampe == 20000)
+if(sample == 20000)
 	{
 		printf("Outputing data of mag!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		FILE* fp;
