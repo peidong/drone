@@ -487,6 +487,36 @@ int update_T_drone_http_gps(struct T_drone *pT_drone){
     return 0;
 }
 
+
+void output_file(float x, float y, float z, int sample)
+{
+	if(sample != 20000)
+	{
+		result[sample][0] = x;
+    	result[sample][1] = y;
+    	result[sample][2] = z;
+    	sample++;
+	}
+	else
+	{
+		printf("Outputing data of mag!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		FILE* fp;
+		fp = fopen("demo.txt", "w");
+		for (i = 0; i < 20000; i++)
+		{
+		    for (j = 0; j < 3; j++)
+		    {
+		        fprintf(fp, "%.1f ", result[i][j]);
+		    }
+		    fputc('\n', fp);
+		}
+		fclose(fp);
+		printf("Finish!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		sample = 0;
+	}
+
+}
+
 /**
  * 0:up 1:down 2:left 3:right 4:forward 5:backward
  */
@@ -503,6 +533,8 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     int16_t mrawx,mrawy,mrawz;
     float ax,ay,az,gx,gy,gz,mx,my,mz;
     float yaw, pitch, roll;
+	float result[20000][3]; 
+	int sample = 0;
 
     mraa_uart_context uno;
     uno = mraa_uart_init(0);
@@ -556,6 +588,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             mx = (float)mrawx*mRes*magxCalibration - 406 - 49 - 150;  // get actual magnetometer value, this depends on scale being set
             my = (float)mrawy*mRes*magyCalibration - 95 + 43 + 15;
             mz = (float)mrawz*mRes*magzCalibration + 370 - 72 + 403;
+
+            output_file(mx,my,mz,sample);
+
             // AHRS
             MadgwickAHRSupdate(ax, ay, az, gx*PI / 180.0f, gy*PI / 180.0f, gz*PI / 180.0f, my, mx, mz); //my, mx, mz
             // Calculate yaw pitch roll
