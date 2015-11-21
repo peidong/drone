@@ -565,9 +565,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             
 if(sample < 2000)
 	{
-		result[sample][0] = (float)arawx/1000;
-    	result[sample][1] = (float)arawy/1000;
-    	result[sample][2] = (float)arawz/1000;
+		result[sample][0] = (float)(arawx)/1000;
+    	result[sample][1] = (float)(arawy)/1000;
+    	result[sample][2] = (float)(arawz)/1000;
     	// sample++;
 	}
 
@@ -602,7 +602,7 @@ if(sample == 2000)
 		{
 		    for (j = 0; j < 4; j++)
 		    {
-		        fprintf(fp, "%.1f ", result[i][j]);
+		        fprintf(fp, "%.5f ", result[i][j]);
 		    }
 		    fputc('\n', fp);
 		}
