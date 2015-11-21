@@ -537,8 +537,8 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 
             mraa_uart_read(uno,read,36);
 
-            arawx = (myatoi(read[0])<<4|myatoi(read[1]))<<8|(myatoi(read[2])<<4|myatoi(read[3]));
-            arawy = (myatoi(read[4])<<4|myatoi(read[5]))<<8|(myatoi(read[6])<<4|myatoi(read[7]));
+            arawx = -(myatoi(read[0])<<4|myatoi(read[1]))<<8|(myatoi(read[2])<<4|myatoi(read[3]));
+            arawy = -(myatoi(read[4])<<4|myatoi(read[5]))<<8|(myatoi(read[6])<<4|myatoi(read[7]));
             arawz = (myatoi(read[8])<<4|myatoi(read[9]))<<8|(myatoi(read[10])<<4|myatoi(read[11]));
 
             grawx = (myatoi(read[12])<<4|myatoi(read[13]))<<8|(myatoi(read[14])<<4|myatoi(read[15]));
