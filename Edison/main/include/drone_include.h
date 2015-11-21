@@ -557,9 +557,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             gx = (float)grawx*gRes;
             gy = (float)grawy*gRes;
             gz = (float)grawz*gRes;
-            mx = (float)mrawx*mRes*magxCalibration - 406 - 49 - 150;  // get actual magnetometer value, this depends on scale being set
-            my = (float)mrawy*mRes*magyCalibration - 95 + 43 + 15;
-            mz = (float)mrawz*mRes*magzCalibration + 370 - 72 + 403;
+            mx = (float)mrawx*mRes*magxCalibration - 406 - 49 - 150 + 72;  // get actual magnetometer value, this depends on scale being set
+            my = (float)mrawy*mRes*magyCalibration - 95 + 43 + 15 - 178;
+            mz = (float)mrawz*mRes*magzCalibration + 370 - 72 + 403 - 447;
 
             printf("%.1f\t%.1f\t%.1f\n", mx, my, mz);
             
