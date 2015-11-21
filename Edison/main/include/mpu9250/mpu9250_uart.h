@@ -13,7 +13,7 @@ float magzCalibration = 1.1445;//(165 - 128)/256. + 1.
 float q0 = 1.0f, q1 = 0.0f, q2 = 0.0f, q3 = 0.0f;   // quaternion of sensor frame relative to auxiliary frame
 
 float beta=5.0f;  // compute beta
-float deltat = 0.001f;   // integration interval for both filter schemes
+float deltat = 0.0015f;   // integration interval for both filter schemes
 
 //================================================================
 // invSqrt
