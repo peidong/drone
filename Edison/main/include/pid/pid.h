@@ -4,43 +4,43 @@
 #include <stdint.h>
 typedef enum			//!< Enumerates the controller direction modes
 {
-	PID_DIRECT,			//!< Direct drive (+error gives +output)
-	PID_REVERSE			//!< Reverse driver (+error gives -output)
+    PID_DIRECT,			//!< Direct drive (+error gives +output)
+    PID_REVERSE			//!< Reverse driver (+error gives -output)
 } ctrlDir_t;
 
 typedef struct
 {
-	double zKp;					//!< Time-step scaled proportional constant for quick calculation (equal to actualKp)
-	double zKi;					//!< Time-step scaled integral constant for quick calculation
-	double zKd;					//!< Time-step scaled derivative constant for quick calculation
-	double actualKp;			//!< Actual (non-scaled) proportional constant
-	double actualKi;			//!< Actual (non-scaled) integral constant
-	double actualKd;			//!< Actual (non-scaled) derivative constant
-	double prevInput;			//!< Actual (non-scaled) proportional constant
-	double inputChange;			//!< The change in input between the current and previous value
-	double setPoint;			//!< The set-point the PID control is trying to make the output converge to.
-	double error;				//!< The error between the set-point and actual output (set point - output, positive
-	//!< when actual output is lagging set-point
-	double output;				//!< The control output. This is updated when Pid_Go() is called
-	double prevOutput;			//!< The output value calculated the previous time Pid_Go was called
-	double samplePeriodMs;		//!< The sample period (in milliseconds) between successive Pid_Go() calls.
-	//!< The constants with the z prefix are scaled according to this value.
-	double pTerm;				//!< The proportional term that is summed as part of the output (calculated in Pid_Go())
-	double iTerm;				//!< The integral term that is summed as part of the output (calculated in Pid_Go())
-	double dTerm;				//!< The derivative term that is summed as part of the output (calculated in Pid_Go())
-	double outMin;				//!< The minimum output value. Anything lower will be limited to this floor.
-	double outMax;				//!< The maximum output value. Anything higher will be limited to this ceiling.
-	ctrlDir_t controllerDir;	//!< The control direction for the PID instance.
+    double zKp;					//!< Time-step scaled proportional constant for quick calculation (equal to actualKp)
+    double zKi;					//!< Time-step scaled integral constant for quick calculation
+    double zKd;					//!< Time-step scaled derivative constant for quick calculation
+    double actualKp;			//!< Actual (non-scaled) proportional constant
+    double actualKi;			//!< Actual (non-scaled) integral constant
+    double actualKd;			//!< Actual (non-scaled) derivative constant
+    double prevInput;			//!< Actual (non-scaled) proportional constant
+    double inputChange;			//!< The change in input between the current and previous value
+    double setPoint;			//!< The set-point the PID control is trying to make the output converge to.
+    double error;				//!< The error between the set-point and actual output (set point - output, positive
+    //!< when actual output is lagging set-point
+    double output;				//!< The control output. This is updated when Pid_Go() is called
+    double prevOutput;			//!< The output value calculated the previous time Pid_Go was called
+    double samplePeriodMs;		//!< The sample period (in milliseconds) between successive Pid_Go() calls.
+    //!< The constants with the z prefix are scaled according to this value.
+    double pTerm;				//!< The proportional term that is summed as part of the output (calculated in Pid_Go())
+    double iTerm;				//!< The integral term that is summed as part of the output (calculated in Pid_Go())
+    double dTerm;				//!< The derivative term that is summed as part of the output (calculated in Pid_Go())
+    double outMin;				//!< The minimum output value. Anything lower will be limited to this floor.
+    double outMax;				//!< The maximum output value. Anything higher will be limited to this ceiling.
+    ctrlDir_t controllerDir;	//!< The control direction for the PID instance.
 } pidData_t;
 
 //initialization
 void Pid_Init(
-	pidData_t *pidData,
-	double kp,
-	double ki,
-	double kd,
-	ctrlDir_t controllerDir,
-	uint32_t samplePeriodMs);
+        pidData_t *pidData,
+        double kp,
+        double ki,
+        double kd,
+        ctrlDir_t controllerDir,
+        uint32_t samplePeriodMs);
 
 //Computes new PID values
 //Call once per sampleTimeMs. Output is stored in the pidData structure.
@@ -85,155 +85,155 @@ void	Pid_SetOutputLimits(pidData_t *pidData, double min, double max);
 //.c
 
 void Pid_Init(
-	pidData_t *pidData,
-	double kp, double ki, double kd,
-	ctrlDir_t controllerDir,
-	uint32_t samplePeriodMs)
+        pidData_t *pidData,
+        double kp, double ki, double kd,
+        ctrlDir_t controllerDir,
+        uint32_t samplePeriodMs)
 {
-	// Pid_SetOutputLimits(pidData, 0.0, 100.0);
-	Pid_SetOutputLimits(pidData, -0.2, 0.2);
+    // Pid_SetOutputLimits(pidData, 0.0, 100.0);
+    Pid_SetOutputLimits(pidData, -0.2, 0.2);
 
-	pidData->samplePeriodMs = samplePeriodMs;				// Default controller sample time is 0.1 seconds
+    pidData->samplePeriodMs = samplePeriodMs;				// Default controller sample time is 0.1 seconds
 
-	Pid_SetControllerDirection(pidData, controllerDir);
-	Pid_SetTunings(pidData, kp, ki, kd);
-	pidData->prevInput = 0;
-	pidData->prevOutput = 0;
+    Pid_SetControllerDirection(pidData, controllerDir);
+    Pid_SetTunings(pidData, kp, ki, kd);
+    pidData->prevInput = 0;
+    pidData->prevOutput = 0;
 }
 
 void Pid_Run(pidData_t *pidData, double input)
 {
-	// Compute all the working error variables
-	//double input = *_input;
+    // Compute all the working error variables
+    //double input = *_input;
 
-	pidData->error = pidData->setPoint - input;
+    pidData->error = pidData->setPoint - input;
 
-	// Integral calcs
+    // Integral calcs
 
-	pidData->iTerm += (pidData->zKi * pidData->error);
-	// Perform min/max bound checking on integral term
-	if (pidData->iTerm > pidData->outMax)
-		pidData->iTerm = pidData->outMax;
-	else if (pidData->iTerm < pidData->outMin)
-		pidData->iTerm = pidData->outMin;
+    pidData->iTerm += (pidData->zKi * pidData->error);
+    // Perform min/max bound checking on integral term
+    if (pidData->iTerm > pidData->outMax)
+        pidData->iTerm = pidData->outMax;
+    else if (pidData->iTerm < pidData->outMin)
+        pidData->iTerm = pidData->outMin;
 
-	pidData->inputChange = (input - pidData->prevInput);
-	pidData->dTerm = -pidData->zKd*pidData->inputChange;
+    pidData->inputChange = (input - pidData->prevInput);
+    pidData->dTerm = -pidData->zKd*pidData->inputChange;
 
-	// Compute PID Output
-	pidData->output = pidData->prevOutput + pidData->zKp*pidData->error + pidData->iTerm + pidData->dTerm;
+    // Compute PID Output
+    pidData->output = pidData->prevOutput + pidData->zKp*pidData->error + pidData->iTerm + pidData->dTerm;
 
-	if (pidData->output > pidData->outMax)
-		pidData->output = pidData->outMax;
-	else if (pidData->output < pidData->outMin)
-		pidData->output = pidData->outMin;
+    if (pidData->output > pidData->outMax)
+        pidData->output = pidData->outMax;
+    else if (pidData->output < pidData->outMin)
+        pidData->output = pidData->outMin;
 
-	// Remember input value to next call
-	pidData->prevInput = input;
-	// Remember last output for next call
-	pidData->prevOutput = pidData->output;
+    // Remember input value to next call
+    pidData->prevInput = input;
+    // Remember last output for next call
+    pidData->prevOutput = pidData->output;
 
 }
 
 void Pid_SetSetPoint(pidData_t *pidData, double setPoint)
 {
-	pidData->setPoint = setPoint;
+    pidData->setPoint = setPoint;
 }
 
 
 void Pid_SetTunings(pidData_t *pidData, double kp, double ki, double kd)
 {
-	if (kp<0 || ki<0 || kd<0)
-		return;
+    if (kp<0 || ki<0 || kd<0)
+        return;
 
-	pidData->actualKp = kp;
-	pidData->actualKi = ki;
-	pidData->actualKd = kd;
+    pidData->actualKp = kp;
+    pidData->actualKi = ki;
+    pidData->actualKd = kd;
 
-	double sampleTimeInSec = ((double)pidData->samplePeriodMs) / 1000.0;
+    double sampleTimeInSec = ((double)pidData->samplePeriodMs) / 1000.0;
 
-	// Calculate time-step-scaled PID terms
-	pidData->zKp = kp;
-	pidData->zKi = ki * sampleTimeInSec;
-	pidData->zKd = kd / sampleTimeInSec;
+    // Calculate time-step-scaled PID terms
+    pidData->zKp = kp;
+    pidData->zKi = ki * sampleTimeInSec;
+    pidData->zKd = kd / sampleTimeInSec;
 
-	if (pidData->controllerDir == PID_REVERSE)
-	{
-		pidData->zKp = (0 - pidData->zKp);
-		pidData->zKi = (0 - pidData->zKi);
-		pidData->zKd = (0 - pidData->zKd);
-	}
+    if (pidData->controllerDir == PID_REVERSE)
+    {
+        pidData->zKp = (0 - pidData->zKp);
+        pidData->zKi = (0 - pidData->zKi);
+        pidData->zKd = (0 - pidData->zKd);
+    }
 }
 
 
 void Pid_SetSamplePeriod(pidData_t *pidData, uint32_t newSamplePeriodMs)
 {
-	if (newSamplePeriodMs > 0)
-	{
-		double ratio = (double)newSamplePeriodMs
-			/ (double)pidData->samplePeriodMs;
-		pidData->zKi *= ratio;
-		pidData->zKd /= ratio;
-		pidData->samplePeriodMs = newSamplePeriodMs;
-	}
+    if (newSamplePeriodMs > 0)
+    {
+        double ratio = (double)newSamplePeriodMs
+            / (double)pidData->samplePeriodMs;
+        pidData->zKi *= ratio;
+        pidData->zKd /= ratio;
+        pidData->samplePeriodMs = newSamplePeriodMs;
+    }
 }
 
 void Pid_SetOutputLimits(pidData_t *pidData, double min, double max)
 {
-	if (min >= max)
-		return;
-	pidData->outMin = min;
-	pidData->outMax = max;
+    if (min >= max)
+        return;
+    pidData->outMin = min;
+    pidData->outMax = max;
 
 }
 
 
 void Pid_SetControllerDirection(pidData_t *pidData, ctrlDir_t controllerDir)
 {
-	if (controllerDir != pidData->controllerDir)
-	{
-		// Invert control constants
-		pidData->zKp = (0 - pidData->zKp);
-		pidData->zKi = (0 - pidData->zKi);
-		pidData->zKd = (0 - pidData->zKd);
-	}
-	pidData->controllerDir = controllerDir;
+    if (controllerDir != pidData->controllerDir)
+    {
+        // Invert control constants
+        pidData->zKp = (0 - pidData->zKp);
+        pidData->zKi = (0 - pidData->zKi);
+        pidData->zKd = (0 - pidData->zKd);
+    }
+    pidData->controllerDir = controllerDir;
 }
 
 
 double Pid_GetKp(pidData_t *pidData)
 {
-	return pidData->actualKp;
+    return pidData->actualKp;
 }
 
 
 double Pid_GetKi(pidData_t *pidData)
 {
-	return pidData->actualKi;
+    return pidData->actualKi;
 }
 
 
 double Pid_GetKd(pidData_t *pidData)
 {
-	return pidData->actualKd;
+    return pidData->actualKd;
 }
 
 
 ctrlDir_t Pid_GetDirection(pidData_t *pidData)
 {
-	return pidData->controllerDir;
+    return pidData->controllerDir;
 }
 
 
 double Pid_GetError(pidData_t *pidData)
 {
-	return pidData->error;
+    return pidData->error;
 }
 
 
 double Pid_GetDTerm(pidData_t *pidData)
 {
-	return pidData->dTerm;
+    return pidData->dTerm;
 }
 
 

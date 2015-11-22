@@ -23,7 +23,7 @@
 // #define PRINT_DEBUG_PWM
 //#define PRINT_DEBUG_THREAD
 // #define PRINT_CAR_MANUAL
-//#define TIMER
+#define TIMER
 //#define TIMER_YAW_PITCH_ROLL
 //#define TIMER_PID
 
@@ -624,6 +624,26 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     }
     mraa_uart_stop(uno);
     return 0;
+}
+
+void test(struct T_drone *pT_drone){
+    timer_start(&g_timer);
+    timer_pause(&g_timer);
+    g_last_time_us = timer_delta_us(&g_timer);
+    long long_duration_time;
+    int n_while_loop_index = 0;
+    while(1){
+        n_while_loop_index++;
+        timer_pause(&g_timer);
+        //printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
+        long_duration_time = timer_delta_us(&g_timer) - g_last_time_us;
+        if(long_duration_time >= 20000){
+            printf("while loops index is %d,\tlong_duration_time (us) is %ld\n",n_while_loop_index, long_duration_time);
+            g_last_time_us = timer_delta_us(&g_timer);
+            n_while_loop_index = 0;
+        }
+        timer_unpause(&g_timer);
+    }
 }
 
 int update_T_drone_arrd_pid(struct T_drone *pT_drone){
