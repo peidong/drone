@@ -633,8 +633,8 @@ void test(struct T_drone *pT_drone){
     long long_duration_time;
     int n_while_loop_index = 0;
     while(1){
-        n_while_loop_index++;
         timer_pause(&g_timer);
+        n_while_loop_index++;
         //printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
         long_duration_time = timer_delta_us(&g_timer) - g_last_time_us;
         if(long_duration_time >= 20000){
