@@ -24,7 +24,7 @@
 //#define PRINT_DEBUG_THREAD
 // #define PRINT_CAR_MANUAL
 #define TIMER
-//#define TIMER_YAW_PITCH_ROLL
+#define TIMER_YAW_PITCH_ROLL
 //#define TIMER_PID
 
 /**
@@ -615,14 +615,18 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
                 //}
             }
 #endif
+#ifdef TIMER_YAW_PITCH_ROLL
+        timer_pause(&g_timer);
+        printf("correct Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
+#endif
         }else{
+#ifdef TIMER_YAW_PITCH_ROLL
+        timer_pause(&g_timer);
+        printf("wrong Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
+#endif
             //n_not_find_header_times++;
             //printf("didn't find header times = %d\n", n_not_find_header_times);
         }
-#ifdef TIMER_YAW_PITCH_ROLL
-        timer_pause(&g_timer);
-        printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
-#endif
     }
     mraa_uart_stop(uno);
     return 0;
