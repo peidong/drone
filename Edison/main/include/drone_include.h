@@ -498,8 +498,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     int16_t mrawx,mrawy,mrawz;
     float ax,ay,az,gx,gy,gz,mx,my,mz;
     float yaw, pitch, roll;
-    float result[2001][4]; 
+    float result[2001][4];
     int sample = 0;
+    int n_not_find_header_times = 0;
 
     mraa_uart_context uno;
     uno = mraa_uart_init(0);
@@ -525,6 +526,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 #endif
 
         if(flag[0]==' '){   // ' ' is the beginning of the data package. Once detecting the header, reading begins!!!
+            n_not_find_header_times = 0;
             mraa_uart_read(uno,read,36);
 
             arawx = -(myatoi(read[0])<<4|myatoi(read[1]))<<8|(myatoi(read[2])<<4|myatoi(read[3]));
@@ -552,7 +554,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             mz = (float)mrawz*mRes*magzCalibration + 370 - 72 + 403 - 447 + 207;
 
             // printf("%.1f\t%.1f\t%.1f\n", mx, my, mz);
-            /*            
+            /*
                           if(sample < 2000)
                           {
                           result[sample][0] = (float)(arawx)/1000;
@@ -612,7 +614,8 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             }
 #endif
         }else{
-            printf("didn't find header\n");
+            n_not_find_header_times++;
+            printf("didn't find header times = %d\n", n_not_find_header_times);
         }
 #ifdef TIMER_YAW_PITCH_ROLL
         timer_pause(&g_timer);
