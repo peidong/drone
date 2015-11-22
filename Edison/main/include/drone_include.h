@@ -196,7 +196,7 @@ int initialize_pwm_value(struct T_drone *pT_drone){
  * manually update the pwm value using by test purpose
  */
 int update_T_drone_http_pwm_get(struct T_drone *pT_drone){
-    char *sz_url_get_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/get/";
+    char *sz_url_get_pwm = "http://128.97.89.181/rest/api/pwm/get/";
     char *sz_http_response;
     struct json_object *pT_json_object_whole_response, *ppT_json_object_pwm[4], *pT_json_object_data, *pT_json_object_update_time;
     int n_json_response;
@@ -231,7 +231,7 @@ int update_T_drone_http_pwm_get(struct T_drone *pT_drone){
  * update the pwm value using by test purpose
  */
 int update_T_drone_http_pwm_post(struct T_drone *pT_drone){
-    char *sz_url_post_pwm = "http://fryer.ee.ucla.edu/rest/api/pwm/post/";
+    char *sz_url_post_pwm = "http://128.97.89.181/rest/api/pwm/post/";
     char arrc_post_data[100];
     /**
      * store the post data
@@ -247,7 +247,7 @@ int update_T_drone_http_pwm_post(struct T_drone *pT_drone){
  * update the pid_tuning value using by test purpose
  */
 int update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
-    char *sz_url_get_pid_tuning = "http://fryer.ee.ucla.edu/rest/api/pid_tuning/get/";
+    char *sz_url_get_pid_tuning = "http://128.97.89.181/rest/api/pid_tuning/get/";
 
     char *sz_http_response;
     struct json_object *pT_json_object_whole_response, *ppT_json_object_pid_tuning[9], *pT_json_object_data, *pT_json_object_update_time;
@@ -288,8 +288,8 @@ int update_T_drone_http(struct T_drone *pT_drone){
     //How to concat two char* string in C program
     //http://stackoverflow.com/questions/18468229/how-to-concat-two-char-string-in-c-program
     //sz_mac_address = "fc:c2:de:3d:7f:af";
-    char *sz_url_get_control_part1 = "http://fryer.ee.ucla.edu/rest/api/control/get/?mac_address=";
-    char *sz_url_post_control_part1 = "http://fryer.ee.ucla.edu/rest/api/control/post/?mac_address=";
+    char *sz_url_get_control_part1 = "http://128.97.89.181/rest/api/control/get/?mac_address=";
+    char *sz_url_post_control_part1 = "http://128.97.89.181/rest/api/control/post/?mac_address=";
     /**
      * get url
      */
@@ -442,9 +442,9 @@ int update_T_drone_http(struct T_drone *pT_drone){
 int update_T_drone_http_gps(struct T_drone *pT_drone){
     //How to concat two char* string in C program
     //http://stackoverflow.com/questions/18468229/how-to-concat-two-char-string-in-c-program
-    char *sz_url_get_gps_destination = "http://fryer.ee.ucla.edu/rest/api/gps/get/?location_type=0";//get destination gps
-    char *sz_url_get_gps_iPhone = "http://fryer.ee.ucla.edu/rest/api/gps/get/?location_type=1";//get iPhone(Edison board) current gps
-    //char *sz_url_post_gps = "http://fryer.ee.ucla.edu/rest/api/gps/post/?location_type=1";
+    char *sz_url_get_gps_destination = "http://128.97.89.181/rest/api/gps/get/?location_type=0";//get destination gps
+    char *sz_url_get_gps_iPhone = "http://128.97.89.181/rest/api/gps/get/?location_type=1";//get iPhone(Edison board) current gps
+    //char *sz_url_post_gps = "http://128.97.89.181/rest/api/gps/post/?location_type=1";
 
     char *sz_http_response;
     struct json_object *pT_json_object_whole_response, *pT_json_object_data, *pT_json_object_update_time, *pT_json_object_face_direction, *pT_json_object_latitude, *pT_json_object_longitude/* ,*pT_json_object_stop_sign */;

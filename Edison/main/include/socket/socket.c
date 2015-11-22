@@ -13,7 +13,8 @@ struct hostent
   char **h_addr_list;       /* List of addresses from name server.  */
 };
 
-int main(int argc , char *argv[])
+/*int main(int argc , char *argv[])*/
+int main()
 {
     int socket_desc;
     struct sockaddr_in server;
