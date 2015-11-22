@@ -519,11 +519,11 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         printf("ThreadTask_yaw pitch roll\n");
 #endif
         // printf("%s\n",mraa_get_version());
-        mraa_uart_read(uno,flag,1);
 #ifdef TIMER_YAW_PITCH_ROLL
         g_last_time_us = timer_delta_us(&g_timer);
         timer_unpause(&g_timer);
 #endif
+        mraa_uart_read(uno,flag,1);
 
         if(flag[0]==' '){   // ' ' is the beginning of the data package. Once detecting the header, reading begins!!!
             //n_not_find_header_times = 0;
