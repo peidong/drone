@@ -611,6 +611,8 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
                 //}
             }
 #endif
+        }else{
+            printf("didn't find header\n");
         }
 #ifdef TIMER_YAW_PITCH_ROLL
         timer_pause(&g_timer);
