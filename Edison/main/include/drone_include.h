@@ -632,8 +632,7 @@ void test(struct T_drone *pT_drone){
     g_last_time_us = timer_delta_us(&g_timer);
     long long_duration_time;
     int n_while_loop_index = 0;
-    //while(1){
-    for(;;){
+    while(1){
         timer_pause(&g_timer);
         n_while_loop_index++;
         //printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
