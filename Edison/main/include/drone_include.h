@@ -824,7 +824,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 
     //Pid_Init(pidData_roll, kp_roll, ki_roll, kd_roll, controllerDir, samplePeriodMs);
 
-    while(1){
+    //while(1){
 //#ifdef TIMER_PID
         //g_last_time_us = timer_delta_us(&g_timer);
         //timer_unpause(&g_timer);
@@ -925,7 +925,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         //timer_pause(&g_timer);
         //printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
 //#endif
-    }
+    //}
     /**
      * free pointer
      */
@@ -1146,7 +1146,9 @@ void ThreadTask_update_T_drone_http(struct T_drone *pT_drone){
 }
 
 void ThreadTask_update_T_drone_arrd_pid(struct T_drone *pT_drone){
-    update_T_drone_arrd_pid(pT_drone);
+    while(1){
+        update_T_drone_arrd_pid(pT_drone);
+    }
 }
 
 void ThreadTask_update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
