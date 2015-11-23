@@ -17,7 +17,7 @@
  * print debug
  */
 // #define PRINT_DEBUG_PWM_HTTP_GET
-//#define PRINT_DEBUG_YAW_PITCH_ROLL
+// #define PRINT_DEBUG_YAW_PITCH_ROLL
 #define PRINT_DEBUG_PID_CHANGE
 // #define PRINT_DEBUG_PID_TUNING
 // #define PRINT_DEBUG_PWM
@@ -502,14 +502,16 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     int sample = 0;
     int n_not_find_header_times = 0;
     int n_find_header_times = 0;
+    int n_not_available_times = 0;
 
     mraa_uart_context uno;
     uno = mraa_uart_init(0);
-
+    
     mraa_uart_set_baudrate(uno, 115200);    // Really have no idea why higher baud does not work! And if 230400, the whole terminal crashes!
 
     char read[36];
-    char flag[37];
+    // char daer[18];
+    char flag[1];
     usleep(1000);
     while(1)
     {
@@ -522,14 +524,27 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         // printf("%s\n",mraa_get_version());
 #ifdef TIMER_YAW_PITCH_ROLL
         g_last_time_us = timer_delta_us(&g_timer);
-        timer_unpause(&g_timer);
+        // timer_unpause(&g_timer);
 #endif
-        mraa_uart_read(uno,flag,37);
+    if(mraa_uart_data_available(uno, 0))
+    {
+        n_not_available_times = 0;
+        if(n_find_header_times>=55)
+        {
+            // usleep(5000);
+            // n_find_header_times=0;
+        }
+
+        mraa_uart_read(uno,flag,1);
 
         if(flag[0]==' '){   // ' ' is the beginning of the data package. Once detecting the header, reading begins!!!
             n_not_find_header_times = 0;
             n_find_header_times++;
+if(mraa_uart_data_available(uno, 0) != 1){
+    printf("not not not hahaha\n");
+}
             mraa_uart_read(uno,read,36);
+
 
             arawx = -(myatoi(read[0])<<4|myatoi(read[1]))<<8|(myatoi(read[2])<<4|myatoi(read[3]));
             arawy = -(myatoi(read[4])<<4|myatoi(read[5]))<<8|(myatoi(read[6])<<4|myatoi(read[7]));
@@ -608,6 +623,8 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             pT_drone->arrd_yaw_pitch_roll[1] = pitch;
             pT_drone->arrd_yaw_pitch_roll[2] = roll;
 
+            // usleep(3000);
+
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
             if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
                 n_index_yaw_pitch_roll++;
@@ -618,17 +635,28 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             }
 #endif
 #ifdef TIMER_YAW_PITCH_ROLL
-        timer_pause(&g_timer);
+        // timer_pause(&g_timer);
         printf("correct times: %d\t Delta (us): %ld\n",n_find_header_times, (timer_delta_us(&g_timer) - g_last_time_us));
 #endif
-        }else{
+        }
+        else{
+            // usleep(2000);
+
             n_find_header_times = 0;
             n_not_find_header_times++;
 #ifdef TIMER_YAW_PITCH_ROLL
-        timer_pause(&g_timer);
+        // timer_pause(&g_timer);
         printf("wrong times: %d\t Delta (us): %ld\n",n_not_find_header_times, (timer_delta_us(&g_timer) - g_last_time_us));
 #endif
         }
+    }else{
+        n_not_available_times++;
+#ifdef TIMER_YAW_PITCH_ROLL
+        // timer_pause(&g_timer);
+        printf("not available times: %d\t Delta (us): %ld\n",n_not_available_times, (timer_delta_us(&g_timer) - g_last_time_us));
+#endif
+    }
+
     }
     mraa_uart_stop(uno);
     return 0;
