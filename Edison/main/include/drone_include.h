@@ -739,9 +739,9 @@ int update_T_drone_arrd_yaw_pitch_roll_i2c(struct T_drone *pT_drone){
         pT_drone->arrd_yaw_pitch_roll[1] = pitch;
         pT_drone->arrd_yaw_pitch_roll[2] = roll;
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
-        if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
-            printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
-        }
+        //if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+        printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
+        //}
 #endif
     }
     mraa_i2c_stop(mpu);
