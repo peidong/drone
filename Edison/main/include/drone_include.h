@@ -824,19 +824,19 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 
     Pid_Init(pidData_roll, kp_roll, ki_roll, kd_roll, controllerDir, samplePeriodMs);
 
-    while(1){
-#ifdef TIMER_PID
-        g_last_time_us = timer_delta_us(&g_timer);
-        timer_unpause(&g_timer);
-#endif
-        if (pT_drone->nflag_stop_all != 0){
-            break;
-        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
-            continue;
-        }
-#ifdef PRINT_DEBUG_THREAD
-        printf("Pid Thread\n");
-#endif
+    //while(1){
+//#ifdef TIMER_PID
+        //g_last_time_us = timer_delta_us(&g_timer);
+        //timer_unpause(&g_timer);
+//#endif
+        //if (pT_drone->nflag_stop_all != 0){
+            //break;
+        //}else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+            //continue;
+        //}
+//#ifdef PRINT_DEBUG_THREAD
+        //printf("Pid Thread\n");
+//#endif
         //kp_pitch = pT_drone->d_kp_pitch;
         //ki_pitch = pT_drone->d_ki_pitch;
         //kd_pitch = pT_drone->d_kd_pitch;
@@ -917,15 +917,15 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
                 //pT_drone->arrd_current_pwm[n_index] = pT_drone->arrd_current_pwm_min[n_index];
             //}
         //}
-#ifdef  PRINT_DEBUG_PID_CHANGE
-        printf("pitch change= %f\troll change= %f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
-#endif
-        usleep(100000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good.
-#ifdef TIMER_PID
-        timer_pause(&g_timer);
-        printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
-#endif
-    }
+//#ifdef  PRINT_DEBUG_PID_CHANGE
+        //printf("pitch change= %f\troll change= %f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
+//#endif
+        //usleep(100000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good.
+//#ifdef TIMER_PID
+        //timer_pause(&g_timer);
+        //printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
+//#endif
+    //}
     /**
      * free pointer
      */
