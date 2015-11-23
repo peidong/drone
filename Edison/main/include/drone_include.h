@@ -37,6 +37,7 @@
 /**
  * define value
  */
+#define PID_SLEEP_US 100000
 #define PWM_DEVIDE_RATIO 1
 #define PWM_MANUAL_CHANGE_AMOUNT 0.000025
 #define PWM_MANUAL_CHANGE_AMOUNT_LARGE 0.000025*80
@@ -814,8 +815,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     ki_yaw  = pT_drone->d_ki_yaw;
     kd_yaw  = pT_drone->d_kd_yaw;
 
-    samplePeriodMs = 20; //need to be setup
-    // samplePeriodMs = 100; //need to be setup
+    samplePeriodMs = 100; //need to be setup
     controllerDir = PID_DIRECT; //Direct control not reverse.
 
     Pid_Init(pidData_yaw, kp_yaw, ki_yaw, kd_yaw, controllerDir, samplePeriodMs);
@@ -832,6 +832,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         if (pT_drone->nflag_stop_all != 0){
             break;
         }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+            usleep(PID_SLEEP_US);
             continue;
         }
 #ifdef PRINT_DEBUG_THREAD
@@ -876,6 +877,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         if (pT_drone->nflag_stop_all != 0){
             break;
         }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+            usleep(PID_SLEEP_US);
             continue;
         }else{
             pT_drone->arrd_current_pwm[0] += (pT_drone->arrd_pid_yaw_pitch_roll[1] / 2);
@@ -891,6 +893,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         if (pT_drone->nflag_stop_all != 0){
             break;
         }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+            usleep(PID_SLEEP_US);
             continue;
         }else{
             pT_drone->arrd_current_pwm[0] -= (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2);
@@ -905,6 +908,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         if (pT_drone->nflag_stop_all != 0){
             break;
         }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+            usleep(PID_SLEEP_US);
             continue;
         }
         int n_index;
@@ -916,10 +920,10 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
                 pT_drone->arrd_current_pwm[n_index] = pT_drone->arrd_current_pwm_min[n_index];
             }
         }
-        usleep(100000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good.
 #ifdef  PRINT_DEBUG_PID_CHANGE
         printf("pitch change= %f\troll change= %f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
 #endif
+        usleep(PID_SLEEP_US); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good.
 #ifdef TIMER_PID
         timer_pause(&g_timer);
         printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
@@ -942,7 +946,6 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     }
     return 0;
 }
-
 
 /**
  * Generate pwm wave via uart
@@ -1083,7 +1086,6 @@ int GeneratePwm(struct T_drone *pT_drone){
         }else{
             mraa_uart_write(uno, arrch_uart_output, 21);
         }
-
     }
     /**
      * Reset PWM to 0
@@ -1098,7 +1100,6 @@ int GeneratePwm(struct T_drone *pT_drone){
 /**
  * Thread Tasks
  */
-
 void ThreadTask_update_T_drone_http_pwm_get(struct T_drone *pT_drone){
     while(1){
         if (pT_drone->nflag_stop_all != 0){
