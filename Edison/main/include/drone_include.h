@@ -662,25 +662,25 @@ if(mraa_uart_data_available(uno, 0) != 1){
     return 0;
 }
 
-void test(struct T_drone *pT_drone){
-    timer_start(&g_timer);
-    timer_pause(&g_timer);
-    g_last_time_us = timer_delta_us(&g_timer);
-    long long_duration_time;
-    int n_while_loop_index = 0;
-    while(1){
-        timer_pause(&g_timer);
-        n_while_loop_index++;
-        //printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
-        long_duration_time = timer_delta_us(&g_timer) - g_last_time_us;
-        if(long_duration_time >= 100000){
-            printf("while loops index is %d,\tlong_duration_time (us) is %ld\n",n_while_loop_index, long_duration_time);
-            g_last_time_us = timer_delta_us(&g_timer);
-            n_while_loop_index = 0;
-        }
-        timer_unpause(&g_timer);
-    }
-}
+//void test(struct T_drone *pT_drone){
+    //timer_start(&g_timer);
+    //timer_pause(&g_timer);
+    //g_last_time_us = timer_delta_us(&g_timer);
+    //long long_duration_time;
+    //int n_while_loop_index = 0;
+    //while(1){
+        //timer_pause(&g_timer);
+        //n_while_loop_index++;
+        ////printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
+        //long_duration_time = timer_delta_us(&g_timer) - g_last_time_us;
+        //if(long_duration_time >= 100000){
+            //printf("while loops index is %d,\tlong_duration_time (us) is %ld\n",n_while_loop_index, long_duration_time);
+            //g_last_time_us = timer_delta_us(&g_timer);
+            //n_while_loop_index = 0;
+        //}
+        //timer_unpause(&g_timer);
+    //}
+//}
 
 int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 #ifdef TIMER_PID
