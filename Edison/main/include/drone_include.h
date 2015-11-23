@@ -784,9 +784,9 @@ int update_T_drone_arrd_yaw_pitch_roll_i2c(struct T_drone *pT_drone){
 //}
 
 int update_T_drone_arrd_pid(struct T_drone *pT_drone){
-#ifdef TIMER_PID
-    timer_start(&g_timer);
-#endif
+//#ifdef TIMER_PID
+    //timer_start(&g_timer);
+//#endif
     //pidData_t *pidData_yaw = NULL, *pidData_pitch = NULL, *pidData_roll = NULL;
     //if(NULL == pidData_yaw){
         //pidData_yaw = (pidData_t*) malloc(sizeof(pidData_t));
@@ -798,25 +798,25 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         //pidData_roll = (pidData_t*) malloc(sizeof(pidData_t));
     //}
 
-    double kp_pitch, ki_pitch, kd_pitch, kp_roll, ki_roll, kd_roll, kp_yaw, ki_yaw, kd_yaw;
-    ctrlDir_t controllerDir;
-    uint32_t samplePeriodMs;
+    //double kp_pitch, ki_pitch, kd_pitch, kp_roll, ki_roll, kd_roll, kp_yaw, ki_yaw, kd_yaw;
+    //ctrlDir_t controllerDir;
+    //uint32_t samplePeriodMs;
     //int n_index;
 
     // For the nine values, if we can modify them in IOS app, tests can be easier!
-    kp_pitch = pT_drone->d_kp_pitch;
-    ki_pitch = pT_drone->d_ki_pitch;
-    kd_pitch = pT_drone->d_kd_pitch;
-    kp_roll = pT_drone->d_kp_roll;
-    ki_roll = pT_drone->d_ki_roll;
-    kd_roll = pT_drone->d_kd_roll;
-    kp_yaw  = pT_drone->d_kp_yaw;
-    ki_yaw  = pT_drone->d_ki_yaw;
-    kd_yaw  = pT_drone->d_kd_yaw;
+    //kp_pitch = pT_drone->d_kp_pitch;
+    //ki_pitch = pT_drone->d_ki_pitch;
+    //kd_pitch = pT_drone->d_kd_pitch;
+    //kp_roll = pT_drone->d_kp_roll;
+    //ki_roll = pT_drone->d_ki_roll;
+    //kd_roll = pT_drone->d_kd_roll;
+    //kp_yaw  = pT_drone->d_kp_yaw;
+    //ki_yaw  = pT_drone->d_ki_yaw;
+    //kd_yaw  = pT_drone->d_kd_yaw;
 
-    samplePeriodMs = 20; //need to be setup
-    // samplePeriodMs = 100; //need to be setup
-    controllerDir = PID_DIRECT; //Direct control not reverse.
+    //samplePeriodMs = 20; //need to be setup
+    //// samplePeriodMs = 100; //need to be setup
+    //controllerDir = PID_DIRECT; //Direct control not reverse.
 
     //Pid_Init(pidData_yaw, kp_yaw, ki_yaw, kd_yaw, controllerDir, samplePeriodMs);
 
