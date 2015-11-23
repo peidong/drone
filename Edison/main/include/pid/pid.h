@@ -104,7 +104,7 @@ void Pid_Init(
 
 void Pid_Run(pidData_t *pidData, double input)
 {
-    usleep(20000);
+    usleep(1000000);
     // Compute all the working error variables
     //double input = *_input;
 
