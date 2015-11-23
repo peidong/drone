@@ -1,7 +1,6 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>/*usleep*/
 #include <stdint.h>
 typedef enum			//!< Enumerates the controller direction modes
 {
@@ -104,7 +103,6 @@ void Pid_Init(
 
 void Pid_Run(pidData_t *pidData, double input)
 {
-    usleep(1000000);
     // Compute all the working error variables
     //double input = *_input;
 
