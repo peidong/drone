@@ -929,18 +929,18 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     /**
      * free pointer
      */
-    if(pidData_yaw != NULL){
-        free(pidData_yaw);
-        pidData_yaw = NULL;
-    }
-    if(pidData_pitch != NULL){
-        free(pidData_pitch);
-        pidData_pitch = NULL;
-    }
-    if(pidData_roll != NULL){
-        free(pidData_roll);
-        pidData_roll = NULL;
-    }
+    //if(pidData_yaw != NULL){
+        //free(pidData_yaw);
+        //pidData_yaw = NULL;
+    //}
+    //if(pidData_pitch != NULL){
+        //free(pidData_pitch);
+        //pidData_pitch = NULL;
+    //}
+    //if(pidData_roll != NULL){
+        //free(pidData_roll);
+        //pidData_roll = NULL;
+    //}
     return 0;
 }
 
