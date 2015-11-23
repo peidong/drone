@@ -825,7 +825,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     Pid_Init(pidData_roll, kp_roll, ki_roll, kd_roll, controllerDir, samplePeriodMs);
 
     while(1){
-        usleep(1000000);
+        //usleep(1000000);
 #ifdef TIMER_PID
         g_last_time_us = timer_delta_us(&g_timer);
         timer_unpause(&g_timer);
