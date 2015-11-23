@@ -859,9 +859,11 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         printf("i_yaw = %f\t", pT_drone->d_ki_yaw);
         printf("d_yaw = %f\n", pT_drone->d_kd_yaw);
 #endif
+        printf("0.1\n");
         Pid_SetTunings(pidData_yaw, kp_yaw, ki_yaw, kd_yaw);
         Pid_SetTunings(pidData_pitch, kp_pitch, ki_pitch, kd_pitch);
         Pid_SetTunings(pidData_roll, kp_roll, ki_roll, kd_roll);
+        printf("0.2\n");
 
         //"0" is the setpoint or the destination of the final attitude, representing hovering or suspending.
         //Replace "0" by HTTP request parameters later.
@@ -870,6 +872,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         Pid_SetSetPoint(pidData_yaw, 0);
         Pid_Run(pidData_yaw, (int)pT_drone->arrd_yaw_pitch_roll[0]);
         pT_drone->arrd_pid_yaw_pitch_roll[0] = pidData_yaw->output;
+        printf("0.3\n");
 
         // For pitch, mainly we can use wires to lock the Y direction. First divide by 2. Adding to pwm1 and pwm2, substracting to pwm3 and pwm4.
         Pid_SetSetPoint(pidData_pitch, 0);
