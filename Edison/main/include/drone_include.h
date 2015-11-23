@@ -17,14 +17,14 @@
  * print debug
  */
 // #define PRINT_DEBUG_PWM_HTTP_GET
-// #define PRINT_DEBUG_YAW_PITCH_ROLL
+#define PRINT_DEBUG_YAW_PITCH_ROLL
 #define PRINT_DEBUG_PID_CHANGE
 // #define PRINT_DEBUG_PID_TUNING
 // #define PRINT_DEBUG_PWM
 //#define PRINT_DEBUG_THREAD
 // #define PRINT_CAR_MANUAL
-#define TIMER
-#define TIMER_YAW_PITCH_ROLL
+//#define TIMER
+//#define TIMER_YAW_PITCH_ROLL
 //#define TIMER_PID
 
 /**
@@ -541,7 +541,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             n_not_find_header_times = 0;
             n_find_header_times++;
 if(mraa_uart_data_available(uno, 0) != 1){
-    printf("not not not hahaha\n");
+    //printf("not not not hahaha\n");
 }
             mraa_uart_read(uno,read,36);
 
