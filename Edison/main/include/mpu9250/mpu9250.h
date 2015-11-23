@@ -8,12 +8,12 @@
 #define    MPU9250_ADDRESS            0x68
 #define    MAG_ADDRESS                0x0C
 
-#define    GYRO_FULL_SCALE_250_DPS    0x00  
+#define    GYRO_FULL_SCALE_250_DPS    0x00
 #define    GYRO_FULL_SCALE_500_DPS    0x08
 #define    GYRO_FULL_SCALE_1000_DPS   0x10
 #define    GYRO_FULL_SCALE_2000_DPS   0x18
 
-#define    ACC_FULL_SCALE_2_G        0x00  
+#define    ACC_FULL_SCALE_2_G        0x00
 #define    ACC_FULL_SCALE_4_G        0x08
 #define    ACC_FULL_SCALE_8_G        0x10
 #define    ACC_FULL_SCALE_16_G       0x18
@@ -168,7 +168,7 @@ float invSqrt(float x) {
             qDot3 = 0.5f * (q1 * gy - q2 * gz + q4 * gx) - beta * s3;
             qDot4 = 0.5f * (q1 * gz + q2 * gy - q3 * gx) - beta * s4;
 
-            
+
             // Integrate to yield quaternion
             q1 += qDot1 * deltat;
             q2 += qDot2 * deltat;
@@ -181,7 +181,7 @@ float invSqrt(float x) {
             q[1] = q2 * norm;
             q[2] = q3 * norm;
             q[3] = q4 * norm;
-            
+
 
         }
 //====================================================================================================
@@ -310,7 +310,7 @@ void initAK8963(float * destination)
   // First extract the factory calibration for each magnetometer axis
   uint8_t rawData[3]={0,0,0};  // x/y/z gyro calibration data stored here
   writeAK8963(CNTL1, 0x00);
-//  mraa_i2c_write_byte_data(AK8963_ADDRESS, , 0x00, CNTL); // Power down magnetometer  
+//  mraa_i2c_write_byte_data(AK8963_ADDRESS, , 0x00, CNTL); // Power down magnetometer
   usleep(10000);
   writeAK8963(CNTL1, 15);
 //  mraa_i2c_write_byte_data(AK8963_ADDRESS,, 0x0F, CNTL); // Enter Fuse ROM access mode
@@ -320,12 +320,12 @@ void initAK8963(float * destination)
   usleep(10000);
   mraa_i2c_read_bytes_data(mpu, 73, rawData, 3);  // Read the x-, y-, and z-axis calibration values
   destination[0] =  (float)(rawData[0] - 128)/256. + 1.;   // Return x-axis sensitivity adjustment values, etc.
-  destination[1] =  (float)(rawData[1] - 128)/256. + 1.;  
-  destination[2] =  (float)(rawData[2] - 128)/256. + 1.; 
-  
+  destination[1] =  (float)(rawData[1] - 128)/256. + 1.;
+  destination[2] =  (float)(rawData[2] - 128)/256. + 1.;
+
 //  printf("%d,%d,%d\n",rawData[0],rawData[1],rawData[2]);
-  
-  writeAK8963(CNTL1, 0x00); // Power down magnetometer  
+
+  writeAK8963(CNTL1, 0x00); // Power down magnetometer
   usleep(10000);
   // Configure the magnetometer for continuous read and highest resolution
   // set Mscale bit 4 to 1 (0) to enable 16 (14) bit resolution in CNTL register,
@@ -346,7 +346,7 @@ void MPU_init()
 	mraa_i2c_write_byte_data(mpu, ACC_FULL_SCALE_2_G, ACCEL_CONFIG);
 	mraa_i2c_write_byte_data(mpu, GYRO_FULL_SCALE_1000_DPS + 0x03, GYRO_CONFIG);
     mraa_i2c_write_byte_data(mpu, 32, USER_CTRL);
-  
+
   initAK8963(magCalibration);
 }
 /*

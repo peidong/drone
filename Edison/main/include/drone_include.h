@@ -8,7 +8,14 @@
 #include <unistd.h>/*usleep*/
 #include <math.h>//round
 #include <time.h>//nanosleep
-#include "mpu9250/mpu9250_uart.h"  //include pid file
+//#define MPU9250_UART
+#define MPU9250_I2C
+#ifdef MPU9250_UART
+#include "mpu9250/mpu9250_uart.h"  //mpu9250 uart
+#endif
+#ifdef MPU9250_I2C
+#include "mpu9250/mpu9250.h"  //mpu9250 i2c
+#endif
 #include "pid/pid.h"  //include pid file
 #include "timer/timer.h" //timer
 #include <mraa.h>
@@ -488,8 +495,8 @@ int update_T_drone_http_gps(struct T_drone *pT_drone){
 int update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
     return 0;
 }
-
-int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
+#ifdef MPU9250_UART
+int update_T_drone_arrd_yaw_pitch_roll_uart(struct T_drone *pT_drone){
 #ifdef TIMER_YAW_PITCH_ROLL
     timer_start(&g_timer);
 #endif
@@ -506,7 +513,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 
     mraa_uart_context uno;
     uno = mraa_uart_init(0);
-    
+
     mraa_uart_set_baudrate(uno, 115200);    // Really have no idea why higher baud does not work! And if 230400, the whole terminal crashes!
 
     char read[36];
@@ -661,7 +668,87 @@ if(mraa_uart_data_available(uno, 0) != 1){
     mraa_uart_stop(uno);
     return 0;
 }
+#endif
 
+#ifdef MPU9250_I2C
+int update_T_drone_arrd_yaw_pitch_roll_i2c(struct T_drone *pT_drone){
+    // mraa_gpio_context gpio_vcc;
+    // gpio_vcc = mraa_gpio_init(2);
+    // mraa_gpio_mode(gpio_vcc, MRAA_GPIO_PULLDOWN);
+    // mraa_gpio_dir(gpio_vcc, MRAA_GPIO_OUT);
+    // mraa_gpio_write(gpio_vcc, 1);
+    // usleep(100000);
+    // mraa_gpio_write(gpio_vcc, 0);
+    // usleep(1000000);
+    MPU_init();
+    while (1)
+    {
+        if (pT_drone->nflag_stop_all != 0)
+        {
+            break;
+        }
+#ifdef PRINT_DEBUG_THREAD
+        printf("ThreadTask_yaw pitch roll\n");
+#endif
+        uint8_t Buf[14];
+        mraa_i2c_read_bytes_data(mpu, 59, Buf, 14);
+        // Accelerometer
+        int16_t arawx = -(Buf[0] << 8 | Buf[1]) - 170 + 250;
+        int16_t arawy = -(Buf[2] << 8 | Buf[3]) + 600 - 300;
+        int16_t arawz = Buf[4] << 8 | Buf[5];
+        // Gyroscope
+        int16_t grawx = (Buf[8] << 8 | Buf[9]) - 25;
+        int16_t grawy = (Buf[10] << 8 | Buf[11]) - 2;
+        int16_t grawz = (Buf[12] << 8 | Buf[13]) + 9;
+        // Magnetometer
+        mraa_i2c_read_bytes_data(mpu, 73, Buf, 6);
+        int16_t mrawx = (Buf[1] << 8 | Buf[0]);//-213;// + mag_offset_x;
+        int16_t mrawy = (Buf[3] << 8 | Buf[2]);//-92;// + mag_offset_y;
+        int16_t mrawz = (Buf[5] << 8 | Buf[4]);//+200;// + mag_offset_z;
+        //int result_agm[9] = { arawx, arawy, arawz, grawx, grawy, grawz, mrawx, mrawy, mrawz };
+
+        //printf("%6d,%6d,%6d\n",arawx, arawy, arawz);
+        //printf("%6d,%6d,%6d\n",grawx, grawy, grawz);
+        float ax = (float)arawx*aRes;
+        float ay = (float)arawy*aRes;
+        float az = (float)arawz*aRes;
+        float gx = (float)grawx*gRes;
+        float gy = (float)grawy*gRes;
+        float gz = (float)grawz*gRes;
+        float mx = (float)mrawx*mRes*magCalibration[0] - 406 - 49 - 150;  // get actual magnetometer value, this depends on scale being set
+        float my = (float)mrawy*mRes*magCalibration[1] - 95 + 43 + 15;
+        float mz = (float)mrawz*mRes*magCalibration[2] + 370 - 72 + 403;
+        //printf("%.1f,%.1f,%.1f\n",mx,my,mz);
+        //    MadgwickQuaternionUpdate(ax,ay,az,gx*PI/180.0f,gy*PI/180.0f,gz*PI/180.0f,my,mx,mz);
+        MadgwickAHRSupdate(ax, ay, az, gx*PI / 180.0f, gy*PI / 180.0f, gz*PI / 180.0f, my, mx, mz); //my, mx, mz
+        q[0] = q0; q[1] = q1; q[2] = q2; q[3] = q3;
+        float yaw = atan2(2.0f * (q[1] * q[2] + q[0] * q[3]), q[0] * q[0] + q[1] * q[1] - q[2] * q[2] - q[3] * q[3]);
+        float pitch = -asin(2.0f * (q[1] * q[3] - q[0] * q[2]));
+        float roll = atan2(2.0f * (q[0] * q[1] + q[2] * q[3]), q[0] * q[0] - q[1] * q[1] - q[2] * q[2] + q[3] * q[3]);
+        yaw *= 180.0f / PI;
+        pitch *= 180.0f / PI;
+        roll *= 180.0f / PI;
+
+        if (yaw<0) yaw += 360;
+
+        //    yaw   -= 13.8; // Declination at Danville, California is 13 degrees 48 minutes and 47 seconds on 2014-04-04
+        //    pitch -= 0.5;
+        //    roll -= 1.9;
+
+        pT_drone->arrd_yaw_pitch_roll[0] = yaw;
+        pT_drone->arrd_yaw_pitch_roll[1] = pitch;
+        pT_drone->arrd_yaw_pitch_roll[2] = roll;
+#ifdef PRINT_DEBUG_YAW_PITCH_ROLL
+        if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+            printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
+        }
+#endif
+    }
+    mraa_i2c_stop(mpu);
+    // mraa_gpio_close(gpio_vcc);
+    return 0;
+}
+#endif
 //void test(struct T_drone *pT_drone){
     //timer_start(&g_timer);
     //timer_pause(&g_timer);
@@ -1063,7 +1150,12 @@ void ThreadTask_update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
 }
 
 void ThreadTask_update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
-    update_T_drone_arrd_yaw_pitch_roll(pT_drone);
+#ifdef MPU9250_UART
+    update_T_drone_arrd_yaw_pitch_roll_uart(pT_drone);
+#endif
+#ifdef MPU9250_I2C
+    update_T_drone_arrd_yaw_pitch_roll_i2c(pT_drone);
+#endif
 }
 
 void ThreadTask_GeneratePwm(struct T_drone *pT_drone){
