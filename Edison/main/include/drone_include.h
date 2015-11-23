@@ -826,6 +826,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 
     while(1){
         usleep(20000);
+        printf("1\n");
 #ifdef TIMER_PID
         g_last_time_us = timer_delta_us(&g_timer);
         timer_unpause(&g_timer);
@@ -885,7 +886,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
             pT_drone->arrd_current_pwm[2] -= (pT_drone->arrd_pid_yaw_pitch_roll[1] / 2);
             pT_drone->arrd_current_pwm[3] -= (pT_drone->arrd_pid_yaw_pitch_roll[1] / 2);
         }
-
+        printf("2\n");
         // For roll, mainly we can use wires to lock the X direction. First divide by 2. Adding to pwm1 and pwm3, substracting to pwm2 and pwm4.
         Pid_SetSetPoint(pidData_roll, 0);
         Pid_Run(pidData_roll, (int)pT_drone->arrd_yaw_pitch_roll[2]);
@@ -918,7 +919,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
                 pT_drone->arrd_current_pwm[n_index] = pT_drone->arrd_current_pwm_min[n_index];
             }
         }
-        printf("haha\n");
+        printf("3\n");
         //usleep(100000); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good.
 #ifdef  PRINT_DEBUG_PID_CHANGE
         printf("pitch change= %f\troll change= %f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
@@ -927,6 +928,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         timer_pause(&g_timer);
         printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
 #endif
+        printf("4\n");
     }
     /**
      * free pointer
