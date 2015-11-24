@@ -215,7 +215,7 @@ enum Mscale {
 };
 
 // Specify sensor full scale
-uint8_t Gscale = GFS_250DPS;
+uint8_t Gscale = GFS_1000DPS;
 uint8_t Ascale = AFS_2G;
 uint8_t Mscale = MFS_16BITS; // Choose either 14-bit or 16-bit magnetometer resolution
 uint8_t Mmode = 0x06;        // 2 for 8 Hz, 6 for 100 Hz continuous magnetometer data read
@@ -301,9 +301,10 @@ void setup()
     // Serial.print("x-axis self test: gyration trim within : "); Serial.print(SelfTest[3],1); Serial.println("% of factory value");
     // Serial.print("y-axis self test: gyration trim within : "); Serial.print(SelfTest[4],1); Serial.println("% of factory value");
     // Serial.print("z-axis self test: gyration trim within : "); Serial.print(SelfTest[5],1); Serial.println("% of factory value");
- 
+ 	
+ 	// if need calibration, uncommend this line**********************************
     // calibrateMPU9250(gyroBias, accelBias); // Calibrate gyro and accelerometers, load biases in bias registers
-
+    //***************************************************************************
 
   
     initMPU9250(); 
@@ -337,8 +338,9 @@ void setup()
 void loop()
 {  
   // If intPin goes high, all data registers have new data
-  memset(mpu_data, 0, 36);
-  if (readByte(MPU9250_ADDRESS, INT_STATUS) & 0x01) {  // On interrupt, check if data ready interrupt
+  
+  // if (readByte(MPU9250_ADDRESS, INT_STATUS) & 0x01) {  // On interrupt, check if data ready interrupt
+  	// memset(mpu_data, 0, 37);
    	readAccelData();  // Read the x/y/z adc values
     // getAres();
     // Serial.print(accelCount[0]);Serial.print("\t");
@@ -362,11 +364,16 @@ void loop()
     // gz = (float)gyroCount[2]*gRes;   
 
    readMagData();  // Read the x/y/z adc values
-   //Serial.print(mpu_data);
-   Serial.print(mpu_data);
-   // Serial.print('b');
 
-   // delay(1000);
+   Serial.print(mpu_data);
+   // Serial.print(" 0");
+   
+   // ***************************************
+   // Do play around with this delay value!!!!
+   delayMicroseconds(1700); 
+   // ***************************************
+
+   // delay(2);
 
     // getMres();
     // // magbias[0] = +470.;  // User environmental x-axis correction in milliGauss, should be automatically calculated
@@ -384,8 +391,8 @@ void loop()
     // Serial.print((int)mz);Serial.println("\t");
 
 
-  }
-  
+  // }
+/**********************************************************
   Now = micros();
   deltat = ((Now - lastUpdate)/1000000.0f); // set integration time by time elapsed since last filter update
   lastUpdate = Now;
@@ -444,14 +451,14 @@ void loop()
 	// roll  *= 180.0f / PI;
 
 	// if(SerialDebug) {
-		/*
-	Serial.print("Yaw, Pitch, Roll: ");
-	Serial.print(yaw, 2);
-	Serial.print(", ");
-	Serial.print(pitch, 2);
-	Serial.print(", ");
-	Serial.println(roll, 2);
-	*/
+	
+	// Serial.print("Yaw, Pitch, Roll: ");
+	// Serial.print(yaw, 2);
+	// Serial.print(", ");
+	// Serial.print(pitch, 2);
+	// Serial.print(", ");
+	// Serial.println(roll, 2);
+	
 
 	// Serial.print("rate = "); Serial.print((float)sumCount/sum, 2); Serial.println(" Hz");
 
@@ -475,7 +482,7 @@ void loop()
 	sumCount = 0;
 	sum = 0;    
 	}
-
+*************************************************/
 	// yaw   = atan2(2.0f * (q[1] * q[2] + q[0] * q[3]), q[0] * q[0] + q[1] * q[1] - q[2] * q[2] - q[3] * q[3]);   
 	// pitch = -asin(2.0f * (q[1] * q[3] - q[0] * q[2]));
 	// roll  = atan2(2.0f * (q[0] * q[1] + q[2] * q[3]), q[0] * q[0] - q[1] * q[1] - q[2] * q[2] + q[3] * q[3]);
@@ -558,6 +565,7 @@ void getAres() {
 void readAccelData()
 {
   mpu_data[0] = ' ';
+
   char tmp[2];
   uint8_t rawData[6];  // x/y/z accel register data stored here
   readBytes(MPU9250_ADDRESS, ACCEL_XOUT_H, 6, &rawData[0]);  // Read the six raw data registers into data array
@@ -571,7 +579,14 @@ void readAccelData()
 	  mpu_data[2*i+1]= tmp[0];
 	  mpu_data[2*i+2]= tmp[1];
 	}
-  // Serial.println(acc_str);
+
+	// Serial.print(rawData[0]*256+rawData[1]);
+	// Serial.print("\t");
+	// Serial.print(rawData[2]*256+rawData[3]);
+	// Serial.print("\t");
+	// Serial.print(rawData[4]*256+rawData[5]);
+	// Serial.print("\t");
+
 }
 
 
@@ -590,7 +605,12 @@ void readGyroData()
 	  mpu_data[2*i+1]= tmp[0];
 	  mpu_data[2*i+2]= tmp[1];
 	}
-  // Serial.println(mpu_data);
+	// Serial.print(rawData[0]*256+rawData[1]);
+	// Serial.print("\t");
+	// Serial.print(rawData[2]*256+rawData[3]);
+	// Serial.print("\t");
+	// Serial.println(rawData[4]*256+rawData[5]);
+
 }
 
 void readMagData()
@@ -635,6 +655,11 @@ void initAK8963(float * destination)
   destination[0] =  (float)(rawData[0] - 128)/256. + 1.;   // Return x-axis sensitivity adjustment values, etc.
   destination[1] =  (float)(rawData[1] - 128)/256. + 1.;  
   destination[2] =  (float)(rawData[2] - 128)/256. + 1.; 
+  // Serial.print(rawData[0]);
+  // Serial.print("\t");
+  // Serial.print(rawData[1]);
+  // Serial.print("\t");
+  // Serial.print(rawData[2]);
   writeByte(AK8963_ADDRESS, AK8963_CNTL, 0x00); // Power down magnetometer  
   delay(10);
   // Configure the magnetometer for continuous read and highest resolution
@@ -670,15 +695,16 @@ void initMPU9250()
  
  // Set gyroscope full scale range
  // Range selects FS_SEL and AFS_SEL are 0 - 3, so 2-bit values are left-shifted into positions 4:3
-  uint8_t c = readByte(MPU9250_ADDRESS, GYRO_CONFIG);
-//  writeRegister(GYRO_CONFIG, c & ~0xE0); // Clear self-test bits [7:5] 
-  writeByte(MPU9250_ADDRESS, GYRO_CONFIG, c & ~0x03); // Clear Fchoice bits [1:0] 
-  writeByte(MPU9250_ADDRESS, GYRO_CONFIG, c & ~0x18); // Clear AFS bits [4:3]
-  writeByte(MPU9250_ADDRESS, GYRO_CONFIG, c | Gscale << 3); // Set full scale range for the gyro
+//   uint8_t c = readByte(MPU9250_ADDRESS, GYRO_CONFIG);
+// //  writeRegister(GYRO_CONFIG, c & ~0xE0); // Clear self-test bits [7:5] 
+//   writeByte(MPU9250_ADDRESS, GYRO_CONFIG, c & ~0x03); // Clear Fchoice bits [1:0] 
+//   writeByte(MPU9250_ADDRESS, GYRO_CONFIG, c & ~0x18); // Clear AFS bits [4:3]
+  // writeByte(MPU9250_ADDRESS, GYRO_CONFIG, c | Gscale << 3); // Set 1000dps scale for the gyro
+  writeByte(MPU9250_ADDRESS, GYRO_CONFIG, 0x00 | Gscale << 3); // Set 1000dps scale for the gyro
  // writeRegister(GYRO_CONFIG, c | 0x00); // Set Fchoice for the gyro to 11 by writing its inverse to bits 1:0 of GYRO_CONFIG
   
  // Set accelerometer full-scale range configuration
-  c = readByte(MPU9250_ADDRESS, ACCEL_CONFIG);
+  uint8_t c = readByte(MPU9250_ADDRESS, ACCEL_CONFIG);
 //  writeRegister(ACCEL_CONFIG, c & ~0xE0); // Clear self-test bits [7:5] 
   writeByte(MPU9250_ADDRESS, ACCEL_CONFIG, c & ~0x18); // Clear AFS bits [4:3]
   writeByte(MPU9250_ADDRESS, ACCEL_CONFIG, c | Ascale << 3); // Set full scale range for the accelerometer 
