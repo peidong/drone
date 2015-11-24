@@ -12,7 +12,14 @@ CREATE TABLE IF NOT EXISTS edison.pid_tuning (
     `kp_yaw` double(7,6) DEFAULT NULL,
     `ki_yaw` double(7,6) DEFAULT NULL,
     `kd_yaw` double(7,6) DEFAULT NULL,
+    `kd_yaw` double(7,6) DEFAULT NULL,
+    `kp_second_pitch` double(7,6) DEFAULT NULL,
+    `kd_second_pitch` double(7,6) DEFAULT NULL,
+    `kp_second_roll` double(7,6) DEFAULT NULL,
+    `kd_second_roll` double(7,6) DEFAULT NULL,
+    `kp_second_yaw` double(7,6) DEFAULT NULL,
+    `kd_second_yaw` double(7,6) DEFAULT NULL,
     `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
     ) ENGINE = InnoDB;
 
-INSERT INTO `pid_tuning` VALUES (1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, '0000-00-00 00:00:00');
+INSERT INTO `pid_tuning` VALUES (1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, '0000-00-00 00:00:00');

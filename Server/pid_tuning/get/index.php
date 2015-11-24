@@ -9,7 +9,7 @@
 
     $conn = mysql_connect('localhost', 'webmaster', '');
     mysql_select_db('edison', $conn);
-    
+
     $query = "SELECT *
         FROM pid_tuning
         WHERE id=1";
@@ -26,6 +26,12 @@
     $kp_yaw = $result_array[kp_yaw];
     $ki_yaw = $result_array[ki_yaw];
     $kd_yaw = $result_array[kd_yaw];
+    $kp_second_pitch = $result_array[kp_second_pitch];
+    $kd_second_pitch = $result_array[kd_second_pitch];
+    $kp_second_roll = $result_array[kp_second_roll];
+    $kd_second_roll = $result_array[kd_second_roll];
+    $kp_second_yaw = $result_array[kp_second_yaw];
+    $kd_second_yaw = $result_array[kd_second_yaw];
     $update_time = $result_array[update_time];
 
     $response['kp_pitch'] = $kp_pitch;
@@ -37,6 +43,12 @@
     $response['kp_yaw'] = $kp_yaw;
     $response['ki_yaw'] = $ki_yaw;
     $response['kd_yaw'] = $kd_yaw;
+    $response['kp_second_pitch'] = $kp_second_pitch;
+    $response['kd_second_pitch'] = $kd_second_pitch;
+    $response['kp_second_roll'] = $kp_second_roll;
+    $response['kd_second_roll'] = $kd_second_roll;
+    $response['kp_second_yaw'] = $kp_second_yaw;
+    $response['kd_second_yaw'] = $kd_second_yaw;
     $response['update_time'] = $update_time;
 
     deliver_response(200, "The pid_tuning value has been got", $response);

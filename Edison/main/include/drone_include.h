@@ -110,6 +110,15 @@ struct T_drone{
     double d_kp_yaw;
     double d_ki_yaw;
     double d_kd_yaw;
+    /**
+     * second loop pid values
+     */
+    double d_kp_second_pitch;
+    double d_kd_second_pitch;
+    double d_kp_second_roll;
+    double d_kd_second_roll;
+    double d_kp_second_yaw;
+    double d_kd_second_yaw;
 };
 /**
  * global struct
@@ -191,6 +200,13 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->d_kp_yaw = 0;
     pT_drone->d_ki_yaw = 0;
     pT_drone->d_kd_yaw = 0;
+
+    pT_drone->d_kp_second_pitch = 0;
+    pT_drone->d_kd_second_pitch = 0;
+    pT_drone->d_kp_second_roll = 0;
+    pT_drone->d_kd_second_roll = 0;
+    pT_drone->d_kp_second_yaw = 0;
+    pT_drone->d_kd_second_yaw = 0;
     return 0;
 }
 /**
@@ -785,6 +801,250 @@ int update_T_drone_arrd_yaw_pitch_roll_i2c(struct T_drone *pT_drone){
 //}
 
 int update_T_drone_arrd_pid(struct T_drone *pT_drone){
+#ifdef TIMER_PID
+    timer_start(&g_timer);
+#endif
+    pidData_t *pidData_yaw = NULL, *pidData_pitch = NULL, *pidData_roll = NULL;
+    pidData_t *pidData_second_yaw = NULL, *pidData_second_pitch = NULL, *pidData_second_roll = NULL;
+    if(NULL == pidData_yaw){
+        pidData_yaw = (pidData_t*) malloc(sizeof(pidData_t));
+    }
+    if(NULL == pidData_pitch){
+        pidData_pitch = (pidData_t*) malloc(sizeof(pidData_t));
+    }
+    if(NULL == pidData_roll){
+        pidData_roll = (pidData_t*) malloc(sizeof(pidData_t));
+    }
+    if(NULL == pidData_second_yaw){
+        pidData_second_yaw = (pidData_t*) malloc(sizeof(pidData_t));
+    }
+    if(NULL == pidData_second_pitch){
+        pidData_second_pitch = (pidData_t*) malloc(sizeof(pidData_t));
+    }
+    if(NULL == pidData_second_roll){
+        pidData_second_roll = (pidData_t*) malloc(sizeof(pidData_t));
+    }
+
+    double kp_pitch, ki_pitch, kd_pitch, kp_roll, ki_roll, kd_roll, kp_yaw, ki_yaw, kd_yaw;
+    double kp_second_pitch, kd_second_pitch, kp_second_roll, kd_second_roll, kp_second_yaw, kd_second_yaw;
+    double d_rate_pitch, d_rate_roll, d_rate_yaw;
+    double d_second_yaw, d_second_pitch, d_second_roll;
+    ctrlDir_t controllerDir;
+    uint32_t samplePeriodMs;
+    //int n_index;
+
+    // For the nine values, if we can modify them in IOS app, tests can be easier!
+    kp_pitch = pT_drone->d_kp_pitch;
+    ki_pitch = pT_drone->d_ki_pitch;
+    kd_pitch = pT_drone->d_kd_pitch;
+    kp_roll = pT_drone->d_kp_roll;
+    ki_roll = pT_drone->d_ki_roll;
+    kd_roll = pT_drone->d_kd_roll;
+    kp_yaw  = pT_drone->d_kp_yaw;
+    ki_yaw  = pT_drone->d_ki_yaw;
+    kd_yaw  = pT_drone->d_kd_yaw;
+    //six second loop values
+    kp_second_pitch = pT_drone->d_kp_second_pitch;
+    kd_second_pitch = pT_drone->d_kd_second_pitch;
+    kp_second_roll = pT_drone->d_kp_second_roll;
+    kd_second_roll = pT_drone->d_kd_second_roll;
+    kp_second_yaw = pT_drone->d_kp_second_yaw;
+    kd_second_yaw = pT_drone->d_kd_second_yaw;
+
+    samplePeriodMs = 100; //need to be setup
+    controllerDir = PID_DIRECT; //Direct control not reverse.
+
+    Pid_Init(pidData_yaw, kp_yaw, ki_yaw, kd_yaw, controllerDir, samplePeriodMs);
+
+    Pid_Init(pidData_pitch, kp_pitch, ki_pitch, kd_pitch, controllerDir, samplePeriodMs);
+
+    Pid_Init(pidData_roll, kp_roll, ki_roll, kd_roll, controllerDir, samplePeriodMs);
+
+    Pid_Init(pidData_second_yaw, kp_second_yaw, 0, kd_second_yaw, controllerDir, samplePeriodMs);
+
+    Pid_Init(pidData_second_pitch, kp_second_pitch, 0, kd_second_pitch, controllerDir, samplePeriodMs);
+
+    Pid_Init(pidData_second_roll, kp_second_roll, 0, kd_second_roll, controllerDir, samplePeriodMs);
+    while(1){
+#ifdef TIMER_PID
+        g_last_time_us = timer_delta_us(&g_timer);
+        timer_unpause(&g_timer);
+#endif
+        if (pT_drone->nflag_stop_all != 0){
+            break;
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+            usleep(PID_SLEEP_US);
+            continue;
+        }
+#ifdef PRINT_DEBUG_THREAD
+        printf("Pid Thread\n");
+#endif
+        kp_pitch = pT_drone->d_kp_pitch;
+        ki_pitch = pT_drone->d_ki_pitch;
+        kd_pitch = pT_drone->d_kd_pitch;
+        kp_roll = pT_drone->d_kp_roll;
+        ki_roll = pT_drone->d_ki_roll;
+        kd_roll = pT_drone->d_kd_roll;
+        kp_yaw  = pT_drone->d_kp_yaw;
+        ki_yaw  = pT_drone->d_ki_yaw;
+        kd_yaw  = pT_drone->d_kd_yaw;
+        kp_second_pitch = pT_drone->d_kp_second_pitch;
+        kd_second_pitch = pT_drone->d_kd_second_pitch;
+        kp_second_roll = pT_drone->d_kp_second_roll;
+        kd_second_roll = pT_drone->d_kd_second_roll;
+        kp_second_yaw = pT_drone->d_kp_second_yaw;
+        kd_second_yaw = pT_drone->d_kd_second_yaw;
+#ifdef PRINT_DEBUG_PID_TUNING
+        printf("p_pitch = %f\t", pT_drone->d_kp_pitch);
+        printf("i_pitch = %f\t", pT_drone->d_ki_pitch);
+        printf("d_pitch = %f\t", pT_drone->d_kd_pitch);
+        printf("p_roll = %f\t", pT_drone->d_kp_roll);
+        printf("i_roll = %f\t", pT_drone->d_ki_roll);
+        printf("d_roll = %f\t", pT_drone->d_kd_roll);
+        printf("p_yaw = %f\t", pT_drone->d_kp_yaw);
+        printf("i_yaw = %f\t", pT_drone->d_ki_yaw);
+        printf("d_yaw = %f\t", pT_drone->d_kd_yaw);
+        printf("p_second_pitch = %f\t", pT_drone->d_kp_second_pitch);
+        printf("d_second_pitch = %f\t", pT_drone->d_kd_second_pitch);
+        printf("p_second_roll = %f\t", pT_drone->d_kp_second_roll);
+        printf("d_second_roll = %f\t", pT_drone->d_kd_second_roll);
+        printf("p_second_yaw = %f\t", pT_drone->d_kp_second_yaw);
+        printf("d_second_yaw = %f\n", pT_drone->d_kd_second_yaw);
+#endif
+        Pid_SetTunings(pidData_yaw, kp_yaw, ki_yaw, kd_yaw);
+        Pid_SetTunings(pidData_pitch, kp_pitch, ki_pitch, kd_pitch);
+        Pid_SetTunings(pidData_roll, kp_roll, ki_roll, kd_roll);
+
+        //"0" is the setpoint or the destination of the final attitude, representing hovering or suspending.
+        //Replace "0" by HTTP request parameters later.
+
+        // It can be tested after tests for pitch and roll are finished.
+        Pid_SetSetPoint(pidData_yaw, 0);
+        Pid_Run(pidData_yaw, (int)pT_drone->arrd_yaw_pitch_roll[0]);
+        pT_drone->arrd_pid_yaw_pitch_roll[0] = pidData_yaw->output;
+
+        // For pitch, mainly we can use wires to lock the Y direction. First divide by 2. Adding to pwm1 and pwm2, substracting to pwm3 and pwm4.
+        Pid_SetSetPoint(pidData_pitch, 0);
+        Pid_Run(pidData_pitch, (int)pT_drone->arrd_yaw_pitch_roll[1]);
+        pT_drone->arrd_pid_yaw_pitch_roll[1] = pidData_pitch->output;
+        // For roll, mainly we can use wires to lock the X direction. First divide by 2. Adding to pwm1 and pwm3, substracting to pwm2 and pwm4.
+        Pid_SetSetPoint(pidData_roll, 0);
+        Pid_Run(pidData_roll, (int)pT_drone->arrd_yaw_pitch_roll[2]);
+        pT_drone->arrd_pid_yaw_pitch_roll[2] = pidData_roll->output;
+
+        //second loop
+        d_rate_yaw = pidData_yaw->output;
+        d_rate_pitch = pidData_pitch->output;
+        d_rate_roll = pidData_roll->output;
+
+        Pid_SetTunings(pidData_second_yaw, kp_second_yaw, 0, kd_second_yaw);
+        Pid_SetTunings(pidData_second_pitch, kp_second_pitch, 0, kd_second_pitch);
+        Pid_SetTunings(pidData_second_roll, kp_second_roll, 0, kd_second_roll);
+
+        Pid_SetSetPoint(pidData_second_yaw, pT_drone->n_grawz);
+        Pid_SetSetPoint(pidData_second_pitch, pT_drone->n_grawy);
+        Pid_SetSetPoint(pidData_second_roll, pT_drone->n_grawx);
+
+        Pid_Run(pidData_second_yaw, (int)d_rate_yaw);
+        Pid_Run(pidData_second_pitch, (int)d_rate_pitch);
+        Pid_Run(pidData_second_roll, (int)d_rate_roll);
+
+        d_second_yaw = pidData_second_yaw->output;
+        d_second_pitch = pidData_second_pitch->output;
+        d_second_roll = pidData_second_roll->output;
+
+        if (pT_drone->nflag_stop_all != 0){
+            break;
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+            usleep(PID_SLEEP_US);
+            continue;
+        }else{
+            pT_drone->arrd_current_pwm[0] += (d_second_yaw / 2);
+            pT_drone->arrd_current_pwm[1] -= (d_second_yaw / 2);
+            pT_drone->arrd_current_pwm[2] += (d_second_yaw / 2);
+            pT_drone->arrd_current_pwm[3] -= (d_second_yaw / 2);
+        }
+
+        if (pT_drone->nflag_stop_all != 0){
+            break;
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+            usleep(PID_SLEEP_US);
+            continue;
+        }else{
+            pT_drone->arrd_current_pwm[0] += (d_second_pitch / 2);
+            pT_drone->arrd_current_pwm[1] += (d_second_pitch / 2);
+            pT_drone->arrd_current_pwm[2] -= (d_second_pitch / 2);
+            pT_drone->arrd_current_pwm[3] -= (d_second_pitch / 2);
+        }
+
+        if (pT_drone->nflag_stop_all != 0){
+            break;
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+            usleep(PID_SLEEP_US);
+            continue;
+        }else{
+            pT_drone->arrd_current_pwm[0] -= (d_second_roll / 2);
+            pT_drone->arrd_current_pwm[1] += (d_second_roll / 2);
+            pT_drone->arrd_current_pwm[2] += (d_second_roll / 2);
+            pT_drone->arrd_current_pwm[3] -= (d_second_roll / 2);
+        }
+        /**
+         * change pwm to PWM_DEFAULT_VALUE if below 0
+         */
+        if (pT_drone->nflag_stop_all != 0){
+            break;
+        }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+            usleep(PID_SLEEP_US);
+            continue;
+        }
+        int n_index;
+        for(n_index = 0; n_index < 4; n_index++){
+            if(pT_drone->arrd_current_pwm[n_index] > (pT_drone->arrd_current_pwm_min[n_index] + PWM_RANGE)){
+                pT_drone->arrd_current_pwm[n_index] = (pT_drone->arrd_current_pwm_min[n_index] + PWM_RANGE);
+            }
+            if(pT_drone->arrd_current_pwm[n_index] < pT_drone->arrd_current_pwm_min[n_index]){
+                pT_drone->arrd_current_pwm[n_index] = pT_drone->arrd_current_pwm_min[n_index];
+            }
+        }
+#ifdef  PRINT_DEBUG_PID_CHANGE
+        //printf("pitch change= %f\troll change= %f\n",(pT_drone->arrd_pid_yaw_pitch_roll[1] / 2), (pT_drone->arrd_pid_yaw_pitch_roll[2] / 2));
+#endif
+        usleep(PID_SLEEP_US); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good.
+#ifdef TIMER_PID
+        timer_pause(&g_timer);
+        printf("Delta (us): %ld\n", timer_delta_us(&g_timer) - g_last_time_us);
+#endif
+    }
+    /**
+     * free pointer
+     */
+    if(pidData_yaw != NULL){
+        free(pidData_yaw);
+        pidData_yaw = NULL;
+    }
+    if(pidData_pitch != NULL){
+        free(pidData_pitch);
+        pidData_pitch = NULL;
+    }
+    if(pidData_roll != NULL){
+        free(pidData_roll);
+        pidData_roll = NULL;
+    }
+    if(pidData_second_yaw != NULL){
+        free(pidData_second_yaw);
+        pidData_second_yaw = NULL;
+    }
+    if(pidData_second_pitch != NULL){
+        free(pidData_second_pitch);
+        pidData_second_pitch = NULL;
+    }
+    if(pidData_second_roll != NULL){
+        free(pidData_second_roll);
+        pidData_second_roll = NULL;
+    }
+    return 0;
+}
+int update_T_drone_arrd_pid_one_loop(struct T_drone *pT_drone){
 #ifdef TIMER_PID
     timer_start(&g_timer);
 #endif
