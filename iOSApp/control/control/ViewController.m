@@ -53,6 +53,12 @@
 @property (weak, nonatomic) IBOutlet UITextField *d_pitch;
 @property (weak, nonatomic) IBOutlet UITextField *d_roll;
 @property (weak, nonatomic) IBOutlet UITextField *d_yaw;
+@property (weak, nonatomic) IBOutlet UITextField *kp_2_pitch;
+@property (weak, nonatomic) IBOutlet UITextField *kp_2_roll;
+@property (weak, nonatomic) IBOutlet UITextField *kp_2_yaw;
+@property (weak, nonatomic) IBOutlet UITextField *kd_2_pitch;
+@property (weak, nonatomic) IBOutlet UITextField *kd_2_roll;
+@property (weak, nonatomic) IBOutlet UITextField *kd_2_yaw;
 
 @property (weak, nonatomic) IBOutlet UIButton *send_pid;
 
@@ -67,7 +73,7 @@
     int manual_control_command;
     double suspend_pwm1, suspend_pwm2, suspend_pwm3, suspend_pwm4;
     
-    double d_p_pitch, d_p_roll, d_p_yaw, d_i_pitch, d_i_roll, d_i_yaw, d_d_pitch, d_d_roll, d_d_yaw;
+    double d_p_pitch, d_p_roll, d_p_yaw, d_i_pitch, d_i_roll, d_i_yaw, d_d_pitch, d_d_roll, d_d_yaw, d_kp_2_pitch, d_kp_2_roll, d_kp_2_yaw, d_kd_2_pitch, d_kd_2_roll, d_kd_2_yaw;
     bool currentlyManual;
     bool startFly;
     bool startLearn;
@@ -290,6 +296,15 @@
     d_p_pitch = [[_p_pitch text] doubleValue];
     d_p_roll = [[_p_roll text] doubleValue];
     d_p_yaw = [[_p_yaw text] doubleValue];
+    
+    d_kp_2_pitch = [[_kp_2_pitch text] doubleValue];
+    d_kp_2_roll = [[_kp_2_roll text] doubleValue];
+    d_kp_2_yaw = [[_kp_2_yaw text] doubleValue];
+    
+    d_kd_2_pitch = [[_kd_2_pitch text] doubleValue];
+    d_kd_2_roll = [[_kd_2_roll text] doubleValue];
+    d_kd_2_yaw = [[_kd_2_yaw text] doubleValue];
+    
 }
 
 
@@ -305,15 +320,25 @@
     NSNumber *ns_p_roll = [NSNumber numberWithDouble:d_p_roll];
     NSNumber *ns_p_yaw = [NSNumber numberWithDouble:d_p_yaw];
     
+    NSNumber *ns_kp_2_pitch = [NSNumber numberWithDouble:d_kp_2_pitch];
+    NSNumber *ns_kp_2_roll =[NSNumber numberWithDouble:d_kp_2_roll];
+    NSNumber *ns_kp_2_yaw = [NSNumber numberWithDouble:d_kp_2_yaw];
+    
+    
+    NSNumber *ns_kd_2_pitch = [NSNumber numberWithDouble:d_kd_2_pitch];
+    NSNumber *ns_kd_2_roll =[NSNumber numberWithDouble:d_kd_2_roll];
+    NSNumber *ns_kd_2_yaw = [NSNumber numberWithDouble:d_kd_2_yaw];
+
+    
+    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSDictionary *parameters = @{@"kp_pitch":ns_p_pitch, @"ki_pitch":ns_i_pitch, @"kd_pitch":ns_d_pitch, @"kp_roll":ns_p_roll, @"ki_roll":ns_i_roll, @"kd_roll":ns_d_roll, @"kp_yaw":ns_p_yaw, @"ki_yaw":ns_i_yaw, @"kd_yaw":ns_d_yaw};
+    NSDictionary *parameters = @{@"kp_pitch":ns_p_pitch, @"ki_pitch":ns_i_pitch, @"kd_pitch":ns_d_pitch, @"kp_roll":ns_p_roll, @"ki_roll":ns_i_roll, @"kd_roll":ns_d_roll, @"kp_yaw":ns_p_yaw, @"ki_yaw":ns_i_yaw, @"kd_yaw":ns_d_yaw, @"kp_second_pitch":ns_kp_2_pitch, @"kp_second_roll":ns_kp_2_roll, @"kp_second_yaw":ns_kp_2_yaw, @"kd_second_pitch":ns_kd_2_pitch, @"kd_second_roll":ns_kd_2_roll, @"kd_second_yaw":ns_kd_2_yaw};
     [manager POST:@"http://fryer.ee.ucla.edu/rest/api/pid_tuning/post/" parameters:parameters
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSLog(@"JSON_todata: %@", responseObject);
           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
               NSLog(@"Error: %@", error);
           }];
-    
 }
 
 
