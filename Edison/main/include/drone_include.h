@@ -1024,7 +1024,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
             }
         }
 #ifdef  PRINT_DEBUG_PID_CHANGE
-        printf("first roll= %f\tsecond roll= %f\traw=%d\n",(d_rate_roll/16384), (d_second_roll/200), pT_drone->n_grawx/16384);
+        printf("first roll= %f\tsecond roll= %f\traw=%f\n",(d_rate_roll/16384), (d_second_roll/200), (double)pT_drone->n_grawx/16384);
 #endif
         usleep(PID_SLEEP_US); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good.
 #ifdef TIMER_PID
