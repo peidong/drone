@@ -952,7 +952,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         //d_rate_roll = pidData_roll->output;
         d_rate_yaw = 0;
         d_rate_pitch = 0;
-        d_rate_roll = 300.0/10000.0;
+        d_rate_roll = 1000.0/16384.0;
 
         Pid_SetTunings(pidData_second_yaw, kp_second_yaw, 0, kd_second_yaw);
         Pid_SetTunings(pidData_second_pitch, kp_second_pitch, 0, kd_second_pitch);
@@ -960,7 +960,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 
         Pid_SetSetPoint(pidData_second_yaw, pT_drone->n_grawz);
         Pid_SetSetPoint(pidData_second_pitch, pT_drone->n_grawy);
-        Pid_SetSetPoint(pidData_second_roll, (double)(pT_drone->n_grawx)/10000.0);
+        Pid_SetSetPoint(pidData_second_roll, (double)(pT_drone->n_grawx)/16384.0);
 
         Pid_Run(pidData_second_yaw, (int)d_rate_yaw);
         Pid_Run(pidData_second_pitch, (int)d_rate_pitch);
@@ -1000,14 +1000,10 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
             usleep(PID_SLEEP_US);
             continue;
         }else{
-            //pT_drone->arrd_current_pwm[0] -= (d_second_roll / 2);
-            //pT_drone->arrd_current_pwm[1] += (d_second_roll / 2);
-            //pT_drone->arrd_current_pwm[2] += (d_second_roll / 2);
-            //pT_drone->arrd_current_pwm[3] -= (d_second_roll / 2);
-            pT_drone->arrd_current_pwm[0] += (d_second_roll / 2);
-            pT_drone->arrd_current_pwm[1] -= (d_second_roll / 2);
-            pT_drone->arrd_current_pwm[2] -= (d_second_roll / 2);
-            pT_drone->arrd_current_pwm[3] += (d_second_roll / 2);
+            pT_drone->arrd_current_pwm[0] -= (d_second_roll / 200);
+            pT_drone->arrd_current_pwm[1] += (d_second_roll / 200);
+            pT_drone->arrd_current_pwm[2] += (d_second_roll / 200);
+            pT_drone->arrd_current_pwm[3] -= (d_second_roll / 200);
         }
         /**
          * change pwm to PWM_DEFAULT_VALUE if below 0
@@ -1028,7 +1024,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
             }
         }
 #ifdef  PRINT_DEBUG_PID_CHANGE
-        printf("first roll= %f\tsecond roll= %f\traw=%d\n",(d_rate_roll), (d_second_roll), pT_drone->n_grawx);
+        printf("first roll= %f\tsecond roll= %f\traw=%d\n",(d_rate_roll/16384), (d_second_roll/200), pT_drone->n_grawx/16384);
 #endif
         usleep(PID_SLEEP_US); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good.
 #ifdef TIMER_PID
