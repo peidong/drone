@@ -37,7 +37,7 @@
 /**
  * define value
  */
-#define PID_SLEEP_US 20000
+#define PID_SLEEP_US 50000
 #define PWM_DEVIDE_RATIO 1
 #define PWM_MANUAL_CHANGE_AMOUNT 0.000025
 #define PWM_MANUAL_CHANGE_AMOUNT_LARGE 0.000025*80
@@ -865,7 +865,7 @@ int update_T_drone_arrd_pid_second_loop(struct T_drone *pT_drone){
     kp_second_yaw = pT_drone->d_kp_second_yaw;
     kd_second_yaw = pT_drone->d_kd_second_yaw;
 
-    samplePeriodMs = 20; //need to be setup
+    samplePeriodMs = 50; //need to be setup
     controllerDir = PID_DIRECT; //Direct control not reverse.
 
     Pid_Init(pidData_yaw, kp_yaw, ki_yaw, kd_yaw, controllerDir, samplePeriodMs);
