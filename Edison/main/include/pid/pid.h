@@ -91,7 +91,7 @@ void Pid_Init(
         uint32_t samplePeriodMs)
 {
     // Pid_SetOutputLimits(pidData, 0.0, 100.0);
-    Pid_SetOutputLimits(pidData, -0.1, 0.1);
+    Pid_SetOutputLimits(pidData, -90, 90);
 
     pidData->samplePeriodMs = samplePeriodMs;				// Default controller sample time is 0.1 seconds
 
