@@ -1144,7 +1144,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 
         // It can be tested after tests for pitch and roll are finished.
         Pid_SetSetPoint(pidData_yaw, 0);
-        Pid_Run(pidData_yaw, (int)pT_drone->arrd_yaw_pitch_roll[0]);
+        Pid_Run(pidData_yaw, pT_drone->arrd_yaw_pitch_roll[0]);
         pT_drone->arrd_pid_yaw_pitch_roll[0] = pidData_yaw->output;
 
         // For pitch, mainly we can use wires to lock the Y direction. First divide by 2. Adding to pwm1 and pwm2, substracting to pwm3 and pwm4.
