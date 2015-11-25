@@ -43,7 +43,7 @@
 #define PWM_MANUAL_CHANGE_AMOUNT_LARGE 0.000025*80
 #define PWM_INITIAL 0.000025*4
 #define PWM_MIN 0.000025*500
-#define PWM_RANGE 0.000025*800
+#define PWM_RANGE 0.000025*200
 
 int n_index_yaw_pitch_roll = 0;
 #ifdef TIMER
@@ -814,7 +814,7 @@ int update_T_drone_arrd_yaw_pitch_roll_i2c(struct T_drone *pT_drone){
     //}
 //}
 
-int update_T_drone_arrd_pid(struct T_drone *pT_drone){
+int update_T_drone_arrd_pid_second_loop(struct T_drone *pT_drone){
 #ifdef TIMER_PID
     timer_start(&g_timer);
 #endif
@@ -1061,7 +1061,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     }
     return 0;
 }
-int update_T_drone_arrd_pid_one_loop(struct T_drone *pT_drone){
+int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 #ifdef TIMER_PID
     timer_start(&g_timer);
 #endif
