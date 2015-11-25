@@ -952,7 +952,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         //d_rate_roll = pidData_roll->output;
         d_rate_yaw = 0;
         d_rate_pitch = 0;
-        d_rate_roll = 0.02;
+        d_rate_roll = 0.002;
 
         Pid_SetTunings(pidData_second_yaw, kp_second_yaw, 0, kd_second_yaw);
         Pid_SetTunings(pidData_second_pitch, kp_second_pitch, 0, kd_second_pitch);
@@ -1024,7 +1024,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
             }
         }
 #ifdef  PRINT_DEBUG_PID_CHANGE
-        printf("first roll= %f\tsecond roll= %f\traw=%f\n",(d_rate_roll), (d_second_roll/200), (double)pT_drone->n_grawx/16384);
+        printf("first roll= %f\tsecond roll= %f\traw= %f\n",(d_rate_roll), (d_second_roll/200), (double)pT_drone->n_grawx/16384);
 #endif
         usleep(PID_SLEEP_US); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good.
 #ifdef TIMER_PID
