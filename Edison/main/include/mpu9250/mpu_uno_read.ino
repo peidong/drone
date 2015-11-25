@@ -368,10 +368,7 @@ void loop()
    Serial.print(mpu_data);
    // Serial.print(" 0");
    
-   // ***************************************
-   // Do play around with this delay value!!!!
-   delayMicroseconds(1700); 
-   // ***************************************
+   delayMicroseconds(1700);
 
    // delay(2);
 
