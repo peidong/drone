@@ -61,22 +61,22 @@ void 	Pid_SetSamplePeriod(pidData_t *pidData, uint32_t newSamplePeriodMs);
 //Returns the porportional constant
 double 	Pid_GetKp(pidData_t *pidData);
 
-//Returns the integral constant				
+//Returns the integral constant
 double 	Pid_GetKi(pidData_t *pidData);
 
-//Returns the derivative constant				 
+//Returns the derivative constant
 double 	Pid_GetKd(pidData_t *pidData);
 
-//Returns the direction		  
+//Returns the direction
 ctrlDir_t Pid_GetDirection(pidData_t *pidData);
 
-//Returns the last calculated derivative term				
+//Returns the last calculated derivative term
 double 	Pid_GetDTerm(pidData_t *pidData);
 
 //Returns the last calculated input change
 double 	Pid_GetInputChange(pidData_t *pidData);
 
-//This function allows the controller's dynamic performance to be adjusted. 
+//This function allows the controller's dynamic performance to be adjusted.
 //It's called automatically from the init function, but tunings can also
 //be adjusted on the fly during normal operation
 void 	Pid_SetTunings(pidData_t *pidData, double kp, double ki, double kd);
@@ -91,7 +91,7 @@ void Pid_Init(
         uint32_t samplePeriodMs)
 {
     // Pid_SetOutputLimits(pidData, 0.0, 100.0);
-    Pid_SetOutputLimits(pidData, -90, 90);
+    Pid_SetOutputLimits(pidData, -0.2, 0.2);
 
     pidData->samplePeriodMs = samplePeriodMs;				// Default controller sample time is 0.1 seconds
 
