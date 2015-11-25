@@ -43,7 +43,7 @@
 #define PWM_MANUAL_CHANGE_AMOUNT_LARGE 0.000025*80
 #define PWM_INITIAL 0.000025*4
 #define PWM_MIN 0.000025*500
-#define PWM_RANGE 0.000025*200
+#define PWM_RANGE 0.000025*500
 
 int n_index_yaw_pitch_roll = 0;
 #ifdef TIMER
