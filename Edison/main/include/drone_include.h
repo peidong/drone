@@ -952,7 +952,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         //d_rate_roll = pidData_roll->output;
         d_rate_yaw = 0;
         d_rate_pitch = 0;
-        d_rate_roll = 300/10000;
+        d_rate_roll = 300.0/10000.0;
 
         Pid_SetTunings(pidData_second_yaw, kp_second_yaw, 0, kd_second_yaw);
         Pid_SetTunings(pidData_second_pitch, kp_second_pitch, 0, kd_second_pitch);
@@ -960,7 +960,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 
         Pid_SetSetPoint(pidData_second_yaw, pT_drone->n_grawz);
         Pid_SetSetPoint(pidData_second_pitch, pT_drone->n_grawy);
-        Pid_SetSetPoint(pidData_second_roll, pT_drone->n_grawx/10000);
+        Pid_SetSetPoint(pidData_second_roll, (double)(pT_drone->n_grawx)/10000.0);
 
         Pid_Run(pidData_second_yaw, (int)d_rate_yaw);
         Pid_Run(pidData_second_pitch, (int)d_rate_pitch);
