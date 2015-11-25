@@ -43,7 +43,7 @@
 #define PWM_MANUAL_CHANGE_AMOUNT_LARGE 0.000025*80
 #define PWM_INITIAL 0.000025*4
 #define PWM_MIN 0.000025*500
-#define PWM_RANGE 0.000025*200
+#define PWM_RANGE 0.000025*1000
 
 int n_index_yaw_pitch_roll = 0;
 #ifdef TIMER
@@ -673,13 +673,13 @@ if(mraa_uart_data_available(uno, 0) != 1){
             // usleep(3000);
 
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
-            //if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
-            //n_index_yaw_pitch_roll++;
-            //n_index_yaw_pitch_roll = n_index_yaw_pitch_roll%10;
-            //if(n_index_yaw_pitch_roll == 0){
-            printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
-            //}
-            //}
+            if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+                n_index_yaw_pitch_roll++;
+                n_index_yaw_pitch_roll = n_index_yaw_pitch_roll%10;
+                if(n_index_yaw_pitch_roll == 0){
+                    printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
+                }
+            }
 #endif
 #ifdef TIMER_YAW_PITCH_ROLL
         // timer_pause(&g_timer);
