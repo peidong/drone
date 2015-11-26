@@ -8,8 +8,8 @@
 #include <unistd.h>/*usleep*/
 #include <math.h>//round
 #include <time.h>//nanosleep
-// #define MPU9250_UART
-#define MPU9250_I2C
+#define MPU9250_UART
+// #define MPU9250_I2C
 #ifdef MPU9250_UART
 #include "mpu9250/mpu9250_uart.h"  //mpu9250 uart
 #endif
