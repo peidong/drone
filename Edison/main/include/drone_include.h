@@ -951,7 +951,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         //second loop
         d_rate_yaw = pidData_yaw->output/100.0;
         d_rate_pitch = pidData_pitch->output/100.0;
-        d_rate_roll = pidData_roll->output/100.0;
+        d_rate_roll = -pidData_roll->output/100.0;
         // d_rate_yaw = 0;
         // d_rate_pitch = 0;
         // d_rate_roll = 0.01;
