@@ -814,7 +814,8 @@ int update_T_drone_arrd_yaw_pitch_roll_i2c(struct T_drone *pT_drone){
     //}
 //}
 
-int update_T_drone_arrd_pid(struct T_drone *pT_drone){
+int update_T_drone_arrd_pid
+(struct T_drone *pT_drone){
 #ifdef TIMER_PID
     timer_start(&g_timer);
 #endif
@@ -1405,7 +1406,7 @@ void ThreadTask_update_T_drone_http_pwm_post(struct T_drone *pT_drone){
         printf("ThreadTask_update_T_drone_http_pwm_post\n");
 #endif
         update_T_drone_http_pwm_post(pT_drone);
-        usleep(50000);
+        usleep(500000);
     }
 }
 
@@ -1418,7 +1419,7 @@ void ThreadTask_update_T_drone_http(struct T_drone *pT_drone){
         printf("ThreadTask_update_T_drone_http\n");
 #endif
         update_T_drone_http(pT_drone);
-        usleep(50000);
+        usleep(500000);
     }
 }
 
@@ -1475,6 +1476,6 @@ void ThreadTask_update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
         printf("ThreadTask_update_T_drone_http_pid_tuning_get\n");
 #endif
         update_T_drone_http_pid_tuning_get(pT_drone);
-        usleep(50000);
+        usleep(1000000);
     }
 }
