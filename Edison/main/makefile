@@ -21,10 +21,10 @@ objects_demo = demo_main.o
 demo : $(objects_demo)
 	$(CC) $(objects_demo) -pthread -lcurl $(LDFLAGS) $(CFLAGS) -o demo_main
 
-objects_bbb = drone_beaglebone.o
+objects_bbb = beaglebone_drone_main.o
 
 bbb: $(objects_bbb)
-	$(CC) $(objects_bbb) -pthread -lmraa -lm -o drone_beaglebone
+	$(CC) $(objects_bbb) -pthread -lmraa -lm -o beaglebone_drone_main
 
 clean:
-	rm -rf drone_main demo_main drone_beaglebone $(objects) $(objects_demo) $(objects_bbb)
+	rm -rf drone_main demo_main beaglebone_drone_main $(objects) $(objects_demo) $(objects_bbb)
