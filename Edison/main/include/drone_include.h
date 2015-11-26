@@ -9,8 +9,8 @@
 #include <math.h>//round
 #include <time.h>//nanosleep
 #define MPU9250_UART
-//#define MPU9250_I2C
-#ifdef MPU9250_UART
+#define MPU9250_I2C
+// #ifdef MPU9250_UART
 #include "mpu9250/mpu9250_uart.h"  //mpu9250 uart
 #endif
 #ifdef MPU9250_I2C
@@ -25,7 +25,7 @@
  */
 // #define PRINT_DEBUG_PWM_HTTP_GET
 #define PRINT_DEBUG_YAW_PITCH_ROLL
-#define PRINT_DEBUG_PID_CHANGE
+// #define PRINT_DEBUG_PID_CHANGE
 // #define PRINT_DEBUG_PID_TUNING
 // #define PRINT_DEBUG_PWM
 //#define PRINT_DEBUG_THREAD
@@ -814,7 +814,7 @@ int update_T_drone_arrd_yaw_pitch_roll_i2c(struct T_drone *pT_drone){
     //}
 //}
 
-int update_T_drone_arrd_pid(struct T_drone *pT_drone){
+int update_T_drone_arrd_pid_second_loop(struct T_drone *pT_drone){
 #ifdef TIMER_PID
     timer_start(&g_timer);
 #endif
@@ -964,7 +964,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 
         Pid_Run(pidData_second_yaw, pT_drone->n_grawz/32768.0);
         Pid_Run(pidData_second_pitch, pT_drone->n_grawy/32768.0);
-        Pid_Run(pidData_second_roll, pT_drone->n_grawx/32768.0 - 0.001);
+        Pid_Run(pidData_second_roll, pT_drone->n_grawx/32768.0 - 0.0009);
 
         d_second_yaw = pidData_second_yaw->output;
         d_second_pitch = pidData_second_pitch->output;
@@ -1061,7 +1061,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     }
     return 0;
 }
-int update_T_drone_arrd_pid_one_loop(struct T_drone *pT_drone){
+int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 #ifdef TIMER_PID
     timer_start(&g_timer);
 #endif
