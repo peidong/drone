@@ -44,7 +44,7 @@ void Pid_Init(
 
 //Computes new PID values
 //Call once per sampleTimeMs. Output is stored in the pidData structure.
-void Pid_Run(pidData_t *pidData, double input);
+void Pid_Run(pidData_t *pidData, double input, int n_print_flag);
 
 //Returns the last calculated error
 double 	Pid_GetError(pidData_t *pidData);
