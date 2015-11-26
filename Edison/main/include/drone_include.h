@@ -25,7 +25,7 @@
  */
 // #define PRINT_DEBUG_PWM_HTTP_GET
 #define PRINT_DEBUG_YAW_PITCH_ROLL
-// #define PRINT_DEBUG_PID_CHANGE
+#define PRINT_DEBUG_PID_CHANGE
 // #define PRINT_DEBUG_PID_TUNING
 // #define PRINT_DEBUG_PWM
 //#define PRINT_DEBUG_THREAD
@@ -43,7 +43,7 @@
 #define PWM_MANUAL_CHANGE_AMOUNT_LARGE 0.000025*80
 #define PWM_INITIAL 0.000025*4
 #define PWM_MIN 0.000025*300
-#define PWM_RANGE 0.000025*300
+#define PWM_RANGE 0.000025*500
 
 int n_index_yaw_pitch_roll = 0;
 #ifdef TIMER
@@ -954,7 +954,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         //d_rate_roll = pidData_roll->output;
         d_rate_yaw = 0;
         d_rate_pitch = 0;
-        d_rate_roll = 0.00;
+        d_rate_roll = 0.001;
 
         Pid_SetTunings(pidData_second_yaw, kp_second_yaw, 0, kd_second_yaw);
         Pid_SetTunings(pidData_second_pitch, kp_second_pitch, 0, kd_second_pitch);
