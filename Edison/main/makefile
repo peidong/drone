@@ -21,6 +21,8 @@ objects_demo = demo_main.o
 demo : $(objects_demo)
 	$(CC) $(objects_demo) -pthread -lcurl $(LDFLAGS) $(CFLAGS) -o demo_main
 
+objects_bbb = drone_beaglebone.o
+
 bbb: $(objects_bbb)
 	$(CC) $(objects_bbb) -pthread -lmraa -lm -o drone_beaglebone
 
