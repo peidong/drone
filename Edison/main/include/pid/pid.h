@@ -101,7 +101,7 @@ void Pid_Init(
     pidData->prevOutput = 0;
 }
 
-void Pid_Run(pidData_t *pidData, double input)
+void Pid_Run(pidData_t *pidData, double input, int n_print_flag)
 {
     // Compute all the working error variables
     //double input = *_input;
@@ -132,6 +132,10 @@ void Pid_Run(pidData_t *pidData, double input)
     pidData->prevInput = input;
     // Remember last output for next call
     pidData->prevOutput = pidData->output;
+    if (n_print_flag == 1)
+    {
+        printf("error=%f\tiTerm=%f\tdTerm=%f\n", pidData->error, pidData->iTerm, pidData->dTerm);
+    }
 
 }
 

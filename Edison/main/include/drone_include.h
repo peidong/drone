@@ -599,8 +599,8 @@ if(mraa_uart_data_available(uno, 0) != 1){
             grawy = (myatoi(read[16])<<4|myatoi(read[17]))<<8|(myatoi(read[18])<<4|myatoi(read[19]));
             grawz = (myatoi(read[20])<<4|myatoi(read[21]))<<8|(myatoi(read[22])<<4|myatoi(read[23]));
 
-            grawy -= 30;
-            
+            // grawy -= 30;
+
             pT_drone->n_grawx = grawx;
             pT_drone->n_grawy = grawy;
             pT_drone->n_grawz = grawz;
@@ -675,13 +675,13 @@ if(mraa_uart_data_available(uno, 0) != 1){
             // usleep(3000);
 
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
-            // if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+            if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
                 //n_index_yaw_pitch_roll++;
                 //n_index_yaw_pitch_roll = n_index_yaw_pitch_roll%10;
                 //if(n_index_yaw_pitch_roll == 0){
                     printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
                 //}
-            // }
+            }
 #endif
 #ifdef TIMER_YAW_PITCH_ROLL
         // timer_pause(&g_timer);
@@ -816,7 +816,7 @@ int update_T_drone_arrd_yaw_pitch_roll_i2c(struct T_drone *pT_drone){
     //}
 //}
 
-int update_T_drone_arrd_pid_second_loop(struct T_drone *pT_drone){
+int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 #ifdef TIMER_PID
     timer_start(&g_timer);
 #endif
@@ -936,16 +936,16 @@ int update_T_drone_arrd_pid_second_loop(struct T_drone *pT_drone){
 
         // It can be tested after tests for pitch and roll are finished.
         Pid_SetSetPoint(pidData_yaw, 0);
-        Pid_Run(pidData_yaw, (int)pT_drone->arrd_yaw_pitch_roll[0]);
+        Pid_Run(pidData_yaw, (int)pT_drone->arrd_yaw_pitch_roll[0], 0);
         pT_drone->arrd_pid_yaw_pitch_roll[0] = pidData_yaw->output;
 
         // For pitch, mainly we can use wires to lock the Y direction. First divide by 2. Adding to pwm1 and pwm2, substracting to pwm3 and pwm4.
         Pid_SetSetPoint(pidData_pitch, 0);
-        Pid_Run(pidData_pitch, (int)pT_drone->arrd_yaw_pitch_roll[1]);
+        Pid_Run(pidData_pitch, (int)pT_drone->arrd_yaw_pitch_roll[1], 0);
         pT_drone->arrd_pid_yaw_pitch_roll[1] = pidData_pitch->output;
         // For roll, mainly we can use wires to lock the X direction. First divide by 2. Adding to pwm1 and pwm3, substracting to pwm2 and pwm4.
         Pid_SetSetPoint(pidData_roll, 0);
-        Pid_Run(pidData_roll, (int)pT_drone->arrd_yaw_pitch_roll[2]);
+        Pid_Run(pidData_roll, (int)pT_drone->arrd_yaw_pitch_roll[2], 0);
         pT_drone->arrd_pid_yaw_pitch_roll[2] = pidData_roll->output;
 
         //second loop
@@ -964,9 +964,9 @@ int update_T_drone_arrd_pid_second_loop(struct T_drone *pT_drone){
         Pid_SetSetPoint(pidData_second_pitch, d_rate_pitch);
         Pid_SetSetPoint(pidData_second_roll, d_rate_roll);
 
-        Pid_Run(pidData_second_yaw, pT_drone->n_grawz/32768.0);
-        Pid_Run(pidData_second_pitch, pT_drone->n_grawy/32768.0);
-        Pid_Run(pidData_second_roll, pT_drone->n_grawx/32768.0 - 0.0009);
+        Pid_Run(pidData_second_yaw, pT_drone->n_grawz/32768.0, 0);
+        Pid_Run(pidData_second_pitch, pT_drone->n_grawy/32768.0, 0);
+        Pid_Run(pidData_second_roll, pT_drone->n_grawx/32768.0 - 0.0009, 1);
 
         d_second_yaw = pidData_second_yaw->output;
         d_second_pitch = pidData_second_pitch->output;
@@ -1063,7 +1063,7 @@ int update_T_drone_arrd_pid_second_loop(struct T_drone *pT_drone){
     }
     return 0;
 }
-int update_T_drone_arrd_pid(struct T_drone *pT_drone){
+int update_T_drone_arrd_pid_one_loop(struct T_drone *pT_drone){
 #ifdef TIMER_PID
     timer_start(&g_timer);
 #endif
