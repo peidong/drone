@@ -599,6 +599,8 @@ if(mraa_uart_data_available(uno, 0) != 1){
             grawy = (myatoi(read[16])<<4|myatoi(read[17]))<<8|(myatoi(read[18])<<4|myatoi(read[19]));
             grawz = (myatoi(read[20])<<4|myatoi(read[21]))<<8|(myatoi(read[22])<<4|myatoi(read[23]));
 
+            grawy -= 30;
+            
             pT_drone->n_grawx = grawx;
             pT_drone->n_grawy = grawy;
             pT_drone->n_grawz = grawz;
