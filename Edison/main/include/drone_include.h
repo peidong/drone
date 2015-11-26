@@ -816,7 +816,7 @@ int update_T_drone_arrd_yaw_pitch_roll_i2c(struct T_drone *pT_drone){
     //}
 //}
 
-int update_T_drone_arrd_pid_two_loop(struct T_drone *pT_drone){
+int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 #ifdef TIMER_PID
     timer_start(&g_timer);
 #endif
@@ -1063,7 +1063,7 @@ int update_T_drone_arrd_pid_two_loop(struct T_drone *pT_drone){
     }
     return 0;
 }
-int update_T_drone_arrd_pid(struct T_drone *pT_drone){
+int update_T_drone_arrd_pid_one_loop(struct T_drone *pT_drone){
 #ifdef TIMER_PID
     timer_start(&g_timer);
 #endif
