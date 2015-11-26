@@ -945,7 +945,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         pT_drone->arrd_pid_yaw_pitch_roll[1] = pidData_pitch->output;
         // For roll, mainly we can use wires to lock the X direction. First divide by 2. Adding to pwm1 and pwm3, substracting to pwm2 and pwm4.
         Pid_SetSetPoint(pidData_roll, 0);
-        Pid_Run(pidData_roll, (int)pT_drone->arrd_yaw_pitch_roll[2], 0);
+        Pid_Run(pidData_roll, (int)pT_drone->arrd_yaw_pitch_roll[2], 1);
         pT_drone->arrd_pid_yaw_pitch_roll[2] = pidData_roll->output;
 
         //second loop
@@ -966,7 +966,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 
         Pid_Run(pidData_second_yaw, pT_drone->n_grawz/32768.0, 0);
         Pid_Run(pidData_second_pitch, pT_drone->n_grawy/32768.0, 0);
-        Pid_Run(pidData_second_roll, pT_drone->n_grawx/32768.0 - 0.0009, 1);
+        Pid_Run(pidData_second_roll, pT_drone->n_grawx/32768.0 - 0.0009, 0);
 
         d_second_yaw = pidData_second_yaw->output;
         d_second_pitch = pidData_second_pitch->output;
