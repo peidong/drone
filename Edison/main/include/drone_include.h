@@ -1407,7 +1407,7 @@ void ThreadTask_update_T_drone_http_pwm_post(struct T_drone *pT_drone){
         printf("ThreadTask_update_T_drone_http_pwm_post\n");
 #endif
         update_T_drone_http_pwm_post(pT_drone);
-        usleep(500000);
+        usleep(50000);
     }
 }
 
@@ -1420,7 +1420,7 @@ void ThreadTask_update_T_drone_http(struct T_drone *pT_drone){
         printf("ThreadTask_update_T_drone_http\n");
 #endif
         update_T_drone_http(pT_drone);
-        usleep(500000);
+        usleep(50000);
     }
 }
 
@@ -1477,6 +1477,6 @@ void ThreadTask_update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
         printf("ThreadTask_update_T_drone_http_pid_tuning_get\n");
 #endif
         update_T_drone_http_pid_tuning_get(pT_drone);
-        usleep(1000000);
+        usleep(50000);
     }
 }
