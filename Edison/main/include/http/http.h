@@ -69,7 +69,8 @@ char* http_get_new(char* sz_url) {
 
     /* check for errors */
     if(res != CURLE_OK) {
-        fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+        // fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+        printf("curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
     }
     else {
         /*
@@ -125,7 +126,8 @@ char* http_get(char* url)
 
     /* Check for errors */
         if(res != CURLE_OK){
-            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+            // fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+            printf("curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
         }
     /* always cleanup */
         curl_easy_cleanup(curl);
@@ -166,8 +168,10 @@ char* http_post(char* url, char* post_data)
     /* Perform the request, res will get the return code */
         res = curl_easy_perform(curl);
     /* Check for errors */
-        if(res != CURLE_OK)
-            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+        if(res != CURLE_OK){
+            // fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+            printf("curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+        }
 
     /* always cleanup */
         curl_easy_cleanup(curl);
