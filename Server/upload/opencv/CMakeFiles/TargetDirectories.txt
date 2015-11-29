@@ -1,1 +1,1 @@
-/home/webmaster/drone/Server/upload/opencv/CMakeFiles/symbol_detection.dir
+/Users/yangyang/Github/drone/Server/upload/opencv/CMakeFiles/symbol_detection.dir

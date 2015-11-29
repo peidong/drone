@@ -12,6 +12,13 @@
 #include "opencv2/calib3d.hpp"
 #include "opencv2/imgproc.hpp"
 #include <sys/stat.h>
+
+#include <opencv2/core/utility.hpp>
+#include <opencv2/tracking.hpp>
+#include <opencv2/videoio.hpp>
+#include <opencv2/highgui.hpp>
+#include <cstring>
+
 /**
  * json for cpp
  * https://github.com/nlohmann/json
@@ -50,13 +57,37 @@ struct SURFDetector
     }
 };
 
+float find_max(float array[]){
+    float max = array[0];
+    for(int i=0; i<4; i++){
+        if(array[i] > max){
+            max = array[i];
+        }
+    }
+    return max;
+}
+
+
+float find_mim(float array[]){
+    float mim = array[0];
+    for(int i=0; i<4; i++){
+        if(array[i] < mim){
+            mim = array[i];
+        }
+    }
+    return mim;
+}
+
 int main(int argc, char** argv){
+    float maximum_x, maximum_y;
+    float minimum_y, minimum_x;
+
     if(argc != 3){
         cout << "error input the file names" << endl;
         return 0;
     }
 
-    const char *sz_reference_file_path_part1 = "/home/webmaster/drone/Server/upload/files/";
+    const char *sz_reference_file_path_part1 ="/Users/yangyang/Github/drone/Server/upload/files/";
     char *sz_reference_file_path = NULL;
     if(NULL == sz_reference_file_path){
         sz_reference_file_path = (char*) malloc(1 + strlen(sz_reference_file_path_part1) + strlen(argv[1]));
@@ -82,7 +113,7 @@ int main(int argc, char** argv){
     Mat image, image_orig;
     //cap.read(image);
     
-    const char *sz_image_file_path_part1 = "/home/webmaster/drone/Server/upload/files/";
+    const char *sz_image_file_path_part1 = "/Users/yangyang/Github/drone/Server/upload/files/";
     char *sz_image_file_path = NULL;
     if(NULL == sz_image_file_path){
         sz_image_file_path = (char*) malloc(1 + strlen(sz_image_file_path_part1) + strlen(argv[1]));
@@ -117,21 +148,19 @@ int main(int argc, char** argv){
 
     printf("-- Max dist : %f \n", max_dist );
     printf("-- Min dist : %f \n", min_dist );
-    
+
     std::vector< DMatch > good_matches;
 
     for( int i = 0; i < des1.rows; i++ )
     { if( matches[i].distance < 3*min_dist )
         { good_matches.push_back( matches[i]); }
     }
-   
 
     Mat img_matches;
     drawMatches(reference_object, keypoints_object, image, keypoints_scene,
                good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
                vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
 
-    
     //-- Localize the object
     std::vector<Point2f> obj;
     std::vector<Point2f> scene;
@@ -154,10 +183,10 @@ int main(int argc, char** argv){
     perspectiveTransform( obj_corners, scene_corners, H);
 
     //-- Draw lines between the corners (the mapped object in the scene - image_2 )
-    line( img_matches, scene_corners[0] + Point2f( reference_object.cols, 0), scene_corners[1] + Point2f( reference_object.cols, 0), Scalar(0, 255, 0), 4 );
-    line( img_matches, scene_corners[1] + Point2f( reference_object.cols, 0), scene_corners[2] + Point2f( reference_object.cols, 0), Scalar( 0, 255, 0), 4 );
-    line( img_matches, scene_corners[2] + Point2f( reference_object.cols, 0), scene_corners[3] + Point2f( reference_object.cols, 0), Scalar( 0, 255, 0), 4 );
-    line( img_matches, scene_corners[3] + Point2f( reference_object.cols, 0), scene_corners[0] + Point2f( reference_object.cols, 0), Scalar( 0, 255, 0), 4 );
+    //line( img_matches, scene_corners[0] + Point2f( reference_object.cols, 0), scene_corners[1] + Point2f( reference_object.cols, 0), Scalar(0, 255, 0), 4 );
+    //line( img_matches, scene_corners[1] + Point2f( reference_object.cols, 0), scene_corners[2] + Point2f( reference_object.cols, 0), Scalar( 0, 255, 0), 4 );
+    //line( img_matches, scene_corners[2] + Point2f( reference_object.cols, 0), scene_corners[3] + Point2f( reference_object.cols, 0), Scalar( 0, 255, 0), 4 );
+    //line( img_matches, scene_corners[3] + Point2f( reference_object.cols, 0), scene_corners[0] + Point2f( reference_object.cols, 0), Scalar( 0, 255, 0), 4 );
 
     //-- Show detected matches
     
@@ -172,21 +201,43 @@ int main(int argc, char** argv){
     //cout<<"scene_corners[3] = " << scene_corners[3] << endl;
     
 
-    imshow( "Good Matches & Object detection", img_matches );
+    //imshow( "Good Matches & Object detection", img_matches );
     imshow("object in orginal image", image_orig);
-
-    waitKey(0);
 
     /**
      * for server to receive
      */
-    cout<< scene_corners[0].x << endl;//bottom right
-    cout<< scene_corners[0].y << endl;
-    cout<< scene_corners[1].x << endl;//top right
-    cout<< scene_corners[1].y << endl;
-    cout<< scene_corners[2].x << endl;//top left
-    cout<< scene_corners[2].y << endl;
-    cout<< scene_corners[3].x << endl;//bottom left
-    cout<< scene_corners[3].y << endl;
+    //cout<< scene_corners[0].x << endl;//bottom right
+    //cout<< scene_corners[0].y << endl;
+    //cout<< scene_corners[1].x << endl;//top right
+    //cout<< scene_corners[1].y << endl;
+    //cout<< scene_corners[2].x << endl;//top left
+    //cout<< scene_corners[2].y << endl;
+    //cout<< scene_corners[3].x << endl;//bottom left
+    //cout<< scene_corners[3].y << endl;
+
+    float x[4] = {scene_corners[0].x, scene_corners[1].x, scene_corners[2].x, scene_corners[3].x};
+    float y[4] = {scene_corners[0].y, scene_corners[1].y, scene_corners[2].y, scene_corners[3].y};
+    maximum_x = find_max(x);
+    minimum_x = find_mim(x);
+    minimum_y = find_mim(y);
+    maximum_y = find_max(y);
+
+    //cout << "maximum x is:"<<maximum_x << endl;
+    //cout << "maximum y is:"<< maximum_y << endl;
+
+    //cout << "minimum x is:" <<minimum_x << endl;
+    //cout << "minimum y is:"<<minimum_y << endl;
+
+    Rect2d roi;
+    roi.x = minimum_x, roi.y = minimum_y, roi.width = (maximum_x - minimum_x), roi.height = (maximum_y - minimum_y);
+    Mat img1=image_orig(roi);
+    imshow("roi", img1);
+
+
+
+    Ptr<Tracker> tracker = Tracker::create("KCF");
+
+    waitKey(0);
     return 0;
 }

@@ -6,27 +6,27 @@
 
 #IncludeRegexTransform: 
 
-/home/webmaster/drone/Server/upload/opencv/symbol_detection.cpp
+/Users/yangyang/Github/drone/Server/upload/opencv/symbol_detection.cpp
 iostream
 -
 stdio.h
 -
 opencv2/core/core.hpp
-/home/webmaster/drone/Server/upload/opencv/opencv2/core/core.hpp
+/Users/yangyang/Github/drone/Server/upload/opencv/opencv2/core/core.hpp
 opencv2/features2d/features2d.hpp
-/home/webmaster/drone/Server/upload/opencv/opencv2/features2d/features2d.hpp
+/Users/yangyang/Github/drone/Server/upload/opencv/opencv2/features2d/features2d.hpp
 opencv2/highgui/highgui.hpp
-/home/webmaster/drone/Server/upload/opencv/opencv2/highgui/highgui.hpp
+/Users/yangyang/Github/drone/Server/upload/opencv/opencv2/highgui/highgui.hpp
 opencv2/calib3d/calib3d.hpp
-/home/webmaster/drone/Server/upload/opencv/opencv2/calib3d/calib3d.hpp
+/Users/yangyang/Github/drone/Server/upload/opencv/opencv2/calib3d/calib3d.hpp
 opencv2/xfeatures2d.hpp
-/home/webmaster/drone/Server/upload/opencv/opencv2/xfeatures2d.hpp
+/Users/yangyang/Github/drone/Server/upload/opencv/opencv2/xfeatures2d.hpp
 opencv2/features2d.hpp
-/home/webmaster/drone/Server/upload/opencv/opencv2/features2d.hpp
+/Users/yangyang/Github/drone/Server/upload/opencv/opencv2/features2d.hpp
 opencv2/calib3d.hpp
-/home/webmaster/drone/Server/upload/opencv/opencv2/calib3d.hpp
+/Users/yangyang/Github/drone/Server/upload/opencv/opencv2/calib3d.hpp
 opencv2/imgproc.hpp
-/home/webmaster/drone/Server/upload/opencv/opencv2/imgproc.hpp
+/Users/yangyang/Github/drone/Server/upload/opencv/opencv2/imgproc.hpp
 sys/stat.h
 -
 
@@ -333,10 +333,6 @@ opencv2/videoio/videoio_c.h
 /usr/local/include/opencv2/imgcodecs.hpp
 opencv2/core.hpp
 /usr/local/include/opencv2/opencv2/core.hpp
-vector
--
-stdio.h
--
 opencv2/opencv.hpp
 -
 
