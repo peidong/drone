@@ -2,7 +2,7 @@
 
 int main()
 {
-    mraa_init(); // can we put it in the beginning. Avoid repeating definition.
+    /*mraa_init(); // can we put it in the beginning. Avoid repeating definition.*/
     /**
      * initialize_struct_T_drone
      */
@@ -15,8 +15,8 @@ int main()
      * add work to thread
      */
     thpool_add_work(thpool, (void*)ThreadTask_GeneratePwm, (void*)&g_T_drone_self);
-    thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_arrd_yaw_pitch_roll, (void*)&g_T_drone_self);
-    thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_arrd_pid, (void*)&g_T_drone_self);
+    /*thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_arrd_yaw_pitch_roll, (void*)&g_T_drone_self);*/
+    /*thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_arrd_pid, (void*)&g_T_drone_self);*/
     /**
      * pwm only for testing
      */
