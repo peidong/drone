@@ -15,12 +15,8 @@ int main()
      * add work to thread
      */
     thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http, (void*)&g_T_drone_self);
-    thpool_add_work(thpool, (void*)ThreadTask_GeneratePwm, (void*)&g_T_drone_self);
     thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http_pid_tuning_get, (void*)&g_T_drone_self);
-    thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_arrd_yaw_pitch_roll, (void*)&g_T_drone_self);
-    thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http_pwm_post, (void*)&g_T_drone_self);
-    thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_arrd_pid, (void*)&g_T_drone_self);
-    /*thpool_add_work(thpool, (void*)test, (void*)&g_T_drone_self);*/
+    /*thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http_pwm_post, (void*)&g_T_drone_self);*/
     /**
      * pwm only for testing
      */
