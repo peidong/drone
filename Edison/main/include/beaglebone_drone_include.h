@@ -250,7 +250,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     float yaw, pitch, roll;
     custom_timer_t mpu_timer;
     timer_start(&mpu_timer);
-    int mpu_last_time = timer_delta_us(&mpu_timer);
+    long mpu_last_time = timer_delta_us(&mpu_timer);
     MPU_init();
     while (1)
     {
@@ -263,6 +263,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 #endif
         // Calculate deltat
         deltat = (timer_delta_us(&mpu_timer) - mpu_last_time)/1000;
+        mpu_last_time = timer_delta_us(&mpu_timer);
         printf("%f",deltat);
         uint8_t Buf[14];
         mraa_i2c_read_bytes_data(mpu, 59, Buf, 14);
