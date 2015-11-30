@@ -1,11 +1,6 @@
-#outline
-~0 stop
-
-~1 start
-
-~2 control
-
-~3 pid
+###outline
+~0########$ stop
+~1########$ start
 
 ###autocontrol
 ~201######$ auto_stopFly
@@ -49,7 +44,7 @@
 
 ~21017#####$ disable pwm pid ultrasound
 
-###pid tuning
+###pid tuning (Note: x is number)
 ~301xxxxxxx$ kp_pitch
 
 ~302xxxxxxx$ ki_pitch
