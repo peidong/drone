@@ -5,7 +5,9 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
+#ifndef common_h
 #include "common.h"
+#endif
 
 #define NO_EDGE      0
 #define RISING_EDGE  1

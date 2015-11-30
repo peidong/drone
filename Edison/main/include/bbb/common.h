@@ -1,3 +1,5 @@
+#define common_h
+
 #include <dirent.h>
 #include <time.h>
 #include <string.h>

@@ -4,7 +4,9 @@
 #include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
+#ifndef common_h
 #include "common.h"
+#endif
 
 int pwm_start(const char *key, float duty, float freq, int polarity);
 int pwm_disable(const char *key);
