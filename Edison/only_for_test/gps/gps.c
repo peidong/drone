@@ -20,19 +20,22 @@ extern void gps_on(void) {
 // Compute the GPS location using decimal scale
 extern void gps_location(loc_t *coord) {
     uint8_t status = _EMPTY;
+    
     while(status != _COMPLETED) {
         gpgga_t gpgga;
         gprmc_t gprmc;
         char buffer[1000];
+        //mraa_uart_read(uart, buffer, 256);
          serial_readln(buffer, 256);
-         //mraa_uart_read(uart, buffer, 256);
+         
+        //printf("%s\n", buffer);
         //printf("%d\n",nmea_get_message_type(buffer));
         switch (nmea_get_message_type(buffer)) {
             case NMEA_GPGGA:
                 nmea_parse_gpgga(buffer, &gpgga);
                 //printf("%d\n", gpgga.latitude);
                 gps_convert_deg_to_dec(&(gpgga.latitude), gpgga.lat, &(gpgga.longitude), gpgga.lon);
-                printf("%d\n", gpgga.latitude);
+                // printf("%d\n", gpgga.latitude);
                 coord->latitude = gpgga.latitude;
                 coord->longitude = gpgga.longitude;
                 coord->altitude = gpgga.altitude;
@@ -44,6 +47,7 @@ extern void gps_location(loc_t *coord) {
 
                 coord->speed = gprmc.speed;
                 coord->course = gprmc.course;
+                //printf("%dspeed\n", gprmc.speed);
                 //coord->magnetic = gprmc.magnetic;
                 //coord->mag = gprmc.mag;
                 //printf("%d\n", gprmc.magnetic);

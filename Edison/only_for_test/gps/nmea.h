@@ -9,7 +9,7 @@
 #define NMEA_GPRMC 0x01
 #define NMEA_GPRMC_STR "$GPRMC"
 #define NMEA_GPGGA 0x02
-#define NMEA_GPGGA_STR "$GPGGA"
+#define NMEA_GPGGA_STR "GPGGA"
 #define NMEA_UNKNOWN 0x00
 #define _COMPLETED 0x03
 
@@ -41,8 +41,6 @@ struct gprmc {
     char lon;
     double speed;
     double course;
-   // double magnetic;
-   // char mag;
 };
 typedef struct gprmc gprmc_t;
 

@@ -1,6 +1,6 @@
 #include <stdio.h>
 //! [Interesting]
-#include "mraa.h"
+#include <mraa.h>
 //#include "uart.h"
 #include <stdlib.h>
 #include <unistd.h>
@@ -11,12 +11,13 @@ mraa_uart_context uart;
 
 void serial_readln(char *buffer, int len)
 {
-	//char c;
+	char c;
 	char *b = buffer;
-  int length = len;
+  //int length = len;
 	int rx_length = -1;
-	mraa_uart_read(uart, b, length);
-		/*if(rx_length <= 0){
+	while(1)
+    {rx_length = mraa_uart_read(uart, &c, 1);
+		if(rx_length <= 0){
 			sleep(1);
 	      		}
 		else{
@@ -24,8 +25,9 @@ void serial_readln(char *buffer, int len)
 			*b++ = '\0';
 			break;
 			}
-		*b++ = c;*/
-}
+		*b++ = c;
+   }}
+}   
 
 void serial_println(const char *line, int len){
   if(uart!=NULL){

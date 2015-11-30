@@ -250,6 +250,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     float yaw, pitch, roll;
     custom_timer_t mpu_timer;
     timer_start(&mpu_timer);
+    int mpu_last_time = timer_delta_us(&mpu_timer);
     MPU_init();
     while (1)
     {
@@ -260,6 +261,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 #ifdef PRINT_DEBUG_THREAD
         printf("ThreadTask_yaw pitch roll\n");
 #endif
+        // Calculate deltat
+        deltat = (timer_delta_us(&mpu_timer) - mpu_last_time)/1000;
+        printf("%f",deltat);
         uint8_t Buf[14];
         mraa_i2c_read_bytes_data(mpu, 59, Buf, 14);
         // Accelerometer
@@ -296,6 +300,8 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         //printf("%.1f,%.1f,%.1f\n",mx,my,mz);
         //    MadgwickQuaternionUpdate(ax,ay,az,gx*PI/180.0f,gy*PI/180.0f,gz*PI/180.0f,my,mx,mz);
         MadgwickAHRSupdate(ax, ay, az, gx*PI / 180.0f, gy*PI / 180.0f, gz*PI / 180.0f, my, mx, mz); //my, mx, mz
+
+
         // Calculate yaw pitch roll
         yaw = atan2(2.0f * (q1 * q2 + q0 * q3), q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3);
         pitch = -asin(2.0f * (q1 * q3 - q0 * q2));
