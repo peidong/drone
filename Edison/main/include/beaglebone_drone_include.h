@@ -11,6 +11,8 @@
 #include <mraa.h>
 #include <stdint.h>
 #include "bbb/pwm.h"
+#include "bbb/uart.h"
+#include "bbb/gpio.h"
 /**
  * print debug
  */
@@ -212,6 +214,10 @@ int initialize_pwm_value(struct T_drone *pT_drone){
     pT_drone->arrd_current_pwm_min[1] = PWM_INITIAL;
     pT_drone->arrd_current_pwm_min[2] = PWM_INITIAL;
     pT_drone->arrd_current_pwm_min[3] = PWM_INITIAL;
+    return 0;
+}
+
+int uart_communication(struct T_drone *pT_drone){
     return 0;
 }
 
@@ -816,6 +822,9 @@ int GeneratePwm(struct T_drone *pT_drone){
 /**
  * Thread Tasks
  */
+void ThreadTask_UartCommunication(struct T_drone *pT_drone){
+    uart_communication(pT_drone);
+}
 
 void ThreadTask_update_T_drone_arrd_pid(struct T_drone *pT_drone){
     update_T_drone_arrd_pid(pT_drone);
