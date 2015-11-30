@@ -1,33 +1,33 @@
 ###outline
-~0########$ stop
+~0#########$ stop
 
-~1########$ start
+~1#########$ start
 
 ###autocontrol
-~201######$ auto_stopFly
+~201#######$ auto_stopFly
 
-~202######$ auto_startFly
+~202#######$ auto_startFly
 
-~203######$ auto_learnVariables
+~203#######$ auto_learnVariables
 
 ###manual control
-~2101#####$ suspend
+~2101######$ suspend
 
-~2102#####$ up
+~2102######$ up
 
-~2103#####$ down
+~2103######$ down
 
-~2104#####$ forward
+~2104######$ forward
 
-~2105#####$ backward
+~2105######$ backward
 
-~2106#####$ left
+~2106######$ left
 
-~2107#####$ right
+~2107######$ right
 
-~2108#####$ clockwiseRotate
+~2108######$ clockwiseRotate
 
-~2109#####$ anticlockwiseRotate
+~2109######$ anticlockwiseRotate
 
 ~21010#####$ stop
 
