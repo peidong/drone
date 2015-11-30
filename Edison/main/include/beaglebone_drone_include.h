@@ -221,6 +221,19 @@ int uart_communication(struct T_drone *pT_drone){
     return 0;
 }
 
+/**timer guide
+    custom_timer_t g_timer;
+    timer_start(&g_timer);//only run for one time
+
+    //when you want to start the timer
+    g_last_time_us = timer_delta_us(&g_timer);
+    timer_unpause(&g_timer);
+
+    //when you want to print the delta time
+    timer_pause(&g_timer);
+    printf(Delta (us): %ld\n", (timer_delta_us(&g_timer) - g_last_time_us));
+*/
+
 int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     // mraa_gpio_context gpio_vcc;
     // gpio_vcc = mraa_gpio_init(2);
@@ -235,7 +248,8 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     int16_t mrawx,mrawy,mrawz;
     float ax,ay,az,gx,gy,gz,mx,my,mz;
     float yaw, pitch, roll;
-
+    custom_timer_t mpu_timer;
+    timer_start(&mpu_timer);
     MPU_init();
     while (1)
     {
