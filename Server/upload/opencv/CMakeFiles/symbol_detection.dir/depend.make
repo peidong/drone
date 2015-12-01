@@ -50,6 +50,12 @@ CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o: /usr/local/include/openc
 CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o: /usr/local/include/opencv2/opencv.hpp
 CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o: /usr/local/include/opencv2/photo.hpp
 CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o: /usr/local/include/opencv2/photo/photo_c.h
+CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o: /usr/local/include/opencv2/tracking.hpp
+CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o: /usr/local/include/opencv2/tracking/feature.hpp
+CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o: /usr/local/include/opencv2/tracking/onlineBoosting.hpp
+CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o: /usr/local/include/opencv2/tracking/onlineMIL.hpp
+CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o: /usr/local/include/opencv2/tracking/tldDataset.hpp
+CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o: /usr/local/include/opencv2/tracking/tracker.hpp
 CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o: /usr/local/include/opencv2/video.hpp
 CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o: /usr/local/include/opencv2/video/background_segm.hpp
 CMakeFiles/symbol_detection.dir/symbol_detection.cpp.o: /usr/local/include/opencv2/video/tracking.hpp
