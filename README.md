@@ -159,12 +159,12 @@ Edit these lines
 #####Setup mysql permission
 
         mysql -u root
-        CREATE USER 'yangyang';
+        CREATE USER 'webmaster'@'localhost';
 
 Then type in commands in mysql terminal
 
         create database edison;
-        grant all on edison.* to 'yangyang';
+        grant all on edison.* to 'webmaster'@'localhost';
 
 
 #####Setup Edison Server
