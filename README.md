@@ -159,7 +159,7 @@ Edit these lines
 #####Setup mysql permission
 
         mysql -u root
-        CREATE USER 'yangyang'@'localhost';
+        CREATE USER 'yangyang';
 
 Then type in commands in mysql terminal
 
