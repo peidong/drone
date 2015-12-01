@@ -103,3 +103,9 @@ And write this following line at the bottom of the file
         src/gz all http://repo.opkg.net/edison/repo/all
         src/gz edison http://repo.opkg.net/edison/repo/edison
         src/gz core2-32 http://repo.opkg.net/edison/repo/core2-32
+
+#Server Side Installation
+
+For the server, we need Apache, php, mysql.
+
+There is a [post](http://jason.pureconcepts.net/2015/10/install-apache-php-mysql-mac-os-x-el-capitan/).
