@@ -264,7 +264,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         // Calculate deltat
         deltat = (timer_delta_us(&mpu_timer) - mpu_last_time)/1000;
         mpu_last_time = timer_delta_us(&mpu_timer);
-        printf("%f",deltat);
+        printf("%ld  ",(timer_delta_us(&mpu_timer) - mpu_last_time));
         uint8_t Buf[14];
         mraa_i2c_read_bytes_data(mpu, 59, Buf, 14);
         // Accelerometer
