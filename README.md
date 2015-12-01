@@ -106,6 +106,71 @@ And write this following line at the bottom of the file
 
 #Server Side Installation
 
+###Mac OSX Installation
+
 For the server, we need Apache, php, mysql.
 
 There is a [post](http://jason.pureconcepts.net/2015/10/install-apache-php-mysql-mac-os-x-el-capitan/).
+
+#####Enable Apache on Mac OS X
+
+        sudo apachectl start
+
+#####Edit Apache preference
+
+        cd /etc/apache2/
+        sudo cp httpd.conf httpd.conf.bak
+        sudo vim httpd.conf
+
+Uncomment the following line (remove #):
+
+        LoadModule php5_module libexec/apache2/libphp5.so
+
+Edit these lines
+
+        User yangyang
+        Group staff
+
+        DocumentRoot "/Users/yangyang/www/"
+        <Directory "/Users/yangyang/www/">
+        Options Indexes FollowSymLinks Multiviews
+        MultiviewsMatch Any
+        AllowOverride All
+        Require all granted
+        </Directory>
+
+        sudo apachectl restart
+
+        cd /Users/yangyang/www
+        touch phpinfo.php
+		echo '<?php phpinfo();' > phpinfo.php
+
+#####Install MySQL
+
+        brew install mysql
+
+#####Connect PHP and MySQL
+
+        cd /var
+        sudo mkdir mysql
+        cd mysql
+        sudo ln -s /tmp/mysql.sock mysql.sock
+
+#####Setup mysql permission
+
+        mysql -u root
+        CREATE USER 'yangyang'@'localhost';
+
+Then type in commands in mysql terminal
+
+        create database edison;
+        grant all on edison.* to 'yangyang';
+
+
+#####Setup Edison Server
+
+        cd ~/www
+        mkdir rest
+        cd ~/Github/drone
+        ln -s `pwd`/Server ~/www/rest/api
+
