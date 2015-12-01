@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS edison.gps (
     `latitude` double(9,6) DEFAULT 0.0,
     `longitude` double(9,6) DEFAULT 0.0,
     `stop_sign` int(11) DEFAULT 0,
-    `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+    `update_time` timestamp NOT NULL DEFAULT '1970-01-01 00:00:01'
     ) ENGINE = InnoDB;
 
-INSERT INTO `gps` VALUES (1, 0, -1, 34.063946, -118.450714, 0, '0000-00-00 00:00:00');
-INSERT INTO `gps` VALUES (2, 1, 0.0, 0.0, 0.0, 0, '0000-00-00 00:00:00');
+INSERT INTO `gps` VALUES (1, 0, -1, 34.063946, -118.450714, 0, '1970-01-01 00:00:01');
+INSERT INTO `gps` VALUES (2, 1, 0.0, 0.0, 0.0, 0, '1970-01-01 00:00:01');
