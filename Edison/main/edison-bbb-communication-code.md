@@ -1,49 +1,47 @@
 #From Edison to BeagleBone Black
 ~0$ stop
 
-~1$ start
-
 ###autocontrol
-~201$ auto_stopFly
+~11$ auto_stopFly
 
-~202$ auto_startFly
+~12$ auto_startFly
 
-~203$ auto_learnVariables
+~13$ auto_learnVariables
 
 ###manual control
-~21001$ suspend
+~201$ suspend
 
-~21002$ up
+~202$ up
 
-~21003$ down
+~203$ down
 
-~21004$ forward
+~204$ forward
 
-~21005$ backward
+~205$ backward
 
-~21006$ left
+~206$ left
 
-~21007$ right
+~207$ right
 
-~21008$ clockwiseRotate
+~208$ clockwiseRotate
 
-~21009$ anticlockwiseRotate
+~209$ anticlockwiseRotate
 
-~21010$ stop
+~210$ stop
 
-~21011$ pwm manual up 0.000025
+~211$ pwm manual up 0.000025
 
-~21012$ pwm manual down 0.000025
+~212$ pwm manual down 0.000025
 
-~21013$ pwm manual up 0.002000
+~213$ pwm manual up 0.002000
 
-~21014$ pwm manual down 0.002000
+~214$ pwm manual down 0.002000
 
-~21015$ null
+~215$ null
 
-~21016$ enable pwm pid ultrasound
+~216$ enable pwm pid ultrasound
 
-~21017$ disable pwm pid ultrasound
+~217$ disable pwm pid ultrasound
 
 ###pid tuning (Note: x is number)
 ~301xxxxxxx$ kp_pitch
@@ -97,52 +95,49 @@
 
 ###feedback:
 
-
 ~0s(f)$ success(fail) stop
 
-~1s(f)$ success(fail) start
-
 #####autocontrol
-~201s(f)$ success(fail) auto_stopFly
+~11s(f)$ success(fail) auto_stopFly
 
-~202s(f)$ success(fail) auto_startFly
+~12s(f)$ success(fail) auto_startFly
 
-~203s(f)$ success(fail) auto_learnVariables
+~13s(f)$ success(fail) auto_learnVariables
 
 #####manual control
-~21001s(f)$ success(fail) suspend
+~201s(f)$ success(fail) suspend
 
-~21002s(f)$ success(fail) up
+~202s(f)$ success(fail) up
 
-~21003s(f)$ success(fail) down
+~203s(f)$ success(fail) down
 
-~21004s(f)$ success(fail) forward
+~204s(f)$ success(fail) forward
 
-~21005s(f)$ success(fail) backward
+~205s(f)$ success(fail) backward
 
-~21006s(f)$ success(fail) left
+~206s(f)$ success(fail) left
 
-~21007s(f)$ success(fail) right
+~207s(f)$ success(fail) right
 
-~21008s(f)$ success(fail) clockwiseRotate
+~208s(f)$ success(fail) clockwiseRotate
 
-~21009s(f)$ success(fail) anticlockwiseRotate
+~209s(f)$ success(fail) anticlockwiseRotate
 
-~21010s(f)$ success(fail) stop
+~210s(f)$ success(fail) stop
 
-~21011s(f)$ success(fail) pwm manual up 0.000025
+~211s(f)$ success(fail) pwm manual up 0.000025
 
-~21012s(f)$ success(fail) pwm manual down 0.000025
+~212s(f)$ success(fail) pwm manual down 0.000025
 
-~21013s(f)$ success(fail) pwm manual up 0.002000
+~213s(f)$ success(fail) pwm manual up 0.002000
 
-~21014s(f)$ success(fail) pwm manual down 0.002000
+~214s(f)$ success(fail) pwm manual down 0.002000
 
-~21015s(f)$ success(fail) null
+~215s(f)$ success(fail) null
 
-~21016s(f)$ success(fail) enable pwm pid ultrasound
+~216s(f)$ success(fail) enable pwm pid ultrasound
 
-~21017s(f)$ success(fail) disable pwm pid ultrasound
+~217s(f)$ success(fail) disable pwm pid ultrasound
 
 #####pid tuning (Note: x is number)
 ~301s(f)$ success(fail) kp_pitch
