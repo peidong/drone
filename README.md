@@ -18,7 +18,7 @@ First, set up password
         git push
 
 And next time, simply do this to git push
-        
+
         cd ~/drone
         git pull
         git add -A :/
@@ -26,7 +26,7 @@ And next time, simply do this to git push
         git push
 
 or we can do this
-        
+
         git pull && git add -A :/ && git commit -m "comment notes" && git push
 
 ###Add some environment variables
@@ -54,13 +54,15 @@ And write this following line at the bottom of the file
 
 ###Set your Edison Board to send ip address automatically
 
+Here is the [reference1](https://communities.intel.com/message/255137)
+
 git clone the drone into your home folder
 
         cd ~
         git clone https://github.com/peidong/drone.git
 
 Then modify the system start service
-        
+
          cd /lib/systemd/system
          touch update_ip_address.service
          vi update_ip_address.service
