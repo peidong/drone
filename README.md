@@ -104,6 +104,10 @@ And write this following line at the bottom of the file
         src/gz edison http://repo.opkg.net/edison/repo/edison
         src/gz core2-32 http://repo.opkg.net/edison/repo/core2-32
 
+###SD card
+
+The files in SD card are in /media/sdcard/
+
 #Server Side Installation
 
 ###Mac OSX Installation
