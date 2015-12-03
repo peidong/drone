@@ -3,15 +3,9 @@
 #include <stdio.h>   /* printf */
 
 int main(){
-	char *char1;
-	// char char2[];
-	char char3[128];
-	char *char4 = "char4";
-	char char5[] = "char5";
-	char *char6 = (char*)malloc(sizeof("char6"));
-	char1 = "char1";
-	char1 = "char1_1";
-	char4 = "char4_1";
-	
+    int n = 123;
+    char arrc_test[80];
+    sprintf(arrc_test, "%d", n);
+    printf("%s", arrc_test);
 	return 0;
 }
