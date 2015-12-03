@@ -44,35 +44,35 @@
 ~217$ disable pwm pid ultrasound
 
 ###pid tuning (Note: x is number)
-~301xxxxxxx$ kp_pitch
+~301x.xxxxxx$ kp_pitch
 
-~302xxxxxxx$ ki_pitch
+~302x.xxxxxx$ ki_pitch
 
-~303xxxxxxx$ kd_pitch
+~303x.xxxxxx$ kd_pitch
 
-~304xxxxxxx$ kp_roll
+~304x.xxxxxx$ kp_roll
 
-~305xxxxxxx$ ki_roll
+~305x.xxxxxx$ ki_roll
 
-~306xxxxxxx$ kd_roll
+~306x.xxxxxx$ kd_roll
 
-~307xxxxxxx$ kp_yaw
+~307x.xxxxxx$ kp_yaw
 
-~308xxxxxxx$ ki_yaw
+~308x.xxxxxx$ ki_yaw
 
-~309xxxxxxx$ kd_yaw
+~309x.xxxxxx$ kd_yaw
 
-~310xxxxxxx$ kp_second_pitch
+~310x.xxxxxx$ kp_second_pitch
 
-~311xxxxxxx$ kd_second_pitch
+~311x.xxxxxx$ kd_second_pitch
 
-~312xxxxxxx$ kp_second_roll
+~312x.xxxxxx$ kp_second_roll
 
-~313xxxxxxx$ kd_second_roll
+~313x.xxxxxx$ kd_second_roll
 
-~314xxxxxxx$ kp_second_yaw
+~314x.xxxxxx$ kp_second_yaw
 
-~315xxxxxxx$ kd_second_yaw
+~315x.xxxxxx$ kd_second_yaw
 
 ###feedback:
 
