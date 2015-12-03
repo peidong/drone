@@ -3,6 +3,7 @@
 #include <stdio.h>   /* printf */
 
 int main(){
-    printf("%f\n", atof("0.012000"));
+    char sz_char[10]="0.012000";
+    printf("%f\n", atof(sz_char));
 	return 0;
 }
