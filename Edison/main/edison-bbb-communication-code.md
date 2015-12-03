@@ -1,12 +1,12 @@
 #From Edison to BeagleBone Black
-~0$ stop
+~000$ stop
 
 ###autocontrol
-~11$ auto_stopFly
+~110$ auto_stopFly
 
-~12$ auto_startFly
+~120$ auto_startFly
 
-~13$ auto_learnVariables
+~130$ auto_learnVariables
 
 ###manual control
 ~201$ suspend

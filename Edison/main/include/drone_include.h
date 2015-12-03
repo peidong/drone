@@ -33,6 +33,8 @@ struct T_drone{
      */
     int nflag_stop_all;
     int nflag_enable_pwm_pid_ultrasound;
+    int nflag_enable_uart_send;
+    int nflag_enable_uart_receive;
     /**
      * These following are from server
      */
@@ -101,6 +103,8 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
      */
     pT_drone->nflag_stop_all = 0;
     pT_drone->nflag_enable_pwm_pid_ultrasound = 0;
+    pT_drone->nflag_enable_uart_send = 0;
+    pT_drone->nflag_enable_uart_receive = 0;
     /**
      * These following are from server
      */
@@ -424,6 +428,59 @@ int update_T_drone_http_gps(struct T_drone *pT_drone){
  * 0:up 1:down 2:left 3:right 4:forward 5:backward
  */
 int update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
+    return 0;
+}
+
+/**
+ * 0: from edison to beaglebone
+ * 1: from beaglebone to edison
+ * check https://github.com/peidong/drone/blob/master/Edison/main/edison-bbb-communication-code.md for commands
+ */
+int communication_with_beaglebone_uart(int n_direction_flag, struct T_drone *pT_drone, int n_command_index, float f_pid_tuning){
+    if (n_direction_flag == 0){
+        //from edison to beaglebone
+        if (n_command_index == 0){
+        }else if (n_command_index == 110){
+        }else if (n_command_index == 120){
+        }else if (n_command_index == 130){
+        }else if (n_command_index == 201){
+        }else if (n_command_index == 202){
+        }else if (n_command_index == 203){
+        }else if (n_command_index == 204){
+        }else if (n_command_index == 205){
+        }else if (n_command_index == 206){
+        }else if (n_command_index == 207){
+        }else if (n_command_index == 208){
+        }else if (n_command_index == 209){
+        }else if (n_command_index == 210){
+        }else if (n_command_index == 211){
+        }else if (n_command_index == 212){
+        }else if (n_command_index == 213){
+        }else if (n_command_index == 214){
+        }else if (n_command_index == 215){
+        }else if (n_command_index == 216){
+        }else if (n_command_index == 217){
+        }else if (n_command_index == 301){
+        }else if (n_command_index == 302){
+        }else if (n_command_index == 303){
+        }else if (n_command_index == 304){
+        }else if (n_command_index == 305){
+        }else if (n_command_index == 306){
+        }else if (n_command_index == 307){
+        }else if (n_command_index == 308){
+        }else if (n_command_index == 309){
+        }else if (n_command_index == 310){
+        }else if (n_command_index == 311){
+        }else if (n_command_index == 312){
+        }else if (n_command_index == 313){
+        }else if (n_command_index == 314){
+        }else if (n_command_index == 315){
+        }else if (n_command_index == 40){
+        }else if (n_command_index == 41){
+        }else if (n_command_index == 42){
+    } else if (n_direction_flag == 1) {
+        //from beaglebone to edison
+    }
     return 0;
 }
 
