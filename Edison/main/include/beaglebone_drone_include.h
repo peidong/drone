@@ -449,7 +449,7 @@ int process_message(char *arrc_buffer, struct T_drone *pT_drone){
  *                  1 from beaglebone to edison
  * check https://github.com/peidong/drone/blob/master/Edison/main/edison-bbb-communication-code.md for commands
  */
-int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_drone, int nflag_receive_success){
+int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone, int nflag_receive_success){
     /**
      * check if uart available
      */
@@ -1139,10 +1139,6 @@ int GeneratePwm(struct T_drone *pT_drone){
 /**
  * Thread Tasks
  */
-void ThreadTask_UartCommunication(struct T_drone *pT_drone){
-    //uart_communication(pT_drone);
-}
-
 void ThreadTask_update_T_drone_arrd_pid(struct T_drone *pT_drone){
     update_T_drone_arrd_pid(pT_drone);
 }
@@ -1153,4 +1149,10 @@ void ThreadTask_update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 
 void ThreadTask_GeneratePwm(struct T_drone *pT_drone){
     GeneratePwm(pT_drone);
+}
+
+void ThreadTask_uart_message(struct T_drone *pT_drone){
+    while (pT_drone->nflag_stop_all == 0){
+        communication_with_edison_uart(1, pT_drone, -1);
+    }
 }
