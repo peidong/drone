@@ -485,9 +485,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eLk-Dz-Pc8">
-                                <rect key="frame" x="483" y="279" width="32" height="30"/>
+                                <rect key="frame" x="484" y="279" width="30" height="30"/>
                                 <animations/>
-                                <state key="normal" title="start"/>
+                                <state key="normal" title="null"/>
                                 <connections>
                                     <action selector="start:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gR5-f0-by3"/>
                                 </connections>
