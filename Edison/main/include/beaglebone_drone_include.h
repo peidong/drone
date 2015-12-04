@@ -19,6 +19,7 @@
 // #define PRINT_DEBUG_PWM_HTTP_GET
 #define PRINT_DEBUG_YAW_PITCH_ROLL
 #define PRINT_DEBUG_PID_CHANGE
+#define PRINT_DEBUG_UART_MESSAGE
 // #define PRINT_DEBUG_PID_TUNING
 // #define PRINT_DEBUG_PWM
 //#define PRINT_DEBUG_THREAD
@@ -282,7 +283,10 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
              * stop
              */
             n_command_index = 0;
+            pT_drone->nflag_stop_all = 1;
+#ifdef PRINT_DEBUG_UART_MESSAGE
             printf("stop received\n");
+#endif
         }else if (arrc_buffer[0] == '1'){
             /**
              * auto control
@@ -294,7 +298,9 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
             }
             arrc_command_index[3] = '\0';
             n_command_index = atoi(arrc_command_index);
+#ifdef PRINT_DEBUG_UART_MESSAGE
             printf("auto control received: %d\n", n_command_index);
+#endif
         }else if (arrc_buffer[0] == '2'){
             /**
              * manual control command
@@ -306,7 +312,78 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
             }
             arrc_command_index[3] = '\0';
             n_command_index = atoi(arrc_command_index);
+            if (n_command_index == 201){
+                /**
+                 * suspend
+                 */
+            }else if (n_command_index == 202){
+                /**
+                 * up
+                 */
+            }else if (n_command_index == 203){
+                /**
+                 * down
+                 */
+            }else if (n_command_index == 204){
+                /**
+                 * forward
+                 */
+            }else if (n_command_index == 205){
+                /**
+                 * backward
+                 */
+            }else if (n_command_index == 206){
+                /**
+                 * left
+                 */
+            }else if (n_command_index == 207){
+                /**
+                 * right
+                 */
+            }else if (n_command_index == 208){
+                /**
+                 * clockwiseRotate
+                 */
+            }else if (n_command_index == 209){
+                /**
+                 * anticlockwiseRotate
+                 */
+            }else if (n_command_index == 210){
+                /**
+                 * stop
+                 */
+            }else if (n_command_index == 211){
+                /**
+                 * pwm small up
+                 */
+            }else if (n_command_index == 212){
+                /**
+                 * pwm small down
+                 */
+            }else if (n_command_index == 213){
+                /**
+                 * pwm big up
+                 */
+            }else if (n_command_index == 214){
+                /**
+                 * pwm big down
+                 */
+            }else if (n_command_index == 215){
+                /**
+                 * null
+                 */
+            }else if (n_command_index == 216){
+                /**
+                 * enable pwm
+                 */
+            }else if (n_command_index == 217){
+                /**
+                 * disable pwm
+                 */
+            }
+#ifdef PRINT_DEBUG_UART_MESSAGE
             printf("manual control received: %d\n", n_command_index);
+#endif
         }else if (arrc_buffer[0] == '3'){
             /**
              * pid tuning
@@ -318,8 +395,9 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
             }
             arrc_command_index[3] = '\0';
             n_command_index = atoi(arrc_command_index);
+#ifdef PRINT_DEBUG_UART_MESSAGE
             printf("pid tuning received: %d\n", n_command_index);
-
+#endif
             char arrc_pid_value[9];
             for (n_temp_index = 0; n_temp_index <= 7; n_temp_index++){
                 arrc_pid_value[n_temp_index] = arrc_buffer[n_temp_index + 3];
@@ -356,12 +434,14 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
             }else if (n_command_index == 315){
                 pT_drone->d_kd_second_yaw = atof(arrc_pid_value);
             }
-            printf("pid tuning value: %lf\n", atof(arrc_pid_value));
+            printf("pid tuning value: %f\n", atof(arrc_pid_value));
         }else if (arrc_buffer[0] == '4'){
             /**
              * feedback
              */
+#ifdef PRINT_DEBUG_UART_MESSAGE
             printf("feedback received\n");
+#endif
         }
     }else if (nflag_direction == 0){
         /**
