@@ -2,6 +2,7 @@
 
 int main()
 {
+    load_device_tree("ADAFRUIT-UART4");
     /*mraa_init(); // can we put it in the beginning. Avoid repeating definition.*/
     /**
      * initialize_struct_T_drone

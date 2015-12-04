@@ -53,6 +53,7 @@ struct T_drone{
      */
     int nflag_stop_all;
     int nflag_enable_pwm_pid_ultrasound;
+	int nflag_enable_uart;
     /**
      * These following are from server
      */
@@ -128,6 +129,7 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
      */
     pT_drone->nflag_stop_all = 0;
     pT_drone->nflag_enable_pwm_pid_ultrasound = 1;
+	pT_drone->nflag_enable_uart = 1;
     /**
      * These following are from server
      */
@@ -217,7 +219,70 @@ int initialize_pwm_value(struct T_drone *pT_drone){
     return 0;
 }
 
-int uart_communication(struct T_drone *pT_drone){
+/**
+ * n_direction_flag: 0 from edison to beaglebone
+ *                  1 from beaglebone to edison
+ * check https://github.com/peidong/drone/blob/master/Edison/main/edison-bbb-communication-code.md for commands
+ */
+int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_drone, int nflag_receive_success){
+    /**
+     * check if uart available
+     */
+    while (pT_drone->nflag_enable_uart != 1){
+        usleep(1300);
+    }
+    pT_drone->nflag_enable_uart = 0;
+    mraa_uart_context beaglebone_uart;
+    if (nflag_direction == 1){
+        /**
+         * From beaglebone to edison
+         */
+        beaglebone_uart = mraa_uart_init_raw("/dev/ttyO4");
+        mraa_uart_set_baudrate(beaglebone_uart, 38400);
+        mraa_uart_set_mode(beaglebone_uart, 8, MRAA_UART_PARITY_NONE , 1);
+        /**
+         * Start receive
+         */
+        char c_flag[1];
+        char arrc_buffer[20];
+        int nflag_find_beginning = 0;
+        int nflag_find_end = 0;
+        int n_index = 0;
+        /**
+         * Read the message array
+         */
+        while (nflag_find_beginning != 1){
+            mraa_uart_read(beaglebone_uart, c_flag, 1);
+            if (c_flag[0] == '~'){
+                nflag_find_beginning = 1;
+                n_index = 0;
+                while (nflag_find_end != 1){
+                    mraa_uart_read(beaglebone_uart, arrc_buffer + n_index, 1);
+                    if (arrc_buffer[n_index] == '$'){
+                        arrc_buffer[n_index] = '\0';
+                        nflag_find_end = 1;
+                        //break;
+                    }else if (arrc_buffer[n_index] == '~'){
+                        nflag_find_end = -1;
+                        nflag_find_beginning = 1;
+                        n_index = 0;
+                        //continue;
+                    }else{
+                        n_index++;
+                    }
+                }
+            }
+        }
+        /**
+         * Process the message
+         */
+        printf("%s\n", arrc_buffer);
+    }else if (nflag_direction == 0){
+        /**
+         * From edison to beaglebone
+         */
+    }
+    pT_drone->nflag_enable_uart = 1;
     return 0;
 }
 
