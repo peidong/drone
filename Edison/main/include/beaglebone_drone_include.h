@@ -276,27 +276,27 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
         /**
          * Process the message
          */
-        if (arrc_buffer[0] == 0){
+        if (arrc_buffer[0] == '0'){
             /**
              * stop
              */
             printf("stop\n");
-        }else if (arrc_buffer[0] == 1){
+        }else if (arrc_buffer[0] == '1'){
             /**
              * auto control
              */
             printf("auto control\n");
-        }else if (arrc_buffer[0] == 2){
+        }else if (arrc_buffer[0] == '2'){
             /**
              * manual control command
              */
             printf("manual control\n");
-        }else if (arrc_buffer[0] == 3){
+        }else if (arrc_buffer[0] == '3'){
             /**
              * pid tuning
              */
             printf("pid tuning\n");
-        }else if (arrc_buffer[0] == 4){
+        }else if (arrc_buffer[0] == '4'){
             /**
              * feedback
              */
