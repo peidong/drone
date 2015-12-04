@@ -432,7 +432,9 @@ int process_message(char *arrc_buffer, struct T_drone *pT_drone){
         }else if (n_command_index == 315){
             pT_drone->d_kd_second_yaw = atof(arrc_pid_value);
         }
+#ifdef PRINT_DEBUG_UART_MESSAGE
         printf("pid tuning value: %f\n", atof(arrc_pid_value));
+#endif
     }else if (arrc_buffer[0] == '4'){
         /**
          * feedback
@@ -560,7 +562,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         // Calculate deltat
         deltat = (timer_delta_us(&mpu_timer) - mpu_last_time)/1000;
         mpu_last_time = timer_delta_us(&mpu_timer);
-        printf("%ld  ",(timer_delta_us(&mpu_timer) - mpu_last_time));
+        //printf("%ld  ",(timer_delta_us(&mpu_timer) - mpu_last_time));
         uint8_t Buf[14];
         mraa_i2c_read_bytes_data(mpu, 59, Buf, 14);
         // Accelerometer

@@ -206,6 +206,7 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
     while (pT_drone->nflag_enable_uart != 1){
         usleep(1300);
     }
+    printf("sending command: %d", n_command_index);
     pT_drone->nflag_enable_uart = 0;
     mraa_uart_context edison_uart;
     if (nflag_direction == 0){
