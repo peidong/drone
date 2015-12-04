@@ -454,6 +454,9 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
      * check if uart available
      */
     while (pT_drone->nflag_enable_uart != 1){
+        if (pT_drone->nflag_stop_all != 0){
+            break;
+        }
         usleep(1300);
     }
     pT_drone->nflag_enable_uart = 0;
@@ -477,11 +480,17 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
          * Read the message array
          */
         while (nflag_find_beginning != 1){
+            if (pT_drone->nflag_stop_all != 0){
+                break;
+            }
             mraa_uart_read(beaglebone_uart, c_flag, 1);
             if (c_flag[0] == '~'){
                 nflag_find_beginning = 1;
                 n_receive_message_index = 0;
                 while (nflag_find_end != 1){
+                    if (pT_drone->nflag_stop_all != 0){
+                        break;
+                    }
                     mraa_uart_read(beaglebone_uart, arrc_buffer + n_receive_message_index, 1);
                     if (arrc_buffer[n_receive_message_index] == '$'){
                         arrc_buffer[n_receive_message_index] = '\0';
@@ -541,10 +550,8 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     timer_start(&mpu_timer);
     long mpu_last_time = timer_delta_us(&mpu_timer);
     MPU_init();
-    while (1)
-    {
-        if (pT_drone->nflag_stop_all != 0)
-        {
+    while (1) {
+        if (pT_drone->nflag_stop_all != 0) {
             break;
         }
 #ifdef PRINT_DEBUG_THREAD
