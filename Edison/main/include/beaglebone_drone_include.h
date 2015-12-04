@@ -220,7 +220,227 @@ int initialize_pwm_value(struct T_drone *pT_drone){
     return 0;
 }
 
-int process_message(int n_command_index, struct T_drone *pT_drone, int nflag_receive_success){
+int process_message(char *arrc_buffer, struct T_drone *pT_drone){
+    /**
+     * Process the message
+     */
+    int n_command_index = -1;
+    if (arrc_buffer[0] == '0'){
+        /**
+         * stop
+         */
+        n_command_index = 0;
+        pT_drone->nflag_stop_all = 1;
+#ifdef PRINT_DEBUG_UART_MESSAGE
+        printf("stop received\n");
+#endif
+    }else if (arrc_buffer[0] == '1'){
+        /**
+         * auto control
+         */
+        char arrc_command_index[4];
+        int n_temp_command_index;
+        for (n_temp_command_index = 0; n_temp_command_index <= 2; n_temp_command_index++){
+            arrc_command_index[n_temp_command_index] = arrc_buffer[n_temp_command_index];
+        }
+        arrc_command_index[3] = '\0';
+        n_command_index = atoi(arrc_command_index);
+#ifdef PRINT_DEBUG_UART_MESSAGE
+        printf("auto control received: %d\n", n_command_index);
+#endif
+    }else if (arrc_buffer[0] == '2'){
+        /**
+         * manual control command
+         */
+        char arrc_command_index[4];
+        int n_temp_command_index;
+        for (n_temp_command_index = 0; n_temp_command_index <= 2; n_temp_command_index++){
+            arrc_command_index[n_temp_command_index] = arrc_buffer[n_temp_command_index];
+        }
+        arrc_command_index[3] = '\0';
+        n_command_index = atoi(arrc_command_index);
+        if (n_command_index == 201){
+            /**
+             * suspend
+             */
+        }else if (n_command_index == 202){
+            /**
+             * up
+             */
+        }else if (n_command_index == 203){
+            /**
+             * down
+             */
+        }else if (n_command_index == 204){
+            /**
+             * forward
+             */
+        }else if (n_command_index == 205){
+            /**
+             * backward
+             */
+        }else if (n_command_index == 206){
+            /**
+             * left
+             */
+        }else if (n_command_index == 207){
+            /**
+             * right
+             */
+        }else if (n_command_index == 208){
+            /**
+             * clockwiseRotate
+             */
+        }else if (n_command_index == 209){
+            /**
+             * anticlockwiseRotate
+             */
+        }else if (n_command_index == 210){
+            /**
+             * stop
+             */
+            pT_drone->nflag_stop_all = 1;
+        }else if (n_command_index == 211){
+            /**
+             * pwm small up
+             */
+            int n_pwm_index;
+            for(n_pwm_index=0; n_pwm_index<4; n_pwm_index++){
+                pT_drone->arrd_current_pwm[n_pwm_index] += PWM_MANUAL_CHANGE_AMOUNT;
+                pT_drone->arrd_current_pwm_min[n_pwm_index] += PWM_MANUAL_CHANGE_AMOUNT;
+                //limit the value range
+                if(pT_drone->arrd_current_pwm_min[n_pwm_index] > PWM_MIN){
+                    pT_drone->arrd_current_pwm_min[n_pwm_index] = PWM_MIN;
+                }
+                if(pT_drone->arrd_current_pwm[n_pwm_index] > pT_drone->arrd_current_pwm_min[n_pwm_index] + PWM_RANGE){
+                    pT_drone->arrd_current_pwm[n_pwm_index] = pT_drone->arrd_current_pwm_min[n_pwm_index] + PWM_RANGE;
+                }
+            }   
+        }else if (n_command_index == 212){
+            /**
+             * pwm small down
+             */
+            int n_pwm_index;
+            for(n_pwm_index=0; n_pwm_index<4; n_pwm_index++){
+                pT_drone->arrd_current_pwm[n_pwm_index] -= PWM_MANUAL_CHANGE_AMOUNT;
+                pT_drone->arrd_current_pwm_min[n_pwm_index] -= PWM_MANUAL_CHANGE_AMOUNT;
+                //limit the value range
+                if(pT_drone->arrd_current_pwm_min[n_pwm_index] < PWM_INITIAL){
+                    pT_drone->arrd_current_pwm_min[n_pwm_index] = PWM_INITIAL;
+                }
+                if(pT_drone->arrd_current_pwm[n_pwm_index] < pT_drone->arrd_current_pwm_min[n_pwm_index]){
+                    pT_drone->arrd_current_pwm[n_pwm_index] = pT_drone->arrd_current_pwm_min[n_pwm_index];
+                }
+            }
+        }else if (n_command_index == 213){
+            /**
+             * pwm big up
+             */
+            int n_pwm_index;
+            for(n_pwm_index=0; n_pwm_index<4; n_pwm_index++){
+                pT_drone->arrd_current_pwm[n_pwm_index] += PWM_MANUAL_CHANGE_AMOUNT_LARGE;
+                pT_drone->arrd_current_pwm_min[n_pwm_index] += PWM_MANUAL_CHANGE_AMOUNT_LARGE;
+                //limit the value range
+                if(pT_drone->arrd_current_pwm_min[n_pwm_index] > PWM_MIN){
+                    pT_drone->arrd_current_pwm_min[n_pwm_index] = PWM_MIN;
+                }
+                if(pT_drone->arrd_current_pwm[n_pwm_index] > pT_drone->arrd_current_pwm_min[n_pwm_index] + PWM_RANGE){
+                    pT_drone->arrd_current_pwm[n_pwm_index] = pT_drone->arrd_current_pwm_min[n_pwm_index] + PWM_RANGE;
+                }
+            }
+        }else if (n_command_index == 214){
+            /**
+             * pwm big down
+             */
+            int n_pwm_index;
+            for(n_pwm_index=0; n_pwm_index<4; n_pwm_index++){
+                pT_drone->arrd_current_pwm[n_pwm_index] -= PWM_MANUAL_CHANGE_AMOUNT_LARGE;
+                pT_drone->arrd_current_pwm_min[n_pwm_index] -= PWM_MANUAL_CHANGE_AMOUNT_LARGE;
+                //limit the value range
+                if(pT_drone->arrd_current_pwm_min[n_pwm_index] < PWM_INITIAL){
+                    pT_drone->arrd_current_pwm_min[n_pwm_index] = PWM_INITIAL;
+                }
+                if(pT_drone->arrd_current_pwm[n_pwm_index] < pT_drone->arrd_current_pwm_min[n_pwm_index]){
+                    pT_drone->arrd_current_pwm[n_pwm_index] = pT_drone->arrd_current_pwm_min[n_pwm_index];
+                }
+            }
+        }else if (n_command_index == 215){
+            /**
+             * null
+             */
+        }else if (n_command_index == 216){
+            /**
+             * enable pwm
+             */
+            pT_drone->nflag_enable_pwm_pid_ultrasound = 1;
+        }else if (n_command_index == 217){
+            /**
+             * disable pwm
+             */
+            pT_drone->nflag_enable_pwm_pid_ultrasound = 0;
+        }
+#ifdef PRINT_DEBUG_UART_MESSAGE
+        printf("manual control received: %d\n", n_command_index);
+#endif
+    }else if (arrc_buffer[0] == '3'){
+        /**
+         * pid tuning
+         */
+        char arrc_command_index[4];
+        int n_temp_index;
+        for (n_temp_index = 0; n_temp_index <= 2; n_temp_index++){
+            arrc_command_index[n_temp_index] = arrc_buffer[n_temp_index];
+        }
+        arrc_command_index[3] = '\0';
+        n_command_index = atoi(arrc_command_index);
+#ifdef PRINT_DEBUG_UART_MESSAGE
+        printf("pid tuning received: %d\n", n_command_index);
+#endif
+        char arrc_pid_value[9];
+        for (n_temp_index = 0; n_temp_index <= 7; n_temp_index++){
+            arrc_pid_value[n_temp_index] = arrc_buffer[n_temp_index + 3];
+        }
+        arrc_buffer[8] = '\0';
+        if (n_command_index == 301){
+            pT_drone->d_kp_pitch = atof(arrc_pid_value);
+        }else if (n_command_index == 302){
+            pT_drone->d_ki_pitch = atof(arrc_pid_value);
+        }else if (n_command_index == 303){
+            pT_drone->d_kd_pitch = atof(arrc_pid_value);
+        }else if (n_command_index == 304){
+            pT_drone->d_kp_roll = atof(arrc_pid_value);
+        }else if (n_command_index == 305){
+            pT_drone->d_ki_roll = atof(arrc_pid_value);
+        }else if (n_command_index == 306){
+            pT_drone->d_kd_roll = atof(arrc_pid_value);
+        }else if (n_command_index == 307){
+            pT_drone->d_kp_yaw = atof(arrc_pid_value);
+        }else if (n_command_index == 308){
+            pT_drone->d_kd_yaw = atof(arrc_pid_value);
+        }else if (n_command_index == 309){
+            pT_drone->d_ki_yaw = atof(arrc_pid_value);
+        }else if (n_command_index == 310){
+            pT_drone->d_kp_second_pitch = atof(arrc_pid_value);
+        }else if (n_command_index == 311){
+            pT_drone->d_kd_second_pitch = atof(arrc_pid_value);
+        }else if (n_command_index == 312){
+            pT_drone->d_kp_second_roll = atof(arrc_pid_value);
+        }else if (n_command_index == 313){
+            pT_drone->d_kd_second_roll = atof(arrc_pid_value);
+        }else if (n_command_index == 314){
+            pT_drone->d_kp_second_yaw = atof(arrc_pid_value);
+        }else if (n_command_index == 315){
+            pT_drone->d_kd_second_yaw = atof(arrc_pid_value);
+        }
+        printf("pid tuning value: %f\n", atof(arrc_pid_value));
+    }else if (arrc_buffer[0] == '4'){
+        /**
+         * feedback
+         */
+#ifdef PRINT_DEBUG_UART_MESSAGE
+        printf("feedback received\n");
+#endif
+    }
     return 0;
 }
 
@@ -278,226 +498,9 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
                 }
             }
         }
-        /**
-         * Process the message
-         */
-        int n_command_index = -1;
-        if (arrc_buffer[0] == '0'){
-            /**
-             * stop
-             */
-            n_command_index = 0;
-            pT_drone->nflag_stop_all = 1;
-#ifdef PRINT_DEBUG_UART_MESSAGE
-            printf("stop received\n");
-#endif
-        }else if (arrc_buffer[0] == '1'){
-            /**
-             * auto control
-             */
-            char arrc_command_index[4];
-            int n_temp_command_index;
-            for (n_temp_command_index = 0; n_temp_command_index <= 2; n_temp_command_index++){
-                arrc_command_index[n_temp_command_index] = arrc_buffer[n_temp_command_index];
-            }
-            arrc_command_index[3] = '\0';
-            n_command_index = atoi(arrc_command_index);
-#ifdef PRINT_DEBUG_UART_MESSAGE
-            printf("auto control received: %d\n", n_command_index);
-#endif
-        }else if (arrc_buffer[0] == '2'){
-            /**
-             * manual control command
-             */
-            char arrc_command_index[4];
-            int n_temp_command_index;
-            for (n_temp_command_index = 0; n_temp_command_index <= 2; n_temp_command_index++){
-                arrc_command_index[n_temp_command_index] = arrc_buffer[n_temp_command_index];
-            }
-            arrc_command_index[3] = '\0';
-            n_command_index = atoi(arrc_command_index);
-            if (n_command_index == 201){
-                /**
-                 * suspend
-                 */
-            }else if (n_command_index == 202){
-                /**
-                 * up
-                 */
-            }else if (n_command_index == 203){
-                /**
-                 * down
-                 */
-            }else if (n_command_index == 204){
-                /**
-                 * forward
-                 */
-            }else if (n_command_index == 205){
-                /**
-                 * backward
-                 */
-            }else if (n_command_index == 206){
-                /**
-                 * left
-                 */
-            }else if (n_command_index == 207){
-                /**
-                 * right
-                 */
-            }else if (n_command_index == 208){
-                /**
-                 * clockwiseRotate
-                 */
-            }else if (n_command_index == 209){
-                /**
-                 * anticlockwiseRotate
-                 */
-            }else if (n_command_index == 210){
-                /**
-                 * stop
-                 */
-                pT_drone->nflag_stop_all = 1;
-            }else if (n_command_index == 211){
-                /**
-                 * pwm small up
-                 */
-                int n_pwm_index;
-                for(n_pwm_index=0; n_pwm_index<4; n_pwm_index++){
-                    pT_drone->arrd_current_pwm[n_pwm_index] += PWM_MANUAL_CHANGE_AMOUNT;
-                    pT_drone->arrd_current_pwm_min[n_pwm_index] += PWM_MANUAL_CHANGE_AMOUNT;
-                    //limit the value range
-                    if(pT_drone->arrd_current_pwm_min[n_pwm_index] > PWM_MIN){
-                        pT_drone->arrd_current_pwm_min[n_pwm_index] = PWM_MIN;
-                    }
-                    if(pT_drone->arrd_current_pwm[n_pwm_index] > pT_drone->arrd_current_pwm_min[n_pwm_index] + PWM_RANGE){
-                        pT_drone->arrd_current_pwm[n_pwm_index] = pT_drone->arrd_current_pwm_min[n_pwm_index] + PWM_RANGE;
-                    }
-                }   
-            }else if (n_command_index == 212){
-                /**
-                 * pwm small down
-                 */
-                int n_pwm_index;
-                for(n_pwm_index=0; n_pwm_index<4; n_pwm_index++){
-                    pT_drone->arrd_current_pwm[n_pwm_index] -= PWM_MANUAL_CHANGE_AMOUNT;
-                    pT_drone->arrd_current_pwm_min[n_pwm_index] -= PWM_MANUAL_CHANGE_AMOUNT;
-                    //limit the value range
-                    if(pT_drone->arrd_current_pwm_min[n_pwm_index] < PWM_INITIAL){
-                        pT_drone->arrd_current_pwm_min[n_pwm_index] = PWM_INITIAL;
-                    }
-                    if(pT_drone->arrd_current_pwm[n_pwm_index] < pT_drone->arrd_current_pwm_min[n_pwm_index]){
-                        pT_drone->arrd_current_pwm[n_pwm_index] = pT_drone->arrd_current_pwm_min[n_pwm_index];
-                    }
-                }
-            }else if (n_command_index == 213){
-                /**
-                 * pwm big up
-                 */
-                int n_pwm_index;
-                for(n_pwm_index=0; n_pwm_index<4; n_pwm_index++){
-                    pT_drone->arrd_current_pwm[n_pwm_index] += PWM_MANUAL_CHANGE_AMOUNT_LARGE;
-                    pT_drone->arrd_current_pwm_min[n_pwm_index] += PWM_MANUAL_CHANGE_AMOUNT_LARGE;
-                    //limit the value range
-                    if(pT_drone->arrd_current_pwm_min[n_pwm_index] > PWM_MIN){
-                        pT_drone->arrd_current_pwm_min[n_pwm_index] = PWM_MIN;
-                    }
-                    if(pT_drone->arrd_current_pwm[n_pwm_index] > pT_drone->arrd_current_pwm_min[n_pwm_index] + PWM_RANGE){
-                        pT_drone->arrd_current_pwm[n_pwm_index] = pT_drone->arrd_current_pwm_min[n_pwm_index] + PWM_RANGE;
-                    }
-                }
-            }else if (n_command_index == 214){
-                /**
-                 * pwm big down
-                 */
-                int n_pwm_index;
-                for(n_pwm_index=0; n_pwm_index<4; n_pwm_index++){
-                    pT_drone->arrd_current_pwm[n_pwm_index] -= PWM_MANUAL_CHANGE_AMOUNT_LARGE;
-                    pT_drone->arrd_current_pwm_min[n_pwm_index] -= PWM_MANUAL_CHANGE_AMOUNT_LARGE;
-                    //limit the value range
-                    if(pT_drone->arrd_current_pwm_min[n_pwm_index] < PWM_INITIAL){
-                        pT_drone->arrd_current_pwm_min[n_pwm_index] = PWM_INITIAL;
-                    }
-                    if(pT_drone->arrd_current_pwm[n_pwm_index] < pT_drone->arrd_current_pwm_min[n_pwm_index]){
-                        pT_drone->arrd_current_pwm[n_pwm_index] = pT_drone->arrd_current_pwm_min[n_pwm_index];
-                    }
-                }
-            }else if (n_command_index == 215){
-                /**
-                 * null
-                 */
-            }else if (n_command_index == 216){
-                /**
-                 * enable pwm
-                 */
-                pT_drone->nflag_enable_pwm_pid_ultrasound = 1;
-            }else if (n_command_index == 217){
-                /**
-                 * disable pwm
-                 */
-                pT_drone->nflag_enable_pwm_pid_ultrasound = 0;
-            }
-#ifdef PRINT_DEBUG_UART_MESSAGE
-            printf("manual control received: %d\n", n_command_index);
-#endif
-        }else if (arrc_buffer[0] == '3'){
-            /**
-             * pid tuning
-             */
-            char arrc_command_index[4];
-            int n_temp_index;
-            for (n_temp_index = 0; n_temp_index <= 2; n_temp_index++){
-                arrc_command_index[n_temp_index] = arrc_buffer[n_temp_index];
-            }
-            arrc_command_index[3] = '\0';
-            n_command_index = atoi(arrc_command_index);
-#ifdef PRINT_DEBUG_UART_MESSAGE
-            printf("pid tuning received: %d\n", n_command_index);
-#endif
-            char arrc_pid_value[9];
-            for (n_temp_index = 0; n_temp_index <= 7; n_temp_index++){
-                arrc_pid_value[n_temp_index] = arrc_buffer[n_temp_index + 3];
-            }
-            arrc_buffer[8] = '\0';
-            if (n_command_index == 301){
-                pT_drone->d_kp_pitch = atof(arrc_pid_value);
-            }else if (n_command_index == 302){
-                pT_drone->d_ki_pitch = atof(arrc_pid_value);
-            }else if (n_command_index == 303){
-                pT_drone->d_kd_pitch = atof(arrc_pid_value);
-            }else if (n_command_index == 304){
-                pT_drone->d_kp_roll = atof(arrc_pid_value);
-            }else if (n_command_index == 305){
-                pT_drone->d_ki_roll = atof(arrc_pid_value);
-            }else if (n_command_index == 306){
-                pT_drone->d_kd_roll = atof(arrc_pid_value);
-            }else if (n_command_index == 307){
-                pT_drone->d_kp_yaw = atof(arrc_pid_value);
-            }else if (n_command_index == 308){
-                pT_drone->d_kd_yaw = atof(arrc_pid_value);
-            }else if (n_command_index == 309){
-                pT_drone->d_ki_yaw = atof(arrc_pid_value);
-            }else if (n_command_index == 310){
-                pT_drone->d_kp_second_pitch = atof(arrc_pid_value);
-            }else if (n_command_index == 311){
-                pT_drone->d_kd_second_pitch = atof(arrc_pid_value);
-            }else if (n_command_index == 312){
-                pT_drone->d_kp_second_roll = atof(arrc_pid_value);
-            }else if (n_command_index == 313){
-                pT_drone->d_kd_second_roll = atof(arrc_pid_value);
-            }else if (n_command_index == 314){
-                pT_drone->d_kp_second_yaw = atof(arrc_pid_value);
-            }else if (n_command_index == 315){
-                pT_drone->d_kd_second_yaw = atof(arrc_pid_value);
-            }
-            printf("pid tuning value: %f\n", atof(arrc_pid_value));
-        }else if (arrc_buffer[0] == '4'){
-            /**
-             * feedback
-             */
-#ifdef PRINT_DEBUG_UART_MESSAGE
-            printf("feedback received\n");
-#endif
-        }
+        nflag_find_beginning = 0;
+        nflag_find_end = 0;
+        process_message(arrc_buffer, pT_drone);
     }else if (nflag_direction == 0){
         /**
          * From edison to beaglebone
