@@ -196,7 +196,7 @@
 }
 
 
-- (IBAction)suspeng_1:(id)sender {
+- (IBAction)suspend_1:(id)sender {
     manual_control_command = 1;
     [self updateValue];
 }
