@@ -299,7 +299,7 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
             char arrc_pid_value[9];
             int n_temp_index;
             for (n_temp_index = 0; n_temp_index <= 7; n_temp_index++){
-                arrc_pid_value[n_temp_index] = arrc_buffer[n_temp_index];
+                arrc_pid_value[n_temp_index] = arrc_buffer[n_temp_index + 3];
             }
             arrc_buffer[8] = '\0';
             double temp;
