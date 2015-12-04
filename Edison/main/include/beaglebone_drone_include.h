@@ -276,40 +276,92 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
         /**
          * Process the message
          */
+        int n_command_index = -1;
         if (arrc_buffer[0] == '0'){
             /**
              * stop
              */
-            printf("stop\n");
+            n_command_index = 0;
+            printf("stop received\n");
         }else if (arrc_buffer[0] == '1'){
             /**
              * auto control
              */
-            printf("auto control\n");
+            char arrc_command_index[4];
+            int n_temp_index;
+            for (n_temp_index = 0; n_temp_index <= 2; n_temp_index++){
+                arrc_command_index[n_temp_index] = arrc_buffer[n_temp_index];
+            }
+            arrc_command_index[3] = '\0';
+            n_command_index = atoi(arrc_command_index);
+            printf("auto control received: %d\n", n_command_index);
         }else if (arrc_buffer[0] == '2'){
             /**
              * manual control command
              */
-            printf("manual control\n");
+            char arrc_command_index[4];
+            int n_temp_index;
+            for (n_temp_index = 0; n_temp_index <= 2; n_temp_index++){
+                arrc_command_index[n_temp_index] = arrc_buffer[n_temp_index];
+            }
+            arrc_command_index[3] = '\0';
+            n_command_index = atoi(arrc_command_index);
+            printf("manual control received: %d\n", n_command_index);
         }else if (arrc_buffer[0] == '3'){
             /**
              * pid tuning
              */
-            printf("pid tuning\n");
-            char arrc_pid_value[9];
+            char arrc_command_index[4];
             int n_temp_index;
+            for (n_temp_index = 0; n_temp_index <= 2; n_temp_index++){
+                arrc_command_index[n_temp_index] = arrc_buffer[n_temp_index];
+            }
+            arrc_command_index[3] = '\0';
+            n_command_index = atoi(arrc_command_index);
+            printf("pid tuning received: %d\n", n_command_index);
+
+            char arrc_pid_value[9];
             for (n_temp_index = 0; n_temp_index <= 7; n_temp_index++){
                 arrc_pid_value[n_temp_index] = arrc_buffer[n_temp_index + 3];
             }
             arrc_buffer[8] = '\0';
-            double temp;
-            temp = atof(arrc_pid_value);
-            printf("value = %f\n", temp);
+            if (n_command_index == 301){
+                pT_drone->d_kp_pitch = atof(arrc_pid_value);
+            }else if (n_command_index == 302){
+                pT_drone->d_ki_pitch = atof(arrc_pid_value);
+            }else if (n_command_index == 303){
+                pT_drone->d_kd_pitch = atof(arrc_pid_value);
+            }else if (n_command_index == 304){
+                pT_drone->d_kp_roll = atof(arrc_pid_value);
+            }else if (n_command_index == 305){
+                pT_drone->d_ki_roll = atof(arrc_pid_value);
+            }else if (n_command_index == 306){
+                pT_drone->d_kd_roll = atof(arrc_pid_value);
+            }else if (n_command_index == 307){
+                pT_drone->d_kp_yaw = atof(arrc_pid_value);
+            }else if (n_command_index == 308){
+                pT_drone->d_kd_yaw = atof(arrc_pid_value);
+            }else if (n_command_index == 309){
+                pT_drone->d_ki_yaw = atof(arrc_pid_value);
+            }else if (n_command_index == 310){
+                pT_drone->d_kp_second_pitch = atof(arrc_pid_value);
+            }else if (n_command_index == 311){
+                pT_drone->d_kd_second_pitch = atof(arrc_pid_value);
+            }else if (n_command_index == 312){
+                pT_drone->d_kp_second_roll = atof(arrc_pid_value);
+            }else if (n_command_index == 313){
+                pT_drone->d_kd_second_roll = atof(arrc_pid_value);
+            }else if (n_command_index == 314){
+                pT_drone->d_kp_second_yaw = atof(arrc_pid_value);
+            }else if (n_command_index == 315){
+                pT_drone->d_kd_second_yaw = atof(arrc_pid_value);
+            }
+            printf("pid tuning value: %lf\n", atof(arrc_pid_value));
         }else if (arrc_buffer[0] == '4'){
             /**
              * feedback
              */
-            printf("feedback\n");
+            printf("feedback received\n");
         }
     }else if (nflag_direction == 0){
         /**
