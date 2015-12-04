@@ -1036,6 +1036,7 @@ int GeneratePwm(struct T_drone *pT_drone){
     /**
      * Initialize PWM
      */
+    double d_pwm_duty;
     pwm_start("P9_14", pT_drone->arrd_current_pwm[0], 50, 0);//pwm3
     pwm_start("P9_16", pT_drone->arrd_current_pwm[1], 50, 0);//pwm4
     pwm_start("P8_13", pT_drone->arrd_current_pwm[2], 50, 0);//pwm6
@@ -1044,6 +1045,13 @@ int GeneratePwm(struct T_drone *pT_drone){
         /**
          * Thread debug
          */
+        printf("Please input the pwm value:");
+        scanf("%lf", &d_pwm_duty);
+        pT_drone->arrd_current_pwm[0] = d_pwm_duty;
+        pT_drone->arrd_current_pwm[1] = d_pwm_duty;
+        pT_drone->arrd_current_pwm[2] = d_pwm_duty;
+        pT_drone->arrd_current_pwm[3] = d_pwm_duty;
+
 #ifdef PRINT_DEBUG_THREAD
         printf("ThreadTask_GeneratePwm\n");
 #endif
@@ -1133,7 +1141,7 @@ int GeneratePwm(struct T_drone *pT_drone){
  * Thread Tasks
  */
 void ThreadTask_UartCommunication(struct T_drone *pT_drone){
-    uart_communication(pT_drone);
+    //uart_communication(pT_drone);
 }
 
 void ThreadTask_update_T_drone_arrd_pid(struct T_drone *pT_drone){
