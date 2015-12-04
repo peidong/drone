@@ -33,7 +33,7 @@
  */
 #define PID_SLEEP_US 50000
 #define PWM_DEVIDE_RATIO 1
-#define PWM_MANUAL_CHANGE_AMOUNT 0.000025
+#define PWM_MANUAL_CHANGE_AMOUN T 0.000025
 #define PWM_MANUAL_CHANGE_AMOUNT_LARGE 0.000025*80
 #define PWM_INITIAL 0.000025*4
 #define PWM_MIN 0.000025*1000
@@ -220,6 +220,10 @@ int initialize_pwm_value(struct T_drone *pT_drone){
     return 0;
 }
 
+int process_message(int n_command_index, struct T_drone *pT_drone, int nflag_receive_success){
+    return 0;
+}
+
 /**
  * n_direction_flag: 0 from edison to beaglebone
  *                  1 from beaglebone to edison
@@ -248,7 +252,7 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
         char arrc_buffer[20];
         int nflag_find_beginning = 0;
         int nflag_find_end = 0;
-        int n_index = 0;
+        int n_receive_message_index = 0;
         /**
          * Read the message array
          */
@@ -256,20 +260,20 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
             mraa_uart_read(beaglebone_uart, c_flag, 1);
             if (c_flag[0] == '~'){
                 nflag_find_beginning = 1;
-                n_index = 0;
+                n_receive_message_index = 0;
                 while (nflag_find_end != 1){
-                    mraa_uart_read(beaglebone_uart, arrc_buffer + n_index, 1);
-                    if (arrc_buffer[n_index] == '$'){
-                        arrc_buffer[n_index] = '\0';
+                    mraa_uart_read(beaglebone_uart, arrc_buffer + n_receive_message_index, 1);
+                    if (arrc_buffer[n_receive_message_index] == '$'){
+                        arrc_buffer[n_receive_message_index] = '\0';
                         nflag_find_end = 1;
                         //break;
-                    }else if (arrc_buffer[n_index] == '~'){
+                    }else if (arrc_buffer[n_receive_message_index] == '~'){
                         nflag_find_end = -1;
                         nflag_find_beginning = 1;
-                        n_index = 0;
+                        n_receive_message_index = 0;
                         //continue;
                     }else{
-                        n_index++;
+                        n_receive_message_index++;
                     }
                 }
             }
@@ -292,9 +296,9 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
              * auto control
              */
             char arrc_command_index[4];
-            int n_temp_index;
-            for (n_temp_index = 0; n_temp_index <= 2; n_temp_index++){
-                arrc_command_index[n_temp_index] = arrc_buffer[n_temp_index];
+            int n_temp_command_index;
+            for (n_temp_command_index = 0; n_temp_command_index <= 2; n_temp_command_index++){
+                arrc_command_index[n_temp_command_index] = arrc_buffer[n_temp_command_index];
             }
             arrc_command_index[3] = '\0';
             n_command_index = atoi(arrc_command_index);
@@ -306,9 +310,9 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
              * manual control command
              */
             char arrc_command_index[4];
-            int n_temp_index;
-            for (n_temp_index = 0; n_temp_index <= 2; n_temp_index++){
-                arrc_command_index[n_temp_index] = arrc_buffer[n_temp_index];
+            int n_temp_command_index;
+            for (n_temp_command_index = 0; n_temp_command_index <= 2; n_temp_command_index++){
+                arrc_command_index[n_temp_command_index] = arrc_buffer[n_temp_command_index];
             }
             arrc_command_index[3] = '\0';
             n_command_index = atoi(arrc_command_index);
@@ -352,22 +356,71 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
                 /**
                  * stop
                  */
+                pT_drone->nflag_stop_all = 1;
             }else if (n_command_index == 211){
                 /**
                  * pwm small up
                  */
+                int n_pwm_index;
+                for(n_pwm_index=0; n_pwm_index<4; n_pwm_index++){
+                    pT_drone->arrd_current_pwm[n_pwm_index] += PWM_MANUAL_CHANGE_AMOUNT;
+                    pT_drone->arrd_current_pwm_min[n_pwm_index] += PWM_MANUAL_CHANGE_AMOUNT;
+                    //limit the value range
+                    if(pT_drone->arrd_current_pwm_min[n_pwm_index] > PWM_MIN){
+                        pT_drone->arrd_current_pwm_min[n_pwm_index] = PWM_MIN;
+                    }
+                    if(pT_drone->arrd_current_pwm[n_pwm_index] > pT_drone->arrd_current_pwm_min[n_pwm_index] + PWM_RANGE){
+                        pT_drone->arrd_current_pwm[n_pwm_index] = pT_drone->arrd_current_pwm_min[n_pwm_index] + PWM_RANGE;
+                    }
+                }   
             }else if (n_command_index == 212){
                 /**
                  * pwm small down
                  */
+                int n_pwm_index;
+                for(n_pwm_index=0; n_pwm_index<4; n_pwm_index++){
+                    pT_drone->arrd_current_pwm[n_pwm_index] -= PWM_MANUAL_CHANGE_AMOUNT;
+                    pT_drone->arrd_current_pwm_min[n_pwm_index] -= PWM_MANUAL_CHANGE_AMOUNT;
+                    //limit the value range
+                    if(pT_drone->arrd_current_pwm_min[n_pwm_index] < PWM_INITIAL){
+                        pT_drone->arrd_current_pwm_min[n_pwm_index] = PWM_INITIAL;
+                    }
+                    if(pT_drone->arrd_current_pwm[n_pwm_index] < pT_drone->arrd_current_pwm_min[n_pwm_index]){
+                        pT_drone->arrd_current_pwm[n_pwm_index] = pT_drone->arrd_current_pwm_min[n_pwm_index];
+                    }
+                }
             }else if (n_command_index == 213){
                 /**
                  * pwm big up
                  */
+                int n_pwm_index;
+                for(n_pwm_index=0; n_pwm_index<4; n_pwm_index++){
+                    pT_drone->arrd_current_pwm[n_pwm_index] += PWM_MANUAL_CHANGE_AMOUNT_LARGE;
+                    pT_drone->arrd_current_pwm_min[n_pwm_index] += PWM_MANUAL_CHANGE_AMOUNT_LARGE;
+                    //limit the value range
+                    if(pT_drone->arrd_current_pwm_min[n_pwm_index] > PWM_MIN){
+                        pT_drone->arrd_current_pwm_min[n_pwm_index] = PWM_MIN;
+                    }
+                    if(pT_drone->arrd_current_pwm[n_pwm_index] > pT_drone->arrd_current_pwm_min[n_pwm_index] + PWM_RANGE){
+                        pT_drone->arrd_current_pwm[n_pwm_index] = pT_drone->arrd_current_pwm_min[n_pwm_index] + PWM_RANGE;
+                    }
+                }
             }else if (n_command_index == 214){
                 /**
                  * pwm big down
                  */
+                int n_pwm_index;
+                for(n_pwm_index=0; n_pwm_index<4; n_pwm_index++){
+                    pT_drone->arrd_current_pwm[n_pwm_index] -= PWM_MANUAL_CHANGE_AMOUNT_LARGE;
+                    pT_drone->arrd_current_pwm_min[n_pwm_index] -= PWM_MANUAL_CHANGE_AMOUNT_LARGE;
+                    //limit the value range
+                    if(pT_drone->arrd_current_pwm_min[n_pwm_index] < PWM_INITIAL){
+                        pT_drone->arrd_current_pwm_min[n_pwm_index] = PWM_INITIAL;
+                    }
+                    if(pT_drone->arrd_current_pwm[n_pwm_index] < pT_drone->arrd_current_pwm_min[n_pwm_index]){
+                        pT_drone->arrd_current_pwm[n_pwm_index] = pT_drone->arrd_current_pwm_min[n_pwm_index];
+                    }
+                }
             }else if (n_command_index == 215){
                 /**
                  * null
@@ -376,10 +429,12 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
                 /**
                  * enable pwm
                  */
+                pT_drone->nflag_enable_pwm_pid_ultrasound = 1;
             }else if (n_command_index == 217){
                 /**
                  * disable pwm
                  */
+                pT_drone->nflag_enable_pwm_pid_ultrasound = 0;
             }
 #ifdef PRINT_DEBUG_UART_MESSAGE
             printf("manual control received: %d\n", n_command_index);
