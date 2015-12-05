@@ -2,6 +2,7 @@
 
 int main()
 {
+    usleep(60000000);
     load_device_tree("ADAFRUIT-UART4");
     /*mraa_init(); // can we put it in the beginning. Avoid repeating definition.*/
     /**
