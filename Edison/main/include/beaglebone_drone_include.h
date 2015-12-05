@@ -1049,10 +1049,10 @@ int GeneratePwm(struct T_drone *pT_drone){
     /**
      * Initialize PWM
      */
-    pwm_start("P9_14", pT_drone->arrd_current_pwm[0], 50, 0);//pwm3
-    pwm_start("P9_16", pT_drone->arrd_current_pwm[1], 50, 0);//pwm4
-    pwm_start("P8_13", pT_drone->arrd_current_pwm[2], 50, 0);//pwm6
-    pwm_start("P8_19", pT_drone->arrd_current_pwm[3], 50, 0);//pwm5
+    pwm_start("P9_14", 100 * pT_drone->arrd_current_pwm[0], 50, 0);//pwm3
+    pwm_start("P9_16", 100 * pT_drone->arrd_current_pwm[1], 50, 0);//pwm4
+    pwm_start("P8_13", 100 * pT_drone->arrd_current_pwm[2], 50, 0);//pwm6
+    pwm_start("P8_19", 100 * pT_drone->arrd_current_pwm[3], 50, 0);//pwm5
     while (1){
         /**
          * Thread debug
@@ -1065,10 +1065,10 @@ int GeneratePwm(struct T_drone *pT_drone){
          */
 #ifdef PRINT_DEBUG_PWM
         if (pT_drone->nflag_enable_pwm_pid_ultrasound == 1){
-            printf("pwm1 = %f\t", pT_drone->arrd_current_pwm[0]);
-            printf("pwm2 = %f\t", pT_drone->arrd_current_pwm[1]);
-            printf("pwm3 = %f\t", pT_drone->arrd_current_pwm[2]);
-            printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
+            printf("pwm1 = %f\t", 100 * pT_drone->arrd_current_pwm[0]);
+            printf("pwm2 = %f\t", 100 * pT_drone->arrd_current_pwm[1]);
+            printf("pwm3 = %f\t", 100 * pT_drone->arrd_current_pwm[2]);
+            printf("pwm4 = %f\n", 100 * pT_drone->arrd_current_pwm[3]);
         }
 #endif
         /**
@@ -1079,10 +1079,10 @@ int GeneratePwm(struct T_drone *pT_drone){
              * Reset PWM to 0
              */
             initialize_pwm_value(pT_drone);
-            pwm_set_duty_cycle("P9_14", pT_drone->arrd_current_pwm[0]);
-            pwm_set_duty_cycle("P9_16", pT_drone->arrd_current_pwm[1]);
-            pwm_set_duty_cycle("P8_13", pT_drone->arrd_current_pwm[2]);
-            pwm_set_duty_cycle("P8_19", pT_drone->arrd_current_pwm[3]);
+            pwm_set_duty_cycle("P9_14", 100 * pT_drone->arrd_current_pwm[0]);
+            pwm_set_duty_cycle("P9_16", 100 * pT_drone->arrd_current_pwm[1]);
+            pwm_set_duty_cycle("P8_13", 100 * pT_drone->arrd_current_pwm[2]);
+            pwm_set_duty_cycle("P8_19", 100 * pT_drone->arrd_current_pwm[3]);
             break;
         }
         else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
@@ -1090,10 +1090,10 @@ int GeneratePwm(struct T_drone *pT_drone){
              * Reset PWM to 0
              */
             initialize_pwm_value(pT_drone);
-            pwm_set_duty_cycle("P9_14", pT_drone->arrd_current_pwm[0]);
-            pwm_set_duty_cycle("P9_16", pT_drone->arrd_current_pwm[1]);
-            pwm_set_duty_cycle("P8_13", pT_drone->arrd_current_pwm[2]);
-            pwm_set_duty_cycle("P8_19", pT_drone->arrd_current_pwm[3]);
+            pwm_set_duty_cycle("P9_14", 100 * pT_drone->arrd_current_pwm[0]);
+            pwm_set_duty_cycle("P9_16", 100 * pT_drone->arrd_current_pwm[1]);
+            pwm_set_duty_cycle("P8_13", 100 * pT_drone->arrd_current_pwm[2]);
+            pwm_set_duty_cycle("P8_19", 100 * pT_drone->arrd_current_pwm[3]);
             continue;
         }
         usleep(2000);//2ms motor modulation frequency max = 490Hz
@@ -1106,36 +1106,36 @@ int GeneratePwm(struct T_drone *pT_drone){
              * Reset PWM to 0
              */
             initialize_pwm_value(pT_drone);
-            pwm_set_duty_cycle("P9_14", pT_drone->arrd_current_pwm[0]);
-            pwm_set_duty_cycle("P9_16", pT_drone->arrd_current_pwm[1]);
-            pwm_set_duty_cycle("P8_13", pT_drone->arrd_current_pwm[2]);
-            pwm_set_duty_cycle("P8_19", pT_drone->arrd_current_pwm[3]);
+            pwm_set_duty_cycle("P9_14", 100 * pT_drone->arrd_current_pwm[0]);
+            pwm_set_duty_cycle("P9_16", 100 * pT_drone->arrd_current_pwm[1]);
+            pwm_set_duty_cycle("P8_13", 100 * pT_drone->arrd_current_pwm[2]);
+            pwm_set_duty_cycle("P8_19", 100 * pT_drone->arrd_current_pwm[3]);
             break;
         }else if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
             /**
              * Reset PWM to 0
              */
             initialize_pwm_value(pT_drone);
-            pwm_set_duty_cycle("P9_14", pT_drone->arrd_current_pwm[0]);
-            pwm_set_duty_cycle("P9_16", pT_drone->arrd_current_pwm[1]);
-            pwm_set_duty_cycle("P8_13", pT_drone->arrd_current_pwm[2]);
-            pwm_set_duty_cycle("P8_19", pT_drone->arrd_current_pwm[3]);
+            pwm_set_duty_cycle("P9_14", 100 * pT_drone->arrd_current_pwm[0]);
+            pwm_set_duty_cycle("P9_16", 100 * pT_drone->arrd_current_pwm[1]);
+            pwm_set_duty_cycle("P8_13", 100 * pT_drone->arrd_current_pwm[2]);
+            pwm_set_duty_cycle("P8_19", 100 * pT_drone->arrd_current_pwm[3]);
             continue;
         }else{
-            pwm_set_duty_cycle("P9_14", pT_drone->arrd_current_pwm[0]);
-            pwm_set_duty_cycle("P9_16", pT_drone->arrd_current_pwm[1]);
-            pwm_set_duty_cycle("P8_13", pT_drone->arrd_current_pwm[2]);
-            pwm_set_duty_cycle("P8_19", pT_drone->arrd_current_pwm[3]);
+            pwm_set_duty_cycle("P9_14", 100 * pT_drone->arrd_current_pwm[0]);
+            pwm_set_duty_cycle("P9_16", 100 * pT_drone->arrd_current_pwm[1]);
+            pwm_set_duty_cycle("P8_13", 100 * pT_drone->arrd_current_pwm[2]);
+            pwm_set_duty_cycle("P8_19", 100 * pT_drone->arrd_current_pwm[3]);
         }
     }
     /**
      * Reset PWM to 0
      */
     initialize_pwm_value(pT_drone);
-    pwm_set_duty_cycle("P9_14", pT_drone->arrd_current_pwm[0]);
-    pwm_set_duty_cycle("P9_16", pT_drone->arrd_current_pwm[1]);
-    pwm_set_duty_cycle("P8_13", pT_drone->arrd_current_pwm[2]);
-    pwm_set_duty_cycle("P8_19", pT_drone->arrd_current_pwm[3]);
+    pwm_set_duty_cycle("P9_14", 100 * pT_drone->arrd_current_pwm[0]);
+    pwm_set_duty_cycle("P9_16", 100 * pT_drone->arrd_current_pwm[1]);
+    pwm_set_duty_cycle("P8_13", 100 * pT_drone->arrd_current_pwm[2]);
+    pwm_set_duty_cycle("P8_19", 100 * pT_drone->arrd_current_pwm[3]);
     pwm_disable("P9_14");
     pwm_disable("P9_16");
     pwm_disable("P8_13");
@@ -1152,27 +1152,27 @@ int CalibrateEsc(struct T_drone *pT_drone){
      * Initialize PWM
      */
     printf("Setting the pwm duty cycle to max 0.1\n");
-    pwm_start("P9_14", 0.1, 50, 0);//pwm3
-    pwm_start("P9_16", 0.1, 50, 0);//pwm4
-    pwm_start("P8_13", 0.1, 50, 0);//pwm6
-    pwm_start("P8_19", 0.1, 50, 0);//pwm5
+    pwm_start("P9_14", 100 * 0.1, 50, 0);//pwm3
+    pwm_start("P9_16", 100 * 0.1, 50, 0);//pwm4
+    pwm_start("P8_13", 100 * 0.1, 50, 0);//pwm6
+    pwm_start("P8_19", 100 * 0.1, 50, 0);//pwm5
 
     /**
      * write pwm duty cycle
      */
-    pwm_set_duty_cycle("P9_14", 0.1);
-    pwm_set_duty_cycle("P9_16", 0.1);
-    pwm_set_duty_cycle("P8_13", 0.1);
-    pwm_set_duty_cycle("P8_19", 0.1);
+    pwm_set_duty_cycle("P9_14", 100 * 0.1);
+    pwm_set_duty_cycle("P9_16", 100 * 0.1);
+    pwm_set_duty_cycle("P8_13", 100 * 0.1);
+    pwm_set_duty_cycle("P8_19", 100 * 0.1);
     usleep(10000000);
     /**
      * Reset PWM to 0
      */
     initialize_pwm_value(pT_drone);
-    pwm_set_duty_cycle("P9_14", pT_drone->arrd_current_pwm[0]);
-    pwm_set_duty_cycle("P9_16", pT_drone->arrd_current_pwm[1]);
-    pwm_set_duty_cycle("P8_13", pT_drone->arrd_current_pwm[2]);
-    pwm_set_duty_cycle("P8_19", pT_drone->arrd_current_pwm[3]);
+    pwm_set_duty_cycle("P9_14", 100 * pT_drone->arrd_current_pwm[0]);
+    pwm_set_duty_cycle("P9_16", 100 * pT_drone->arrd_current_pwm[1]);
+    pwm_set_duty_cycle("P8_13", 100 * pT_drone->arrd_current_pwm[2]);
+    pwm_set_duty_cycle("P8_19", 100 * pT_drone->arrd_current_pwm[3]);
     printf("Setting the pwm duty cycle to min 0.0001\n");
     usleep(2000000);
     pwm_disable("P9_14");
