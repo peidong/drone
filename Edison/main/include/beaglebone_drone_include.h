@@ -17,11 +17,11 @@
  * print debug
  */
 // #define PRINT_DEBUG_PWM_HTTP_GET
-//#define PRINT_DEBUG_YAW_PITCH_ROLL
+#define PRINT_DEBUG_YAW_PITCH_ROLL
 //#define PRINT_DEBUG_PID_CHANGE
 #define PRINT_DEBUG_UART_MESSAGE
-#define PRINT_DEBUG_PID_TUNING
-//#define PRINT_DEBUG_PWM
+//#define PRINT_DEBUG_PID_TUNING
+#define PRINT_DEBUG_PWM
 //#define PRINT_DEBUG_THREAD
 // #define PRINT_CAR_MANUAL
 //#define TIMER
@@ -622,9 +622,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         pT_drone->arrd_yaw_pitch_roll[1] = pitch;
         pT_drone->arrd_yaw_pitch_roll[2] = roll;
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
-        //if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
+        if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
         printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
-        //}
+        }
 #endif
     }
     mraa_i2c_stop(mpu);
