@@ -37,7 +37,7 @@
 #define PWM_MANUAL_CHANGE_AMOUNT_LARGE 0.000025*80
 #define PWM_INITIAL 0.000025*4
 #define PWM_MIN 0.000025*1000
-#define PWM_RANGE 0.000025*5000
+#define PWM_RANGE 0.000025*500
 
 int n_index_yaw_pitch_roll = 0;
 #ifdef TIMER
@@ -1145,6 +1145,44 @@ int GeneratePwm(struct T_drone *pT_drone){
 }
 
 /**
+ * Calibrate Esc from beaglebone black
+ */
+int CalibrateEsc(struct T_drone *pT_drone){
+    /**
+     * Initialize PWM
+     */
+    printf("Setting the pwm duty cycle to max 0.1\n");
+    pwm_start("P9_14", 0.1, 50, 0);//pwm3
+    pwm_start("P9_16", 0.1, 50, 0);//pwm4
+    pwm_start("P8_13", 0.1, 50, 0);//pwm6
+    pwm_start("P8_19", 0.1, 50, 0);//pwm5
+
+    /**
+     * write pwm duty cycle
+     */
+    pwm_set_duty_cycle("P9_14", 0.1);
+    pwm_set_duty_cycle("P9_16", 0.1);
+    pwm_set_duty_cycle("P8_13", 0.1);
+    pwm_set_duty_cycle("P8_19", 0.1);
+    usleep(2000000);
+    /**
+     * Reset PWM to 0
+     */
+    initialize_pwm_value(pT_drone);
+    pwm_set_duty_cycle("P9_14", pT_drone->arrd_current_pwm[0]);
+    pwm_set_duty_cycle("P9_16", pT_drone->arrd_current_pwm[1]);
+    pwm_set_duty_cycle("P8_13", pT_drone->arrd_current_pwm[2]);
+    pwm_set_duty_cycle("P8_19", pT_drone->arrd_current_pwm[3]);
+    usleep(2000000);
+    pwm_disable("P9_14");
+    pwm_disable("P9_16");
+    pwm_disable("P8_13");
+    pwm_disable("P8_19");
+    pwm_cleanup();
+    return 0;
+}
+
+/**
  * Thread Tasks
  */
 void ThreadTask_update_T_drone_arrd_pid(struct T_drone *pT_drone){
@@ -1157,6 +1195,10 @@ void ThreadTask_update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 
 void ThreadTask_GeneratePwm(struct T_drone *pT_drone){
     GeneratePwm(pT_drone);
+}
+
+void ThreadTask_CalibrateEsc(struct T_drone *pT_drone){
+    CalibrateEsc(pT_drone);
 }
 
 void ThreadTask_uart_message(struct T_drone *pT_drone){
