@@ -782,7 +782,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 
         Pid_Run(pidData_second_yaw, pT_drone->n_grawz/32768.0, 0);
         Pid_Run(pidData_second_pitch, pT_drone->n_grawy/32768.0, 0);
-        Pid_Run(pidData_second_roll, pT_drone->n_grawx/32768.0 - 0.0009, 1);
+        Pid_Run(pidData_second_roll, pT_drone->n_grawx/32768.0 - 0.0009, 0);
 
         d_second_yaw = pidData_second_yaw->output;
         d_second_pitch = pidData_second_pitch->output;
