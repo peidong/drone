@@ -1164,7 +1164,7 @@ int CalibrateEsc(struct T_drone *pT_drone){
     pwm_set_duty_cycle("P9_16", 0.1);
     pwm_set_duty_cycle("P8_13", 0.1);
     pwm_set_duty_cycle("P8_19", 0.1);
-    usleep(2000000);
+    usleep(10000000);
     /**
      * Reset PWM to 0
      */
@@ -1173,6 +1173,7 @@ int CalibrateEsc(struct T_drone *pT_drone){
     pwm_set_duty_cycle("P9_16", pT_drone->arrd_current_pwm[1]);
     pwm_set_duty_cycle("P8_13", pT_drone->arrd_current_pwm[2]);
     pwm_set_duty_cycle("P8_19", pT_drone->arrd_current_pwm[3]);
+    printf("Setting the pwm duty cycle to min 0.0001\n");
     usleep(2000000);
     pwm_disable("P9_14");
     pwm_disable("P9_16");
