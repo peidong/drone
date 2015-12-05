@@ -65,6 +65,7 @@ Then modify the system start service
 
          cd /lib/systemd/system
          touch update_ip_address.service
+         chmod 755 update_ip_address.service
          vi update_ip_address.service
 
 Copy and paste these into your file
@@ -159,6 +160,12 @@ Type in these lines
 
         [Install]
         WantedBy=multi-user.target
+
+Change the permission and start the service
+
+        chmod 755 beaglebone_always.service kill_beaglebone_always.service
+        systemctl enable beaglebone_always.service kill_beaglebone_always.service
+        reboot
 
 #Server Side Installation
 
