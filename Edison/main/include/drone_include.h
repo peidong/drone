@@ -398,66 +398,83 @@ int update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
     pT_drone->d_kp_second_yaw = json_object_get_double(*(ppT_json_object_pid_second_tuning + 4));
     pT_drone->d_kd_second_yaw = json_object_get_double(*(ppT_json_object_pid_second_tuning + 5));
 
-    if (pT_drone->d_kp_pitch != pT_drone->d_kp_pitch_last_time && pT_drone->nflag_stop_all == 0){
-        pT_drone->d_kp_pitch_last_time = pT_drone->d_kp_pitch;
-        communication_with_beaglebone_uart(0, pT_drone, 301, -1);
-    }
-    if (pT_drone->d_ki_pitch != pT_drone->d_ki_pitch_last_time && pT_drone->nflag_stop_all == 0){
-        pT_drone->d_ki_pitch_last_time = pT_drone->d_ki_pitch;
-        communication_with_beaglebone_uart(0, pT_drone, 302, -1);
-    }
-    if (pT_drone->d_kd_pitch != pT_drone->d_kd_pitch_last_time && pT_drone->nflag_stop_all == 0){
-        pT_drone->d_kd_pitch_last_time = pT_drone->d_kd_pitch;
-        communication_with_beaglebone_uart(0, pT_drone, 303, -1);
-    }
-    if (pT_drone->d_kp_roll != pT_drone->d_kp_roll_last_time && pT_drone->nflag_stop_all == 0){
-        pT_drone->d_kp_roll_last_time = pT_drone->d_kp_roll;
-        communication_with_beaglebone_uart(0, pT_drone, 304, -1);
-    }
-    if (pT_drone->d_ki_roll != pT_drone->d_ki_roll_last_time && pT_drone->nflag_stop_all == 0){
-        pT_drone->d_ki_roll_last_time = pT_drone->d_ki_roll;
-        communication_with_beaglebone_uart(0, pT_drone, 305, -1);
-    }
-    if (pT_drone->d_kd_roll != pT_drone->d_kd_roll_last_time && pT_drone->nflag_stop_all == 0){
-        pT_drone->d_kd_roll_last_time = pT_drone->d_kd_roll;
-        communication_with_beaglebone_uart(0, pT_drone, 306, -1);
-    }
-    if (pT_drone->d_kp_yaw != pT_drone->d_kp_yaw_last_time && pT_drone->nflag_stop_all == 0){
-        pT_drone->d_kp_yaw_last_time = pT_drone->d_kp_yaw;
-        communication_with_beaglebone_uart(0, pT_drone, 307, -1);
-    }
-    if (pT_drone->d_ki_yaw != pT_drone->d_ki_yaw_last_time && pT_drone->nflag_stop_all == 0){
-        pT_drone->d_ki_yaw_last_time = pT_drone->d_ki_yaw;
-        communication_with_beaglebone_uart(0, pT_drone, 308, -1);
-    }
-    if (pT_drone->d_kd_yaw != pT_drone->d_kd_yaw_last_time && pT_drone->nflag_stop_all == 0){
-        pT_drone->d_kd_yaw_last_time = pT_drone->d_kd_yaw;
-        communication_with_beaglebone_uart(0, pT_drone, 309, -1);
-    }
-    if (pT_drone->d_kp_second_pitch != pT_drone->d_kp_second_pitch_last_time && pT_drone->nflag_stop_all == 0){
-        pT_drone->d_kp_second_pitch_last_time = pT_drone->d_kp_second_pitch;
-        communication_with_beaglebone_uart(0, pT_drone, 310, -1);
-    }
-    if (pT_drone->d_kd_second_pitch != pT_drone->d_kd_second_pitch_last_time && pT_drone->nflag_stop_all == 0){
-        pT_drone->d_kd_second_pitch_last_time = pT_drone->d_kd_second_pitch;
-        communication_with_beaglebone_uart(0, pT_drone, 311, -1);
-    }
-    if (pT_drone->d_kp_second_roll != pT_drone->d_kp_second_roll_last_time && pT_drone->nflag_stop_all == 0){
-        pT_drone->d_kp_second_roll_last_time = pT_drone->d_kp_second_roll;
-        communication_with_beaglebone_uart(0, pT_drone, 312, -1);
-    }
-    if (pT_drone->d_kd_second_roll != pT_drone->d_kd_second_roll_last_time && pT_drone->nflag_stop_all == 0){
-        pT_drone->d_kd_second_roll_last_time = pT_drone->d_kd_second_roll;
-        communication_with_beaglebone_uart(0, pT_drone, 313, -1);
-    }
-    if (pT_drone->d_kp_second_yaw != pT_drone->d_kp_second_yaw_last_time && pT_drone->nflag_stop_all == 0){
-        pT_drone->d_kp_second_yaw_last_time = pT_drone->d_kp_second_yaw;
-        communication_with_beaglebone_uart(0, pT_drone, 314, -1);
-    }
-    if (pT_drone->d_kd_second_yaw != pT_drone->d_kd_second_yaw_last_time && pT_drone->nflag_stop_all == 0){
-        pT_drone->d_kd_second_yaw_last_time = pT_drone->d_kd_second_yaw;
-        communication_with_beaglebone_uart(0, pT_drone, 315, -1);
-    }
+
+    communication_with_beaglebone_uart(0, pT_drone, 301, -1);
+    communication_with_beaglebone_uart(0, pT_drone, 302, -1);
+    communication_with_beaglebone_uart(0, pT_drone, 303, -1);
+    communication_with_beaglebone_uart(0, pT_drone, 304, -1);
+    communication_with_beaglebone_uart(0, pT_drone, 305, -1);
+    communication_with_beaglebone_uart(0, pT_drone, 306, -1);
+    communication_with_beaglebone_uart(0, pT_drone, 307, -1);
+    communication_with_beaglebone_uart(0, pT_drone, 308, -1);
+    communication_with_beaglebone_uart(0, pT_drone, 309, -1);
+    communication_with_beaglebone_uart(0, pT_drone, 310, -1);
+    communication_with_beaglebone_uart(0, pT_drone, 311, -1);
+    communication_with_beaglebone_uart(0, pT_drone, 312, -1);
+    communication_with_beaglebone_uart(0, pT_drone, 313, -1);
+    communication_with_beaglebone_uart(0, pT_drone, 314, -1);
+    communication_with_beaglebone_uart(0, pT_drone, 315, -1);
+
+    //if (pT_drone->d_kp_pitch != pT_drone->d_kp_pitch_last_time && pT_drone->nflag_stop_all == 0){
+        //pT_drone->d_kp_pitch_last_time = pT_drone->d_kp_pitch;
+        //communication_with_beaglebone_uart(0, pT_drone, 301, -1);
+    //}
+    //if (pT_drone->d_ki_pitch != pT_drone->d_ki_pitch_last_time && pT_drone->nflag_stop_all == 0){
+        //pT_drone->d_ki_pitch_last_time = pT_drone->d_ki_pitch;
+        //communication_with_beaglebone_uart(0, pT_drone, 302, -1);
+    //}
+    //if (pT_drone->d_kd_pitch != pT_drone->d_kd_pitch_last_time && pT_drone->nflag_stop_all == 0){
+        //pT_drone->d_kd_pitch_last_time = pT_drone->d_kd_pitch;
+        //communication_with_beaglebone_uart(0, pT_drone, 303, -1);
+    //}
+    //if (pT_drone->d_kp_roll != pT_drone->d_kp_roll_last_time && pT_drone->nflag_stop_all == 0){
+        //pT_drone->d_kp_roll_last_time = pT_drone->d_kp_roll;
+        //communication_with_beaglebone_uart(0, pT_drone, 304, -1);
+    //}
+    //if (pT_drone->d_ki_roll != pT_drone->d_ki_roll_last_time && pT_drone->nflag_stop_all == 0){
+        //pT_drone->d_ki_roll_last_time = pT_drone->d_ki_roll;
+        //communication_with_beaglebone_uart(0, pT_drone, 305, -1);
+    //}
+    //if (pT_drone->d_kd_roll != pT_drone->d_kd_roll_last_time && pT_drone->nflag_stop_all == 0){
+        //pT_drone->d_kd_roll_last_time = pT_drone->d_kd_roll;
+        //communication_with_beaglebone_uart(0, pT_drone, 306, -1);
+    //}
+    //if (pT_drone->d_kp_yaw != pT_drone->d_kp_yaw_last_time && pT_drone->nflag_stop_all == 0){
+        //pT_drone->d_kp_yaw_last_time = pT_drone->d_kp_yaw;
+        //communication_with_beaglebone_uart(0, pT_drone, 307, -1);
+    //}
+    //if (pT_drone->d_ki_yaw != pT_drone->d_ki_yaw_last_time && pT_drone->nflag_stop_all == 0){
+        //pT_drone->d_ki_yaw_last_time = pT_drone->d_ki_yaw;
+        //communication_with_beaglebone_uart(0, pT_drone, 308, -1);
+    //}
+    //if (pT_drone->d_kd_yaw != pT_drone->d_kd_yaw_last_time && pT_drone->nflag_stop_all == 0){
+        //pT_drone->d_kd_yaw_last_time = pT_drone->d_kd_yaw;
+        //communication_with_beaglebone_uart(0, pT_drone, 309, -1);
+    //}
+    //if (pT_drone->d_kp_second_pitch != pT_drone->d_kp_second_pitch_last_time && pT_drone->nflag_stop_all == 0){
+        //pT_drone->d_kp_second_pitch_last_time = pT_drone->d_kp_second_pitch;
+        //communication_with_beaglebone_uart(0, pT_drone, 310, -1);
+    //}
+    //if (pT_drone->d_kd_second_pitch != pT_drone->d_kd_second_pitch_last_time && pT_drone->nflag_stop_all == 0){
+        //pT_drone->d_kd_second_pitch_last_time = pT_drone->d_kd_second_pitch;
+        //communication_with_beaglebone_uart(0, pT_drone, 311, -1);
+    //}
+    //if (pT_drone->d_kp_second_roll != pT_drone->d_kp_second_roll_last_time && pT_drone->nflag_stop_all == 0){
+        //pT_drone->d_kp_second_roll_last_time = pT_drone->d_kp_second_roll;
+        //communication_with_beaglebone_uart(0, pT_drone, 312, -1);
+    //}
+    //if (pT_drone->d_kd_second_roll != pT_drone->d_kd_second_roll_last_time && pT_drone->nflag_stop_all == 0){
+        //pT_drone->d_kd_second_roll_last_time = pT_drone->d_kd_second_roll;
+        //communication_with_beaglebone_uart(0, pT_drone, 313, -1);
+    //}
+    //if (pT_drone->d_kp_second_yaw != pT_drone->d_kp_second_yaw_last_time && pT_drone->nflag_stop_all == 0){
+        //pT_drone->d_kp_second_yaw_last_time = pT_drone->d_kp_second_yaw;
+        //communication_with_beaglebone_uart(0, pT_drone, 314, -1);
+    //}
+    //if (pT_drone->d_kd_second_yaw != pT_drone->d_kd_second_yaw_last_time && pT_drone->nflag_stop_all == 0){
+        //pT_drone->d_kd_second_yaw_last_time = pT_drone->d_kd_second_yaw;
+        //communication_with_beaglebone_uart(0, pT_drone, 315, -1);
+    //}
     return 0;
 }
 
