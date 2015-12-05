@@ -28,6 +28,7 @@
         $context['lat'] = $latitude;
         $context['lng'] = $longitude;
         $data['context'] = $context;
+        $json_data=json_encode($data);
         $url = "http://things.ubidots.com/api/v1.6/variables/5663284176254275509fc2ad/values";
         $headers = array("Content-Type: application/json", "Accept: application/json; indent=4", "X-Auth-Token: 55QTnmUYv4kLQERtSqD3XAa27n8qnX");
         $ch = curl_init();
@@ -38,7 +39,7 @@
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
         $server_output = curl_exec($ch);
         curl_close($ch);
         print_r($server_output);
