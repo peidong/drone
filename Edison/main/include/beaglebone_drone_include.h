@@ -17,11 +17,11 @@
  * print debug
  */
 // #define PRINT_DEBUG_PWM_HTTP_GET
-#define PRINT_DEBUG_YAW_PITCH_ROLL
+//#define PRINT_DEBUG_YAW_PITCH_ROLL
 //#define PRINT_DEBUG_PID_CHANGE
 #define PRINT_DEBUG_UART_MESSAGE
 // #define PRINT_DEBUG_PID_TUNING
-//#define PRINT_DEBUG_PWM
+#define PRINT_DEBUG_PWM
 //#define PRINT_DEBUG_THREAD
 // #define PRINT_CAR_MANUAL
 //#define TIMER
@@ -1064,10 +1064,12 @@ int GeneratePwm(struct T_drone *pT_drone){
          * pwm wave duty cycle debug
          */
 #ifdef PRINT_DEBUG_PWM
-        printf("pwm1 = %f\t", pT_drone->arrd_current_pwm[0]);
-        printf("pwm2 = %f\t", pT_drone->arrd_current_pwm[1]);
-        printf("pwm3 = %f\t", pT_drone->arrd_current_pwm[2]);
-        printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
+        if (pT_drone->nflag_enable_pwm_pid_ultrasound == 1){
+            printf("pwm1 = %f\t", pT_drone->arrd_current_pwm[0]);
+            printf("pwm2 = %f\t", pT_drone->arrd_current_pwm[1]);
+            printf("pwm3 = %f\t", pT_drone->arrd_current_pwm[2]);
+            printf("pwm4 = %f\n", pT_drone->arrd_current_pwm[3]);
+        }
 #endif
         /**
          * stop all flag
