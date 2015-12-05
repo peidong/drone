@@ -463,13 +463,13 @@ int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone
     }
     pT_drone->nflag_enable_uart = 0;
     mraa_uart_context beaglebone_uart;
+    beaglebone_uart = mraa_uart_init_raw("/dev/ttyO4");
+    mraa_uart_set_baudrate(beaglebone_uart, 38400);
+    mraa_uart_set_mode(beaglebone_uart, 8, MRAA_UART_PARITY_NONE, 1);
     if (nflag_direction == 1){
         /**
          * From beaglebone to edison
          */
-        beaglebone_uart = mraa_uart_init_raw("/dev/ttyO4");
-        mraa_uart_set_baudrate(beaglebone_uart, 38400);
-        mraa_uart_set_mode(beaglebone_uart, 8, MRAA_UART_PARITY_NONE , 1);
         /**
          * Start receive
          */
@@ -485,26 +485,30 @@ int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone
             if (pT_drone->nflag_stop_all != 0){
                 break;
             }
-            mraa_uart_read(beaglebone_uart, c_flag, 1);
-            if (c_flag[0] == '~'){
-                nflag_find_beginning = 1;
-                n_receive_message_index = 0;
-                while (nflag_find_end != 1){
-                    if (pT_drone->nflag_stop_all != 0){
-                        break;
-                    }
-                    mraa_uart_read(beaglebone_uart, arrc_buffer + n_receive_message_index, 1);
-                    if (arrc_buffer[n_receive_message_index] == '$'){
-                        arrc_buffer[n_receive_message_index] = '\0';
-                        nflag_find_end = 1;
-                        //break;
-                    }else if (arrc_buffer[n_receive_message_index] == '~'){
-                        nflag_find_end = -1;
-                        nflag_find_beginning = 1;
-                        n_receive_message_index = 0;
-                        //continue;
-                    }else{
-                        n_receive_message_index++;
+            if (mraa_uart_data_available(beaglebone_uart, 50) == 1){
+                mraa_uart_read(beaglebone_uart, c_flag, 1);
+                if (c_flag[0] == '~'){
+                    nflag_find_beginning = 1;
+                    n_receive_message_index = 0;
+                    while (nflag_find_end != 1){
+                        if (pT_drone->nflag_stop_all != 0){
+                            break;
+                        }
+                        if (mraa_uart_data_available(beaglebone_uart, 50) == 1){
+                            mraa_uart_read(beaglebone_uart, arrc_buffer + n_receive_message_index, 1);
+                            if (arrc_buffer[n_receive_message_index] == '$'){
+                                arrc_buffer[n_receive_message_index] = '\0';
+                                nflag_find_end = 1;
+                                //break;
+                            }else if (arrc_buffer[n_receive_message_index] == '~'){
+                                nflag_find_end = -1;
+                                nflag_find_beginning = 1;
+                                n_receive_message_index = 0;
+                                //continue;
+                            }else{
+                                n_receive_message_index++;
+                            }
+                        }
                     }
                 }
             }
