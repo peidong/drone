@@ -17,11 +17,11 @@
  * print debug
  */
 // #define PRINT_DEBUG_PWM_HTTP_GET
-//#define PRINT_DEBUG_YAW_PITCH_ROLL
+#define PRINT_DEBUG_YAW_PITCH_ROLL
 //#define PRINT_DEBUG_PID_CHANGE
 #define PRINT_DEBUG_UART_MESSAGE
 // #define PRINT_DEBUG_PID_TUNING
-// #define PRINT_DEBUG_PWM
+#define PRINT_DEBUG_PWM
 //#define PRINT_DEBUG_THREAD
 // #define PRINT_CAR_MANUAL
 //#define TIMER
