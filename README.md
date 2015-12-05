@@ -123,6 +123,43 @@ And write this following line at the bottom of the file
 
 The files in SD card are in /media/sdcard/
 
+###Beaglebone Black autostart tutorial
+
+        vim /lib/systemd/system/beaglebone_always.service
+
+Type in these lines
+
+        [Unit]
+        Description=beaglebone always
+        After=runlevel6.target dbus.service serial-getty@.service
+
+        [Service]
+        User=root
+        ExecStart=/root/drone/Edison/main/beaglebone_always.sh
+        Restart=always
+        RestartSec=1s
+
+        [Install]
+        WantedBy=multi-user.target
+
+Also add this file
+
+        vim /lib/systemd/system/kill_beaglebone_always.service
+
+Type in these lines
+
+        [Unit]
+        Description=beaglebone always
+        After=beaglebone_always.service
+
+        [Service]
+        User=root
+        ExecStart=/root/drone/Edison/main/kill_beaglebone_always.sh
+        Restart=no
+
+        [Install]
+        WantedBy=multi-user.target
+
 #Server Side Installation
 
 ###Mac OSX Installation
@@ -192,4 +229,3 @@ Then type in commands in mysql terminal
         mkdir rest
         cd ~/Github/drone
         ln -s `pwd`/Server ~/www/rest/api
-
