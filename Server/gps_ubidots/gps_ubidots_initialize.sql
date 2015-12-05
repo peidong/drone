@@ -9,4 +9,4 @@ CREATE TABLE IF NOT EXISTS edison.gps_ubidots (
     `update_time` timestamp NOT NULL DEFAULT '1970-01-01 00:00:01'
     ) ENGINE = InnoDB;
 
-INSERT INTO `gps_ubidots` VALUES (1, 0, -1, 34.063946, -118.450714, 0, '1970-01-01 00:00:01');
+INSERT INTO `gps_ubidots` VALUES (1, 0, 34.063946, -118.450714, '1970-01-01 00:00:01');
