@@ -21,6 +21,7 @@
     $result = mysql_query($query);
 
     deliver_response(200, "The gps_ubidots commands have been updated", NULL);
+    post_data_to_ubidots($latitude, $longitude);
 
 	function post_data_to_ubidots($latitude, $longitude){
         $data['value'] = 1;
@@ -40,6 +41,7 @@
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $server_output = curl_exec($ch);
         curl_close($ch);
+        print_r($server_output);
     }
 
     function deliver_response($status,$status_message,$data){
