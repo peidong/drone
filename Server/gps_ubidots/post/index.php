@@ -42,7 +42,6 @@
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
         $server_output = curl_exec($ch);
         curl_close($ch);
-        print_r($server_output);
     }
 
     function deliver_response($status,$status_message,$data){
