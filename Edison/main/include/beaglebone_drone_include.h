@@ -485,7 +485,7 @@ int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone
             if (pT_drone->nflag_stop_all != 0){
                 break;
             }
-            //if (mraa_uart_data_available(beaglebone_uart, 50) == 1){
+            if (mraa_uart_data_available(beaglebone_uart, 50) == 1){
                 mraa_uart_read(beaglebone_uart, c_flag, 1);
                 if (c_flag[0] == '~'){
                     nflag_find_beginning = 1;
@@ -494,7 +494,7 @@ int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone
                         if (pT_drone->nflag_stop_all != 0){
                             break;
                         }
-                        //if (mraa_uart_data_available(beaglebone_uart, 50) == 1){
+                        if (mraa_uart_data_available(beaglebone_uart, 50) == 1){
                             mraa_uart_read(beaglebone_uart, arrc_buffer + n_receive_message_index, 1);
                             if (arrc_buffer[n_receive_message_index] == '$'){
                                 arrc_buffer[n_receive_message_index] = '\0';
@@ -508,10 +508,10 @@ int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone
                             }else{
                                 n_receive_message_index++;
                             }
-                        //}
+                        }
                     }
                 }
-            //}
+            }
         }
         nflag_find_beginning = 0;
         nflag_find_end = 0;
