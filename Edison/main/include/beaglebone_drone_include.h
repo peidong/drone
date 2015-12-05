@@ -552,9 +552,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     int16_t mrawx,mrawy,mrawz;
     float ax,ay,az,gx,gy,gz,mx,my,mz;
     float yaw, pitch, roll;
-    custom_timer_t mpu_timer;
-    timer_start(&mpu_timer);
-    long mpu_last_time = timer_delta_us(&mpu_timer);
+    //custom_timer_t mpu_timer;
+    //timer_start(&mpu_timer);
+    //long mpu_last_time = timer_delta_us(&mpu_timer);
     MPU_init();
     while (1) {
         if (pT_drone->nflag_stop_all != 0) {
@@ -564,8 +564,8 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         printf("ThreadTask_yaw pitch roll\n");
 #endif
         // Calculate deltat
-        deltat = (timer_delta_us(&mpu_timer) - mpu_last_time)/1000;
-        mpu_last_time = timer_delta_us(&mpu_timer);
+        //deltat = (timer_delta_us(&mpu_timer) - mpu_last_time)/1000;
+        //mpu_last_time = timer_delta_us(&mpu_timer);
         //printf("%ld  ",(timer_delta_us(&mpu_timer) - mpu_last_time));
         uint8_t Buf[14];
         mraa_i2c_read_bytes_data(mpu, 59, Buf, 14);
