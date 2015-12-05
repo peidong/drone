@@ -16,7 +16,7 @@
 
     $query = "INSERT INTO `gps_ubidots`
         (face_direction, latitude, longitude, update_time)
-        VALUES ('$face_direction', '$latitude', '$longitude', 'now()')";
+        VALUES ('$face_direction', '$latitude', '$longitude', '$now()')";
 
     $result = mysql_query($query);
 
