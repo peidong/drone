@@ -539,44 +539,43 @@ int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone
 */
 
 int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
-    // mraa_gpio_context gpio_vcc;
-    // gpio_vcc = mraa_gpio_init(2);
-    // mraa_gpio_mode(gpio_vcc, MRAA_GPIO_PULLDOWN);
-    // mraa_gpio_dir(gpio_vcc, MRAA_GPIO_OUT);
-    // mraa_gpio_write(gpio_vcc, 1);
-    // usleep(100000);
-    // mraa_gpio_write(gpio_vcc, 0);
-    // usleep(1000000);
+    
+    // float result[20000][3];
+    // int sample = 0;
     int16_t arawx,arawy,arawz;
     int16_t grawx,grawy,grawz;
     int16_t mrawx,mrawy,mrawz;
     float ax,ay,az,gx,gy,gz,mx,my,mz;
     float yaw, pitch, roll;
-    //custom_timer_t mpu_timer;
-    //timer_start(&mpu_timer);
-    //long mpu_last_time = timer_delta_us(&mpu_timer);
+    custom_timer_t mpu_timer;
+    timer_start(&mpu_timer);
+    long mpu_last_time = timer_delta_us(&mpu_timer);
     MPU_init();
-    while (1) {
-        if (pT_drone->nflag_stop_all != 0) {
+    while (1)
+    {
+        if (pT_drone->nflag_stop_all != 0)
+        {
             break;
         }
 #ifdef PRINT_DEBUG_THREAD
         printf("ThreadTask_yaw pitch roll\n");
 #endif
         // Calculate deltat
-        //deltat = (timer_delta_us(&mpu_timer) - mpu_last_time)/1000;
-        //mpu_last_time = timer_delta_us(&mpu_timer);
-        //printf("%ld  ",(timer_delta_us(&mpu_timer) - mpu_last_time));
+        deltat = (float)(timer_delta_us(&mpu_timer) - mpu_last_time)/1000000;
+        mpu_last_time = timer_delta_us(&mpu_timer);
+        //printf("%f\n",deltat);
+
         uint8_t Buf[14];
+        // usleep(100);
         mraa_i2c_read_bytes_data(mpu, 59, Buf, 14);
         // Accelerometer
         arawx = -(Buf[0] << 8 | Buf[1]);
         arawy = -(Buf[2] << 8 | Buf[3]);
         arawz = Buf[4] << 8 | Buf[5];
         // Gyroscope
-        grawx = (Buf[8] << 8 | Buf[9]);
-        grawy = (Buf[10] << 8 | Buf[11]);
-        grawz = (Buf[12] << 8 | Buf[13]);
+        grawx = (Buf[8] << 8 | Buf[9]) - 45;
+        grawy = (Buf[10] << 8 | Buf[11]) + 5;
+        grawz = (Buf[12] << 8 | Buf[13]) + 20;
 
         pT_drone->n_grawx = grawx;
         pT_drone->n_grawy = grawy;
@@ -589,17 +588,17 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         mrawz = (Buf[5] << 8 | Buf[4]);//+200;// + mag_offset_z;
         //int result_agm[9] = { arawx, arawy, arawz, grawx, grawy, grawz, mrawx, mrawy, mrawz };
 
-        //printf("%6d,%6d,%6d\n",arawx, arawy, arawz);
-        //printf("%6d,%6d,%6d\n",grawx, grawy, grawz);
+        // printf("%6d,%6d,%6d\n",arawx, arawy, arawz);
+        // printf("%6d,%6d,%6d\n",grawx, grawy, grawz);
         ax = (float)arawx*aRes;
         ay = (float)arawy*aRes;
         az = (float)arawz*aRes;
         gx = (float)grawx*gRes;
         gy = (float)grawy*gRes;
         gz = (float)grawz*gRes;
-        mx = (float)mrawx*mRes*magCalibration[0] - 406 - 49 - 150 + 72 - 13;  // get actual magnetometer value, this depends on scale being set
-        my = (float)mrawy*mRes*magCalibration[1] - 95 + 43 + 15 - 178 + 87;
-        mz = (float)mrawz*mRes*magCalibration[2] + 370 - 72 + 403 - 447 + 207;
+        mx = (float)mrawx*mRes*magCalibration[0] - 200+28;  // get actual magnetometer value, this depends on scale being set
+        my = (float)mrawy*mRes*magCalibration[1] + 50+34;
+        mz = (float)mrawz*mRes*magCalibration[2] + 40-11;
         //printf("%.1f,%.1f,%.1f\n",mx,my,mz);
         //    MadgwickQuaternionUpdate(ax,ay,az,gx*PI/180.0f,gy*PI/180.0f,gz*PI/180.0f,my,mx,mz);
         MadgwickAHRSupdate(ax, ay, az, gx*PI / 180.0f, gy*PI / 180.0f, gz*PI / 180.0f, my, mx, mz); //my, mx, mz
@@ -623,10 +622,34 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         pT_drone->arrd_yaw_pitch_roll[2] = roll;
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
         if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
-        printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
+            printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
+         //printf("yaw = %d\tpitch = %d\troll = %d\n",(int)yaw, (int)pitch, (int)roll);
         }
 #endif
+/////////////////////////////////////////////////////////////////////////////////////////
+    // result[sample][0] = mx;
+    // result[sample][1] = my;
+    // result[sample][2] = mz;   
+    // sample ++;
+//////////////////////////////////////////////////
+
     }
+/////////////////////////////////////////////////////////////////////////////////////////
+  // FILE* fp;
+  // int i,j;
+  // fp = fopen("demo.txt", "w");
+  // for (i = 0; i < 20000; i++)
+  //   {
+  //       for (j = 0; j < 3; j++)
+  //       {
+  //           fprintf(fp, "%.1f ", result[i][j]);
+  //       }
+  //       fputc('\n', fp);
+  //   }
+  //   fclose(fp);
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
     mraa_i2c_stop(mpu);
     // mraa_gpio_close(gpio_vcc);
     return 0;

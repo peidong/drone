@@ -57,8 +57,8 @@ float magCalibration[3] = {0, 0, 0};
 
 float q0 = 1.0f, q1 = 0.0f, q2 = 0.0f, q3 = 0.0f;   // quaternion of sensor frame relative to auxiliary frame
 
-float beta=5.0f;  // compute beta
-float deltat = 0.0017f;   // integration interval for both filter schemes
+float beta=1.5f;  // compute beta
+float deltat = 0.003f;   // integration interval for both filter schemes
 
 //---------------------------------------------------------------------------------------------------
 // Fast inverse square-root
@@ -231,11 +231,12 @@ void MPU_init()
 {
   // mraa_init();
     mpu = mraa_i2c_init(1);
+    // mraa_i2c_frequency(mpu, MRAA_I2C_HIGH);
     mraa_i2c_address(mpu, MPU9250_ADDRESS);
-    //mraa_i2c_write_byte_data(mpu, 0x01, ACCEL_CONFIG_2);
-    //mraa_i2c_write_byte_data(mpu, 0x01, CONFIG);
+    mraa_i2c_write_byte_data(mpu, 0x01, ACCEL_CONFIG_2);
+    mraa_i2c_write_byte_data(mpu, 0x01, CONFIG);
     mraa_i2c_write_byte_data(mpu, ACC_FULL_SCALE_2_G, ACCEL_CONFIG);
-    mraa_i2c_write_byte_data(mpu, GYRO_FULL_SCALE_1000_DPS + 0x03, GYRO_CONFIG);
+    mraa_i2c_write_byte_data(mpu, GYRO_FULL_SCALE_1000_DPS + 0x00, GYRO_CONFIG);
     mraa_i2c_write_byte_data(mpu, 32, USER_CTRL);
 
   initAK8963(magCalibration);
