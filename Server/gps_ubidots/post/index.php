@@ -22,6 +22,26 @@
 
     deliver_response(200, "The gps_ubidots commands have been updated", NULL);
 
+	function post_data_to_ubidots($latitude, $longitude){
+        $data['value'] = 1;
+        $context['lat'] = $latitude;
+        $context['lng'] = $longitude;
+        $data['context'] = $context;
+        $url = "http://things.ubidots.com/api/v1.6/variables/5663284176254275509fc2ad/values";
+        $headers = array("Content-Type: application/json", "Accept: application/json; indent=4", "X-Auth-Token: 55QTnmUYv4kLQERtSqD3XAa27n8qnX");
+        $ch = curl_init();
+        $timeout = 30;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $server_output = curl_exec($ch);
+        curl_close($ch);
+    }
+
     function deliver_response($status,$status_message,$data){
         header("HTTP/1.1 $status $status_message");
         $response['status']=$status;
