@@ -21,7 +21,7 @@
 //#define PRINT_DEBUG_PID_CHANGE
 #define PRINT_DEBUG_UART_MESSAGE
 // #define PRINT_DEBUG_PID_TUNING
-#define PRINT_DEBUG_PWM
+//#define PRINT_DEBUG_PWM
 //#define PRINT_DEBUG_THREAD
 // #define PRINT_CAR_MANUAL
 //#define TIMER
@@ -129,7 +129,7 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
      * This is for flag
      */
     pT_drone->nflag_stop_all = 0;
-    pT_drone->nflag_enable_pwm_pid_ultrasound = 1;
+    pT_drone->nflag_enable_pwm_pid_ultrasound = 0;
 	pT_drone->nflag_enable_uart = 1;
     /**
      * These following are from server
