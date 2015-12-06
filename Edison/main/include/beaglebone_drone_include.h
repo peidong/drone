@@ -539,6 +539,9 @@ int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone
             n_message_length = n_end_index + 1;
             arrc_message[n_end_index + 1] = '\0';
             mraa_uart_write(beaglebone_uart, arrc_message, n_message_length);
+#ifdef PRINT_DEBUG_GPS
+            printf("sending gps%s\n", arrc_message);
+#endif
             usleep(1000);
         }
     }
