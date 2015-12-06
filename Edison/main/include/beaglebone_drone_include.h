@@ -593,11 +593,13 @@ int update_T_drone_gps(struct T_drone *pT_drone){
                 printf("lat:%.6f\t", readGPS.latitude);
                 printf("lng:%.6f\n", readGPS.longitude);
 #endif
-                if (readGPS.state == 1){
+                if (1){
+                //if (readGPS.state == 1){
                     pT_drone->n_face_direction = (int)readGPS.course;
                     pT_drone->d_current_latitude = readGPS.latitude;
                     pT_drone->d_current_longitude = readGPS.longitude;
-                    if (pT_drone->n_face_direction != pT_drone->n_face_direction_last_time || pT_drone->d_current_latitude != pT_drone->d_current_latitude_last_time || pT_drone->d_current_longitude != pT_drone->d_current_longitude_last_time){
+                    //if (pT_drone->n_face_direction != pT_drone->n_face_direction_last_time || pT_drone->d_current_latitude != pT_drone->d_current_latitude_last_time || pT_drone->d_current_longitude != pT_drone->d_current_longitude_last_time){
+                    if (1){
                         pT_drone->n_face_direction_last_time = pT_drone->n_face_direction;
                         pT_drone->d_current_latitude_last_time = pT_drone->d_current_latitude;
                         pT_drone->d_current_longitude_last_time = pT_drone->d_current_longitude;
