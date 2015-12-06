@@ -429,6 +429,7 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
         while (nflag_find_beginning != 1){
             if (pT_drone->nflag_stop_all != 0){
                 break;
+            }
             if (mraa_uart_data_available(edison_uart, 0) == 1){
                 mraa_uart_read(edison_uart, c_flag, 1);
                 if (c_flag[0] == '~'){
