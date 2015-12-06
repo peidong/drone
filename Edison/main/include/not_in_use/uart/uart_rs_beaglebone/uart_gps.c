@@ -1,7 +1,7 @@
 #include "bbb/pwm.h"
 #include <mraa.h>
-#include "nmea.h"
-#include "uart.h"
+#include "bbb/nmea.h"
+/*#include "uart.h"*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <inttypes.h>

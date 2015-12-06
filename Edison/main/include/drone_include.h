@@ -18,6 +18,7 @@
 //#define PRINT_DEBUG_PWM_HTTP_GET
 //#define PRINT_DEBUG_THREAD
 #define PRINT_DEBUG_UART_MESSAGE
+#define PRINT_DEBUG_GPS
 //#define TIMER
 
 #ifdef TIMER
@@ -270,6 +271,11 @@ int process_message(char *arrc_buffer, struct T_drone *pT_drone){
         pT_drone->n_face_direction = atoi(arrc_face_direction);
         pT_drone->d_current_latitude = atof(arrc_latitude);
         pT_drone->d_current_longitude = atof(arrc_longitude);
+#ifdef PRINT_DEBUG_GPS
+        printf("direction:%d\t", pT_drone->n_face_direction);
+        printf("lat:%.6f\t", pT_drone->d_current_latitude);
+        printf("lng:%.6f\n", pT_drone->d_current_longitude);
+#endif
     }
     return 0;
 }
