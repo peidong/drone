@@ -432,7 +432,7 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
                 break;
             }
             printf("2\n");
-            if (mraa_uart_data_available(edison_uart, 100) == 1){
+            if (mraa_uart_data_available(edison_uart, 0) == 1){
                 mraa_uart_read(edison_uart, c_flag, 1);
                 printf("3\n");
                 if (c_flag[0] == '~'){
@@ -443,7 +443,7 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
                         if (pT_drone->nflag_stop_all != 0){
                             break;
                         }
-                        if (mraa_uart_data_available(edison_uart, 100) == 1){
+                        if (mraa_uart_data_available(edison_uart, 0) == 1){
                             mraa_uart_read(edison_uart, arrc_buffer + n_receive_message_index, 1);
                             if (arrc_buffer[n_receive_message_index] == '$'){
                                 n_receive_message_index++;
