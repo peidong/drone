@@ -336,21 +336,33 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
 }
 
 /**
+ * update the gps_ubidots value
+ */
+int update_T_drone_http_gps_ubidots_post(struct T_drone *pT_drone){
+    char *sz_url_post_gps_ubidots = "http://128.97.89.181/rest/api/gps_ubidots/post/";
+    char arrc_post_data[100];
+    //store the post data
+    sprintf(arrc_post_data, "face_direction=%d&latitude=%f&longitude=%f", pT_drone->n_face_direction, pT_drone->d_current_latitude, pT_drone->d_current_longitude);
+    //http post
+    http_post(sz_url_post_gps_ubidots, arrc_post_data);
+    return 0;
+}
+
+/**
  * update the pwm value using by test purpose
  */
 //int update_T_drone_http_pwm_post(struct T_drone *pT_drone){
     //char *sz_url_post_pwm = "http://128.97.89.181/rest/api/pwm/post/";
     //char arrc_post_data[100];
-    /**
-     * store the post data
-     */
+    //*
+     //store the post data
     //sprintf(arrc_post_data, "pwm1=%f&pwm2=%f&pwm3=%f&pwm4=%f", pT_drone->arrd_current_pwm[0], pT_drone->arrd_current_pwm[1], pT_drone->arrd_current_pwm[2], pT_drone->arrd_current_pwm[3]);
-    /**
-     * http post
-     */
+    //*
+     //http post
     //http_post(sz_url_post_pwm, arrc_post_data);
     //return 0;
 //}
+
 /**
  * update the pid_tuning value using by test purpose
  */
@@ -688,6 +700,19 @@ int update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
     //}
 //}
 
+void ThreadTask_update_T_drone_http_gps_ubidots_post(struct T_drone *pT_drone){
+    while (1){
+        if (pT_drone->nflag_stop_all != 0){
+            break;
+        }
+#ifdef PRINT_DEBUG_THREAD
+        printf("ThreadTask_update_T_drone_http_gps_ubidots_post\n");
+#endif
+        update_T_drone_http_gps_ubidots_post(pT_drone);
+        usleep(1000000);
+    }
+}
+
 void ThreadTask_update_T_drone_http(struct T_drone *pT_drone){
     while (1){
         if (pT_drone->nflag_stop_all != 0){
@@ -697,7 +722,7 @@ void ThreadTask_update_T_drone_http(struct T_drone *pT_drone){
         printf("ThreadTask_update_T_drone_http\n");
 #endif
         update_T_drone_http(pT_drone);
-        usleep(50000);
+        usleep(500000);
     }
 }
 
@@ -737,6 +762,6 @@ void ThreadTask_update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
         printf("ThreadTask_update_T_drone_http_pid_tuning_get\n");
 #endif
         update_T_drone_http_pid_tuning_get(pT_drone);
-        usleep(50000);
+        usleep(800000);
     }
 }

@@ -1,35 +1,31 @@
-#gps part
+#gps_ubidots part
 
-1. HTTP GET
+1. HTTP GET (Not recommend)
 
-        http://fryer.ee.ucla.edu/rest/api/gps/get/?location_type=0
+        http://fryer.ee.ucla.edu/rest/api/gps_ubidots/get/?location_type=0
 
 2. HTTP POST
 
     Post data example
 
-       face_direction=120.0&latitude=34.0&longitude=118.0&stop_sign=0
+       face_direction=120&latitude=34.0&longitude=118.0
 
     Url
-    
-        http://fryer.ee.ucla.edu/rest/api/gps/post/?location_type=0
+
+        http://fryer.ee.ucla.edu/rest/api/gps_ubidots/post/
 
 ###Database part
 
-Database: edison, table: gps
+Database: edison, table: gps_ubidots
 
-#####location_type
-- 0: Destination
-- 1: Drone's location
-
-#####face_direction
+#####face_direction(int 11)
 
 - The direction degree
 
-#####latitude
+#####latitude(double 9,6)
 
 - The latitude degree
 
-#####longitude
+#####longitude(double 9,6)
 
 - The longitude degree
