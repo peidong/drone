@@ -51,7 +51,7 @@ struct T_drone{
      */
     double d_current_latitude;
     double d_current_longitude;
-    double d_face_direction;
+    int n_face_direction;
     double d_destination_latitude;
     double d_destination_longitude;
     double d_move_direction;
@@ -150,7 +150,7 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
 
     pT_drone->d_current_latitude = 0;
     pT_drone->d_current_longitude = 0;
-    pT_drone->d_face_direction = 0;
+    pT_drone->n_face_direction = 0;
     pT_drone->d_destination_latitude = 0;
     pT_drone->d_destination_longitude = 0;
     pT_drone->d_move_direction = 0;
@@ -213,6 +213,9 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
      * check if uart available
      */
     while (pT_drone->nflag_enable_uart != 1){
+        if (pT_drone->nflag_stop_all != 0){
+            return 0;
+        }
         usleep(1300);
     }
     printf("sending command: %d\n", n_command_index);
@@ -811,7 +814,7 @@ int update_T_drone_http_gps(struct T_drone *pT_drone){
     n_json_response = json_object_object_get_ex(pT_json_object_data, "longitude", &pT_json_object_longitude);
     n_json_response = json_object_object_get_ex(pT_json_object_data, "update_time",&pT_json_object_update_time);
 
-    pT_drone->d_face_direction = json_object_get_double(pT_json_object_face_direction);
+    pT_drone->n_face_direction = json_object_get_int(pT_json_object_face_direction);
     pT_drone->d_current_latitude = json_object_get_double(pT_json_object_latitude);
     pT_drone->d_current_longitude = json_object_get_double(pT_json_object_longitude);
 

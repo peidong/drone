@@ -80,7 +80,7 @@ struct T_drone{
      */
     double d_current_latitude;
     double d_current_longitude;
-    double d_face_direction;
+    int n_face_direction;
     double d_destination_latitude;
     double d_destination_longitude;
     double d_move_direction;
@@ -175,7 +175,7 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
 
     pT_drone->d_current_latitude = 0;
     pT_drone->d_current_longitude = 0;
-    pT_drone->d_face_direction = 0;
+    pT_drone->n_face_direction = 0;
     pT_drone->d_destination_latitude = 0;
     pT_drone->d_destination_longitude = 0;
     pT_drone->d_move_direction = 0;
@@ -447,17 +447,17 @@ int process_message(char *arrc_buffer, struct T_drone *pT_drone){
 }
 
 /**
- * n_direction_flag: 0 from edison to beaglebone
- *                  1 from beaglebone to edison
+ * n_direction_flag: 0 from beaglebone to edison
+ *                  1 from edison to beaglebone
  * check https://github.com/peidong/drone/blob/master/Edison/main/edison-bbb-communication-code.md for commands
  */
-int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone, int nflag_receive_success){
+int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone, int n_command_index, int nflag_receive_success){
     /**
      * check if uart available
      */
     while (pT_drone->nflag_enable_uart != 1){
         if (pT_drone->nflag_stop_all != 0){
-            break;
+            return 0;
         }
         usleep(1300);
     }
@@ -468,7 +468,7 @@ int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone
     mraa_uart_set_mode(beaglebone_uart, 8, MRAA_UART_PARITY_NONE, 1);
     if (nflag_direction == 1){
         /**
-         * From beaglebone to edison
+         * From edison to beaglebone
          */
         /**
          * Start receive
@@ -518,8 +518,15 @@ int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone
         process_message(arrc_buffer, pT_drone);
     }else if (nflag_direction == 0){
         /**
-         * From edison to beaglebone
+         * From beaglebone to edison
          */
+        if (n_command_index == 4){
+            char arrc_message[31];
+            sprintf(arrc_message, "~%d%d|$", n_command_index, pT_drone->n_face_direction);
+            arrc_message[30] = '\0';
+            mraa_uart_write(beaglebone_uart, arrc_message, 30);
+            usleep(1000);
+        }
     }
     pT_drone->nflag_enable_uart = 1;
     return 0;
@@ -539,7 +546,7 @@ int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone
 */
 
 int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
-    
+
     // float result[20000][3];
     // int sample = 0;
     int16_t arawx,arawy,arawz;
@@ -629,7 +636,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 /////////////////////////////////////////////////////////////////////////////////////////
     // result[sample][0] = mx;
     // result[sample][1] = my;
-    // result[sample][2] = mz;   
+    // result[sample][2] = mz;
     // sample ++;
 //////////////////////////////////////////////////
 
@@ -1227,6 +1234,6 @@ void ThreadTask_CalibrateEsc(struct T_drone *pT_drone){
 
 void ThreadTask_uart_message(struct T_drone *pT_drone){
     while (pT_drone->nflag_stop_all == 0){
-        communication_with_edison_uart(1, pT_drone, -1);
+        communication_with_edison_uart(1, pT_drone, -1, -1);
     }
 }

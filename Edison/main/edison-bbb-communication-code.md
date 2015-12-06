@@ -87,11 +87,13 @@
 
 ###GPS
 
-~40xxx$ yaw xxx (0~360)
+~4xxx|p(n)xxx.xxxxxx|p(n)xxx.xxxxxx$ face_direction latitude longitude
 
-~41p(n)xxxxxxxxx$ positive(negative)xxx.xxxxxx latitude
+<!--~40xxx$ yaw xxx (0~360)-->
 
-~42p(n)xxxxxxxxx$ positive(negative)xxx.xxxxxx longitude
+<!--~41p(n)xxx.xxxxxx$ positive(negative)xxx.xxxxxx latitude-->
+
+<!--~42p(n)xxx.xxxxxx$ positive(negative)xxx.xxxxxx longitude-->
 
 ###feedback:
 
