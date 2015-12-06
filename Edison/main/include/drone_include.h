@@ -295,15 +295,15 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
         }
         usleep(1300);
     }
-#ifdef PRINT_DEBUG_UART_MESSAGE
-    printf("sending command: %d\n", n_command_index);
-#endif
     pT_drone->nflag_enable_uart = 0;
     mraa_uart_context edison_uart;
     edison_uart = mraa_uart_init(0);
     mraa_uart_set_baudrate(edison_uart, 38400);
     if (nflag_direction == 0){
         //from edison to beaglebone
+#ifdef PRINT_DEBUG_UART_MESSAGE
+    printf("sending command: %d\n", n_command_index);
+#endif
         if (n_command_index == 0){
             char arrc_message[6] = "~000$";
             arrc_message[5] = '\0';
