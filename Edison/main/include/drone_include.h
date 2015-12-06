@@ -426,12 +426,15 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
         /**
          * Read the message array
          */
+        printf("1\n");
         while (nflag_find_beginning != 1){
             if (pT_drone->nflag_stop_all != 0){
                 break;
             }
+            printf("2\n");
             if (mraa_uart_data_available(edison_uart, 100) == 1){
                 mraa_uart_read(edison_uart, c_flag, 1);
+                printf("3\n");
                 if (c_flag[0] == '~'){
                     nflag_find_beginning = 1;
                     n_receive_message_index = 0;
