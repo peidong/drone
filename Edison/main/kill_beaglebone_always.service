@@ -1,0 +1,12 @@
+[Unit]
+Description=beaglebone always
+After=beaglebone_always.service
+#After=syslog.target
+
+[Service]
+User=root
+ExecStart=/root/drone/Edison/main/kill_beaglebone_always.sh
+Restart=no
+
+[Install]
+WantedBy=multi-user.target

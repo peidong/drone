@@ -1,0 +1,13 @@
+[Unit]
+Description=beaglebone always
+#After=runlevel6.target dbus.service serial-getty@.service
+After=syslog.target
+
+[Service]
+User=root
+ExecStart=/root/drone/Edison/main/beaglebone_always.sh
+Restart=always
+RestartSec=1s
+
+[Install]
+WantedBy=multi-user.target
