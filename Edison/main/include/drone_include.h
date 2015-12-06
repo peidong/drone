@@ -464,6 +464,9 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
         }
         nflag_find_beginning = 0;
         nflag_find_end = 0;
+#ifdef PRINT_DEBUG_UART_MESSAGE
+    printf("Receive package %s\n", arrc_buffer);
+#endif
         process_message(arrc_buffer, pT_drone);
         update_T_drone_http_gps_ubidots_post(pT_drone);
     }
