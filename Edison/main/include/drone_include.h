@@ -17,6 +17,7 @@
  */
 //#define PRINT_DEBUG_PWM_HTTP_GET
 //#define PRINT_DEBUG_THREAD
+#define PRINT_DEBUG_UART_MESSAGE
 //#define TIMER
 
 #ifdef TIMER
@@ -195,6 +196,85 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
 }
 
 /**
+ * update the gps_ubidots value
+ */
+int update_T_drone_http_gps_ubidots_post(struct T_drone *pT_drone){
+    char *sz_url_post_gps_ubidots = "http://128.97.89.181/rest/api/gps_ubidots/post/";
+    char arrc_post_data[100];
+    //store the post data
+    sprintf(arrc_post_data, "face_direction=%d&latitude=%f&longitude=%f", pT_drone->n_face_direction, pT_drone->d_current_latitude, pT_drone->d_current_longitude);
+    //http post
+    http_post(sz_url_post_gps_ubidots, arrc_post_data);
+    return 0;
+}
+
+int process_message(char *arrc_buffer, struct T_drone *pT_drone){
+    /**
+     * Process the message
+     */
+    int n_command_index = -1;
+    if (arrc_buffer[1] == '4'){
+        /**
+         * gps
+         */
+        n_command_index = 4;
+#ifdef PRINT_DEBUG_UART_MESSAGE
+        printf("gps received\n");
+#endif
+        char arrc_face_direction[4] = {'\0'};
+        char arrc_latitude[12] = {'\0'};
+        char arrc_longitude[12] = {'\0'};
+        int nflag_load_face_direction = 0;
+        int nflag_load_latitude = 0;
+        int nflag_load_longitude = 0;
+        int n_message_index = 2;
+        int n_face_direction_index = 0;
+        int n_latitude_index = 0;
+        int n_longitude_index = 0;
+        while (nflag_load_face_direction == 0 || nflag_load_latitude == 0 || nflag_load_longitude == 0){
+            if (nflag_load_face_direction == 0){
+                if (arrc_buffer[n_message_index] == '|'){
+                    arrc_face_direction[n_face_direction_index] = '\0';
+                    nflag_load_face_direction = 1;
+                    n_message_index++;
+                }else{
+                    arrc_face_direction[n_face_direction_index] = arrc_buffer[n_message_index];
+                    n_face_direction_index++;
+                    n_message_index++;
+                    nflag_load_face_direction = 0;
+                }
+            }else if (nflag_load_latitude == 0){
+                if (arrc_buffer[n_message_index] == '|'){
+                    arrc_latitude[n_latitude_index] = '\0';
+                    nflag_load_latitude = 1;
+                    n_message_index++;
+                }else{
+                    arrc_latitude[n_latitude_index] = arrc_buffer[n_message_index];
+                    n_latitude_index++;
+                    n_message_index++;
+                    nflag_load_latitude = 0;
+                }
+            }else if (nflag_load_longitude == 0){
+                if (arrc_buffer[n_message_index] == '$'){
+                    arrc_longitude[n_longitude_index] = '\0';
+                    nflag_load_longitude = 1;
+                    n_message_index++;
+                }else{
+                    arrc_longitude[n_longitude_index] = arrc_buffer[n_message_index];
+                    n_longitude_index++;
+                    n_message_index++;
+                    nflag_load_longitude = 0;
+                }
+            }
+        }
+        pT_drone->n_face_direction = atoi(arrc_face_direction);
+        pT_drone->d_current_latitude = atof(arrc_latitude);
+        pT_drone->d_current_longitude = atof(arrc_longitude);
+    }
+    return 0;
+}
+
+/**
  * n_direction_flag: 0 from edison to beaglebone
  *                  1 from beaglebone to edison
  * check https://github.com/peidong/drone/blob/master/Edison/main/edison-bbb-communication-code.md for commands
@@ -209,7 +289,9 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
         }
         usleep(1300);
     }
+#ifdef PRINT_DEBUG_UART_MESSAGE
     printf("sending command: %d\n", n_command_index);
+#endif
     pT_drone->nflag_enable_uart = 0;
     mraa_uart_context edison_uart;
     edison_uart = mraa_uart_init(0);
@@ -222,103 +304,103 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
             mraa_uart_write(edison_uart, arrc_message, 5);
             usleep(1000);
         }else if (n_command_index >= 100 && n_command_index <= 299){
-            char arrc_message[6];
+            char arrc_message[6] = {'\0'};
             sprintf(arrc_message, "~%d$", n_command_index);
             arrc_message[5] = '\0';
             mraa_uart_write(edison_uart, arrc_message, 5);
             usleep(1000);
         }else if (n_command_index == 301){
-            char arrc_message[14];
+            char arrc_message[14] = {'\0'};
             sprintf(arrc_message, "~%d%.6f$", n_command_index, pT_drone->d_kp_pitch);
             arrc_message[13] = '\0';
             mraa_uart_write(edison_uart, arrc_message, 13);
             usleep(1000);
         }else if (n_command_index == 302){
-            char arrc_message[14];
+            char arrc_message[14] = {'\0'};
             sprintf(arrc_message, "~%d%.6f$", n_command_index, pT_drone->d_ki_pitch);
             arrc_message[13] = '\0';
             mraa_uart_write(edison_uart, arrc_message, 13);
             usleep(1000);
         }else if (n_command_index == 303){
-            char arrc_message[14];
+            char arrc_message[14] = {'\0'};
             sprintf(arrc_message, "~%d%.6f$", n_command_index, pT_drone->d_kd_pitch);
             arrc_message[13] = '\0';
             mraa_uart_write(edison_uart, arrc_message, 13);
             usleep(1000);
         }else if (n_command_index == 304){
-            char arrc_message[14];
+            char arrc_message[14] = {'\0'};
             sprintf(arrc_message, "~%d%.6f$", n_command_index, pT_drone->d_kp_roll);
             arrc_message[13] = '\0';
             mraa_uart_write(edison_uart, arrc_message, 13);
             usleep(1000);
         }else if (n_command_index == 305){
-            char arrc_message[14];
+            char arrc_message[14] = {'\0'};
             sprintf(arrc_message, "~%d%.6f$", n_command_index, pT_drone->d_ki_roll);
             arrc_message[13] = '\0';
             mraa_uart_write(edison_uart, arrc_message, 13);
             usleep(1000);
         }else if (n_command_index == 306){
-            char arrc_message[14];
+            char arrc_message[14] = {'\0'};
             sprintf(arrc_message, "~%d%.6f$", n_command_index, pT_drone->d_kd_roll);
             arrc_message[13] = '\0';
             mraa_uart_write(edison_uart, arrc_message, 13);
             usleep(1000);
         }else if (n_command_index == 307){
-            char arrc_message[14];
+            char arrc_message[14] = {'\0'};
             sprintf(arrc_message, "~%d%.6f$", n_command_index, pT_drone->d_kp_yaw);
             arrc_message[13] = '\0';
             mraa_uart_write(edison_uart, arrc_message, 13);
             usleep(1000);
         }else if (n_command_index == 308){
-            char arrc_message[14];
+            char arrc_message[14] = {'\0'};
             sprintf(arrc_message, "~%d%.6f$", n_command_index, pT_drone->d_ki_yaw);
             arrc_message[13] = '\0';
             mraa_uart_write(edison_uart, arrc_message, 13);
             usleep(1000);
         }else if (n_command_index == 309){
-            char arrc_message[14];
+            char arrc_message[14] = {'\0'};
             sprintf(arrc_message, "~%d%.6f$", n_command_index, pT_drone->d_kd_yaw);
             arrc_message[13] = '\0';
             mraa_uart_write(edison_uart, arrc_message, 13);
             usleep(1000);
         }else if (n_command_index == 310){
-            char arrc_message[14];
+            char arrc_message[14] = {'\0'};
             sprintf(arrc_message, "~%d%.6f$", n_command_index, pT_drone->d_kp_second_pitch);
             arrc_message[13] = '\0';
             mraa_uart_write(edison_uart, arrc_message, 13);
             usleep(1000);
         }else if (n_command_index == 311){
-            char arrc_message[14];
+            char arrc_message[14] = {'\0'};
             sprintf(arrc_message, "~%d%.6f$", n_command_index, pT_drone->d_kd_second_pitch);
             arrc_message[13] = '\0';
             mraa_uart_write(edison_uart, arrc_message, 13);
             usleep(1000);
         }else if (n_command_index == 312){
-            char arrc_message[14];
+            char arrc_message[14] = {'\0'};
             sprintf(arrc_message, "~%d%.6f$", n_command_index, pT_drone->d_kp_second_roll);
             arrc_message[13] = '\0';
             mraa_uart_write(edison_uart, arrc_message, 13);
             usleep(1000);
         }else if (n_command_index == 313){
-            char arrc_message[14];
+            char arrc_message[14] = {'\0'};
             sprintf(arrc_message, "~%d%.6f$", n_command_index, pT_drone->d_kd_second_roll);
             arrc_message[13] = '\0';
             mraa_uart_write(edison_uart, arrc_message, 13);
             usleep(1000);
         }else if (n_command_index == 314){
-            char arrc_message[14];
+            char arrc_message[14] = {'\0'};
             sprintf(arrc_message, "~%d%.6f$", n_command_index, pT_drone->d_kp_second_yaw);
             arrc_message[13] = '\0';
             mraa_uart_write(edison_uart, arrc_message, 13);
             usleep(1000);
         }else if (n_command_index == 315){
-            char arrc_message[14];
+            char arrc_message[14] = {'\0'};
             sprintf(arrc_message, "~%d%.6f$", n_command_index, pT_drone->d_kd_second_yaw);
             arrc_message[13] = '\0';
             mraa_uart_write(edison_uart, arrc_message, 13);
             usleep(1000);
         }else if (n_command_index >= 40 && n_command_index <= 42){
-            char arrc_message[6];
+            char arrc_message[6] = {'\0'};
             if (nflag_receive_success == 1){
                 sprintf(arrc_message, "~%ds$", n_command_index);
             }else if (nflag_receive_success == 0){
@@ -330,21 +412,56 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
         }
     }else if (nflag_direction == 1){
         //from beaglebone to edison
+        char c_flag[1] = {'\0'};
+        char arrc_buffer[31] = {'\0'};
+        int nflag_find_beginning = 0;
+        int nflag_find_end = 0;
+        int n_receive_message_index = 0;
+        /**
+         * Read the message array
+         */
+        while (nflag_find_beginning != 1){
+            if (pT_drone->nflag_stop_all != 0){
+                break;
+            }
+            if (mraa_uart_data_available(edison_uart, 100) == 1){
+                mraa_uart_read(edison_uart, c_flag, 1);
+                if (c_flag[0] == '~'){
+                    nflag_find_beginning = 1;
+                    n_receive_message_index = 0;
+                    arrc_buffer[n_receive_message_index] = '~';
+                    while (nflag_find_end != 1){
+                        if (pT_drone->nflag_stop_all != 0){
+                            break;
+                        }
+                        if (mraa_uart_data_available(edison_uart, 100) == 1){
+                            mraa_uart_read(edison_uart, arrc_buffer + n_receive_message_index, 1);
+                            if (arrc_buffer[n_receive_message_index] == '$'){
+                                n_receive_message_index++;
+                                arrc_buffer[n_receive_message_index] = '\0';
+                                nflag_find_end = 1;
+                                //break;
+                            }else if (arrc_buffer[n_receive_message_index] == '~'){
+                                nflag_find_end = -1;
+                                nflag_find_beginning = 1;
+                                n_receive_message_index = 0;
+                                arrc_buffer[n_receive_message_index] = '~';
+                                //continue;
+                            }else{
+                                n_receive_message_index++;
+                                nflag_find_end = 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        nflag_find_beginning = 0;
+        nflag_find_end = 0;
+        process_message(arrc_buffer, pT_drone);
+        update_T_drone_http_gps_ubidots_post(pT_drone);
     }
     pT_drone->nflag_enable_uart = 1;
-    return 0;
-}
-
-/**
- * update the gps_ubidots value
- */
-int update_T_drone_http_gps_ubidots_post(struct T_drone *pT_drone){
-    char *sz_url_post_gps_ubidots = "http://128.97.89.181/rest/api/gps_ubidots/post/";
-    char arrc_post_data[100];
-    //store the post data
-    sprintf(arrc_post_data, "face_direction=%d&latitude=%f&longitude=%f", pT_drone->n_face_direction, pT_drone->d_current_latitude, pT_drone->d_current_longitude);
-    //http post
-    http_post(sz_url_post_gps_ubidots, arrc_post_data);
     return 0;
 }
 
@@ -700,18 +817,18 @@ int update_T_drone_arrn_ultrasound(struct T_drone *pT_drone){
     //}
 //}
 
-void ThreadTask_update_T_drone_http_gps_ubidots_post(struct T_drone *pT_drone){
-    while (1){
-        if (pT_drone->nflag_stop_all != 0){
-            break;
-        }
-#ifdef PRINT_DEBUG_THREAD
-        printf("ThreadTask_update_T_drone_http_gps_ubidots_post\n");
-#endif
-        update_T_drone_http_gps_ubidots_post(pT_drone);
-        usleep(1000000);
-    }
-}
+//void ThreadTask_update_T_drone_http_gps_ubidots_post(struct T_drone *pT_drone){
+    //while (1){
+        //if (pT_drone->nflag_stop_all != 0){
+            //break;
+        //}
+//#ifdef PRINT_DEBUG_THREAD
+        //printf("ThreadTask_update_T_drone_http_gps_ubidots_post\n");
+//#endif
+        //update_T_drone_http_gps_ubidots_post(pT_drone);
+        //usleep(1000000);
+    //}
+//}
 
 void ThreadTask_update_T_drone_http(struct T_drone *pT_drone){
     while (1){
@@ -763,5 +880,12 @@ void ThreadTask_update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
 #endif
         update_T_drone_http_pid_tuning_get(pT_drone);
         usleep(800000);
+    }
+}
+
+void ThreadTask_uart_message(struct T_drone *pT_drone){
+    while (pT_drone->nflag_stop_all == 0 && pT_drone->nflag_enable_uart == 1){
+        communication_with_beaglebone_uart(1, pT_drone, -1, -1);
+        usleep(1000000);
     }
 }

@@ -386,7 +386,7 @@ int process_message(char *arrc_buffer, struct T_drone *pT_drone){
         /**
          * pid tuning
          */
-        char arrc_command_index[4];
+        char arrc_command_index[4] = {'\0'};
         int n_temp_index;
         for (n_temp_index = 0; n_temp_index <= 2; n_temp_index++){
             arrc_command_index[n_temp_index] = arrc_buffer[n_temp_index];
@@ -396,7 +396,7 @@ int process_message(char *arrc_buffer, struct T_drone *pT_drone){
 #ifdef PRINT_DEBUG_UART_MESSAGE
         printf("pid tuning received: %d\n", n_command_index);
 #endif
-        char arrc_pid_value[9];
+        char arrc_pid_value[9] = {'\0'};
         for (n_temp_index = 0; n_temp_index <= 7; n_temp_index++){
             arrc_pid_value[n_temp_index] = arrc_buffer[n_temp_index + 3];
         }
@@ -473,8 +473,8 @@ int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone
         /**
          * Start receive
          */
-        char c_flag[1];
-        char arrc_buffer[20];
+        char c_flag[1] = {'\0'};
+        char arrc_buffer[20] = {'\0'};
         int nflag_find_beginning = 0;
         int nflag_find_end = 0;
         int n_receive_message_index = 0;
@@ -507,6 +507,7 @@ int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone
                                 //continue;
                             }else{
                                 n_receive_message_index++;
+                                nflag_find_end = 0;
                             }
                         }
                     }
@@ -521,10 +522,14 @@ int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone
          * From beaglebone to edison
          */
         if (n_command_index == 4){
-            char arrc_message[31];
-            sprintf(arrc_message, "~%d%d|$", n_command_index, pT_drone->n_face_direction);
-            arrc_message[30] = '\0';
-            mraa_uart_write(beaglebone_uart, arrc_message, 30);
+            char arrc_message[31] = {'\0'};
+            int n_message_length = 0;
+            int n_end_index;
+            sprintf(arrc_message, "~4%d|%.6f|%.6f$", pT_drone->n_face_direction, pT_drone->d_current_latitude, pT_drone->d_current_longitude);
+            n_end_index = strstr(arrc_message, "$") - arrc_message;
+            n_message_length = n_end_index + 1;
+            arrc_message[n_end_index + 1] = '\0';
+            mraa_uart_write(beaglebone_uart, arrc_message, n_message_length);
             usleep(1000);
         }
     }

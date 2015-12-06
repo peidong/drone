@@ -87,7 +87,7 @@
 
 ###GPS
 
-~4xxx|p(n)xxx.xxxxxx|p(n)xxx.xxxxxx$ face_direction latitude longitude
+~4xxx|-xxx.xxxxxx|-xxx.xxxxxx$ face_direction latitude longitude not fix length
 
 <!--~40xxx$ yaw xxx (0~360)-->
 
