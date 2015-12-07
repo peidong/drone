@@ -14,10 +14,10 @@ int main()
     /**
      * add work to thread
      */
-    /*thpool_add_work(thpool, (void*)ThreadTask_GeneratePwm, (void*)&g_T_drone_self);*/
-    /*thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_arrd_yaw_pitch_roll, (void*)&g_T_drone_self);*/
-    /*thpool_add_work(thpool, (void*)ThreadTask_uart_message, (void*)&g_T_drone_self);*/
-    /*thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_arrd_pid, (void*)&g_T_drone_self);*/
+    thpool_add_work(thpool, (void*)ThreadTask_GeneratePwm, (void*)&g_T_drone_self);
+    thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_arrd_yaw_pitch_roll, (void*)&g_T_drone_self);
+    thpool_add_work(thpool, (void*)ThreadTask_uart_message, (void*)&g_T_drone_self);
+    thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_arrd_pid, (void*)&g_T_drone_self);
     thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_gps, (void*)&g_T_drone_self);
     /*thpool_add_work(thpool, (void*)ThreadTask_CalibrateEsc, (void*)&g_T_drone_self);*/
     /**
