@@ -16,8 +16,9 @@ int main()
      */
     /*thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http, (void*)&g_T_drone_self);*/
     /*thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http_pid_tuning_get, (void*)&g_T_drone_self);*/
-    thpool_add_work(thpool, (void*)ThreadTask_uart_message, (void*)&g_T_drone_self);
+    /*thpool_add_work(thpool, (void*)ThreadTask_uart_message, (void*)&g_T_drone_self);*/
     /*thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_http_pwm_post, (void*)&g_T_drone_self);*/
+    thpool_add_work(thpool, (void*)ThreadTask_update_T_drone_gps, (void*)&g_T_drone_self);
     /**
      * pwm only for testing
      */

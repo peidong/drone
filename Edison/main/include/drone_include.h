@@ -11,6 +11,8 @@
 #include "timer/timer.h" //timer
 #include <mraa.h>
 #include <stdint.h>
+#include "bbb/nmea.h"
+#include <inttypes.h>
 
 /**
  * print debug
@@ -54,6 +56,9 @@ struct T_drone{
     double d_current_latitude;
     double d_current_longitude;
     int n_face_direction;
+    double d_current_latitude_last_time;
+    double d_current_longitude_last_time;
+    int n_face_direction_last_time;
     double d_destination_latitude;
     double d_destination_longitude;
     double d_move_direction;
@@ -149,6 +154,9 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->d_current_latitude = 0;
     pT_drone->d_current_longitude = 0;
     pT_drone->n_face_direction = 0;
+    pT_drone->d_current_latitude_last_time = 0;
+    pT_drone->d_current_longitude_last_time = 0;
+    pT_drone->n_face_direction_last_time = 0;
     pT_drone->d_destination_latitude = 0;
     pT_drone->d_destination_longitude = 0;
     pT_drone->d_move_direction = 0;
@@ -471,6 +479,62 @@ int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_d
         update_T_drone_http_gps_ubidots_post(pT_drone);
     }
     pT_drone->nflag_enable_uart = 1;
+    return 0;
+}
+
+int update_T_drone_gps(struct T_drone *pT_drone){
+	mraa_uart_context gps_uart;
+	gps_uart = mraa_uart_init(0);
+    mraa_uart_set_baudrate(gps_uart, 9600);
+    char arrc_buf[100];
+    char arrc_search[7];
+    gprmc_t readGPS;
+    while (1){
+        if (pT_drone->nflag_stop_all != 0){
+            break;
+        }
+        int i=0;
+        mraa_uart_read(gps_uart, arrc_search, 1);
+        if (arrc_search[0] == '$'){
+            for(i=1; i<7;i++){
+                mraa_uart_read(gps_uart, arrc_search+i, 1);
+            }
+            if (strstr(arrc_search, "$GPRMC,")){
+                for(i=0; i<100;i++){
+                    mraa_uart_read(gps_uart, arrc_buf+i, 1);
+                    if (arrc_buf[i] == '\n'){
+                        arrc_buf[i]='\0';
+                        break;
+                    }
+                }
+                // printf("%s\n", arrc_buf);
+                nmea_parse_gprmc(arrc_buf, &readGPS);
+                gps_convert_deg_to_dec(&(readGPS.latitude), readGPS.lat, &(readGPS.longitude), readGPS.lon);
+#ifdef PRINT_DEBUG_GPS
+                printf("state:%d\t", readGPS.state);
+                printf("direction:%d\t", (int)readGPS.course);
+                printf("lat:%.6f\t", readGPS.latitude);
+                printf("lng:%.6f\n", readGPS.longitude);
+#endif
+                if (1){
+                //if (readGPS.state == 1){
+                    pT_drone->n_face_direction = (int)readGPS.course;
+                    pT_drone->d_current_latitude = readGPS.latitude;
+                    pT_drone->d_current_longitude = readGPS.longitude;
+                    //if (pT_drone->n_face_direction != pT_drone->n_face_direction_last_time || pT_drone->d_current_latitude != pT_drone->d_current_latitude_last_time || pT_drone->d_current_longitude != pT_drone->d_current_longitude_last_time){
+                    if (1){
+                        pT_drone->n_face_direction_last_time = pT_drone->n_face_direction;
+                        pT_drone->d_current_latitude_last_time = pT_drone->d_current_latitude;
+                        pT_drone->d_current_longitude_last_time = pT_drone->d_current_longitude;
+                        update_T_drone_http_gps_ubidots_post(pT_drone);
+                        usleep(1000000);
+                    }
+                }else{
+                    usleep(600000);
+                }
+            }
+        }
+    }
     return 0;
 }
 
@@ -897,4 +961,8 @@ void ThreadTask_uart_message(struct T_drone *pT_drone){
         communication_with_beaglebone_uart(1, pT_drone, -1, -1);
         usleep(1000000);
     }
+}
+
+void ThreadTask_update_T_drone_gps(struct T_drone *pT_drone){
+    update_T_drone_gps(pT_drone);
 }
