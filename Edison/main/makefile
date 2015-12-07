@@ -26,5 +26,10 @@ objects_bbb = beaglebone_drone_main.o
 bbb: $(objects_bbb)
 	$(CC) $(objects_bbb) -pthread -lmraa -lm -o beaglebone_drone_main
 
+objects_gps = gps_main.o
+
+drone : $(objects_gps)
+	$(CC) $(objects_gps) -pthread -lcurl $(LDFLAGS) $(CFLAGS) -o gps_main
+
 clean:
-	rm -rf drone_main demo_main beaglebone_drone_main $(objects) $(objects_demo) $(objects_bbb)
+	rm -rf drone_main demo_main beaglebone_drone_main gps_main $(objects) $(objects_demo) $(objects_bbb) $(objects_gps)
