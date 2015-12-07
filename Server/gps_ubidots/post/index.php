@@ -20,6 +20,12 @@
 
     $result = mysql_query($query);
 
+    $query = "UPDATE `camera`
+        SET latitude = '$latitude', longitude = '$longitude', update_time = now()
+        WHERE id = '1'";
+
+    $result = mysql_query($query);
+
     deliver_response(200, "The gps_ubidots commands have been updated", NULL);
     post_data_to_ubidots($latitude, $longitude);
 

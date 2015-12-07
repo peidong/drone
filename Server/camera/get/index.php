@@ -9,7 +9,7 @@
 
     $conn = mysql_connect('localhost', 'webmaster', '');
     mysql_select_db('edison', $conn);
-    
+
     $query = "SELECT *
         FROM camera
         WHERE id = '1'";
@@ -19,10 +19,14 @@
 
     $image = $result_array[image];
     $video = $result_array[video];
+    $latitude = $result_array[latitude];
+    $longitude = $result_array[longitude];
     $update_time = $result_array[update_time];
 
     $response['image'] = $image;
     $response['video'] = $video;
+    $response['latitude'] = $latitude;
+    $response['longitude'] = $longitude;
     $response['update_time'] = $update_time;
 
     deliver_response(200, "The camera commands have been got", $response);
