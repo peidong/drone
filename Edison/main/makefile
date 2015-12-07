@@ -28,7 +28,7 @@ bbb: $(objects_bbb)
 
 objects_gps = gps_main.o
 
-drone : $(objects_gps)
+gps: $(objects_gps)
 	$(CC) $(objects_gps) -pthread -lcurl $(LDFLAGS) $(CFLAGS) -o gps_main
 
 clean:
