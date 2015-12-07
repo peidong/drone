@@ -490,6 +490,7 @@ int update_T_drone_gps(struct T_drone *pT_drone){
     char arrc_search[7];
     gprmc_t readGPS;
     while (1){
+        printf("update_T_drone_gps\n");
         if (pT_drone->nflag_stop_all != 0){
             break;
         }
