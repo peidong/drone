@@ -849,7 +849,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         printf("d_second_yaw = %f\n", pT_drone->d_kd_second_yaw);
 #endif
         Pid_SetTunings(pidData_yaw, kp_yaw, ki_yaw, kd_yaw);
-        Pid_SetTunings(pidData_pitch, kp_pitch, ki_pitch, kd_pitch);
+        Pid_SetTunings(pidData_pitch, kp_pitch*10, ki_pitch, kd_pitch);
         Pid_SetTunings(pidData_roll, kp_roll*10, ki_roll, kd_roll);
 
         //"0" is the setpoint or the destination of the final attitude, representing hovering or suspending.
@@ -857,12 +857,12 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 
         // It can be tested after tests for pitch and roll are finished.
         Pid_SetSetPoint(pidData_yaw, 0);
-        Pid_Run(pidData_yaw, (int)pT_drone->arrd_yaw_pitch_roll[0], 0);
+        Pid_Run(pidData_yaw, (int)pT_drone->arrd_yaw_pitch_roll[0]/1.0, 0);
         pT_drone->arrd_pid_yaw_pitch_roll[0] = pidData_yaw->output;
 
         // For pitch, mainly we can use wires to lock the Y direction. First divide by 2. Adding to pwm1 and pwm2, substracting to pwm3 and pwm4.
         Pid_SetSetPoint(pidData_pitch, 0);
-        Pid_Run(pidData_pitch, (int)pT_drone->arrd_yaw_pitch_roll[1], 0);
+        Pid_Run(pidData_pitch, (int)pT_drone->arrd_yaw_pitch_roll[1]/1.0, 0);
         pT_drone->arrd_pid_yaw_pitch_roll[1] = pidData_pitch->output;
         // For roll, mainly we can use wires to lock the X direction. First divide by 2. Adding to pwm1 and pwm3, substracting to pwm2 and pwm4.
         Pid_SetSetPoint(pidData_roll, 40);
@@ -870,25 +870,27 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         pT_drone->arrd_pid_yaw_pitch_roll[2] = pidData_roll->output;
 
         //second loop
-        d_rate_yaw = pidData_yaw->output/1000.0;
-        d_rate_pitch = pidData_pitch->output/1000.0;
+        d_rate_yaw = pidData_yaw->output/10.0;
+        d_rate_pitch = pidData_pitch->output/10.0;
         d_rate_roll = pidData_roll->output/10.0;
         // d_rate_roll = 0.0;
         // d_rate_yaw = 0;
         // d_rate_pitch = 0;
         // d_rate_roll = 0.01;
 
-        Pid_SetTunings(pidData_second_yaw, kp_second_yaw, 0, kd_second_yaw);
-        Pid_SetTunings(pidData_second_pitch, kp_second_pitch, 0, kd_second_pitch);
+        Pid_SetTunings(pidData_second_yaw, kp_second_yaw*10, 0, kd_second_yaw);
+        Pid_SetTunings(pidData_second_pitch, kp_second_pitch*10, 0.001, kd_second_pitch);
         Pid_SetTunings(pidData_second_roll, kp_second_roll*10, 0.001, kd_second_roll);
 
         Pid_SetSetPoint(pidData_second_yaw, d_rate_yaw);
         Pid_SetSetPoint(pidData_second_pitch, d_rate_pitch);
         Pid_SetSetPoint(pidData_second_roll, d_rate_roll);
 
-        Pid_Run(pidData_second_yaw, pT_drone->n_grawz/32768.0, 0);
-        Pid_Run(pidData_second_pitch, pT_drone->n_grawy/32768.0, 0);
+        Pid_Run(pidData_second_yaw, -Pid_rm_noise(pT_drone->n_grawz/32768.0)/1.0, 0);
+        Pid_Run(pidData_second_pitch, -Pid_rm_noise(pT_drone->n_grawy/32768.0)/1.0, 0);
         Pid_Run(pidData_second_roll, -Pid_rm_noise(pT_drone->n_grawx/32768.0)/1.0, 0);
+        //Pid_Run(pidData_second_yaw, pT_drone->n_grawz/32768.0, 0);
+        //Pid_Run(pidData_second_pitch, pT_drone->n_grawy/32768.0, 0);
         // Pid_Run(pidData_second_roll, pT_drone->n_grawx/32768.0, 0);
 
         d_second_yaw = pidData_second_yaw->output;
@@ -950,6 +952,8 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         }
 #ifdef  PRINT_DEBUG_PID_CHANGE
         printf("first roll= %f\tsecond roll= %f\traw= %f\n",(d_rate_roll), (d_second_roll/2), -Pid_rm_noise(pT_drone->n_grawx/32768.0)/1.0);
+        printf("first pitch= %f\tsecond pitch= %f\traw= %f\n",(d_rate_pitch), (d_second_pitch/2), -Pid_rm_noise(pT_drone->n_grawy/32768.0)/1.0);
+        printf("first yaw= %f\tsecond yaw= %f\traw= %f\n",(d_rate_yaw), (d_second_yaw/2), -Pid_rm_noise(pT_drone->n_grawz/32768.0)/1.0);
 #endif
         usleep(PID_SLEEP_US); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good.
 #ifdef TIMER_PID
