@@ -157,9 +157,9 @@ int main(int argc, char** argv){
     }
 
     Mat img_matches;
-    drawMatches(reference_object, keypoints_object, image, keypoints_scene,
-               good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
-               vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
+    //drawMatches(reference_object, keypoints_object, image, keypoints_scene,
+               //good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
+               //vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
 
     //-- Localize the object
     std::vector<Point2f> obj;
@@ -202,7 +202,7 @@ int main(int argc, char** argv){
     
 
     //imshow( "Good Matches & Object detection", img_matches );
-    imshow("object in orginal image", image_orig);
+    //imshow("object in orginal image", image_orig);
 
     /**
      * for server to receive
@@ -232,11 +232,13 @@ int main(int argc, char** argv){
     Rect2d roi;
     roi.x = minimum_x, roi.y = minimum_y, roi.width = (maximum_x - minimum_x), roi.height = (maximum_y - minimum_y);
     Mat img1=image_orig(roi);
-    imshow("roi", img1);
+    //imshow("roi", img1);
 
 
 
-    Ptr<Tracker> tracker = Tracker::create("KCF");
+    //Ptr<Tracker> tracker = Tracker::create("KCF");
+    //tracker -> init(frame,roi);
+    //printf("start the tracking process");
 
     waitKey(0);
     return 0;
