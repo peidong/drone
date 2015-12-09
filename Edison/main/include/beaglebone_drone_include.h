@@ -19,27 +19,27 @@
  * print debug
  */
 // #define PRINT_DEBUG_PWM_HTTP_GET
-//#define PRINT_DEBUG_YAW_PITCH_ROLL
-//#define PRINT_DEBUG_PID_CHANGE
-//#define PRINT_DEBUG_UART_MESSAGE
-//#define PRINT_DEBUG_PID_TUNING
-//#define PRINT_DEBUG_PWM
-//#define PRINT_DEBUG_THREAD
+#define PRINT_DEBUG_YAW_PITCH_ROLL
+#define PRINT_DEBUG_PID_CHANGE
+// #define PRINT_DEBUG_UART_MESSAGE
+// #define PRINT_DEBUG_PID_TUNING
+// #define PRINT_DEBUG_PWM
+// #define PRINT_DEBUG_THREAD
 // #define PRINT_CAR_MANUAL
 //#define TIMER
 //#define TIMER_YAW_PITCH_ROLL
 //#define TIMER_PID
-#define PRINT_DEBUG_GPS
+//#define PRINT_DEBUG_GPS
 
 /**
  * define value
  */
-#define PID_SLEEP_US 50000
+#define PID_SLEEP_US 10000
 #define PWM_DEVIDE_RATIO 1
 #define PWM_MANUAL_CHANGE_AMOUNT 0.000025
 #define PWM_MANUAL_CHANGE_AMOUNT_LARGE 0.000025*80
 #define PWM_INITIAL 0.000025*4
-#define PWM_MIN 0.000025*500
+#define PWM_MIN 0.000025*1200
 #define PWM_RANGE 0.000025*500
 
 int n_index_yaw_pitch_roll = 0;
@@ -737,6 +737,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 }
 
 int update_T_drone_arrd_pid(struct T_drone *pT_drone){
+// int update_T_drone_arrd_pid_two_loop(struct T_drone *pT_drone){
 #ifdef TIMER_PID
     timer_start(&g_timer);
 #endif
@@ -787,7 +788,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     kp_second_yaw = pT_drone->d_kp_second_yaw;
     kd_second_yaw = pT_drone->d_kd_second_yaw;
 
-    samplePeriodMs = 50; //need to be setup
+    samplePeriodMs = 10; //need to be setup
     controllerDir = PID_DIRECT; //Direct control not reverse.
 
     Pid_Init(pidData_yaw, kp_yaw, ki_yaw, kd_yaw, controllerDir, samplePeriodMs);
@@ -849,7 +850,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 #endif
         Pid_SetTunings(pidData_yaw, kp_yaw, ki_yaw, kd_yaw);
         Pid_SetTunings(pidData_pitch, kp_pitch, ki_pitch, kd_pitch);
-        Pid_SetTunings(pidData_roll, kp_roll, ki_roll, kd_roll);
+        Pid_SetTunings(pidData_roll, kp_roll*10, ki_roll, kd_roll);
 
         //"0" is the setpoint or the destination of the final attitude, representing hovering or suspending.
         //Replace "0" by HTTP request parameters later.
@@ -864,21 +865,22 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         Pid_Run(pidData_pitch, (int)pT_drone->arrd_yaw_pitch_roll[1], 0);
         pT_drone->arrd_pid_yaw_pitch_roll[1] = pidData_pitch->output;
         // For roll, mainly we can use wires to lock the X direction. First divide by 2. Adding to pwm1 and pwm3, substracting to pwm2 and pwm4.
-        Pid_SetSetPoint(pidData_roll, 0);
-        Pid_Run(pidData_roll, (int)pT_drone->arrd_yaw_pitch_roll[2], 0);
+        Pid_SetSetPoint(pidData_roll, 40);
+        Pid_Run(pidData_roll, (int)pT_drone->arrd_yaw_pitch_roll[2]/1.0, 0);
         pT_drone->arrd_pid_yaw_pitch_roll[2] = pidData_roll->output;
 
         //second loop
         d_rate_yaw = pidData_yaw->output/1000.0;
         d_rate_pitch = pidData_pitch->output/1000.0;
-        d_rate_roll = pidData_roll->output/1000.0;
+        d_rate_roll = pidData_roll->output/10.0;
+        // d_rate_roll = 0.0;
         // d_rate_yaw = 0;
         // d_rate_pitch = 0;
         // d_rate_roll = 0.01;
 
         Pid_SetTunings(pidData_second_yaw, kp_second_yaw, 0, kd_second_yaw);
         Pid_SetTunings(pidData_second_pitch, kp_second_pitch, 0, kd_second_pitch);
-        Pid_SetTunings(pidData_second_roll, kp_second_roll, 0, kd_second_roll);
+        Pid_SetTunings(pidData_second_roll, kp_second_roll*10, 0.001, kd_second_roll);
 
         Pid_SetSetPoint(pidData_second_yaw, d_rate_yaw);
         Pid_SetSetPoint(pidData_second_pitch, d_rate_pitch);
@@ -886,7 +888,8 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 
         Pid_Run(pidData_second_yaw, pT_drone->n_grawz/32768.0, 0);
         Pid_Run(pidData_second_pitch, pT_drone->n_grawy/32768.0, 0);
-        Pid_Run(pidData_second_roll, pT_drone->n_grawx/32768.0 - 0.0009, 0);
+        Pid_Run(pidData_second_roll, -Pid_rm_noise(pT_drone->n_grawx/32768.0)/1.0, 0);
+        // Pid_Run(pidData_second_roll, pT_drone->n_grawx/32768.0, 0);
 
         d_second_yaw = pidData_second_yaw->output;
         d_second_pitch = pidData_second_pitch->output;
@@ -922,10 +925,10 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
             usleep(PID_SLEEP_US);
             continue;
         }else{
-            pT_drone->arrd_current_pwm[0] -= (d_second_roll / 200);
-            pT_drone->arrd_current_pwm[1] += (d_second_roll / 200);
-            pT_drone->arrd_current_pwm[2] += (d_second_roll / 200);
-            pT_drone->arrd_current_pwm[3] -= (d_second_roll / 200);
+            pT_drone->arrd_current_pwm[0] -= (d_second_roll / 2);
+            pT_drone->arrd_current_pwm[1] += (d_second_roll / 2);
+            pT_drone->arrd_current_pwm[2] += (d_second_roll / 2);
+            pT_drone->arrd_current_pwm[3] -= (d_second_roll / 2);
         }
         /**
          * change pwm to PWM_DEFAULT_VALUE if below 0
@@ -946,7 +949,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
             }
         }
 #ifdef  PRINT_DEBUG_PID_CHANGE
-        printf("first roll= %f\tsecond roll= %f\traw= %f\n",(d_rate_roll), (d_second_roll/200), pT_drone->n_grawx/32768.0 - 0.0009);
+        printf("first roll= %f\tsecond roll= %f\traw= %f\n",(d_rate_roll), (d_second_roll/2), -Pid_rm_noise(pT_drone->n_grawx/32768.0)/1.0);
 #endif
         usleep(PID_SLEEP_US); // We need to add some delay to slow down the pid loop. Mainly, 100ms cycle should be good.
 #ifdef TIMER_PID
@@ -984,6 +987,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     return 0;
 }
 int update_T_drone_arrd_pid_one_loop(struct T_drone *pT_drone){
+// int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 #ifdef TIMER_PID
     timer_start(&g_timer);
 #endif
@@ -1014,7 +1018,7 @@ int update_T_drone_arrd_pid_one_loop(struct T_drone *pT_drone){
     ki_yaw  = pT_drone->d_ki_yaw;
     kd_yaw  = pT_drone->d_kd_yaw;
 
-    samplePeriodMs = 50; //need to be setup
+    samplePeriodMs = 10; //need to be setup
     controllerDir = PID_DIRECT; //Direct control not reverse.
 
     Pid_Init(pidData_yaw, kp_yaw, ki_yaw, kd_yaw, controllerDir, samplePeriodMs);
