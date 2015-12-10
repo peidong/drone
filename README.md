@@ -96,17 +96,17 @@ To check your Edison board ip address, please go to this link [http://fryer.ee.u
 
 extra source [opencv](https://github.com/Itseez/opencv), [opencv extra](https://github.com/Itseez/opencv_contrib)
 
-        cd ~/sdcard
+        cd ~/PathToOpencv
         git clone https://github.com/Itseez/opencv.git
         git clone https://github.com/Itseez/opencv_contrib.git
         cd opencv
         mkdir build
         cd build
-        cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local -DOPENCV_EXTRA_MODULES_PATH=/home/root/sdcard/opencv_contrib/modules  ..
+        cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local -DOPENCV_EXTRA_MODULES_PATH=/home/root/PathToOpencv/opencv_contrib/modules  ..
         make -j7
-        cd pathto/opencv/build/doc/
+        cd ~/PathToOpencv/opencv/build/doc/
         make -j7 html_docs
-        cd pathto/build
+        cd ~/PathToOpencv/build
         make install
 
 ###Code Style
