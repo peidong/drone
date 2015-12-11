@@ -229,6 +229,9 @@ int initialize_pwm_value(struct T_drone *pT_drone){
     return 0;
 }
 
+/**
+ * Decode the messages that are sent from Edison board to BeagleBone Black via UART
+ */
 int process_message(char *arrc_buffer, struct T_drone *pT_drone){
     /**
      * Process the message
@@ -459,6 +462,7 @@ int process_message(char *arrc_buffer, struct T_drone *pT_drone){
  * n_direction_flag: 0 from beaglebone to edison
  *                  1 from edison to beaglebone
  * check https://github.com/peidong/drone/blob/master/Edison/main/edison-bbb-communication-code.md for commands
+ * Generate and receive UART messages between Edison and BeagleBone Black
  */
 int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone, int n_command_index, int nflag_receive_success){
     /**
@@ -562,6 +566,9 @@ int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone
     printf(Delta (us): %ld\n", (timer_delta_us(&g_timer) - g_last_time_us));
 */
 
+/**
+ * Read GPS data value via UART from the sensor to BeagleBone Black
+ */
 int update_T_drone_gps(struct T_drone *pT_drone){
 	mraa_uart_context gps_uart;
 	gps_uart = mraa_uart_init_raw("/dev/ttyO1");
@@ -618,6 +625,9 @@ int update_T_drone_gps(struct T_drone *pT_drone){
     return 0;
 }
 
+/**
+ * Read Gyroscope's data value via I2C from the MPU9250 sensor to BeagleBone Black
+ */
 int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 
     // float result[10000][3];
@@ -736,6 +746,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     return 0;
 }
 
+/**
+ * Compute the feedback of gyroscope's values to balance the drone's yaw, pitch and roll values.
+ */
 int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 // int update_T_drone_arrd_pid_two_loop(struct T_drone *pT_drone){
 #ifdef TIMER_PID
@@ -990,6 +1003,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     }
     return 0;
 }
+
 int update_T_drone_arrd_pid_one_loop(struct T_drone *pT_drone){
 // int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 #ifdef TIMER_PID
@@ -1155,7 +1169,7 @@ int update_T_drone_arrd_pid_one_loop(struct T_drone *pT_drone){
 }
 
 /**
- * Generate pwm wave from beaglebone black
+ * Generate pwm wave from beaglebone black to control the speed of motors.
  */
 int GeneratePwm(struct T_drone *pT_drone){
     /**
@@ -1258,7 +1272,7 @@ int GeneratePwm(struct T_drone *pT_drone){
 }
 
 /**
- * Calibrate Esc from beaglebone black
+ * Calibrate Esc from beaglebone black, this is for Esc initialization.
  */
 int CalibrateEsc(struct T_drone *pT_drone){
     /**
