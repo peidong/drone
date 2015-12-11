@@ -205,7 +205,7 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
 }
 
 /**
- * update the gps_ubidots value
+ * Update the GPS value which is received from BeagleBone to the server.
  */
 int update_T_drone_http_gps_ubidots_post(struct T_drone *pT_drone){
     char *sz_url_post_gps_ubidots = "http://128.97.89.181/rest/api/gps_ubidots/post/";
@@ -217,6 +217,9 @@ int update_T_drone_http_gps_ubidots_post(struct T_drone *pT_drone){
     return 0;
 }
 
+/**
+ * Decode the messages(e.g. GPS value) that are sent from Edison board to BeagleBone Black via UART.
+ */
 int process_message(char *arrc_buffer, struct T_drone *pT_drone){
     /**
      * Process the message
@@ -292,6 +295,7 @@ int process_message(char *arrc_buffer, struct T_drone *pT_drone){
  * n_direction_flag: 0 from edison to beaglebone
  *                  1 from beaglebone to edison
  * check https://github.com/peidong/drone/blob/master/Edison/main/edison-bbb-communication-code.md for commands
+ * Encode the message that is to be sent to BeagleBone Black, and receive the messages from BeagleBone.
  */
 int communication_with_beaglebone_uart(int nflag_direction, struct T_drone *pT_drone, int n_command_index, int nflag_receive_success){
     /**
@@ -552,7 +556,7 @@ int update_T_drone_gps(struct T_drone *pT_drone){
 //}
 
 /**
- * update the pid_tuning value using by test purpose
+ * Get the pid_tuning parameters' value that are sent from iPad/iPhone.
  */
 int update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
     char *sz_url_get_pid_tuning = "http://128.97.89.181/rest/api/pid_tuning/get/";
@@ -681,7 +685,7 @@ int update_T_drone_http_pid_tuning_get(struct T_drone *pT_drone){
 }
 
 /**
- * update the drone value
+ * Get the control commands that are sent from iPhone/iPad.
  */
 int update_T_drone_http(struct T_drone *pT_drone){
     //How to concat two char* string in C program
@@ -802,7 +806,7 @@ int update_T_drone_http(struct T_drone *pT_drone){
 }
 
 /**
- * update the drone value for gps
+ * Get the destination GPS location from the server.
  */
 int update_T_drone_http_gps(struct T_drone *pT_drone){
     //How to concat two char* string in C program
