@@ -543,7 +543,6 @@ int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone
         }
         nflag_find_beginning = 0;
         nflag_find_end = 0;
-        printf("message is %s\n", arrc_buffer);
         process_message(arrc_buffer, pT_drone);
     }else if (nflag_direction == 0){
         /**
