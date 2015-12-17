@@ -120,6 +120,9 @@ struct T_drone{
     double d_kd_second_roll;
     double d_kp_second_yaw;
     double d_kd_second_yaw;
+    double d_ki_second_pitch;
+    double d_ki_second_roll;
+    double d_ki_second_yaw;
     /**
      * Flight state value
      */
@@ -218,6 +221,9 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->d_kd_second_roll = 0;
     pT_drone->d_kp_second_yaw = 0;
     pT_drone->d_kd_second_yaw = 0;
+    pT_drone->d_ki_second_pitch = 0.001;
+    pT_drone->d_ki_second_roll = 0.001;
+    pT_drone->d_ki_second_yaw = 0;
 
     pT_drone->d_yaw_setpoint = 0;
     pT_drone->d_pitch_setpoint = 0;
@@ -791,6 +797,7 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
 
     double kp_pitch, ki_pitch, kd_pitch, kp_roll, ki_roll, kd_roll, kp_yaw, ki_yaw, kd_yaw;
     double kp_second_pitch, kd_second_pitch, kp_second_roll, kd_second_roll, kp_second_yaw, kd_second_yaw;
+    double ki_second_pitch, ki_second_roll, ki_second_yaw;
     double d_rate_pitch, d_rate_roll, d_rate_yaw;
     double d_second_yaw, d_second_pitch, d_second_roll;
     ctrlDir_t controllerDir;
@@ -814,6 +821,9 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
     kd_second_roll = pT_drone->d_kd_second_roll;
     kp_second_yaw = pT_drone->d_kp_second_yaw;
     kd_second_yaw = pT_drone->d_kd_second_yaw;
+    ki_second_pitch = pT_drone->d_ki_second_pitch;
+    ki_second_roll = pT_drone->d_ki_second_roll;
+    ki_second_yaw = pT_drone->d_ki_second_yaw;
 
     samplePeriodMs = 10; //need to be setup
     controllerDir = PID_DIRECT; //Direct control not reverse.
@@ -908,9 +918,9 @@ int update_T_drone_arrd_pid(struct T_drone *pT_drone){
         // d_rate_pitch = 0;
         // d_rate_roll = 0.01;
 
-        Pid_SetTunings(pidData_second_yaw, kp_second_yaw*10, 0, kd_second_yaw);
-        Pid_SetTunings(pidData_second_pitch, kp_second_pitch*10, 0.001, kd_second_pitch);
-        Pid_SetTunings(pidData_second_roll, kp_second_roll*10, 0.001, kd_second_roll);
+        Pid_SetTunings(pidData_second_yaw, kp_second_yaw*10, ki_second_yaw, kd_second_yaw);
+        Pid_SetTunings(pidData_second_pitch, kp_second_pitch*10, ki_second_pitch, kd_second_pitch);
+        Pid_SetTunings(pidData_second_roll, kp_second_roll*10, ki_second_roll, kd_second_roll);
 
         Pid_SetSetPoint(pidData_second_yaw, d_rate_yaw);
         Pid_SetSetPoint(pidData_second_pitch, d_rate_pitch);
