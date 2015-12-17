@@ -512,7 +512,6 @@ int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone
             if (pT_drone->nflag_stop_all != 0){
                 break;
             }
-            printf("reading from uart\n");
             if (mraa_uart_data_available(beaglebone_uart, 50) == 1){
                 mraa_uart_read(beaglebone_uart, c_flag, 1);
                 if (c_flag[0] == '~'){
@@ -544,6 +543,7 @@ int communication_with_edison_uart(int nflag_direction, struct T_drone *pT_drone
         }
         nflag_find_beginning = 0;
         nflag_find_end = 0;
+        printf("message is %s\n", arrc_buffer);
         process_message(arrc_buffer, pT_drone);
     }else if (nflag_direction == 0){
         /**
