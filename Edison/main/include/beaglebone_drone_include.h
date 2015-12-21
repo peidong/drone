@@ -650,8 +650,8 @@ int update_T_drone_gps(struct T_drone *pT_drone){
  */
 int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 
-     float result[10001][3];
-     int sample = 0;
+    float result[10000][3];
+    int sample = 0;
     int16_t arawx,arawy,arawz;
     int16_t grawx,grawy,grawz;
     int16_t mrawx,mrawy,mrawz;
@@ -748,7 +748,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 /////////////////////////////////////////////////////////////////////////////////////////
    FILE* fp;
    int i,j;
-   fp = fopen("/root/demo.txt", "w");
+   fp = fopen("/home/root/demo.txt", "w");
    for (i = 0; i < 10000; i++)
      {
          for (j = 0; j < 3; j++)
