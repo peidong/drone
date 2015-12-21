@@ -650,7 +650,7 @@ int update_T_drone_gps(struct T_drone *pT_drone){
  */
 int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 
-     float result[10000][3];
+     float result[10001][3];
      int sample = 0;
     int16_t arawx,arawy,arawz;
     int16_t grawx,grawy,grawz;
