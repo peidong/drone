@@ -758,6 +758,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
          fputc('\n', fp);
      }
      fclose(fp);
+     printf("Already write demo.txt\n");
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
