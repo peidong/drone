@@ -748,7 +748,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 /////////////////////////////////////////////////////////////////////////////////////////
    FILE* fp;
    int i,j;
-   fp = fopen("/home/root/demo.txt", "w");
+   fp = fopen("/root/demo.txt", "w");
    for (i = 0; i < 10000; i++)
      {
          for (j = 0; j < 3; j++)
