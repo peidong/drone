@@ -26,6 +26,7 @@
 // #define PRINT_DEBUG_PWM
 // #define PRINT_DEBUG_THREAD
 // #define PRINT_CAR_MANUAL
+#define CALIBRATE_GYROSCOPE
 //#define TIMER
 //#define TIMER_YAW_PITCH_ROLL
 //#define TIMER_PID
@@ -650,8 +651,10 @@ int update_T_drone_gps(struct T_drone *pT_drone){
  */
 int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 
+#ifdef CALIBRATE_GYROSCOPE
     float result[10000][3];
     int sample = 0;
+#endif
     int16_t arawx,arawy,arawz;
     int16_t grawx,grawy,grawz;
     int16_t mrawx,mrawy,mrawz;
@@ -661,8 +664,12 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     timer_start(&mpu_timer);
     long mpu_last_time = timer_delta_us(&mpu_timer);
     MPU_init();
+#ifdef CALIBRATE_GYROSCOPE
     while(sample<10000)
-    //while (1)
+#endif
+#ifndef CALIBRATE_GYROSCOPE
+    while (1)
+#endif
     {
         if (pT_drone->nflag_stop_all != 0)
         {
@@ -738,14 +745,17 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         }
 #endif
 /////////////////////////////////////////////////////////////////////////////////////////
+#ifdef CALIBRATE_GYROSCOPE
         result[sample][0] = mx;
         result[sample][1] = my;
         result[sample][2] = mz;
         sample ++;
+#endif
 //////////////////////////////////////////////////
 
     }
 /////////////////////////////////////////////////////////////////////////////////////////
+#ifdef CALIBRATE_GYROSCOPE
    FILE* fp;
    int i,j;
    fp = fopen("/root/demo.txt", "w");
@@ -759,7 +769,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
      }
      fclose(fp);
      printf("Already write demo.txt\n");
-
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
     mraa_i2c_stop(mpu);
