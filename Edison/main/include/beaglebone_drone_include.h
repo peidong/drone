@@ -222,7 +222,7 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->d_kd_second_roll = 0;
     pT_drone->d_kp_second_yaw = 0;
     pT_drone->d_kd_second_yaw = 0;
-    pT_drone->d_ki_second_pitch = 0.001;
+    pT_drone->d_ki_second_pitch = 0;
     pT_drone->d_ki_second_roll = 0;
     pT_drone->d_ki_second_yaw = 0;
 
