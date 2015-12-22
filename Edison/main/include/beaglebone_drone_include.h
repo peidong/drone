@@ -222,7 +222,7 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->d_kd_second_roll = 0;
     pT_drone->d_kp_second_yaw = 0;
     pT_drone->d_kd_second_yaw = 0;
-    pT_drone->d_ki_second_pitch = 0;
+    pT_drone->d_ki_second_pitch = 0.001;
     pT_drone->d_ki_second_roll = 0;
     pT_drone->d_ki_second_yaw = 0;
 
@@ -292,6 +292,8 @@ int process_message(char *arrc_buffer, struct T_drone *pT_drone){
             /**
              * suspend
              */
+            pT_drone->d_pitch_setpoint = 0;
+            pT_drone->d_roll_setpoint = 0;
         }else if (n_command_index == 202){
             /**
              * up
