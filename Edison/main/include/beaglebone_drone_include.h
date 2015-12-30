@@ -693,9 +693,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         arawy = -(Buf[2] << 8 | Buf[3]);
         arawz = Buf[4] << 8 | Buf[5];
         // Gyroscope
-        grawx = (Buf[8] << 8 | Buf[9]) - 50;
-        grawy = (Buf[10] << 8 | Buf[11]) + 0;
-        grawz = (Buf[12] << 8 | Buf[13]) + 30;
+        grawx = (Buf[8] << 8 | Buf[9]) - 50 + 6;
+        grawy = (Buf[10] << 8 | Buf[11]) + 0 + 7;
+        grawz = (Buf[12] << 8 | Buf[13]) + 30 - 16;
 
         pT_drone->n_grawx = grawx;
         pT_drone->n_grawy = grawy;
