@@ -693,8 +693,8 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         arawy = -(Buf[2] << 8 | Buf[3]);
         arawz = Buf[4] << 8 | Buf[5];
         // Gyroscope
-        grawx = (Buf[8] << 8 | Buf[9]) - 50 + 6;
-        grawy = (Buf[10] << 8 | Buf[11]) + 0 + 7;
+        grawx = (Buf[8] << 8 | Buf[9]) - 50 + 9;
+        grawy = (Buf[10] << 8 | Buf[11]) + 0 + 10;
         grawz = (Buf[12] << 8 | Buf[13]) + 30 - 16;
 
         pT_drone->n_grawx = grawx;
@@ -709,7 +709,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         //int result_agm[9] = { arawx, arawy, arawz, grawx, grawy, grawz, mrawx, mrawy, mrawz };
 
         // printf("%6d,%6d,%6d\n",arawx, arawy, arawz);
-        printf("%6d,%6d,%6d\n",grawx, grawy, grawz);
+        // printf("%6d,%6d,%6d\n",grawx, grawy, grawz);
         ax = (float)arawx*aRes;
         ay = (float)arawy*aRes;
         az = (float)arawz*aRes;
@@ -742,7 +742,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         pT_drone->arrd_yaw_pitch_roll[2] = roll;
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
         if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
-            // printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
+            printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
          //printf("yaw = %d\tpitch = %d\troll = %d\n",(int)yaw, (int)pitch, (int)roll);
         }
 #endif
