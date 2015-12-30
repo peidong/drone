@@ -37,10 +37,10 @@
  */
 #define PID_SLEEP_US 10000
 #define PWM_DEVIDE_RATIO 1
-#define PWM_MANUAL_CHANGE_AMOUNT 0.000025*4000
+#define PWM_MANUAL_CHANGE_AMOUNT 0.000025*20
 #define PWM_MANUAL_CHANGE_AMOUNT_LARGE 0.000025*100
 #define PWM_INITIAL 0.000025*4
-#define PWM_MIN 0.000025*3500
+#define PWM_MIN 0.000025*3000
 #define PWM_RANGE 0.000025*500
 
 int n_index_yaw_pitch_roll = 0;
@@ -709,7 +709,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         //int result_agm[9] = { arawx, arawy, arawz, grawx, grawy, grawz, mrawx, mrawy, mrawz };
 
         // printf("%6d,%6d,%6d\n",arawx, arawy, arawz);
-        // printf("%6d,%6d,%6d\n",grawx, grawy, grawz);
+        printf("%6d,%6d,%6d\n",grawx, grawy, grawz);
         ax = (float)arawx*aRes;
         ay = (float)arawy*aRes;
         az = (float)arawz*aRes;
@@ -742,7 +742,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         pT_drone->arrd_yaw_pitch_roll[2] = roll;
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
         if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
-            printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
+            // printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
          //printf("yaw = %d\tpitch = %d\troll = %d\n",(int)yaw, (int)pitch, (int)roll);
         }
 #endif
