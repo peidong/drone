@@ -26,7 +26,7 @@
 // #define PRINT_DEBUG_PWM
 // #define PRINT_DEBUG_THREAD
 // #define PRINT_CAR_MANUAL
-// #define CALIBRATE_GYROSCOPE
+#define CALIBRATE_GYROSCOPE
 //#define TIMER
 //#define TIMER_YAW_PITCH_ROLL
 //#define TIMER_PID
