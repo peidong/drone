@@ -57,7 +57,7 @@ float magCalibration[3] = {0, 0, 0};
 
 float q0 = 1.0f, q1 = 0.0f, q2 = 0.0f, q3 = 0.0f;   // quaternion of sensor frame relative to auxiliary frame
 
-float beta=4.0f;  // compute beta
+float beta=1.0f;  // compute beta
 float deltat = 0.003f;   // integration interval for both filter schemes
 
 //---------------------------------------------------------------------------------------------------
