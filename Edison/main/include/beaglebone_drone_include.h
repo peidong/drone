@@ -654,6 +654,16 @@ int update_T_drone_gps(struct T_drone *pT_drone){
 int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 
 #ifdef CALIBRATE_GYROSCOPE
+    /**
+     * led gpio begin
+     */
+    mraa_gpio_context gpio_led;
+    gpio_led = mraa_gpio_init_raw(20);
+    mraa_gpio_dir(gpio_led, MRAA_GPIO_OUT);
+    mraa_gpio_write(gpio_led, 1);
+    /**
+     * led gpio end
+     */
     float result[10000][3];
     int sample = 0;
 #endif
@@ -771,6 +781,14 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
      }
      fclose(fp);
      printf("Already write demo.txt\n");
+     /**
+      * led gpio begin
+      */
+     mraa_gpio_write(gpio_led, 0);
+     mraa_gpio_close(gpio_led);
+     /**
+      * led gpio end
+      */
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
