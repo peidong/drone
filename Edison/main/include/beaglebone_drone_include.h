@@ -758,8 +758,10 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 #endif
 /////////////////////////////////////////////////////////////////////////////////////////
 #ifdef CALIBRATE_GYROSCOPE
-        result[sample][0] = mx;
-        result[sample][1] = my;
+        // result[sample][0] = mx;
+        result[sample][0] = pitch;
+        // result[sample][1] = my;
+        result[sample][1] = roll;
         result[sample][2] = mz;
         sample ++;
 #endif
