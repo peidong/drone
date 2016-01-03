@@ -691,7 +691,6 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     mraa_gpio_context gpio_led;
     gpio_led = mraa_gpio_init_raw(20);
     mraa_gpio_dir(gpio_led, MRAA_GPIO_OUT);
-    //mraa_gpio_write(gpio_led, 1);
     /**
      * led gpio end
      */
@@ -780,6 +779,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         }
 #endif
         if (pT_drone->nflag_enable_spherefit == 1){
+            mraa_gpio_write(gpio_led, 1);
             pT_drone->arrd_spherefit_calibrate_result[pT_drone->n_spherefit_calibrate_index][0] = mx;
             pT_drone->arrd_spherefit_calibrate_result[pT_drone->n_spherefit_calibrate_index][1] = my;
             pT_drone->arrd_spherefit_calibrate_result[pT_drone->n_spherefit_calibrate_index][2] = mz;
@@ -792,37 +792,43 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
                 /**
                  *
                  */
+                pT_drone->arrd_spherefit_calibrate[0] += arrd_spherefit_calibrate_temp_diff[0];
+                pT_drone->arrd_spherefit_calibrate[1] += arrd_spherefit_calibrate_temp_diff[1];
+                pT_drone->arrd_spherefit_calibrate[2] += arrd_spherefit_calibrate_temp_diff[2];
+                pT_drone->nflag_enable_spherefit = 0;
+                /**
+                 * led gpio begin
+                 */
+                mraa_gpio_write(gpio_led, 0);
+                /**
+                 * led gpio end
+                 */
             }
         }
     }
-/////////////////////////////////////////////////////////////////////////////////////////
-#ifdef CALIBRATE_GYROSCOPE
-   FILE* fp;
-   int i,j;
-   fp = fopen("/root/demo.txt", "w");
-   for (i = 0; i < 10000; i++)
-     {
-         for (j = 0; j < 3; j++)
-         {
-             fprintf(fp, "%.1f ", pT_drone->arrd_spherefit_calibrate_result[i][j]);
-         }
-         fputc('\n', fp);
-     }
-     fclose(fp);
-     printf("Already write demo.txt\n");
+   //FILE* fp;
+   //int i,j;
+   //fp = fopen("/root/demo.txt", "w");
+   //for (i = 0; i < 10000; i++)
+     //{
+         //for (j = 0; j < 3; j++)
+         //{
+             //fprintf(fp, "%.1f ", pT_drone->arrd_spherefit_calibrate_result[i][j]);
+         //}
+         //fputc('\n', fp);
+     //}
+     //fclose(fp);
+     //printf("Already write demo.txt\n");
      /**
       * led gpio begin
       */
-     mraa_gpio_write(gpio_led, 0);
-     mraa_gpio_close(gpio_led);
+     //mraa_gpio_write(gpio_led, 0);
+     //mraa_gpio_close(gpio_led);
      /**
       * led gpio end
       */
-#endif
-
-/////////////////////////////////////////////////////////////////////////////////////////
-    mraa_i2c_stop(mpu);
-    // mraa_gpio_close(gpio_vcc);
+    //mraa_i2c_stop(mpu);
+    mraa_gpio_close(gpio_led);
     return 0;
 }
 
