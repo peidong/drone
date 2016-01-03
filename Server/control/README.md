@@ -11,7 +11,7 @@
         control_type=2&auto_control_command=3&manual_control_command=5&suspend_pwm1=0.12&suspend_pwm2=0.23&suspend_pwm3=0.34&suspend_pwm4=0.45
 
     Url
-    
+
         http://fryer.ee.ucla.edu/rest/api/control/post/?mac_address=fc:c2:de:3d:7f:af
 
 ###Database part
@@ -50,6 +50,8 @@ Database: edison, table: control
 - 15: null
 - 16: enable pwm pid ultrasound
 - 17: disable pwm pid ultrasound
+- 18: start sphere fit
+- 19: stop sphere fit
 
 #####suspend_pwm1
 

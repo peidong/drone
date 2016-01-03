@@ -59,6 +59,7 @@ struct T_drone{
     int nflag_stop_all;
     int nflag_enable_pwm_pid_ultrasound;
 	int nflag_enable_uart;
+    int nflag_enable_spherefit;
     /**
      * These following are from server
      */
@@ -147,6 +148,7 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->nflag_stop_all = 0;
     pT_drone->nflag_enable_pwm_pid_ultrasound = 0;
 	pT_drone->nflag_enable_uart = 1;
+	pT_drone->nflag_enable_spherefit = 0;
     /**
      * These following are from server
      */
@@ -413,6 +415,12 @@ int process_message(char *arrc_buffer, struct T_drone *pT_drone){
              * disable pwm
              */
             pT_drone->nflag_enable_pwm_pid_ultrasound = 0;
+        }else if (n_command_index == 218){
+            /**
+             * start sphere fit
+             */
+            pT_drone->nflag_enable_pwm_pid_ultrasound = 0;
+            pT_drone->nflag_enable_spherefit = 1;
         }
 #ifdef PRINT_DEBUG_UART_MESSAGE
         printf("manual control received: %d\n", n_command_index);

@@ -791,6 +791,23 @@ int update_T_drone_http(struct T_drone *pT_drone){
          */
         sz_http_response = http_post(sz_url_post_control, "manual_control_command=15");
     }
+
+    /**
+     * nflag_enable_spherefit
+     */
+    if (pT_drone->n_manual_control_command == 16 || pT_drone->n_manual_control_command == 17){
+        if (pT_drone->n_manual_control_command == 16){
+            pT_drone->nflag_enable_pwm_pid_ultrasound = 1;
+            communication_with_beaglebone_uart(0, pT_drone, 216, -1);
+        }else if (pT_drone->n_manual_control_command == 17){
+            pT_drone->nflag_enable_pwm_pid_ultrasound = 0;
+            communication_with_beaglebone_uart(0, pT_drone, 217, -1);
+        }
+        /**
+         * set the manual control command back to server
+         */
+        sz_http_response = http_post(sz_url_post_control, "manual_control_command=15");
+    }
     /**
      * free pointer
      */

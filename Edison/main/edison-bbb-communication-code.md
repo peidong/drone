@@ -43,6 +43,10 @@
 
 ~217$ disable pwm pid ultrasound
 
+~218$ start sphere fit
+
+~219$ stop sphere fit
+
 ###pid tuning (Note: x is number)
 ~301x.xxxxxx$ kp_pitch
 
