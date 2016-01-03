@@ -42,6 +42,7 @@
 #define PWM_INITIAL 0.000025*4
 #define PWM_MIN 0.000025*3000
 #define PWM_RANGE 0.000025*500
+#define SPHEREFIT_CALIBRATE_TIMES 10000
 
 int n_index_yaw_pitch_roll = 0;
 #ifdef TIMER
@@ -80,6 +81,9 @@ struct T_drone{
     int16_t n_grawz;
     double arrd_pid_yaw_pitch_roll[3];/*0:yaw 1:pitch 2:roll*/
     int arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
+    double arrd_spherefit_calibrate[3];/*0:mx, 1:my, 2:mz*/
+    int n_spherefit_calibrate_index;
+    double arrd_spherefit_calibrate_result[SPHEREFIT_CALIBRATE_TIMES][3];
     /**
      * GPS info
      */
@@ -190,6 +194,18 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->arrn_ultrasound[3] = 0;
     pT_drone->arrn_ultrasound[4] = 0;
     pT_drone->arrn_ultrasound[5] = 0;
+
+    pT_drone->arrd_spherefit_calibrate[0] = 0.0;
+    pT_drone->arrd_spherefit_calibrate[1] = 0.0;
+    pT_drone->arrd_spherefit_calibrate[2] = 0.0;
+
+    pT_drone->n_spherefit_calibrate_index = 0;
+
+    for (int i = 0; i < SPHEREFIT_CALIBRATE_TIMES; i++){
+        pT_drone->arrd_spherefit_calibrate_result[i][0] = 0.0;
+        pT_drone->arrd_spherefit_calibrate_result[i][1] = 0.0;
+        pT_drone->arrd_spherefit_calibrate_result[i][2] = 0.0;
+    }
 
     pT_drone->d_current_latitude = 0;
     pT_drone->d_current_longitude = 0;
@@ -421,6 +437,14 @@ int process_message(char *arrc_buffer, struct T_drone *pT_drone){
              */
             pT_drone->nflag_enable_pwm_pid_ultrasound = 0;
             pT_drone->nflag_enable_spherefit = 1;
+            pT_drone->n_spherefit_calibrate_index = 0;
+        }else if (n_command_index == 219){
+            /**
+             * stop sphere fit
+             */
+            pT_drone->nflag_enable_pwm_pid_ultrasound = 0;
+            pT_drone->nflag_enable_spherefit = 0;
+            pT_drone->n_spherefit_calibrate_index = 0;
         }
 #ifdef PRINT_DEBUG_UART_MESSAGE
         printf("manual control received: %d\n", n_command_index);
@@ -660,21 +684,16 @@ int update_T_drone_gps(struct T_drone *pT_drone){
  * Read Gyroscope's data value via I2C from the MPU9250 sensor to BeagleBone Black
  */
 int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
-
-#ifdef CALIBRATE_GYROSCOPE
     /**
      * led gpio begin
      */
     mraa_gpio_context gpio_led;
     gpio_led = mraa_gpio_init_raw(20);
     mraa_gpio_dir(gpio_led, MRAA_GPIO_OUT);
-    mraa_gpio_write(gpio_led, 1);
+    //mraa_gpio_write(gpio_led, 1);
     /**
      * led gpio end
      */
-    float result[10000][3];
-    int sample = 0;
-#endif
     int16_t arawx,arawy,arawz;
     int16_t grawx,grawy,grawz;
     int16_t mrawx,mrawy,mrawz;
@@ -684,12 +703,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
     timer_start(&mpu_timer);
     long mpu_last_time = timer_delta_us(&mpu_timer);
     MPU_init();
-#ifdef CALIBRATE_GYROSCOPE
-    while(sample<10000)
-#endif
-#ifndef CALIBRATE_GYROSCOPE
     while (1)
-#endif
     {
         if (pT_drone->nflag_stop_all != 0)
         {
@@ -734,9 +748,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
         gx = (float)grawx*gRes;
         gy = (float)grawy*gRes;
         gz = (float)grawz*gRes;
-        mx = (float)mrawx*mRes*magCalibration[0] - 292.5 + 49 + 20;  // get actual magnetometer value, this depends on scale being set
-        my = (float)mrawy*mRes*magCalibration[1] - 32 + 189 - 60;
-        mz = (float)mrawz*mRes*magCalibration[2] + 89 + 220 - 302;
+        mx = (float)mrawx*mRes*magCalibration[0] - 292.5 + 49 + 20 + pT_drone->arrd_spherefit_calibrate[0];  // get actual magnetometer value, this depends on scale being set
+        my = (float)mrawy*mRes*magCalibration[1] - 32 + 189 - 60 + pT_drone->arrd_spherefit_calibrate[1];
+        mz = (float)mrawz*mRes*magCalibration[2] + 89 + 220 - 302 + pT_drone->arrd_spherefit_calibrate[2];
         //printf("%.1f,%.1f,%.1f\n",mx,my,mz);
         //    MadgwickQuaternionUpdate(ax,ay,az,gx*PI/180.0f,gy*PI/180.0f,gz*PI/180.0f,my,mx,mz);
         MadgwickAHRSupdate(ax, ay, az, gx*PI / 180.0f, gy*PI / 180.0f, gz*PI / 180.0f, my, mx, mz); //my, mx, mz
@@ -761,20 +775,23 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
 #ifdef PRINT_DEBUG_YAW_PITCH_ROLL
         if (pT_drone->nflag_enable_pwm_pid_ultrasound != 1){
             printf("yaw = %.1f\tpitch = %.1f\troll = %.1f\n",yaw, pitch, roll);
-         //printf("yaw = %d\tpitch = %d\troll = %d\n",(int)yaw, (int)pitch, (int)roll);
         }
 #endif
-/////////////////////////////////////////////////////////////////////////////////////////
-#ifdef CALIBRATE_GYROSCOPE
-        result[sample][0] = mx;
-        // result[sample][0] = pitch;
-        result[sample][1] = my;
-        // result[sample][1] = roll;
-        result[sample][2] = mz;
-        sample ++;
-#endif
-//////////////////////////////////////////////////
-
+        if (pT_drone->nflag_enable_spherefit == 1){
+            pT_drone->arrd_spherefit_calibrate_result[pT_drone->n_spherefit_calibrate_index][0] = mx;
+            pT_drone->arrd_spherefit_calibrate_result[pT_drone->n_spherefit_calibrate_index][1] = my;
+            pT_drone->arrd_spherefit_calibrate_result[pT_drone->n_spherefit_calibrate_index][2] = mz;
+            pT_drone->n_spherefit_calibrate_index += 1;
+            if (pT_drone->n_spherefit_calibrate_index == SPHEREFIT_CALIBRATE_TIMES){
+                double arrd_spherefit_calibrate_temp_diff[3];
+                /**
+                 * Do the Calibration
+                 */
+                /**
+                 *
+                 */
+            }
+        }
     }
 /////////////////////////////////////////////////////////////////////////////////////////
 #ifdef CALIBRATE_GYROSCOPE
@@ -785,7 +802,7 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
      {
          for (j = 0; j < 3; j++)
          {
-             fprintf(fp, "%.1f ", result[i][j]);
+             fprintf(fp, "%.1f ", pT_drone->arrd_spherefit_calibrate_result[i][j]);
          }
          fputc('\n', fp);
      }

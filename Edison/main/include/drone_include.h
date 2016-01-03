@@ -795,13 +795,11 @@ int update_T_drone_http(struct T_drone *pT_drone){
     /**
      * nflag_enable_spherefit
      */
-    if (pT_drone->n_manual_control_command == 16 || pT_drone->n_manual_control_command == 17){
-        if (pT_drone->n_manual_control_command == 16){
-            pT_drone->nflag_enable_pwm_pid_ultrasound = 1;
-            communication_with_beaglebone_uart(0, pT_drone, 216, -1);
-        }else if (pT_drone->n_manual_control_command == 17){
-            pT_drone->nflag_enable_pwm_pid_ultrasound = 0;
-            communication_with_beaglebone_uart(0, pT_drone, 217, -1);
+    if (pT_drone->n_manual_control_command == 18 || pT_drone->n_manual_control_command == 19){
+        if (pT_drone->n_manual_control_command == 18){
+            communication_with_beaglebone_uart(0, pT_drone, 218, -1);
+        }else if (pT_drone->n_manual_control_command == 19){
+            communication_with_beaglebone_uart(0, pT_drone, 219, -1);
         }
         /**
          * set the manual control command back to server
