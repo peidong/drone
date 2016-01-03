@@ -249,6 +249,6 @@ double Pid_GetInputChange(pidData_t *pidData)
 float Pid_rm_noise(float normGyro)
 {
     int tmp=0;
-    tmp = (int)(normGyro*1000);
-    return (float)tmp/1000.0;
+    tmp = (int)(normGyro*500);
+    return (float)tmp/500.0;
 }
