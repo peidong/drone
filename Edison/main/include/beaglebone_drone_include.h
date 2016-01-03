@@ -1123,7 +1123,7 @@ int update_T_drone_arrd_pid_one_loop(struct T_drone *pT_drone){
     ki_yaw  = pT_drone->d_ki_yaw;
     kd_yaw  = pT_drone->d_kd_yaw;
 
-    samplePeriodMs = 10; //need to be setup
+    samplePeriodMs = 20; //need to be setup
     controllerDir = PID_DIRECT; //Direct control not reverse.
 
     Pid_Init(pidData_yaw, kp_yaw, ki_yaw, kd_yaw, controllerDir, samplePeriodMs);
