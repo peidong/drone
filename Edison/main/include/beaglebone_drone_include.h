@@ -42,7 +42,8 @@
 #define PWM_INITIAL 0.000025*4
 #define PWM_MIN 0.000025*3000
 #define PWM_RANGE 0.000025*500
-#define SPHEREFIT_CALIBRATE_TIMES 10000
+#define N_SPHEREFIT_CALIBRATE_TIMES 10000
+#define D_SPHEREFIT_CALIBRATE_TIMES 10000.0
 
 int n_index_yaw_pitch_roll = 0;
 #ifdef TIMER
@@ -83,7 +84,7 @@ struct T_drone{
     int arrn_ultrasound[6];/*0:up 1:down 2:left 3:right 4:forward 5:backward*/
     double arrd_spherefit_calibrate[3];/*0:mx, 1:my, 2:mz*/
     int n_spherefit_calibrate_index;
-    double arrd_spherefit_calibrate_result[SPHEREFIT_CALIBRATE_TIMES][3];
+    double arrd_spherefit_calibrate_result[N_SPHEREFIT_CALIBRATE_TIMES][3];
     /**
      * GPS info
      */
@@ -202,7 +203,7 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->n_spherefit_calibrate_index = 0;
 
     int i = 0;
-    for (i = 0; i < SPHEREFIT_CALIBRATE_TIMES; i++){
+    for (i = 0; i < N_SPHEREFIT_CALIBRATE_TIMES; i++){
         pT_drone->arrd_spherefit_calibrate_result[i][0] = 0.0;
         pT_drone->arrd_spherefit_calibrate_result[i][1] = 0.0;
         pT_drone->arrd_spherefit_calibrate_result[i][2] = 0.0;
@@ -250,6 +251,19 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
     pT_drone->d_roll_setpoint = 0;
     return 0;
 }
+
+double get_d_array_mean(double numbers[], double size){
+	double d_array_mean = 0.0;
+    double sum = 0.0;
+    int n_index = 0;
+    for (n_index = 0; n_index < size; n_index++)
+    {
+        sum += numbers[n_index];
+    }
+    d_array_mean = sum / size;
+    return d_array_mean;
+}
+
 /**
  * set all pwm values to 0 when stop flag is true
  */
@@ -784,17 +798,68 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             pT_drone->arrd_spherefit_calibrate_result[pT_drone->n_spherefit_calibrate_index][1] = my;
             pT_drone->arrd_spherefit_calibrate_result[pT_drone->n_spherefit_calibrate_index][2] = mz;
             pT_drone->n_spherefit_calibrate_index += 1;
-            if (pT_drone->n_spherefit_calibrate_index == SPHEREFIT_CALIBRATE_TIMES){
+            if (pT_drone->n_spherefit_calibrate_index == N_SPHEREFIT_CALIBRATE_TIMES){
                 double arrd_spherefit_calibrate_temp_diff[3];
+                double d_sum_column0 = 0.0, d_sum_column1 = 0.0, d_sum_column2 = 0.0;
+                double d_mean_column0 = 0.0, d_mean_column1 = 0.0, d_mean_column2 = 0.0;
+                double arrd_spherefit_calibrate_result_column0[N_SPHEREFIT_CALIBRATE_TIMES];
+                double arrd_spherefit_calibrate_result_column1[N_SPHEREFIT_CALIBRATE_TIMES];
+                double arrd_spherefit_calibrate_result_column2[N_SPHEREFIT_CALIBRATE_TIMES];
+                double arrd_spherefit_calibrate_result_minus_mean_column0[N_SPHEREFIT_CALIBRATE_TIMES];
+                double arrd_spherefit_calibrate_result_minus_mean_column1[N_SPHEREFIT_CALIBRATE_TIMES];
+                double arrd_spherefit_calibrate_result_minus_mean_column2[N_SPHEREFIT_CALIBRATE_TIMES];
+                double arrd_spherefit_calibrate_result_square_column0[N_SPHEREFIT_CALIBRATE_TIMES];
+                double arrd_spherefit_calibrate_result_square_column1[N_SPHEREFIT_CALIBRATE_TIMES];
+                double arrd_spherefit_calibrate_result_square_column2[N_SPHEREFIT_CALIBRATE_TIMES];
+                int n_index = 0;
+                double arrd_A[3][3], arrd_B[3][3], arrd_A_transpose[3][3];
                 /**
                  * Do the Calibration
                  */
+                for (n_index = 0; n_index < N_SPHEREFIT_CALIBRATE_TIMES; n_index++){
+                    arrd_spherefit_calibrate_result_column0[n_index] = pT_drone->arrd_spherefit_calibrate_result[n_index][0];
+                    arrd_spherefit_calibrate_result_column1[n_index] = pT_drone->arrd_spherefit_calibrate_result[n_index][1];
+                    arrd_spherefit_calibrate_result_column2[n_index] = pT_drone->arrd_spherefit_calibrate_result[n_index][2];
+                }
+                d_mean_column0 = get_d_array_mean(pT_drone->arrd_spherefit_calibrate_result_column0, N_SPHEREFIT_CALIBRATE_TIMES);
+                d_mean_column1 = get_d_array_mean(pT_drone->arrd_spherefit_calibrate_result_column1, N_SPHEREFIT_CALIBRATE_TIMES);
+                d_mean_column2 = get_d_array_mean(pT_drone->arrd_spherefit_calibrate_result_column2, N_SPHEREFIT_CALIBRATE_TIMES);
+                for (n_index = 0; n_index < N_SPHEREFIT_CALIBRATE_TIMES; n_index++){
+                    arrd_spherefit_calibrate_result_minus_mean_column0[n_index] = arrd_spherefit_calibrate_result_column0[n_index][0] - d_mean_column0;
+                    arrd_spherefit_calibrate_result_minus_mean[n_index][1] = arrd_spherefit_calibrate_result_column1[n_index][1] - d_mean_column1;
+                    arrd_spherefit_calibrate_result_minus_mean[n_index][2] = arrd_spherefit_calibrate_result_column2[n_index][2] - d_mean_column2;
+                    arrd_spherefit_calibrate_result_square[n_index][0] = arrd_spherefit_calibrate_result_column0[n_index][0] * arrd_spherefit_calibrate_result_column0[n_index][0];
+                    arrd_spherefit_calibrate_result_square[n_index][1] = arrd_spherefit_calibrate_result_column1[n_index][1] * arrd_spherefit_calibrate_result_column0[n_index][1];
+                    arrd_spherefit_calibrate_result_square[n_index][2] = arrd_spherefit_calibrate_result_column2[n_index][2] * arrd_spherefit_calibrate_result_column0[n_index][2];
+                }
+                arrd_A[1][0] = 0;
+                arrd_A[2][0] = 0;
+                arrd_A[2][1] = 0;
                 /**
                  *
                  */
                 pT_drone->arrd_spherefit_calibrate[0] += arrd_spherefit_calibrate_temp_diff[0];
                 pT_drone->arrd_spherefit_calibrate[1] += arrd_spherefit_calibrate_temp_diff[1];
                 pT_drone->arrd_spherefit_calibrate[2] += arrd_spherefit_calibrate_temp_diff[2];
+                /**
+                 * Write to file
+                 */
+                FILE* fp;
+                int i,j;
+                fp = fopen("/root/demo.txt", "w");
+                for (i = 0; i < N_SPHEREFIT_CALIBRATE_TIMES; i++)
+                {
+                    for (j = 0; j < 3; j++)
+                    {
+                        fprintf(fp, "%.1f ", pT_drone->arrd_spherefit_calibrate_result[i][j]);
+                    }
+                    fputc('\n', fp);
+                }
+                fclose(fp);
+                printf("Already write demo.txt\n");
+                /**
+                 * Other things
+                 */
                 pT_drone->nflag_enable_spherefit = 0;
                 /**
                  * led gpio begin
@@ -806,19 +871,6 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             }
         }
     }
-   //FILE* fp;
-   //int i,j;
-   //fp = fopen("/root/demo.txt", "w");
-   //for (i = 0; i < 10000; i++)
-     //{
-         //for (j = 0; j < 3; j++)
-         //{
-             //fprintf(fp, "%.1f ", pT_drone->arrd_spherefit_calibrate_result[i][j]);
-         //}
-         //fputc('\n', fp);
-     //}
-     //fclose(fp);
-     //printf("Already write demo.txt\n");
      /**
       * led gpio begin
       */
