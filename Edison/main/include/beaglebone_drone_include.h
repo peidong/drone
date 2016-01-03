@@ -201,7 +201,8 @@ int initialize_struct_T_drone(struct T_drone *pT_drone){
 
     pT_drone->n_spherefit_calibrate_index = 0;
 
-    for (int i = 0; i < SPHEREFIT_CALIBRATE_TIMES; i++){
+    int i = 0;
+    for (i = 0; i < SPHEREFIT_CALIBRATE_TIMES; i++){
         pT_drone->arrd_spherefit_calibrate_result[i][0] = 0.0;
         pT_drone->arrd_spherefit_calibrate_result[i][1] = 0.0;
         pT_drone->arrd_spherefit_calibrate_result[i][2] = 0.0;
