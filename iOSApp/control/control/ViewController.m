@@ -194,6 +194,15 @@
     }
     [self updateValue];
 }
+- (IBAction)SephFit:(id)sender {
+    manual_control_command = 18;
+    [self updateValue];
+    
+}
+- (IBAction)SephFit_stop:(id)sender {
+    manual_control_command = 19;
+    [self updateValue];
+}
 
 
 - (IBAction)suspend_1:(id)sender {
