@@ -824,9 +824,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
                     arrd_spherefit_calibrate_result_column1[n_index] = pT_drone->arrd_spherefit_calibrate_result[n_index][1];
                     arrd_spherefit_calibrate_result_column2[n_index] = pT_drone->arrd_spherefit_calibrate_result[n_index][2];
                 }
-                d_mean_column0 = get_d_array_mean(pT_drone->arrd_spherefit_calibrate_result_column0, N_SPHEREFIT_CALIBRATE_TIMES);
-                d_mean_column1 = get_d_array_mean(pT_drone->arrd_spherefit_calibrate_result_column1, N_SPHEREFIT_CALIBRATE_TIMES);
-                d_mean_column2 = get_d_array_mean(pT_drone->arrd_spherefit_calibrate_result_column2, N_SPHEREFIT_CALIBRATE_TIMES);
+                d_mean_column0 = get_d_array_mean(arrd_spherefit_calibrate_result_column0, N_SPHEREFIT_CALIBRATE_TIMES);
+                d_mean_column1 = get_d_array_mean(arrd_spherefit_calibrate_result_column1, N_SPHEREFIT_CALIBRATE_TIMES);
+                d_mean_column2 = get_d_array_mean(arrd_spherefit_calibrate_result_column2, N_SPHEREFIT_CALIBRATE_TIMES);
                 for (n_index = 0; n_index < N_SPHEREFIT_CALIBRATE_TIMES; n_index++){
                     arrd_spherefit_calibrate_result_minus_mean_column0[n_index] = arrd_spherefit_calibrate_result_column0[n_index] - d_mean_column0;
                     arrd_spherefit_calibrate_result_minus_mean_column1[n_index] = arrd_spherefit_calibrate_result_column1[n_index] - d_mean_column1;
