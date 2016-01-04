@@ -792,6 +792,9 @@ int update_T_drone_arrd_yaw_pitch_roll(struct T_drone *pT_drone){
             printf("yaw = %d\tpitch = %d\troll = %d\n",(int)yaw, (int)pitch, (int)roll);
         }
 #endif
+        if (pitch > 45 || pitch < -45 || roll > 45 || roll < -45){
+            pT_drone->nflag_enable_pwm_pid_ultrasound = 0;
+        }
         if (pT_drone->nflag_enable_spherefit == 1){
             mraa_gpio_write(gpio_led, 1);
             pT_drone->arrd_spherefit_calibrate_result[pT_drone->n_spherefit_calibrate_index][0] = mx;
